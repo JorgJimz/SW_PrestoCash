@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="PrestoCashContext" transaction-type="RESOURCE_LOCAL">
+		<class>model.Abono</class>
+		<class>model.Articulo</class>
+		<class>model.Asistencia</class>
+		<class>model.Cargo</class>
+		<class>model.Cliente</class>
+		<class>model.Compra</class>
+		<class>model.Contrato</class>
+		<class>model.DetalleCargo</class>
+		<class>model.DetalleContrato</class>
+		<class>model.DetalleSeparacion</class>
+		<class>model.Egreso</class>
+		<class>model.Fundicion</class>
+		<class>model.Ingreso</class>
+		<class>model.LibroCaja</class>
+		<class>model.Maestro</class>
+		<class>model.Mora</class>
+		<class>model.Pago</class>
+		<class>model.Prestamo</class>
+		<class>model.Sede</class>
+		<class>model.Seguimiento</class>
+		<class>model.Separacion</class>
+		<class>model.TipoCambio</class>
+		<class>model.Usuario</class>
+		<class>model.Venta</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_prestocash?serverTimezone=UTC&amp;verifyServerCertificate=false&amp;autoReconnect=true&amp;useSSL=false"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="mysql"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			<property name="eclipselink.logging.level" value="SEVERE" />
+		</properties>
+	</persistence-unit>
+</persistence>
