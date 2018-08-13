@@ -220,6 +220,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 							.format(new Date()));
 					c.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					new ClienteController().RegistrarCliente(c);
+					ListarClientes();
 					Utiles.Mensaje("Cliente registrado.");
 
 				} else if (btnGrabar.getText().equalsIgnoreCase(" CONTRATO")) {
@@ -266,8 +267,8 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				btnEliminar.setEnabled(false);
 				btnGrabar.setText(" REGISTRAR");
 				Utiles.Limpiar(contenedor);
-				Utiles.Mensaje("Cliente actualizado.");
-				// elegirOperacion();
+				ListarClientes();
+				Utiles.Mensaje("Cliente actualizado.");				
 			}
 		});
 
@@ -305,6 +306,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					btnEditar.setEnabled(false);
 					btnGrabar.setText(" REGISTRAR");
 					Utiles.Limpiar(contenedor);
+					ListarClientes();
 					Utiles.Mensaje("Cliente eliminado.");
 				} catch (Exception ex) {
 					ex.printStackTrace();

@@ -1,8 +1,17 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="abono")
@@ -16,19 +25,19 @@ public class Abono implements Serializable {
 	private int id;
 
 	@Column(name="ARQ_CAPITAL", precision=10, scale=2)
-	private BigDecimal arqCapital;
+	private double arqCapital;
 
 	@Column(name="ARQ_INTERES", precision=10, scale=2)
-	private BigDecimal arqInteres;
+	private double arqInteres;
 
 	@Column(length=10)
 	private String fecha;
 
 	@Column(name="NEO_CAPITAL", precision=10, scale=2)
-	private BigDecimal neoCapital;
+	private double neoCapital;
 
 	@Column(name="NEO_INTERES", precision=10, scale=2)
-	private BigDecimal neoInteres;
+	private double neoInteres;
 
 	//bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -46,19 +55,19 @@ public class Abono implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getArqCapital() {
+	public double getArqCapital() {
 		return this.arqCapital;
 	}
 
-	public void setArqCapital(BigDecimal arqCapital) {
+	public void setArqCapital(double arqCapital) {
 		this.arqCapital = arqCapital;
 	}
 
-	public BigDecimal getArqInteres() {
+	public double getArqInteres() {
 		return this.arqInteres;
 	}
 
-	public void setArqInteres(BigDecimal arqInteres) {
+	public void setArqInteres(double arqInteres) {
 		this.arqInteres = arqInteres;
 	}
 
@@ -70,19 +79,19 @@ public class Abono implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public BigDecimal getNeoCapital() {
+	public double getNeoCapital() {
 		return this.neoCapital;
 	}
 
-	public void setNeoCapital(BigDecimal neoCapital) {
+	public void setNeoCapital(double neoCapital) {
 		this.neoCapital = neoCapital;
 	}
 
-	public BigDecimal getNeoInteres() {
+	public double getNeoInteres() {
 		return this.neoInteres;
 	}
 
-	public void setNeoInteres(BigDecimal neoInteres) {
+	public void setNeoInteres(double neoInteres) {
 		this.neoInteres = neoInteres;
 	}
 

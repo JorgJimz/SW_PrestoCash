@@ -2,42 +2,36 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 
-
-/**
- * The persistent class for the ingreso database table.
- * 
- */
 @Entity
-@Table(name="ingreso")
-@NamedQuery(name="Ingreso.findAll", query="SELECT i FROM Ingreso i")
+@Table(name = "ingreso")
+@NamedQuery(name = "Ingreso.findAll", query = "SELECT i FROM Ingreso i")
 public class Ingreso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private int id;
 
-	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal capital;
+	@Column(nullable = false, precision = 10, scale = 2)
+	private double capital;
 
-	@Column(nullable=false, length=200)
+	@Column(nullable = false, length = 200)
 	private String descripcion;
 
-	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal ganancia;
+	@Column(nullable = false, precision = 10, scale = 2)
+	private double ganancia;
 
-	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal otro;
+	@Column(nullable = false, precision = 10, scale = 2)
+	private double otro;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private int tipo;
 
-	//bi-directional many-to-one association to LibroCaja
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="LIBRO_CAJA_ID", nullable=false)
+	// bi-directional many-to-one association to LibroCaja
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LIBRO_CAJA_ID", nullable = false)
 	private LibroCaja libroCaja;
 
 	public Ingreso() {
@@ -51,11 +45,11 @@ public class Ingreso implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getCapital() {
+	public double getCapital() {
 		return this.capital;
 	}
 
-	public void setCapital(BigDecimal capital) {
+	public void setCapital(double capital) {
 		this.capital = capital;
 	}
 
@@ -67,19 +61,19 @@ public class Ingreso implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public BigDecimal getGanancia() {
+	public double getGanancia() {
 		return this.ganancia;
 	}
 
-	public void setGanancia(BigDecimal ganancia) {
+	public void setGanancia(double ganancia) {
 		this.ganancia = ganancia;
 	}
 
-	public BigDecimal getOtro() {
+	public double getOtro() {
 		return this.otro;
 	}
 
-	public void setOtro(BigDecimal otro) {
+	public void setOtro(double otro) {
 		this.otro = otro;
 	}
 

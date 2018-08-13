@@ -1,14 +1,18 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the pago database table.
- * 
- */
 @Entity
 @Table(name="pago")
 @NamedQuery(name="Pago.findAll", query="SELECT p FROM Pago p")
@@ -21,7 +25,7 @@ public class Pago implements Serializable {
 	private int id;
 
 	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal capital;
+	private double capital;
 
 	@Column(nullable=false, length=45)
 	private String descripcion;
@@ -33,10 +37,10 @@ public class Pago implements Serializable {
 	private String fechaVencimiento;
 
 	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal interes;
+	private double interes;
 
 	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal mora;
+	private double mora;
 
 	//bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -54,11 +58,11 @@ public class Pago implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getCapital() {
+	public double getCapital() {
 		return this.capital;
 	}
 
-	public void setCapital(BigDecimal capital) {
+	public void setCapital(double capital) {
 		this.capital = capital;
 	}
 
@@ -86,19 +90,19 @@ public class Pago implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public BigDecimal getInteres() {
+	public double getInteres() {
 		return this.interes;
 	}
 
-	public void setInteres(BigDecimal interes) {
+	public void setInteres(double interes) {
 		this.interes = interes;
 	}
 
-	public BigDecimal getMora() {
+	public double getMora() {
 		return this.mora;
 	}
 
-	public void setMora(BigDecimal mora) {
+	public void setMora(double mora) {
 		this.mora = mora;
 	}
 

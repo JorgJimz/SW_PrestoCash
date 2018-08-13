@@ -539,7 +539,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 				try {
 					contrato.setCapital(new BigDecimal(lblCapital.getText()));
-					contrato.setInteres(new BigDecimal(lblInteresCalculado
+					contrato.setInteres(Double.parseDouble(lblInteresCalculado
 							.getText()));
 					contrato.setPrestamo(prestamo);
 					contrato.setFlag(prestamo.getFlag());

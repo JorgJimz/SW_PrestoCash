@@ -8,6 +8,8 @@ import javax.persistence.Query;
 
 import model.Contrato;
 import model.Egreso;
+import model.Ingreso;
+import model.Pago;
 
 public class ContratoController {
 
@@ -44,7 +46,7 @@ public class ContratoController {
 			q.setParameter("c", numero);
 			c = (Contrato) q.getSingleResult();
 		} catch (Exception e1) {
-			tx.rollback();
+			//tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -70,5 +72,26 @@ public class ContratoController {
 			emf.close();
 		}
 		return a;
+	}
+	
+	public Contrato RenovarContrato(Contrato c, Pago p, Ingreso i){
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.merge(c);
+			em.persist(p);
+			em.persist(i);
+			tx.commit();
+		} catch (Exception e1) {
+			tx.rollback();
+			e1.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}		
+		return c;
 	}
 }

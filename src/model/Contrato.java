@@ -1,7 +1,7 @@
 package model;
 
+import java.awt.Color;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,7 +36,7 @@ public class Contrato implements Serializable {
 	private int id;
 
 	@Column(nullable = false, precision = 10, scale = 2)
-	private BigDecimal capital;
+	private double capital;
 
 	@Column(name = "FECHA_CONTRATO", nullable = false, length = 10)
 	private String fechaContrato;
@@ -56,8 +56,8 @@ public class Contrato implements Serializable {
 	@Column(nullable = false, length = 1)
 	private String flag;
 
-	@Column(nullable = false, precision = 10, scale = 2)
-	private double interes;
+	@Column(name = "INTERES", nullable = false, precision = 10, scale = 2)
+	private double interesMensual;
 
 	@Column(nullable = false, length = 8)
 	private String moneda;
@@ -123,6 +123,27 @@ public class Contrato implements Serializable {
 	@Transient
 	private int cuotas;
 
+	@Transient
+	private int diasResiduo;
+
+	@Transient
+	private String moraRespuesta;
+
+	@Transient
+	private double moraPorcentaje;
+
+	@Transient
+	private Color moraColor;
+
+	@Transient
+	private double interesTotal;
+
+	@Transient
+	private double moraTotal;
+
+	@Transient
+	private double prorrateo;
+
 	public Contrato() {
 		detalleContratos = new ArrayList<DetalleContrato>();
 	}
@@ -130,8 +151,7 @@ public class Contrato implements Serializable {
 	@PostLoad
 	public void procesarCamposCalculados() {
 		try {
-			cuotas = 0;
-			interesDiario = interes / 30;
+			interesDiario = interesMensual / 30;
 			Calendar v_v = Calendar.getInstance();
 			v_v.setTime(Constantes.formatoSQL.parse(fechaVencimiento));
 			diaFinal = v_v.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -139,6 +159,40 @@ public class Contrato implements Serializable {
 			long h = Calendar.getInstance().getTimeInMillis();
 			long resta = h - v;
 			diasExcedidos = (resta < 0) ? 0 : resta / (24 * 60 * 60 * 1000);
+			cuotas = (int) Math.ceil(diasExcedidos / diaFinal);
+			diasResiduo = (int) diasExcedidos % diaFinal;
+			prorrateo = interesDiario * diasResiduo;
+
+			if (prestamo.getTMora().equals("%")) {
+				if (cuotas == 1 && diasResiduo > 5) {
+					moraRespuesta = "SÍ";
+					// mora = interesMensual * Constantes.PRIMERA_MORA;
+					moraPorcentaje = Constantes.PRIMERA_MORA;
+					moraColor = Color.RED;
+				} else if (cuotas == 2 && diasResiduo == 0) {
+					moraRespuesta = "SÍ";
+					// mora = interesMensual * Constantes.PRIMERA_MORA;
+					moraPorcentaje = Constantes.PRIMERA_MORA;
+					moraColor = Color.RED;
+				} else if (cuotas == 2 && diasResiduo > 0) {
+					moraRespuesta = "SÍ";
+					// mora = (interesMensual * 2) * Constantes.SEGUNDA_MORA;
+					moraPorcentaje = Constantes.SEGUNDA_MORA;
+					moraColor = Color.RED;
+				} else if (cuotas >= 2) {
+					moraRespuesta = "SÍ";
+					// mora = (interesMensual * cuotas) * Constantes.SEGUNDA_MORA;
+					moraPorcentaje = Constantes.SEGUNDA_MORA;
+					moraColor = Color.RED;
+				} else {
+					moraRespuesta = "NO";
+					// mora = 0;
+					moraPorcentaje = Constantes.MORA_CERO;
+					moraColor = new Color(0, 128, 0);
+				}
+			} else {
+				// Si es soles
+			}
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -153,11 +207,11 @@ public class Contrato implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getCapital() {
+	public double getCapital() {
 		return this.capital;
 	}
 
-	public void setCapital(BigDecimal capital) {
+	public void setCapital(double capital) {
 		this.capital = capital;
 	}
 
@@ -209,12 +263,12 @@ public class Contrato implements Serializable {
 		this.flag = flag;
 	}
 
-	public double getInteres() {
-		return this.interes;
+	public double getInteresMensual() {
+		return this.interesMensual;
 	}
 
-	public void setInteres(double interes) {
-		this.interes = interes;
+	public void setInteresMensual(double interesMensual) {
+		this.interesMensual = interesMensual;
 	}
 
 	public String getMoneda() {
@@ -428,12 +482,54 @@ public class Contrato implements Serializable {
 		return diaFinal;
 	}
 
+	@Transient
 	public int getCuotas() {
 		return cuotas;
 	}
 
-	public void setCuotas(int cuotas) {
-		this.cuotas = cuotas;
+	@Transient
+	public int getDiasResiduo() {
+		return diasResiduo;
+	}
+
+	@Transient
+	public String getMoraRespuesta() {
+		return moraRespuesta;
+	}
+
+	@Transient
+	public double getMoraPorcentaje() {
+		return moraPorcentaje;
+	}
+
+	@Transient
+	public Color getMoraColor() {
+		return moraColor;
+	}
+
+	@Transient
+	public double getInteresTotal() {
+		return interesTotal;
+	}
+
+	@Transient
+	public void setInteresTotal(double interesTotal) {
+		this.interesTotal = interesTotal;
+	}
+
+	@Transient
+	public double getMoraTotal() {
+		return moraTotal;
+	}
+
+	@Transient
+	public void setMoraTotal(double moraTotal) {
+		this.moraTotal = moraTotal;
+	}
+
+	@Transient
+	public double getProrrateo() {
+		return prorrateo;
 	}
 
 }
