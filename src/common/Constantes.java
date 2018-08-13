@@ -9,8 +9,8 @@ import javax.swing.table.DefaultTableModel;
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class Constantes {
 	
-	public static double PRIMERA_MORA = 1.3;
-	public static double SEGUNDA_MORA = 1.5;
+	public static double PRIMERA_MORA = 0.3;
+	public static double SEGUNDA_MORA = 0.5;
 	public static double MORA_CERO = 0;
 	
 	public static ComboBoxModel DistritoModel = new DefaultComboBoxModel(new String[] {

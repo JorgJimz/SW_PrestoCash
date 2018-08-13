@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -139,11 +140,17 @@ public class Contrato implements Serializable {
 	private double interesTotal;
 
 	@Transient
+	private double moraActual;
+
+	@Transient
+	private double moraAnterior;
+
+	@Transient
 	private double moraTotal;
 
 	@Transient
-	private double prorrateo;
-
+	private double prorrateo;	
+		
 	public Contrato() {
 		detalleContratos = new ArrayList<DetalleContrato>();
 	}
@@ -166,27 +173,28 @@ public class Contrato implements Serializable {
 			if (prestamo.getTMora().equals("%")) {
 				if (cuotas == 1 && diasResiduo > 5) {
 					moraRespuesta = "SÍ";
-					// mora = interesMensual * Constantes.PRIMERA_MORA;
+					moraActual = interesMensual * Constantes.PRIMERA_MORA;
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas == 2 && diasResiduo == 0) {
 					moraRespuesta = "SÍ";
-					// mora = interesMensual * Constantes.PRIMERA_MORA;
+					moraActual = interesMensual * Constantes.PRIMERA_MORA;
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas == 2 && diasResiduo > 0) {
 					moraRespuesta = "SÍ";
-					// mora = (interesMensual * 2) * Constantes.SEGUNDA_MORA;
+					moraActual = (interesMensual * 2) * Constantes.SEGUNDA_MORA;
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas >= 2) {
 					moraRespuesta = "SÍ";
-					// mora = (interesMensual * cuotas) * Constantes.SEGUNDA_MORA;
+					moraActual = (interesMensual * cuotas)
+							* Constantes.SEGUNDA_MORA;
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
 				} else {
 					moraRespuesta = "NO";
-					// mora = 0;
+					moraActual = 0;
 					moraPorcentaje = Constantes.MORA_CERO;
 					moraColor = new Color(0, 128, 0);
 				}
@@ -532,4 +540,18 @@ public class Contrato implements Serializable {
 		return prorrateo;
 	}
 
+	@Transient
+	public double getMoraActual() {
+		return moraActual;
+	}
+
+	@Transient
+	public double getMoraAnterior() {
+		return moraAnterior;
+	}
+
+	@Transient
+	public void setMoraAnterior(double moraAnterior) {
+		this.moraAnterior = moraAnterior;
+	}	
 }

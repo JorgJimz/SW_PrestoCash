@@ -37,7 +37,6 @@ public class ContratoController {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
 		Contrato c = null;
 		try {
 			Query q = em
@@ -45,9 +44,8 @@ public class ContratoController {
 			q.setParameter("f", flag);
 			q.setParameter("c", numero);
 			c = (Contrato) q.getSingleResult();
-		} catch (Exception e1) {
-			//tx.rollback();
-			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			em.close();
 			emf.close();
@@ -73,8 +71,8 @@ public class ContratoController {
 		}
 		return a;
 	}
-	
-	public Contrato RenovarContrato(Contrato c, Pago p, Ingreso i){
+
+	public Contrato RenovarContrato(Contrato c, Pago p, Ingreso i) {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
@@ -91,7 +89,7 @@ public class ContratoController {
 		} finally {
 			em.close();
 			emf.close();
-		}		
+		}
 		return c;
 	}
 }
