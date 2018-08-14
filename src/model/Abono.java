@@ -1,47 +1,33 @@
 package model;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="abono")
 @NamedQuery(name="Abono.findAll", query="SELECT a FROM Abono a")
 public class Abono implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(name="ARQ_CAPITAL", precision=10, scale=2)
+	@Column(name="ARQ_CAPITAL")
 	private double arqCapital;
 
-	@Column(name="ARQ_INTERES", precision=10, scale=2)
+	@Column(name="ARQ_INTERES")
 	private double arqInteres;
 
-	@Column(length=10)
 	private String fecha;
 
-	@Column(name="NEO_CAPITAL", precision=10, scale=2)
+	@Column(name="NEO_CAPITAL")
 	private double neoCapital;
 
-	@Column(name="NEO_INTERES", precision=10, scale=2)
+	@Column(name="NEO_INTERES")
 	private double neoInteres;
 
 	//bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CONTRATO_ID", nullable=false)
 	private Contrato contrato;
 
 	public Abono() {

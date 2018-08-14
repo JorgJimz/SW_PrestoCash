@@ -11,11 +11,12 @@
 		<class>model.DetalleCargo</class>
 		<class>model.DetalleContrato</class>
 		<class>model.DetalleSeparacion</class>
+		<class>model.EArticulo</class>
+		<class>model.EContrato</class>
 		<class>model.Egreso</class>
 		<class>model.Fundicion</class>
 		<class>model.Ingreso</class>
 		<class>model.LibroCaja</class>
-		<class>model.Maestro</class>
 		<class>model.Mora</class>
 		<class>model.Pago</class>
 		<class>model.Prestamo</class>

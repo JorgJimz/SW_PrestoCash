@@ -2,80 +2,55 @@ package model;
 
 import java.awt.Color;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.PostLoad;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import common.Constantes;
 
+import java.util.Calendar;
+import java.util.List;
+
 @Entity
-@Table(name = "contrato")
 @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c")
 public class Contrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	private int id;
 
-	@Column(nullable = false, precision = 10, scale = 2)
 	private double capital;
 
-	@Column(name = "FECHA_CONTRATO", nullable = false, length = 10)
+	@Column(name = "FECHA_CONTRATO")
 	private String fechaContrato;
 
-	@Column(name = "FECHA_CREACION", length = 10)
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name = "FECHA_MODIFICACION", length = 10)
+	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
-	@Column(name = "FECHA_REMATE", nullable = false, length = 10)
+	@Column(name = "FECHA_REMATE")
 	private String fechaRemate;
 
-	@Column(name = "FECHA_VENCIMIENTO", nullable = false, length = 10)
+	@Column(name = "FECHA_VENCIMIENTO")
 	private String fechaVencimiento;
 
-	@Column(nullable = false, length = 1)
 	private String flag;
 
-	@Column(name = "INTERES", nullable = false, precision = 10, scale = 2)
+	@Column(name = "INTERES_MENSUAL")
 	private double interesMensual;
 
-	@Column(nullable = false, length = 8)
 	private String moneda;
 
-	@Column(nullable = false)
 	private int numero;
 
-	@Column(length = 200)
 	private String obs;
 
-	@Column(nullable = false)
-	private int status;
-
-	@Column(name = "USUARIO_CREACION", length = 45)
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name = "USUARIO_MODIFICACION", length = 45)
+	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
 	// bi-directional many-to-one association to Abono
@@ -84,12 +59,15 @@ public class Contrato implements Serializable {
 
 	// bi-directional many-to-one association to Cliente
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CLIENTE_ID", nullable = false)
 	private Cliente cliente;
+
+	// bi-directional many-to-one association to EContrato
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "E_CONTRATO_ID")
+	private EContrato EContrato;
 
 	// bi-directional many-to-one association to Prestamo
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRESTAMO_ID", nullable = false)
 	private Prestamo prestamo;
 
 	// bi-directional many-to-one association to DetalleCargo
@@ -97,7 +75,7 @@ public class Contrato implements Serializable {
 	private List<DetalleCargo> detalleCargos;
 
 	// bi-directional many-to-one association to DetalleContrato
-	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "contrato")
 	private List<DetalleContrato> detalleContratos;
 
 	// bi-directional many-to-one association to Mora
@@ -149,10 +127,9 @@ public class Contrato implements Serializable {
 	private double moraTotal;
 
 	@Transient
-	private double prorrateo;	
-		
+	private double prorrateo;
+
 	public Contrato() {
-		detalleContratos = new ArrayList<DetalleContrato>();
 	}
 
 	@PostLoad
@@ -165,7 +142,7 @@ public class Contrato implements Serializable {
 			long v = v_v.getTimeInMillis();
 			long h = Calendar.getInstance().getTimeInMillis();
 			long resta = h - v;
-			diasExcedidos = (resta < 0) ? 0 : resta / (24 * 60 * 60 * 1000);
+			diasExcedidos = (resta < 0) ? 1 : resta / (24 * 60 * 60 * 1000);
 			cuotas = (int) Math.ceil(diasExcedidos / diaFinal);
 			diasResiduo = (int) diasExcedidos % diaFinal;
 			prorrateo = interesDiario * diasResiduo;
@@ -202,7 +179,7 @@ public class Contrato implements Serializable {
 				// Si es soles
 			}
 
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -303,14 +280,6 @@ public class Contrato implements Serializable {
 		this.obs = obs;
 	}
 
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	public String getUsuarioCreacion() {
 		return this.usuarioCreacion;
 	}
@@ -355,6 +324,14 @@ public class Contrato implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public EContrato getEContrato() {
+		return this.EContrato;
+	}
+
+	public void setEContrato(EContrato EContrato) {
+		this.EContrato = EContrato;
 	}
 
 	public Prestamo getPrestamo() {
@@ -475,83 +452,112 @@ public class Contrato implements Serializable {
 		return seguimiento;
 	}
 
-	@Transient
 	public double getInteresDiario() {
 		return interesDiario;
 	}
 
-	@Transient
+	public void setInteresDiario(double interesDiario) {
+		this.interesDiario = interesDiario;
+	}
+
 	public double getDiasExcedidos() {
 		return diasExcedidos;
 	}
 
-	@Transient
+	public void setDiasExcedidos(double diasExcedidos) {
+		this.diasExcedidos = diasExcedidos;
+	}
+
 	public int getDiaFinal() {
 		return diaFinal;
 	}
 
-	@Transient
+	public void setDiaFinal(int diaFinal) {
+		this.diaFinal = diaFinal;
+	}
+
 	public int getCuotas() {
 		return cuotas;
 	}
 
-	@Transient
+	public void setCuotas(int cuotas) {
+		this.cuotas = cuotas;
+	}
+
 	public int getDiasResiduo() {
 		return diasResiduo;
 	}
 
-	@Transient
+	public void setDiasResiduo(int diasResiduo) {
+		this.diasResiduo = diasResiduo;
+	}
+
 	public String getMoraRespuesta() {
 		return moraRespuesta;
 	}
 
-	@Transient
+	public void setMoraRespuesta(String moraRespuesta) {
+		this.moraRespuesta = moraRespuesta;
+	}
+
 	public double getMoraPorcentaje() {
 		return moraPorcentaje;
 	}
 
-	@Transient
+	public void setMoraPorcentaje(double moraPorcentaje) {
+		this.moraPorcentaje = moraPorcentaje;
+	}
+
 	public Color getMoraColor() {
 		return moraColor;
 	}
 
-	@Transient
+	public void setMoraColor(Color moraColor) {
+		this.moraColor = moraColor;
+	}
+
 	public double getInteresTotal() {
 		return interesTotal;
 	}
 
-	@Transient
 	public void setInteresTotal(double interesTotal) {
 		this.interesTotal = interesTotal;
 	}
 
-	@Transient
-	public double getMoraTotal() {
-		return moraTotal;
-	}
-
-	@Transient
-	public void setMoraTotal(double moraTotal) {
-		this.moraTotal = moraTotal;
-	}
-
-	@Transient
-	public double getProrrateo() {
-		return prorrateo;
-	}
-
-	@Transient
 	public double getMoraActual() {
 		return moraActual;
 	}
 
-	@Transient
+	public void setMoraActual(double moraActual) {
+		this.moraActual = moraActual;
+	}
+
 	public double getMoraAnterior() {
 		return moraAnterior;
 	}
 
-	@Transient
 	public void setMoraAnterior(double moraAnterior) {
 		this.moraAnterior = moraAnterior;
-	}	
+	}
+
+	public double getMoraTotal() {
+		return moraTotal;
+	}
+
+	public void setMoraTotal(double moraTotal) {
+		this.moraTotal = moraTotal;
+	}
+
+	public double getProrrateo() {
+		return prorrateo;
+	}
+
+	public void setProrrateo(double prorrateo) {
+		this.prorrateo = prorrateo;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }

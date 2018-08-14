@@ -5,65 +5,64 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+
+/**
+ * The persistent class for the articulo database table.
+ * 
+ */
 @Entity
-@Table(name="articulo")
 @NamedQuery(name="Articulo.findAll", query="SELECT a FROM Articulo a")
 public class Articulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(name="CAPITAL_CONTRATO", precision=10, scale=2)
+	@Column(name="CAPITAL_CONTRATO")
 	private BigDecimal capitalContrato;
 
-	@Column(length=10)
 	private String contrato;
 
-	@Column(nullable=false, length=45)
 	private String descripcion;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name="FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="FECHA_MODIFICACION", length=10)
+	@Column(name="FECHA_MODIFICACION")
 	private String fechaModificacion;
 
-	@Column(nullable=false, length=45)
 	private String marca;
 
-	@Column(nullable=false, length=45)
 	private String modelo;
 
-	@Column(length=45)
 	private String obs;
 
-	@Column(name="PRECIO_INTERNO", precision=10, scale=2)
+	@Column(name="PRECIO_INTERNO")
 	private BigDecimal precioInterno;
 
-	@Column(name="PRECIO_VENTA", precision=10, scale=2)
+	@Column(name="PRECIO_VENTA")
 	private BigDecimal precioVenta;
 
-	@Column(nullable=false, length=45)
 	private String serie;
 
-	@Column(nullable=false)
-	private int status;
-
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name="USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name="USUARIO_MODIFICACION", length=45)
+	@Column(name="USUARIO_MODIFICACION")
 	private String usuarioModificacion;
-	
+
+	//bi-directional many-to-one association to EArticulo
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="E_ARTICULO_ID")
+	private EArticulo EArticulo;
+
 	//bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy="articulo")
 	private List<DetalleCargo> detalleCargos;
 
 	//bi-directional many-to-one association to DetalleContrato
-	@OneToMany(mappedBy="articulo", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="articulo")
 	private List<DetalleContrato> detalleContratos;
 
 	//bi-directional many-to-one association to Fundicion
@@ -177,14 +176,6 @@ public class Articulo implements Serializable {
 		this.serie = serie;
 	}
 
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	public String getUsuarioCreacion() {
 		return this.usuarioCreacion;
 	}
@@ -199,6 +190,14 @@ public class Articulo implements Serializable {
 
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
+	}
+
+	public EArticulo getEArticulo() {
+		return this.EArticulo;
+	}
+
+	public void setEArticulo(EArticulo EArticulo) {
+		this.EArticulo = EArticulo;
 	}
 
 	public List<DetalleCargo> getDetalleCargos() {

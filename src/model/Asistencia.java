@@ -9,34 +9,29 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="asistencia")
 @NamedQuery(name="Asistencia.findAll", query="SELECT a FROM Asistencia a")
 public class Asistencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=10)
 	private String fecha;
 
-	@Column(name="HORA_CONTRATO", nullable=false, length=8)
+	@Column(name="HORA_CONTRATO")
 	private String horaContrato;
 
-	@Column(name="HORA_INGRESO", nullable=false, length=8)
+	@Column(name="HORA_INGRESO")
 	private String horaIngreso;
 
-	@Column(name="HORA_SALIDA", nullable=false, length=8)
+	@Column(name="HORA_SALIDA")
 	private String horaSalida;
 
-	@Column(length=100)
 	private String obs;
 
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="USUARIO_ID", nullable=false)
 	private Usuario usuario;
 
 	public Asistencia() {

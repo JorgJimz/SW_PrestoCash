@@ -10,40 +10,32 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@Table(name="compra")
 @NamedQuery(name="Compra.findAll", query="SELECT c FROM Compra c")
 public class Compra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
 	private String descripcion;
 
-	@Column(nullable=false, length=10)
 	private String fecha;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name="FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private BigDecimal importe;
 
-	@Column(length=200)
 	private String obs;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private BigDecimal peso;
 
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name="USUARIO_CREACION")
 	private String usuarioCreacion;
 
 	//bi-directional many-to-one association to Cliente
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CLIENTE_ID", nullable=false)
 	private Cliente cliente;
 
 	public Compra() {

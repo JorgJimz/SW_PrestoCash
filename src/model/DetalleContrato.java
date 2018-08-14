@@ -1,44 +1,28 @@
 package model;
 
 import java.io.Serializable;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "detalle_contrato")
-@NamedQuery(name = "DetalleContrato.findAll", query = "SELECT d FROM DetalleContrato d")
+@Table(name="detalle_contrato")
+@NamedQuery(name="DetalleContrato.findAll", query="SELECT d FROM DetalleContrato d")
 public class DetalleContrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable = false)
 	private int cantidad;
 
-	@Column(nullable = false, precision = 10, scale = 2)
 	private double tasacion;
 
-	// bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "ARTICULO_ID", nullable = false)
+	//bi-directional many-to-one association to Articulo
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Articulo articulo;
 
-	// bi-directional many-to-one association to Contrato
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "CONTRATO_ID", nullable = false)
+	//bi-directional many-to-one association to Contrato
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Contrato contrato;
 
 	public DetalleContrato() {
@@ -50,7 +34,7 @@ public class DetalleContrato implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}			
+	}
 
 	public int getCantidad() {
 		return this.cantidad;

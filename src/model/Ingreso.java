@@ -4,34 +4,27 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ingreso")
 @NamedQuery(name = "Ingreso.findAll", query = "SELECT i FROM Ingreso i")
 public class Ingreso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	private int id;
 
-	@Column(nullable = false, precision = 10, scale = 2)
 	private double capital;
 
-	@Column(nullable = false, length = 200)
 	private String descripcion;
 
-	@Column(nullable = false, precision = 10, scale = 2)
 	private double ganancia;
 
-	@Column(nullable = false, precision = 10, scale = 2)
 	private double otro;
 
-	@Column(nullable = false)
 	private int tipo;
 
 	// bi-directional many-to-one association to LibroCaja
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "LIBRO_CAJA_ID", nullable = false)
+	@JoinColumn(name = "LIBRO_CAJA_ID")
 	private LibroCaja libroCaja;
 
 	public Ingreso() {

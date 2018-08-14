@@ -9,22 +9,18 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="fundicion")
 @NamedQuery(name="Fundicion.findAll", query="SELECT f FROM Fundicion f")
 public class Fundicion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(length=10)
 	private String fecha;
 
 	//bi-directional many-to-one association to Articulo
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ARTICULO_ID", nullable=false)
 	private Articulo articulo;
 
 	public Fundicion() {

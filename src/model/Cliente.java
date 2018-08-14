@@ -10,64 +10,52 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="cliente")
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(name="CATEGORIA_ID", length=45)
+	@Column(name="CATEGORIA_ID")
 	private String categoriaId;
 
-	@Column(length=45)
 	private String direccion;
 
-	@Column(length=45)
 	private String distrito;
 
-	@Column(length=45)
 	private String documento;
 
-	@Column(length=100)
 	private String email;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name="FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="FECHA_MODIFICACION", length=10)
+	@Column(name="FECHA_MODIFICACION")
 	private String fechaModificacion;
 
-	@Column(length=45)
 	private String materno;
 
-	@Column(length=45)
 	private String nombres;
 
-	@Column(length=200)
 	private String obs;
 
-	@Column(length=45)
 	private String paterno;
 
 	private int status;
 
-	@Column(name="T_DOCUMENTO", length=45)
+	@Column(name="T_DOCUMENTO")
 	private String tDocumento;
 
-	@Column(length=45)
 	private String tlf1;
 
-	@Column(length=45)
 	private String tlf2;
 
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name="USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name="USUARIO_MODIFICACION", length=45)
+	@Column(name="USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
 	//bi-directional many-to-one association to Compra

@@ -10,29 +10,24 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="cargo")
 @NamedQuery(name="Cargo.findAll", query="SELECT c FROM Cargo c")
 public class Cargo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=10)
 	private String fecha;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name="FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(length=100)
 	private String obs;
 
-	@Column(nullable=false, length=45)
 	private String transportista;
 
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name="USUARIO_CREACION")
 	private String usuarioCreacion;
 
 	//bi-directional many-to-one association to DetalleCargo

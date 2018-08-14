@@ -6,66 +6,52 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
-/**
- * The persistent class for the usuario database table.
- * 
- */
 @Entity
-@Table(name="usuario")
-@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
+@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="FECHA_MODIFICACION", length=10)
+	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
-	@Column(name="HORA_INGRESO", nullable=false, length=8)
+	@Column(name = "HORA_INGRESO")
 	private String horaIngreso;
 
-	@Column(nullable=false, length=45)
 	private String login;
 
-	@Column(nullable=false, length=45)
 	private String materno;
 
-	@Column(nullable=false, length=45)
 	private String nombres;
 
-	@Column(nullable=false, length=45)
 	private String password;
 
-	@Column(nullable=false, length=45)
 	private String paterno;
 
-	@Column(nullable=false, length=45)
 	private String perfil;
 
-	@Column(nullable=false, length=1)
 	private String status;
 
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name="USUARIO_MODIFICACION", length=45)
+	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
-	//bi-directional many-to-one association to Asistencia
-	@OneToMany(mappedBy="usuario")
+	// bi-directional many-to-one association to Asistencia
+	@OneToMany(mappedBy = "usuario")
 	private List<Asistencia> asistencias;
 
 	public Usuario() {
-	}	
+	}
 
-	public Usuario(String login, String password) {	
+	public Usuario(String login, String password) {
 		this.login = login;
 		this.password = password;
 	}

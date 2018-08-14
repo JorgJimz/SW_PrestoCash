@@ -18,22 +18,18 @@ public class LibroCaja implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(precision=10, scale=2)
 	private BigDecimal amanece;
 
-	@Column(precision=10, scale=2)
 	private BigDecimal cierre;
 
-	@Column(name="FECHA_APERTURA", length=10)
+	@Column(name="FECHA_APERTURA")
 	private String fechaApertura;
 
-	@Column(name="FECHA_CIERRE", length=10)
+	@Column(name="FECHA_CIERRE")
 	private String fechaCierre;
 
-	@Column(length=1)
 	private String status;
 
 	//bi-directional many-to-one association to Egreso

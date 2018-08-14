@@ -1,70 +1,47 @@
 package model;
 
 import java.io.Serializable;
+import javax.persistence.*;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-
-/**
- * The persistent class for the prestamo database table.
- * 
- */
 @Entity
-@Table(name="prestamo")
-@NamedQuery(name="Prestamo.findAll", query="SELECT p FROM Prestamo p")
+@NamedQuery(name = "Prestamo.findAll", query = "SELECT p FROM Prestamo p")
 public class Prestamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable=false, length=45)
 	private String descripcion;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="FECHA_MODIFICACION", length=10)
+	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
-	@Column(nullable=false, length=1)
 	private String flag;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private double interes;
 
-	@Column(nullable=false, length=45)
 	private String mora;
 
-	@Column(name="T_MORA", nullable=false, length=45)
+	@Column(name = "T_MORA")
 	private String tMora;
 
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name="USUARIO_MODIFICACION", length=45)
+	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
-	//bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy="prestamo")
+	// bi-directional many-to-one association to Contrato
+	@OneToMany(mappedBy = "prestamo")
 	private List<Contrato> contratos;
 
-	//bi-directional many-to-one association to Sede
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="SEDE_ID", nullable=false)
+	// bi-directional many-to-one association to Sede
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Sede sede;
 
 	public Prestamo() {

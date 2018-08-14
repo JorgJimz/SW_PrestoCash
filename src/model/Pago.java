@@ -1,50 +1,33 @@
 package model;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="pago")
-@NamedQuery(name="Pago.findAll", query="SELECT p FROM Pago p")
+@NamedQuery(name = "Pago.findAll", query = "SELECT p FROM Pago p")
 public class Pago implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private double capital;
 
-	@Column(nullable=false, length=45)
 	private String descripcion;
 
-	@Column(name="FECHA_PAGO", nullable=false, length=10)
+	@Column(name = "FECHA_PAGO")
 	private String fechaPago;
 
-	@Column(name="FECHA_VENCIMIENTO", nullable=false, length=10)
+	@Column(name = "FECHA_VENCIMIENTO")
 	private String fechaVencimiento;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private double interes;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private double mora;
 
-	//bi-directional many-to-one association to Contrato
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CONTRATO_ID", nullable=false)
+	// bi-directional many-to-one association to Contrato
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
 
 	public Pago() {

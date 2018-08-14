@@ -11,29 +11,25 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="separacion")
 @NamedQuery(name="Separacion.findAll", query="SELECT s FROM Separacion s")
 public class Separacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=10)
 	private String fecha;
 
-	@Column(name="FECHA_CREACION", length=10)
+	@Column(name="FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="PRECIO_VENTA", nullable=false, precision=10, scale=2)
+	@Column(name="PRECIO_VENTA")
 	private BigDecimal precioVenta;
 
-	@Column(nullable=false, length=1)
 	private String status;
 
-	@Column(name="USUARIO_CREACION", length=45)
+	@Column(name="USUARIO_CREACION")
 	private String usuarioCreacion;
 
 	//bi-directional many-to-one association to DetalleSeparacion
@@ -42,12 +38,10 @@ public class Separacion implements Serializable {
 
 	//bi-directional many-to-one association to Articulo
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ARTICULO_ID", nullable=false)
 	private Articulo articulo;
 
 	//bi-directional many-to-one association to Cliente
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CLIENTE_ID", nullable=false)
 	private Cliente cliente;
 
 	public Separacion() {

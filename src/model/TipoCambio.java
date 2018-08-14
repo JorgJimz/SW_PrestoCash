@@ -17,16 +17,12 @@ public class TipoCambio implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private BigDecimal compra;
 
-	@Column(nullable=false, length=10)
 	private String fecha;
 
-	@Column(nullable=false, precision=10, scale=2)
 	private BigDecimal venta;
 
 	public TipoCambio() {

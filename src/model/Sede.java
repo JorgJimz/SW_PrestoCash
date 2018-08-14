@@ -10,32 +10,27 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="sede")
 @NamedQuery(name="Sede.findAll", query="SELECT s FROM Sede s")
 public class Sede implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=45)
 	private String descripcion;
 
-	@Column(length=100)
 	private String direccion;
 
-	@Column(name="FLAG_ELECTRO", nullable=false, length=1)
+	@Column(name="FLAG_ELECTRO")
 	private String flagElectro;
 
-	@Column(name="FLAG_ORO", nullable=false, length=1)
+	@Column(name="FLAG_ORO")
 	private String flagOro;
 
-	@Column(nullable=false, length=1)
 	private String status;
 
-	@Column(name="T_SEDE", nullable=false, length=11)
+	@Column(name="T_SEDE")
 	private String tSede;
 
 	//bi-directional many-to-one association to DetalleCargo

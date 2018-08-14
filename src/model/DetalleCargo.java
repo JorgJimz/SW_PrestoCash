@@ -16,27 +16,22 @@ public class DetalleCargo implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
 	//bi-directional many-to-one association to Articulo
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ARTICULO_ID", nullable=false)
 	private Articulo articulo;
 
 	//bi-directional many-to-one association to Cargo
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CARGO_ID", nullable=false)
 	private Cargo cargo;
 
 	//bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CONTRATO_ID", nullable=false)
 	private Contrato contrato;
 
 	//bi-directional many-to-one association to Sede
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="SEDE_ID", nullable=false)
 	private Sede sede;
 
 	public DetalleCargo() {

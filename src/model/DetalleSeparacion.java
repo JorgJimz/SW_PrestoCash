@@ -17,18 +17,14 @@ public class DetalleSeparacion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(length=10)
 	private String fecha;
 
-	@Column(precision=10, scale=2)
 	private BigDecimal importe;
 
 	//bi-directional many-to-one association to Separacion
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="SEPARACION_ID", nullable=false)
 	private Separacion separacion;
 
 	public DetalleSeparacion() {

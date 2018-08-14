@@ -18,7 +18,8 @@ import com.toedter.calendar.JDateChooser;
 public class Utiles {
 	public static void MostrarOperaciones() {
 		try {
-			String[] botones = new String[] { "Contrato de Prestación",	"Venta", "Separación"/*, "Recuperación" */};
+			String[] botones = new String[] { "Contrato de Prestación",
+					"Venta", "Separación"/* , "Recuperación" */};
 			int opc = JOptionPane.showOptionDialog(null,
 					"¿Qué operación deseas realizar?", "Seleccionar",
 					JOptionPane.YES_NO_CANCEL_OPTION,
@@ -37,11 +38,11 @@ public class Utiles {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void Mensaje(String s){
+
+	public static void Mensaje(String s) {
 		JOptionPane.showMessageDialog(null, s);
 	}
-	
+
 	public static boolean Validar(JPanel pnl) {
 		boolean val = true;
 
@@ -56,7 +57,7 @@ public class Utiles {
 		}
 		return val;
 	}
-	
+
 	public static void Limpiar(JPanel contenedor) {
 		for (Object o : contenedor.getComponents()) {
 			if (o instanceof JTextField) {
@@ -65,12 +66,12 @@ public class Utiles {
 			}
 		}
 	}
-	
-	public static void LimpiarModelos(){
+
+	public static void LimpiarModelos() {
 		Constantes.ContratoModel.setRowCount(0);
 		Constantes.ArticuloModel.setRowCount(0);
 	}
-	
+
 	public static void Bloquear(JPanel contenedor) {
 		for (Object o : contenedor.getComponents()) {
 			if (o instanceof JTextField) {
@@ -80,5 +81,13 @@ public class Utiles {
 				((JDateChooser) o).setEnabled(false);
 			}
 		}
+	}
+
+	public static int[] mapToInt(String[] args) {
+		int myar[] = new int[args.length];
+		for (int i = 0; i < args.length; i++) {
+			myar[i] = Integer.parseInt(args[i]);
+		}
+		return myar;
 	}
 }

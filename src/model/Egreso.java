@@ -2,31 +2,25 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
-@Table(name="egreso")
-@NamedQuery(name="Egreso.findAll", query="SELECT e FROM Egreso e")
+@NamedQuery(name = "Egreso.findAll", query = "SELECT e FROM Egreso e")
 public class Egreso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable=false, length=45)
 	private String descripcion;
 
-	@Column(nullable=false, precision=10, scale=2)
-	private BigDecimal importe;
+	private double importe;
 
-	@Column(nullable=false)
 	private int tipo;
 
-	//bi-directional many-to-one association to LibroCaja
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="LIBRO_CAJA_ID", nullable=false)
+	// bi-directional many-to-one association to LibroCaja
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LIBRO_CAJA_ID")
 	private LibroCaja libroCaja;
 
 	public Egreso() {
@@ -48,11 +42,11 @@ public class Egreso implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public BigDecimal getImporte() {
+	public double getImporte() {
 		return this.importe;
 	}
 
-	public void setImporte(BigDecimal importe) {
+	public void setImporte(double importe) {
 		this.importe = importe;
 	}
 

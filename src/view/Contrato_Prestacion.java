@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -41,6 +40,8 @@ import model.Articulo;
 import model.Cliente;
 import model.Contrato;
 import model.DetalleContrato;
+import model.EArticulo;
+import model.EContrato;
 import model.Egreso;
 import model.Prestamo;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -533,13 +534,13 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setBounds(928, 244, 324, 83);
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
-		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));
+		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));	
 		btnGrabar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
-					contrato.setCapital(new BigDecimal(lblCapital.getText()));
-					contrato.setInteres(Double.parseDouble(lblInteresCalculado
+					contrato.setCapital(Double.parseDouble(lblCapital.getText()));
+					contrato.setInteresMensual(Double.parseDouble(lblInteresCalculado
 							.getText()));
 					contrato.setPrestamo(prestamo);
 					contrato.setFlag(prestamo.getFlag());
@@ -548,7 +549,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					contrato.setCliente(cliente);
 					contrato.setNumero(Integer.parseInt(lblNumeroContrato
 							.getText()));
-					contrato.setStatus(1);
+					contrato.setEContrato(new EContrato(1));
 					contrato.setFechaCreacion(Constantes.formatoSQL.format(hoy.getTime()));
 					contrato.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					for (DetalleContrato dc : detalle) {
@@ -849,7 +850,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		articulo.setModelo(txtModelo.getText().toUpperCase());
 		articulo.setSerie(txtSerie.getText().toUpperCase());
 		articulo.setObs(txtObservaciones.getText().toUpperCase());
-		articulo.setStatus(1);
+		articulo.setEArticulo(new EArticulo(1));
 		articulo.setFechaCreacion(Constantes.formatoSQL.format(new Date()));
 		articulo.setUsuarioCreacion(Principal.LOGGED.getLogin());
 
