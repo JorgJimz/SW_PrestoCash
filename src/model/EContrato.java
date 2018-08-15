@@ -43,15 +43,20 @@ public class EContrato implements Serializable {
 	public EContrato() {
 	}
 
+	public EContrato(int id) {
+		this.id = id;
+	}
+
+	public EContrato(int id, String descripcion) {
+		this.id = id;
+		this.descripcion = descripcion;
+	}
+
 	@PostLoad
 	public void procesarCamposCalculados() {
 		int[] v = Utiles.mapToInt(valor.split(","));
 		background = new Color(v[0], v[1], v[2]);
 		foreground = new Color(v[3], v[4], v[5]);
-	}
-
-	public EContrato(int id) {
-		this.id = id;
 	}
 
 	public int getId() {

@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -31,6 +33,26 @@ public class ContratoController {
 			emf.close();
 		}
 		return c;
+	}
+
+	public void ActualizarContratos(List<Contrato> listado) {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			for (Contrato c : listado) {
+				em.merge(c);
+			}
+			tx.commit();
+		} catch (Exception e1) {
+			tx.rollback();
+			e1.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
 	}
 
 	public Contrato CargarContrato(String flag, int numero) {
@@ -91,5 +113,23 @@ public class ContratoController {
 			emf.close();
 		}
 		return c;
+	}
+
+	public List<Contrato> ListarContratosVigentes() {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Contrato> l = null;
+		try {
+			l = em.createQuery(
+					"SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)",
+					Contrato.class).getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return l;
 	}
 }

@@ -11,6 +11,7 @@ public class Constantes {
 	
 	public static double PRIMERA_MORA = 0.3;
 	public static double SEGUNDA_MORA = 0.5;
+	public static double MORA_SOLES = 150;
 	public static double MORA_CERO = 0;
 	
 	public static ComboBoxModel DistritoModel = new DefaultComboBoxModel(new String[] {
@@ -53,6 +54,18 @@ public class Constantes {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
+	};
+	
+	public static DefaultTableModel ActualizacionModel = new DefaultTableModel(null,
+			new String[] { "NÚMERO DE CONTRATO", "INICIO", "VENCIMIENTO",
+					"REMATE", "ESTADO ACTUAL" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+		@Override
+		public Class getColumnClass(int columna){				
+			return Integer.class;
+		}		
 	};
 	
 	public static DefaultComboBoxModel<ComboItem> PrestamoModel = new DefaultComboBoxModel();

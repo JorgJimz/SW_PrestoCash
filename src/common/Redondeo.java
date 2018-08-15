@@ -1,11 +1,12 @@
 package common;
 
-public class Redondeo {
+import org.apache.commons.lang3.StringUtils;
 
-	public static String redondearCentimos(String monto){
+public class Redondeo {
+	public static String redondearCentimos(String monto){	
 		String[] centimos = monto.split("\\.");
 		int mon = (centimos[0].equalsIgnoreCase(""))? 0:Integer.parseInt(centimos[0]);
-		int num = Integer.parseInt(centimos[1]);		
+		int num = Integer.parseInt(StringUtils.left(centimos[1],2));		
 		if(num < 5){			
 			num = 00;
 		}

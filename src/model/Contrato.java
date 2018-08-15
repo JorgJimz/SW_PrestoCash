@@ -176,7 +176,32 @@ public class Contrato implements Serializable {
 					moraColor = new Color(0, 128, 0);
 				}
 			} else {
-				// Si es soles
+				if (cuotas == 1 && diasResiduo > 5) {
+					moraRespuesta = "SÍ";
+					moraActual = Constantes.MORA_SOLES;
+					moraPorcentaje = Constantes.MORA_SOLES;
+					moraColor = Color.RED;
+				} else if (cuotas == 2 && diasResiduo == 0) {
+					moraRespuesta = "SÍ";
+					moraActual = Constantes.MORA_SOLES;
+					moraPorcentaje = Constantes.MORA_SOLES;
+					moraColor = Color.RED;
+				} else if (cuotas == 2 && diasResiduo > 0) {
+					moraRespuesta = "SÍ";
+					moraActual = Constantes.MORA_SOLES * 2;
+					moraPorcentaje = Constantes.MORA_SOLES;
+					moraColor = Color.RED;
+				} else if (cuotas >= 2) {
+					moraRespuesta = "SÍ";
+					moraActual = Constantes.MORA_SOLES * cuotas;
+					moraPorcentaje = Constantes.MORA_SOLES;
+					moraColor = Color.RED;
+				} else {
+					moraRespuesta = "NO";
+					moraActual = 0;
+					moraPorcentaje = Constantes.MORA_CERO;
+					moraColor = new Color(0, 128, 0);
+				}
 			}
 
 		} catch (Exception e) {

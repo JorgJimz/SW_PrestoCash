@@ -46,6 +46,7 @@ public class ArticuloController {
 							Articulo.class);
 			q.setParameter("i", id);
 			List<Articulo> l = q.getResultList();
+			model.setRowCount(0);
 			for (Articulo a : l) {
 				model.addRow(new Object[] { a.getId(), a.getDescripcion(),
 						a.getMarca(), a.getModelo(), a.getObs(), "200" });
@@ -57,9 +58,5 @@ public class ArticuloController {
 			emf.close();
 		}
 		return model;
-	}
-	
-
-	
-
+	}	
 }
