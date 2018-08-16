@@ -2,6 +2,7 @@ package common;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.math.BigDecimal;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -37,7 +38,12 @@ public class RenderIM implements TableCellRenderer {
 				chk.setSelected(false);
 				return chk;
 			}
+		}
 
+		if (value instanceof BigDecimal) {
+			e.setText(value.toString());
+			e.setFont(new java.awt.Font("Segoe UI", 1, 20));
+			return e;
 		}
 
 		if (value instanceof Double) {
@@ -53,7 +59,5 @@ public class RenderIM implements TableCellRenderer {
 		}
 
 		return null;
-
 	}
-
 }

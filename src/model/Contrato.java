@@ -2,13 +2,30 @@ package model;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 
 import common.Constantes;
-
-import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c")
@@ -17,9 +34,9 @@ public class Contrato implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private BigDecimal id;
 
-	private double capital;
+	private BigDecimal capital;
 
 	@Column(name = "FECHA_CONTRATO")
 	private String fechaContrato;
@@ -39,11 +56,11 @@ public class Contrato implements Serializable {
 	private String flag;
 
 	@Column(name = "INTERES_MENSUAL")
-	private double interesMensual;
+	private BigDecimal interesMensual;
 
 	private String moneda;
 
-	private int numero;
+	private BigDecimal numero;
 
 	private String obs;
 
@@ -91,43 +108,43 @@ public class Contrato implements Serializable {
 	private List<Seguimiento> seguimientos;
 
 	@Transient
-	private double interesDiario;
+	private BigDecimal interesDiario;
 
 	@Transient
-	private double diasExcedidos;
+	private BigDecimal diasExcedidos;
 
 	@Transient
-	private int diaFinal;
+	private BigDecimal diaFinal;
 
 	@Transient
-	private int cuotas;
+	private BigDecimal cuotas;
 
 	@Transient
-	private int diasResiduo;
+	private BigDecimal diasResiduo;
 
 	@Transient
 	private String moraRespuesta;
 
 	@Transient
-	private double moraPorcentaje;
+	private BigDecimal moraPorcentaje;
 
 	@Transient
 	private Color moraColor;
 
 	@Transient
-	private double interesTotal;
+	private BigDecimal interesTotal;
 
 	@Transient
-	private double moraActual;
+	private BigDecimal moraActual;
 
 	@Transient
-	private double moraAnterior;
+	private BigDecimal moraAnterior;
 
 	@Transient
-	private double moraTotal;
+	private BigDecimal moraTotal;
 
 	@Transient
-	private double prorrateo;
+	private BigDecimal prorrateo;
 
 	public Contrato() {
 	}
@@ -135,70 +152,87 @@ public class Contrato implements Serializable {
 	@PostLoad
 	public void procesarCamposCalculados() {
 		try {
-			interesDiario = interesMensual / 30;
+			interesDiario = interesMensual.divide(new BigDecimal(30), 2);
 			Calendar v_v = Calendar.getInstance();
 			v_v.setTime(Constantes.formatoSQL.parse(fechaVencimiento));
-			diaFinal = v_v.getActualMaximum(Calendar.DAY_OF_MONTH);
-			long v = v_v.getTimeInMillis();
-			long h = Calendar.getInstance().getTimeInMillis();
-			long resta = h - v;
-			diasExcedidos = (resta < 0) ? 1 : resta / (24 * 60 * 60 * 1000);
-			cuotas = (int) Math.ceil(diasExcedidos / diaFinal);
-			diasResiduo = (int) diasExcedidos % diaFinal;
-			prorrateo = interesDiario * diasResiduo;
+			diaFinal = new BigDecimal(
+					v_v.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			LocalDate hoy = LocalDate.now();
+			LocalDate vencimiento = LocalDate.parse(fechaVencimiento);
+			diaFinal = BigDecimal.valueOf(vencimiento.lengthOfMonth());
+
+			long diff = Period.between(vencimiento, hoy).getDays();
+
+			diasExcedidos = (diff < 0) ? BigDecimal.ONE : new BigDecimal(diff);
+			cuotas = diasExcedidos.divide(diaFinal, 0);
+			diasResiduo = diasExcedidos.remainder(diaFinal);
+			prorrateo = interesDiario.multiply(diasResiduo);
 
 			if (prestamo.getTMora().equals("%")) {
-				if (cuotas == 1 && diasResiduo > 5) {
+				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
-					moraActual = interesMensual * Constantes.PRIMERA_MORA;
+					moraActual = interesMensual.multiply(
+							Constantes.PRIMERA_MORA).setScale(2,
+							RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
-				} else if (cuotas == 2 && diasResiduo == 0) {
+				} else if (cuotas.intValue() == 2
+						&& diasResiduo.intValue() == 0) {
 					moraRespuesta = "SÍ";
-					moraActual = interesMensual * Constantes.PRIMERA_MORA;
+					moraActual = interesMensual.multiply(
+							Constantes.PRIMERA_MORA).setScale(2,
+							RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
-				} else if (cuotas == 2 && diasResiduo > 0) {
+				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
 					moraRespuesta = "SÍ";
-					moraActual = (interesMensual * 2) * Constantes.SEGUNDA_MORA;
+					moraActual = interesMensual.multiply(new BigDecimal(2))
+							.multiply(Constantes.SEGUNDA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
-				} else if (cuotas >= 2) {
+				} else if (cuotas.intValue() >= 2) {
 					moraRespuesta = "SÍ";
-					moraActual = (interesMensual * cuotas)
-							* Constantes.SEGUNDA_MORA;
+					moraActual = (interesMensual.multiply(cuotas)).multiply(
+							Constantes.SEGUNDA_MORA).setScale(2,
+							RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
 				} else {
 					moraRespuesta = "NO";
-					moraActual = 0;
+					moraActual = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_CERO;
 					moraColor = new Color(0, 128, 0);
 				}
 			} else {
-				if (cuotas == 1 && diasResiduo > 5) {
+				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
-				} else if (cuotas == 2 && diasResiduo == 0) {
+				} else if (cuotas.intValue() == 2
+						&& diasResiduo.intValue() == 0) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
-				} else if (cuotas == 2 && diasResiduo > 0) {
+				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
 					moraRespuesta = "SÍ";
-					moraActual = Constantes.MORA_SOLES * 2;
+					moraActual = Constantes.MORA_SOLES.multiply(
+							new BigDecimal(2))
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
-				} else if (cuotas >= 2) {
+				} else if (cuotas.intValue() >= 2) {
 					moraRespuesta = "SÍ";
-					moraActual = Constantes.MORA_SOLES * cuotas;
+					moraActual = Constantes.MORA_SOLES.multiply(cuotas)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
 				} else {
 					moraRespuesta = "NO";
-					moraActual = 0;
+					moraActual = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_CERO;
 					moraColor = new Color(0, 128, 0);
 				}
@@ -209,19 +243,19 @@ public class Contrato implements Serializable {
 		}
 	}
 
-	public int getId() {
+	public BigDecimal getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(BigDecimal id) {
 		this.id = id;
 	}
 
-	public double getCapital() {
+	public BigDecimal getCapital() {
 		return this.capital;
 	}
 
-	public void setCapital(double capital) {
+	public void setCapital(BigDecimal capital) {
 		this.capital = capital;
 	}
 
@@ -273,11 +307,11 @@ public class Contrato implements Serializable {
 		this.flag = flag;
 	}
 
-	public double getInteresMensual() {
+	public BigDecimal getInteresMensual() {
 		return this.interesMensual;
 	}
 
-	public void setInteresMensual(double interesMensual) {
+	public void setInteresMensual(BigDecimal interesMensual) {
 		this.interesMensual = interesMensual;
 	}
 
@@ -289,11 +323,11 @@ public class Contrato implements Serializable {
 		this.moneda = moneda;
 	}
 
-	public int getNumero() {
+	public BigDecimal getNumero() {
 		return this.numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(BigDecimal numero) {
 		this.numero = numero;
 	}
 
@@ -477,43 +511,43 @@ public class Contrato implements Serializable {
 		return seguimiento;
 	}
 
-	public double getInteresDiario() {
+	public BigDecimal getInteresDiario() {
 		return interesDiario;
 	}
 
-	public void setInteresDiario(double interesDiario) {
+	public void setInteresDiario(BigDecimal interesDiario) {
 		this.interesDiario = interesDiario;
 	}
 
-	public double getDiasExcedidos() {
+	public BigDecimal getDiasExcedidos() {
 		return diasExcedidos;
 	}
 
-	public void setDiasExcedidos(double diasExcedidos) {
+	public void setDiasExcedidos(BigDecimal diasExcedidos) {
 		this.diasExcedidos = diasExcedidos;
 	}
 
-	public int getDiaFinal() {
+	public BigDecimal getDiaFinal() {
 		return diaFinal;
 	}
 
-	public void setDiaFinal(int diaFinal) {
+	public void setDiaFinal(BigDecimal diaFinal) {
 		this.diaFinal = diaFinal;
 	}
 
-	public int getCuotas() {
+	public BigDecimal getCuotas() {
 		return cuotas;
 	}
 
-	public void setCuotas(int cuotas) {
+	public void setCuotas(BigDecimal cuotas) {
 		this.cuotas = cuotas;
 	}
 
-	public int getDiasResiduo() {
+	public BigDecimal getDiasResiduo() {
 		return diasResiduo;
 	}
 
-	public void setDiasResiduo(int diasResiduo) {
+	public void setDiasResiduo(BigDecimal diasResiduo) {
 		this.diasResiduo = diasResiduo;
 	}
 
@@ -525,11 +559,11 @@ public class Contrato implements Serializable {
 		this.moraRespuesta = moraRespuesta;
 	}
 
-	public double getMoraPorcentaje() {
+	public BigDecimal getMoraPorcentaje() {
 		return moraPorcentaje;
 	}
 
-	public void setMoraPorcentaje(double moraPorcentaje) {
+	public void setMoraPorcentaje(BigDecimal moraPorcentaje) {
 		this.moraPorcentaje = moraPorcentaje;
 	}
 
@@ -541,43 +575,43 @@ public class Contrato implements Serializable {
 		this.moraColor = moraColor;
 	}
 
-	public double getInteresTotal() {
+	public BigDecimal getInteresTotal() {
 		return interesTotal;
 	}
 
-	public void setInteresTotal(double interesTotal) {
+	public void setInteresTotal(BigDecimal interesTotal) {
 		this.interesTotal = interesTotal;
 	}
 
-	public double getMoraActual() {
+	public BigDecimal getMoraActual() {
 		return moraActual;
 	}
 
-	public void setMoraActual(double moraActual) {
+	public void setMoraActual(BigDecimal moraActual) {
 		this.moraActual = moraActual;
 	}
 
-	public double getMoraAnterior() {
+	public BigDecimal getMoraAnterior() {
 		return moraAnterior;
 	}
 
-	public void setMoraAnterior(double moraAnterior) {
+	public void setMoraAnterior(BigDecimal moraAnterior) {
 		this.moraAnterior = moraAnterior;
 	}
 
-	public double getMoraTotal() {
+	public BigDecimal getMoraTotal() {
 		return moraTotal;
 	}
 
-	public void setMoraTotal(double moraTotal) {
+	public void setMoraTotal(BigDecimal moraTotal) {
 		this.moraTotal = moraTotal;
 	}
 
-	public double getProrrateo() {
+	public BigDecimal getProrrateo() {
 		return prorrateo;
 	}
 
-	public void setProrrateo(double prorrateo) {
+	public void setProrrateo(BigDecimal prorrateo) {
 		this.prorrateo = prorrateo;
 	}
 

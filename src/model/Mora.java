@@ -1,7 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name = "Mora.findAll", query = "SELECT m FROM Mora m")
@@ -18,7 +27,7 @@ public class Mora implements Serializable {
 	@Column(name = "FECHA_VENCIMIENTO")
 	private String fechaVencimiento;
 
-	private double importe;
+	private BigDecimal importe;
 
 	private int status;
 
@@ -53,11 +62,11 @@ public class Mora implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public double getImporte() {
+	public BigDecimal getImporte() {
 		return this.importe;
 	}
 
-	public void setImporte(double importe) {
+	public void setImporte(BigDecimal importe) {
 		this.importe = importe;
 	}
 

@@ -1,5 +1,7 @@
 package common;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 
 import javax.swing.ComboBoxModel;
@@ -9,10 +11,10 @@ import javax.swing.table.DefaultTableModel;
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class Constantes {
 	
-	public static double PRIMERA_MORA = 0.3;
-	public static double SEGUNDA_MORA = 0.5;
-	public static double MORA_SOLES = 150;
-	public static double MORA_CERO = 0;
+	public static BigDecimal PRIMERA_MORA = new BigDecimal(0.30).setScale(2, RoundingMode.HALF_UP);
+	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
+	public static BigDecimal MORA_SOLES = new BigDecimal(150);
+	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
 	
 	public static ComboBoxModel DistritoModel = new DefaultComboBoxModel(new String[] {
 			"CERCADO DE LIMA", "ATE", "BARRANCO", "BREÑA", "COMAS",
