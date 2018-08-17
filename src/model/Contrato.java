@@ -4,12 +4,8 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,7 +30,7 @@ public class Contrato implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private BigDecimal id;
+	private int id;
 
 	private BigDecimal capital;
 
@@ -60,7 +56,7 @@ public class Contrato implements Serializable {
 
 	private String moneda;
 
-	private BigDecimal numero;
+	private int numero;
 
 	private String obs;
 
@@ -146,35 +142,41 @@ public class Contrato implements Serializable {
 	@Transient
 	private BigDecimal prorrateo;
 
+	@Transient
+	private BigDecimal prorrateoMora;
+
+	@Transient
+	private String operacion;
+
 	public Contrato() {
 	}
 
 	@PostLoad
 	public void procesarCamposCalculados() {
 		try {
-			interesDiario = interesMensual.divide(new BigDecimal(30), 2);
-			Calendar v_v = Calendar.getInstance();
-			v_v.setTime(Constantes.formatoSQL.parse(fechaVencimiento));
-			diaFinal = new BigDecimal(
-					v_v.getActualMaximum(Calendar.DAY_OF_MONTH));
-
+			interesDiario = interesMensual.divide(BigDecimal.valueOf(30), 2,
+					RoundingMode.HALF_UP);
 			LocalDate hoy = LocalDate.now();
 			LocalDate vencimiento = LocalDate.parse(fechaVencimiento);
 			diaFinal = BigDecimal.valueOf(vencimiento.lengthOfMonth());
 
 			long diff = Period.between(vencimiento, hoy).getDays();
 
-			diasExcedidos = (diff < 0) ? BigDecimal.ONE : new BigDecimal(diff);
+			diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal
+					.valueOf(diff);
 			cuotas = diasExcedidos.divide(diaFinal, 0);
 			diasResiduo = diasExcedidos.remainder(diaFinal);
 			prorrateo = interesDiario.multiply(diasResiduo);
 
 			if (prestamo.getTMora().equals("%")) {
-				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
+				if (cuotas.add(BigDecimal.ONE).intValue() == 1
+						&& diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
 					moraActual = interesMensual.multiply(
 							Constantes.PRIMERA_MORA).setScale(2,
 							RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() == 2
@@ -183,12 +185,16 @@ public class Contrato implements Serializable {
 					moraActual = interesMensual.multiply(
 							Constantes.PRIMERA_MORA).setScale(2,
 							RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
 					moraRespuesta = "SÍ";
 					moraActual = interesMensual.multiply(new BigDecimal(2))
 							.multiply(Constantes.SEGUNDA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.SEGUNDA_MORA)
 							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
@@ -197,6 +203,8 @@ public class Contrato implements Serializable {
 					moraActual = (interesMensual.multiply(cuotas)).multiply(
 							Constantes.SEGUNDA_MORA).setScale(2,
 							RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.SEGUNDA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
 				} else {
@@ -243,11 +251,11 @@ public class Contrato implements Serializable {
 		}
 	}
 
-	public BigDecimal getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(BigDecimal id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -323,11 +331,11 @@ public class Contrato implements Serializable {
 		this.moneda = moneda;
 	}
 
-	public BigDecimal getNumero() {
+	public int getNumero() {
 		return this.numero;
 	}
 
-	public void setNumero(BigDecimal numero) {
+	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 
@@ -615,8 +623,20 @@ public class Contrato implements Serializable {
 		this.prorrateo = prorrateo;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public BigDecimal getProrrateoMora() {
+		return prorrateoMora;
+	}
+
+	public void setProrrateoMora(BigDecimal prorrateoMora) {
+		this.prorrateoMora = prorrateoMora;
+	}
+
+	public String getOperacion() {
+		return operacion;
+	}
+
+	public void setOperacion(String operacion) {
+		this.operacion = operacion;
 	}
 
 }

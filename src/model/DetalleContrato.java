@@ -1,7 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="detalle_contrato")
@@ -15,7 +24,7 @@ public class DetalleContrato implements Serializable {
 
 	private int cantidad;
 
-	private double tasacion;
+	private BigDecimal tasacion;
 
 	//bi-directional many-to-one association to Articulo
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -44,11 +53,11 @@ public class DetalleContrato implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public double getTasacion() {
+	public BigDecimal getTasacion() {
 		return this.tasacion;
 	}
 
-	public void setTasacion(double tasacion) {
+	public void setTasacion(BigDecimal tasacion) {
 		this.tasacion = tasacion;
 	}
 

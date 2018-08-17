@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import model.Contrato;
 import model.Egreso;
 import model.Ingreso;
-import model.Pago;
 
 public class ContratoController {
 
@@ -94,7 +93,7 @@ public class ContratoController {
 		return a;
 	}
 
-	public Contrato RenovarContrato(Contrato c, Pago p, Ingreso i) {
+	public Contrato GestionarContrato(Contrato c, Ingreso i) {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
@@ -102,7 +101,6 @@ public class ContratoController {
 		try {
 			tx.begin();
 			em.merge(c);
-			em.persist(p);
 			em.persist(i);
 			tx.commit();
 		} catch (Exception e1) {
@@ -132,4 +130,5 @@ public class ContratoController {
 		}
 		return l;
 	}
+	
 }

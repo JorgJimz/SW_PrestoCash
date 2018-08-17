@@ -8,13 +8,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -126,13 +124,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 	Prestamo prestamo;
 	List<DetalleContrato> detalle = new ArrayList<DetalleContrato>();
 
-	GregorianCalendar hoy = new GregorianCalendar();
-	GregorianCalendar vencimiento = new GregorianCalendar();
-	GregorianCalendar remate = new GregorianCalendar();
-
-	DecimalFormatSymbols simbolo = new DecimalFormatSymbols();
-	DecimalFormat formatoDecimal;
-	
 	private JScrollPane spArticulo;
 	private JTable tbArticulos;
 
@@ -141,20 +132,11 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		cliente = c;
 		prestamo = new Prestamo();
-
 		contrato = new Contrato();
-
-		contrato.setFechaContrato(Constantes.formatoSQL.format(hoy.getTime()));
-
-		hoy.add(Calendar.MONTH, 1);
-		vencimiento = hoy;
-		contrato.setFechaVencimiento(Constantes.formatoSQL.format(hoy.getTime()));
-
-		hoy.add(Calendar.MONTH, 1);
-		remate = hoy;
-		contrato.setFechaRemate(Constantes.formatoSQL.format(hoy.getTime()));
-
-		hoy = (GregorianCalendar) GregorianCalendar.getInstance();
+		contrato.setFechaContrato(String.valueOf(LocalDate.now()));
+		contrato.setFechaVencimiento(String.valueOf(LocalDate.now().plusMonths(
+				1)));
+		contrato.setFechaRemate(String.valueOf(LocalDate.now().plusMonths(2)));
 
 		this.setVisible(true);
 		this.setLayout(null);
@@ -162,8 +144,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new java.awt.Dimension(1300, 868));
 		this.setBounds(0, 0, 1300, 868);
-		simbolo.setDecimalSeparator('.');
-		formatoDecimal = new DecimalFormat("######.00", simbolo);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
@@ -203,8 +183,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				ComboItem k = (ComboItem) cboTipoPrestamo.getSelectedItem();
 				prestamo.setId(k.getId());
 				prestamo.setDescripcion(k.getDescripcion());
-				prestamo.setInteres(Double.parseDouble(String.valueOf(k
-						.getValor())));
+				prestamo.setInteres(new BigDecimal(String.valueOf(k.getValor())));
 				prestamo.setFlag(String.valueOf(k.getExtraValor()));
 				lblInteres.setText(String.valueOf(k.getValor()));
 				lblNumeroContrato.setText(String
@@ -235,7 +214,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36));
 		jLabel4.setForeground(new java.awt.Color(0, 128, 0));
 
-		lblFechaContrato = new JLabel(Constantes.formatoLocal.format(hoy.getTime()));
+		lblFechaContrato = new JLabel(Constantes.formatoLocal.format(
+				LocalDate.parse(contrato.getFechaContrato())).toUpperCase());
 		contenedor.add(lblFechaContrato);
 		lblFechaContrato.setBounds(933, 38, 325, 54);
 		lblFechaContrato.setFont(new java.awt.Font("Segoe UI", 1, 36));
@@ -246,8 +226,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		lblFechaContrato.setOpaque(true);
 		lblFechaContrato.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblFechaVencimiento = new JLabel(Constantes.formatoLocal.format(vencimiento
-				.getTime()));
+		lblFechaVencimiento = new JLabel(Constantes.formatoLocal.format(
+				LocalDate.parse(contrato.getFechaVencimiento())).toUpperCase());
 		contenedor.add(lblFechaVencimiento);
 		lblFechaVencimiento.setBounds(933, 106, 325, 54);
 		lblFechaVencimiento.setFont(new java.awt.Font("Segoe UI", 1, 36));
@@ -258,7 +238,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		lblFechaVencimiento.setOpaque(true);
 		lblFechaVencimiento.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblFechaRemate = new JLabel(Constantes.formatoLocal.format(remate.getTime()));
+		lblFechaRemate = new JLabel(Constantes.formatoLocal.format(
+				LocalDate.parse(contrato.getFechaRemate())).toUpperCase());
 		contenedor.add(lblFechaRemate);
 		lblFechaRemate.setBounds(933, 172, 325, 54);
 		lblFechaRemate.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -307,7 +288,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 							dc.getArticulo().setObs(
 									String.valueOf(Constantes.ContratoModel
 											.getValueAt(fila, 4)));
-							dc.setTasacion(Double.parseDouble(String
+							dc.setTasacion(new BigDecimal(String
 									.valueOf(Constantes.ContratoModel
 											.getValueAt(fila, 5))));
 						}
@@ -534,14 +515,14 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setBounds(928, 244, 324, 83);
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
-		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));	
+		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));
 		btnGrabar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
-					contrato.setCapital(Double.parseDouble(lblCapital.getText()));
-					contrato.setInteresMensual(Double.parseDouble(lblInteresCalculado
-							.getText()));
+					contrato.setCapital(new BigDecimal(lblCapital.getText()));
+					contrato.setInteresMensual(new BigDecimal(
+							lblInteresCalculado.getText()));
 					contrato.setPrestamo(prestamo);
 					contrato.setFlag(prestamo.getFlag());
 					contrato.setMoneda(String.valueOf(cboTipoMoneda
@@ -550,7 +531,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					contrato.setNumero(Integer.parseInt(lblNumeroContrato
 							.getText()));
 					contrato.setEContrato(new EContrato(1));
-					contrato.setFechaCreacion(Constantes.formatoSQL.format(hoy.getTime()));
+					contrato.setFechaCreacion(String.valueOf(LocalDate.now()));
 					contrato.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					for (DetalleContrato dc : detalle) {
 						dc.setContrato(contrato);
@@ -817,7 +798,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					detalle_contrato.setContrato(contrato);
 					detalle_contrato.setArticulo(articulo);
 					detalle_contrato.setCantidad(1);
-					detalle_contrato.setTasacion(Double.parseDouble(String
+					detalle_contrato.setTasacion(new BigDecimal(String
 							.valueOf(tbArticulos.getValueAt(fila, 5))));
 
 					detalle.add(detalle_contrato);
@@ -851,7 +832,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		articulo.setSerie(txtSerie.getText().toUpperCase());
 		articulo.setObs(txtObservaciones.getText().toUpperCase());
 		articulo.setEArticulo(new EArticulo(1));
-		articulo.setFechaCreacion(Constantes.formatoSQL.format(new Date()));
+		articulo.setFechaCreacion(String.valueOf(LocalDate.now()));
 		articulo.setUsuarioCreacion(Principal.LOGGED.getLogin());
 
 		DetalleContrato detalle_contrato = new DetalleContrato();
@@ -859,7 +840,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		detalle_contrato.setContrato(contrato);
 		detalle_contrato.setArticulo(articulo);
 		detalle_contrato.setCantidad(Integer.parseInt(txtCantidad.getText()));
-		detalle_contrato.setTasacion(Double.parseDouble(txtTasacion.getText()));
+		detalle_contrato.setTasacion(new BigDecimal(txtTasacion.getText()));
 
 		detalle.add(detalle_contrato);
 	}
@@ -878,25 +859,27 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 	public void ListarDetalle() {
 		Constantes.ContratoModel.setRowCount(0);
-		double capital = 0;
+		BigDecimal capital = BigDecimal.ZERO;
 
 		for (DetalleContrato dc : detalle) {
 			Constantes.ContratoModel.addRow(new Object[] { dc.getId(),
 					dc.getArticulo().getDescripcion(),
 					dc.getArticulo().getMarca(), dc.getArticulo().getModelo(),
 					dc.getArticulo().getObs(), dc.getTasacion() });
-			capital += dc.getTasacion();
+			capital = capital.add(dc.getTasacion());
 		}
 
-		double interes = ((capital * (prestamo.getInteres() / 100)) < 10) ? 10
-				: capital * (prestamo.getInteres() / 100);
-		double total = capital + interes;
+		BigDecimal porcentajeInteres =  prestamo.getInteres().divide(new BigDecimal(100));
+		
+		BigDecimal interes = (capital.multiply(porcentajeInteres).compareTo(BigDecimal.TEN) <= 0) ? BigDecimal.TEN
+				: capital.multiply(porcentajeInteres).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal total = capital.add(interes);
 
 		tbContratos.setRowHeight(100);
 		tbContratos.setModel(Constantes.ContratoModel);
-		lblCapital.setText(formatoDecimal.format(capital));
-		lblInteresCalculado.setText(formatoDecimal.format(interes));
-		lblTotal.setText(formatoDecimal.format(total));
+		lblCapital.setText(String.valueOf(capital));
+		lblInteresCalculado.setText(String.valueOf(interes));
+		lblTotal.setText(String.valueOf(total));
 	}
 
 	public void ConfirmarCerrar() {

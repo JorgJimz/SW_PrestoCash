@@ -1,7 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name = "Egreso.findAll", query = "SELECT e FROM Egreso e")
@@ -14,9 +23,9 @@ public class Egreso implements Serializable {
 
 	private String descripcion;
 
-	private double importe;
+	private BigDecimal importe;
 
-	private int tipo;
+	private String tipo;
 
 	// bi-directional many-to-one association to LibroCaja
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -42,19 +51,19 @@ public class Egreso implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public double getImporte() {
+	public BigDecimal getImporte() {
 		return this.importe;
 	}
 
-	public void setImporte(double importe) {
+	public void setImporte(BigDecimal importe) {
 		this.importe = importe;
 	}
 
-	public int getTipo() {
+	public String getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(int tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 

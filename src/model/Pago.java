@@ -1,7 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name = "Pago.findAll", query = "SELECT p FROM Pago p")
@@ -12,7 +21,7 @@ public class Pago implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private double capital;
+	private BigDecimal capital;
 
 	private String descripcion;
 
@@ -22,9 +31,9 @@ public class Pago implements Serializable {
 	@Column(name = "FECHA_VENCIMIENTO")
 	private String fechaVencimiento;
 
-	private double interes;
+	private BigDecimal interes;
 
-	private double mora;
+	private BigDecimal mora;
 
 	// bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,11 +50,11 @@ public class Pago implements Serializable {
 		this.id = id;
 	}
 
-	public double getCapital() {
+	public BigDecimal getCapital() {
 		return this.capital;
 	}
 
-	public void setCapital(double capital) {
+	public void setCapital(BigDecimal capital) {
 		this.capital = capital;
 	}
 
@@ -73,19 +82,19 @@ public class Pago implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public double getInteres() {
+	public BigDecimal getInteres() {
 		return this.interes;
 	}
 
-	public void setInteres(double interes) {
+	public void setInteres(BigDecimal interes) {
 		this.interes = interes;
 	}
 
-	public double getMora() {
+	public BigDecimal getMora() {
 		return this.mora;
 	}
 
-	public void setMora(double mora) {
+	public void setMora(BigDecimal mora) {
 		this.mora = mora;
 	}
 

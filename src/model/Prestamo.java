@@ -1,8 +1,18 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name = "Prestamo.findAll", query = "SELECT p FROM Prestamo p")
@@ -23,7 +33,7 @@ public class Prestamo implements Serializable {
 
 	private String flag;
 
-	private double interes;
+	private BigDecimal interes;
 
 	private String mora;
 
@@ -87,11 +97,11 @@ public class Prestamo implements Serializable {
 		this.flag = flag;
 	}
 
-	public double getInteres() {
+	public BigDecimal getInteres() {
 		return this.interes;
 	}
 
-	public void setInteres(double interes) {
+	public void setInteres(BigDecimal interes) {
 		this.interes = interes;
 	}
 

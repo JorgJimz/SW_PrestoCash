@@ -1,7 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name = "Ingreso.findAll", query = "SELECT i FROM Ingreso i")
@@ -12,15 +21,15 @@ public class Ingreso implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private double capital;
+	private BigDecimal capital;
 
 	private String descripcion;
 
-	private double ganancia;
+	private BigDecimal ganancia;
 
-	private double otro;
+	private BigDecimal otro;
 
-	private int tipo;
+	private String tipo;
 
 	// bi-directional many-to-one association to LibroCaja
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -38,11 +47,11 @@ public class Ingreso implements Serializable {
 		this.id = id;
 	}
 
-	public double getCapital() {
+	public BigDecimal getCapital() {
 		return this.capital;
 	}
 
-	public void setCapital(double capital) {
+	public void setCapital(BigDecimal capital) {
 		this.capital = capital;
 	}
 
@@ -54,27 +63,27 @@ public class Ingreso implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public double getGanancia() {
+	public BigDecimal getGanancia() {
 		return this.ganancia;
 	}
 
-	public void setGanancia(double ganancia) {
+	public void setGanancia(BigDecimal ganancia) {
 		this.ganancia = ganancia;
 	}
 
-	public double getOtro() {
+	public BigDecimal getOtro() {
 		return this.otro;
 	}
 
-	public void setOtro(double otro) {
+	public void setOtro(BigDecimal otro) {
 		this.otro = otro;
 	}
 
-	public int getTipo() {
+	public String getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(int tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 

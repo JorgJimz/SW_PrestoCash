@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -31,16 +29,6 @@ import common.RenderCC;
 
 import controller.ContratoController;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings("serial")
 public class Actualizar_Contratos extends JInternalFrame {
 
@@ -113,7 +101,7 @@ public class Actualizar_Contratos extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Runnable miRunnable = new Runnable() {
 					public void run() {
-						actualizarContratos();
+						ActualizarContratos();
 					}
 				};
 				btnActualizar.setEnabled(false);
@@ -139,75 +127,52 @@ public class Actualizar_Contratos extends JInternalFrame {
 		tbContratos.setModel(Constantes.ActualizacionModel);
 	}
 
-	public void actualizarContratos() {
+	public void ActualizarContratos() {
 		try {
-			int k = 0;
-			Date hoy = Constantes.formatoSQL.parse(Constantes.formatoSQL
-					.format(new Date()));
-			GregorianCalendar gcPre = new GregorianCalendar();
-			GregorianCalendar gcPost = new GregorianCalendar();
-			GregorianCalendar gcRem = new GregorianCalendar();
-
 			for (Contrato c : l) {
-				gcPre.setTime(Constantes.formatoSQL.parse(c
-						.getFechaVencimiento()));
-				gcPost.setTime(Constantes.formatoSQL.parse(c
-						.getFechaVencimiento()));
-				gcRem.setTime(Constantes.formatoSQL.parse(c.getFechaRemate()));
-
-				gcPre.add(Calendar.MONTH, 1);
-				gcPre.add(Calendar.DATE, -5);
-				gcPost.add(Calendar.MONTH, 1);
-				gcPost.add(Calendar.DATE, 15);
-
-				Date periodoPreRiesgo = gcPre.getTime();
-				Date periodoPostRiesgo = gcPost.getTime();
-
-				/*
-				 * Al siguiente día de cumplirse el plazo POST, el contrato
-				 * entra a estado de VITRINA(Antes:RIESGO)
-				 */
-				if (hoy.after(periodoPostRiesgo)) {
-					c.setEContrato(new EContrato(13, "VITRINA (SP)"));
-					k++;
-				}
-
-				else if (hoy.after(gcRem.getTime())
-						&& hoy.before(periodoPostRiesgo)
-						|| hoy.equals(periodoPostRiesgo)) {
-					c.setEContrato(new EContrato(7, "POST"));
-					k++;
-				}
-
-				else if (hoy.after(periodoPreRiesgo)
-						|| hoy.equals(periodoPreRiesgo)
-						&& hoy.before(gcRem.getTime()) || hoy.equals(gcRem)) {
-					c.setEContrato(new EContrato(4, "PRE"));
-					k++;
-				}
-
-				else if (hoy.after(Constantes.formatoSQL.parse(c
-						.getFechaVencimiento()))
-						&& !hoy.equals(Constantes.formatoSQL.parse(c
-								.getFechaVencimiento()))) {
-					c.setEContrato(new EContrato(2, "VENCIDO"));
-					k++;
-				}
-
-				else {
-					c.setEContrato(new EContrato(1, "ACTIVO"));					
-				}
+				DetectarEstado(c);
 			}
 			new ContratoController().ActualizarContratos(l);
 			ListarContratosVigentes();
 			dobar.setIndeterminate(false);
 			JOptionPane.showMessageDialog(null,
-					"<html><h2>Contratos actualizados: " + k
-							+ "</h2></html>");
+					"<html><h2>Contratos actualizados.</h2></html>");
 			btnActualizar.setEnabled(true);
 			btnActualizar.setText("ACTUALIZAR CONTRATOS");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void DetectarEstado(Contrato c) {
+		LocalDate hoy = LocalDate.now();
+		LocalDate gcPre = LocalDate.parse(c.getFechaVencimiento())
+				.plusMonths(1).minusDays(5);
+		LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento())
+				.plusMonths(1).plusDays(15);
+		LocalDate gcRem = LocalDate.parse(c.getFechaRemate());
+
+		if (hoy.isAfter(gcPost)) {
+			c.setEContrato(new EContrato(13, "VITRINA (SP)"));			
+		}
+
+		else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost)
+				|| hoy.isEqual(gcPost)) {
+			c.setEContrato(new EContrato(7, "POST"));			
+		}
+
+		else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre)
+				&& hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
+			c.setEContrato(new EContrato(4, "PRE"));			
+		}
+
+		else if (hoy.isAfter(LocalDate.parse(c.getFechaVencimiento()))
+				&& !hoy.isEqual(LocalDate.parse(c.getFechaVencimiento()))) {
+			c.setEContrato(new EContrato(2, "VENCIDO"));			
+		}
+
+		else {
+			c.setEContrato(new EContrato(1, "ACTIVO"));
 		}
 	}
 

@@ -5,13 +5,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -37,21 +33,13 @@ import model.DetalleContrato;
 import model.Ingreso;
 import model.Mora;
 import model.Pago;
+
 import common.Constantes;
 import common.EditorIM;
 import common.RenderIM;
+
 import controller.ContratoController;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "serial" })
 public class Renovacion_Contrato extends JInternalFrame {
 	private JLabel lblEstado;
@@ -107,20 +95,18 @@ public class Renovacion_Contrato extends JInternalFrame {
 	private JScrollPane spArticulos;
 	private JScrollPane spPagos;
 	private JScrollPane spMoras;
-	private JButton btnSoloInteres;
+	private JButton btnPagar;
 	private JLabel lblInteresDiario;
 	private JLabel jLabel16;
 	private JTable tbPagos;
 	private JLabel lblCliente;
-	private DecimalFormat fd;
-	private DecimalFormatSymbols simbolo = new DecimalFormatSymbols();
 
 	Contrato contrato;
 
 	DefaultTableModel MoraModel = new DefaultTableModel(null, new String[] {
 			"ID", "FECHA VENCIMIENTO", "FECHA MORA", "MONTO", "¿ACTIVO?" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
-			if (rowIndex == tbMoras.getSelectedRow() && colIndex == 2) {
+			if (rowIndex == tbMoras.getSelectedRow() && colIndex == 4) {
 				return true;
 			} else {
 				return false;
@@ -157,10 +143,6 @@ public class Renovacion_Contrato extends JInternalFrame {
 		int numero = Integer.parseInt(String.valueOf(c.split("-")[1]));
 		contrato = new ContratoController().CargarContrato(flag.toUpperCase(),
 				numero);
-
-		simbolo.setDecimalSeparator('.');
-		fd = new DecimalFormat("#####0.00", simbolo);
-
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setSize(897, 426);
@@ -173,25 +155,21 @@ public class Renovacion_Contrato extends JInternalFrame {
 		contenedor.setLayout(null);
 		contenedor.setBounds(0, 0, 1264, 962);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
-		simbolo.setDecimalSeparator('.');
-
 		InteresModel.addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent tme) {
 				if (tme.getType() == TableModelEvent.UPDATE) {
-					double total = 0;
+					BigDecimal total = BigDecimal.ZERO;
 					for (int i = 0; i <= InteresModel.getRowCount() - 1; i++) {
 						int estado = Integer.parseInt(InteresModel.getValueAt(
 								i, 2).toString());
 						if (estado == 1) {
-							double monto = Double.parseDouble(InteresModel
-									.getValueAt(i, 1).toString());
-							total += monto;
+							total = total.add(new BigDecimal(String
+									.valueOf(InteresModel.getValueAt(i, 1))));
 						}
 					}
-					contrato.setInteresTotal(new BigDecimal(total));
+					contrato.setInteresTotal(total);
 					rbPagoInteres.doClick();
-					// lblTotalInteres.setText(total + "");
 				}
 			}
 		});
@@ -199,22 +177,20 @@ public class Renovacion_Contrato extends JInternalFrame {
 			@Override
 			public void tableChanged(TableModelEvent tm) {
 				if (tm.getType() == TableModelEvent.UPDATE) {
-					double total = 0;
+					BigDecimal total = BigDecimal.ZERO;
 					for (int i = 0; i <= MoraModel.getRowCount() - 1; i++) {
 						int estado = Integer.parseInt(MoraModel
-								.getValueAt(i, 2).toString());
+								.getValueAt(i, 4).toString());
 						if (estado == 1) {
-							double monto = Double.parseDouble(MoraModel
-									.getValueAt(i, 1).toString());
-							total += monto;
-
+							total = total.add(new BigDecimal(String
+									.valueOf(MoraModel.getValueAt(i, 3))));
 						}
 					}
-					lblTotalMora.setText(total
-							+ Double.parseDouble(lblMoraActual.getText()) + "");
-					lblMoraAnterior.setText(total + "");
-					// calcularTotalAPagar();
-
+					contrato.setMoraTotal(total.add(contrato.getMoraActual()));
+					lblTotalMora.setText(String.valueOf(total.add(contrato
+							.getMoraActual())));
+					lblMoraAnterior.setText(String.valueOf(total));
+					rbPagoInteresMora.doClick();
 				}
 			}
 		});
@@ -260,8 +236,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		jLabel4.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblInicio = new JLabel(Constantes.formatoLocal.format(
-				Constantes.formatoSQL.parse(contrato.getFechaContrato()))
-				.toUpperCase());
+				LocalDate.parse(contrato.getFechaContrato())).toUpperCase());
 		contenedor.add(lblInicio);
 		lblInicio.setBounds(564, 49, 218, 32);
 		lblInicio.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -272,8 +247,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		lblInicio.setForeground(new java.awt.Color(0, 64, 128));
 
 		lblVencimiento = new JLabel(Constantes.formatoLocal.format(
-				Constantes.formatoSQL.parse(contrato.getFechaVencimiento()))
-				.toUpperCase());
+				LocalDate.parse(contrato.getFechaVencimiento())).toUpperCase());
 		contenedor.add(lblVencimiento);
 		lblVencimiento.setBounds(793, 49, 218, 32);
 		lblVencimiento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -284,8 +258,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		lblVencimiento.setForeground(new java.awt.Color(0, 64, 128));
 
 		lblRemate = new JLabel(Constantes.formatoLocal.format(
-				Constantes.formatoSQL.parse(contrato.getFechaRemate()))
-				.toUpperCase());
+				LocalDate.parse(contrato.getFechaRemate())).toUpperCase());
 		contenedor.add(lblRemate);
 		lblRemate.setBounds(1023, 49, 218, 32);
 		lblRemate.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -422,7 +395,9 @@ public class Renovacion_Contrato extends JInternalFrame {
 		jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		jLabel10.setForeground(new java.awt.Color(0, 128, 0));
 
-		cboMora = new JTextField(contrato.getMoraPorcentaje().multiply(new BigDecimal(100).setScale(0, RoundingMode.HALF_UP))	+ "%");
+		cboMora = new JTextField(contrato.getMoraPorcentaje().multiply(
+				new BigDecimal(100).setScale(0, RoundingMode.HALF_UP))
+				+ "%");
 		contenedor.add(cboMora);
 		cboMora.setBounds(414, 773, 120, 32);
 		cboMora.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -545,30 +520,25 @@ public class Renovacion_Contrato extends JInternalFrame {
 		lblInteresDiario.setOpaque(true);
 		lblInteresDiario.setForeground(new java.awt.Color(0, 64, 128));
 
-		btnSoloInteres = new JButton();
-		contenedor.add(btnSoloInteres);
-		btnSoloInteres.setText("PAGAR");
-		btnSoloInteres.setBounds(553, 855, 584, 74);
-		btnSoloInteres.setFont(new java.awt.Font("Segoe UI", 1, 22));
-		btnSoloInteres.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+		btnPagar = new JButton();
+		contenedor.add(btnPagar);
+		btnPagar.setText("PAGAR");
+		btnPagar.setBounds(553, 855, 584, 74);
+		btnPagar.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		btnPagar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
-		btnSoloInteres.setBackground(new java.awt.Color(255, 128, 0));
-		btnSoloInteres.addActionListener(new ActionListener() {
+		btnPagar.setBackground(new java.awt.Color(255, 128, 0));
+		btnPagar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int opc = JOptionPane
-						.showConfirmDialog(
-								null,
-								"<html><h2>¿Confirmar pago <strong style='color:red'>SOLO INTERES</strong>?</h2></html>",
-								"Confirmación", JOptionPane.YES_NO_OPTION);
+				int opc = JOptionPane.showConfirmDialog(null,
+						"<html><h2>¿Confirma <strong style='color:red'>"
+								+ contrato.getOperacion()
+								+ "</strong>?</h2></html>", "Confirmación",
+						JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
-					// renovarContratoSoloInteres(Integer.parseInt(lblNumeroContrato.getText()),
-					// a[0]);
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"<html><h2>Operación Cancelada</h2></html>");
+					Pagar();
 				}
-
 			}
 		});
 
@@ -599,7 +569,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		lblTipoMoneda.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTipoMoneda.setHorizontalTextPosition(SwingConstants.CENTER);
 
-		lblP = new JLabel(/* contrato.getFlag() */"A");
+		lblP = new JLabel(contrato.getFlag());
 		contenedor.add(lblP);
 		lblP.setBounds(12, 13, 64, 69);
 		lblP.setFont(new java.awt.Font("Segoe UI", 1, 80));
@@ -639,6 +609,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		rbPagoInteres.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				contrato.setOperacion("PAGAR SÓLO INTERESES");
 				lblTotalAPagar.setText(String.valueOf(contrato
 						.getInteresTotal()));
 			}
@@ -654,6 +625,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		rbPagoInteresMora.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				contrato.setOperacion("PAGAR INTERESES + MORA");
 				BigDecimal total = contrato.getInteresTotal().add(
 						contrato.getMoraTotal());
 				lblTotalAPagar.setText(String.valueOf(total));
@@ -662,7 +634,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 
 		rbCancelarContrato = new JRadioButton();
 		contenedor.add(rbCancelarContrato);
-		rbCancelarContrato.setText("TODO");
+		rbCancelarContrato.setText("CANCELAR TODO");
 		rbCancelarContrato.setBounds(553, 814, 199, 32);
 		rbCancelarContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		rbCancelarContrato.setForeground(new java.awt.Color(0, 128, 0));
@@ -670,9 +642,12 @@ public class Renovacion_Contrato extends JInternalFrame {
 		rbCancelarContrato.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				contrato.setOperacion("PAGAR TODO");
 				BigDecimal total = contrato.getCapital()
 						.add(contrato.getInteresTotal())
-						.add(contrato.getMoraTotal());
+						.add(contrato.getMoraTotal())
+						.add(contrato.getProrrateo())
+						.add(contrato.getProrrateoMora());
 				lblTotalAPagar.setText(String.valueOf(total));
 			}
 		});
@@ -741,7 +716,7 @@ public class Renovacion_Contrato extends JInternalFrame {
 		CargarDetalleContrato();
 		CalcularInteres();
 		CalcularMoras();
-		CargarPagosRealizados();
+		CargarPagos();
 		CargarAbonos();
 	}
 
@@ -752,17 +727,23 @@ public class Renovacion_Contrato extends JInternalFrame {
 					dc.getArticulo().getId(),
 					dc.getArticulo().getDescripcion(),
 					dc.getArticulo().getMarca(), dc.getArticulo().getModelo(),
-					dc.getArticulo().getObs(), dc.getTasacion() });
+					dc.getArticulo().getObs(),
+					dc.getTasacion().setScale(2, RoundingMode.HALF_UP) });
 		}
 		tbArticulos.setModel(Constantes.ContratoModel);
 	}
 
-	public void CargarPagosRealizados() {
+	public void CargarPagos() {
 		Constantes.PagoModel.setRowCount(0);
 		for (Pago p : contrato.getPagos()) {
-			Constantes.PagoModel.addRow(new Object[] { p.getFechaVencimiento(),
-					p.getFechaPago(), p.getInteres(), p.getMora(),
-					p.getInteres() + p.getMora() });
+			Constantes.PagoModel.addRow(new Object[] {
+					Constantes.formatoLocal.format(
+							LocalDate.parse(p.getFechaVencimiento()))
+							.toUpperCase(),
+					Constantes.formatoLocal.format(
+							LocalDate.parse(p.getFechaPago())).toUpperCase(),
+					p.getInteres(), p.getMora(),
+					p.getInteres().add(p.getMora()) });
 		}
 		tbPagos.setModel(Constantes.PagoModel);
 	}
@@ -770,17 +751,16 @@ public class Renovacion_Contrato extends JInternalFrame {
 	public void CalcularInteres() {
 		try {
 			BigDecimal total_interes = BigDecimal.ZERO;
-			Calendar v = Calendar.getInstance();
-			v.setTime(Constantes.formatoSQL.parse(contrato
-					.getFechaVencimiento()));
+			LocalDate fecha_vencimiento = LocalDate.parse(contrato
+					.getFechaVencimiento());
 			InteresModel.setRowCount(0);
-			for (int i = 0; i < contrato.getCuotas().intValue(); i++) {
+			for (int i = 0; i <= contrato.getCuotas().intValue(); i++) {
 				InteresModel
 						.addRow(new Object[] {
-								Constantes.formatoMes.format(v.getTime())
+								Constantes.formatoMes.format(fecha_vencimiento)
 										.toUpperCase(),
 								contrato.getInteresMensual(), 1 });
-				v.add(Calendar.MONTH, 1);
+				fecha_vencimiento = fecha_vencimiento.plusMonths(1);
 				total_interes = total_interes.add(contrato.getInteresMensual());
 			}
 			contrato.setInteresTotal(total_interes);
@@ -795,25 +775,23 @@ public class Renovacion_Contrato extends JInternalFrame {
 		try {
 			for (Mora m : contrato.getMoras()) {
 				if (m.getStatus() == 1) {
-					MoraModel.addRow(new Object[] { m.getId(),
-							m.getFechaVencimiento(), m.getFechaMora(),
-							m.getImporte(), m.getStatus() });
+					MoraModel.addRow(new Object[] {
+							m.getId(),
+							Constantes.formatoLocal.format(
+									LocalDate.parse(m.getFechaVencimiento()))
+									.toUpperCase(),
+							Constantes.formatoLocal.format(
+									LocalDate.parse(m.getFechaMora()))
+									.toUpperCase(), m.getImporte(),
+							m.getStatus() });
 					mora_anterior = mora_anterior.add(m.getImporte());
 				}
 			}
 			contrato.setMoraAnterior(mora_anterior);
 			contrato.setMoraTotal(contrato.getMoraActual().add(
 					contrato.getMoraAnterior()));
-			lblMoraAnterior.setText(String.valueOf(mora_anterior)/*
-																 * Redondeo.
-																 * redondearCentimos
-																 * (String
-																 * .valueOf
-																 * (mora_anterior
-																 * ))
-																 */);
-			lblTotalMora.setText(/* Redondeo.redondearCentimos() */String
-					.valueOf(contrato.getMoraTotal()));
+			lblMoraAnterior.setText(String.valueOf(mora_anterior));
+			lblTotalMora.setText(String.valueOf(contrato.getMoraTotal()));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -824,8 +802,8 @@ public class Renovacion_Contrato extends JInternalFrame {
 		AbonoModel.setRowCount(0);
 		for (Abono a : contrato.getAbonos()) {
 			AbonoModel.addRow(new Object[] {
-
-			Constantes.formatoLocal.format(a.getFecha()).toUpperCase(),
+					Constantes.formatoLocal.format(
+							LocalDate.parse(a.getFecha())).toUpperCase(),
 					a.getArqCapital(), a.getArqInteres(),
 					a.getArqCapital() - a.getNeoCapital(), a.getNeoCapital(),
 					a.getNeoInteres() });
@@ -844,124 +822,110 @@ public class Renovacion_Contrato extends JInternalFrame {
 		return meses;
 	}
 
-	public void PagarInteres(int numeroContrato, String tabla) {
+	public void PagarMoras() {
+		for (Mora m : contrato.getMoras()) {
+			for (int i = 0; i < MoraModel.getRowCount(); i++) {
+				int id = Integer.parseInt(String.valueOf(MoraModel.getValueAt(
+						i, 0)));
+				if (m.getId() == id) {
+					m.setStatus(Integer.parseInt(String.valueOf(MoraModel
+							.getValueAt(i, 4))));
+				}
+			}
+		}
+
+	}
+
+	public void Pagar() {
 		try {
 			int meses_renovar = CalcularRenovacion();
-			Calendar nuevo_vencimiento = Calendar.getInstance();
-			Calendar nuevo_remate = Calendar.getInstance();
-			nuevo_vencimiento.setTime(Constantes.formatoSQL.parse(contrato
-					.getFechaVencimiento()));
-			nuevo_remate.setTime(Constantes.formatoSQL.parse(contrato
-					.getFechaRemate()));
-			nuevo_vencimiento.add(Calendar.MONTH, meses_renovar);
-			nuevo_remate.add(Calendar.MONTH, meses_renovar);
 
-			contrato.setFechaVencimiento(Constantes.formatoSQL
-					.format(nuevo_vencimiento.getTime()));
-			contrato.setFechaRemate((Constantes.formatoSQL.format(nuevo_remate
-					.getTime())));
+			LocalDate nuevo_vencimiento = LocalDate.parse(
+					contrato.getFechaVencimiento()).plusMonths(meses_renovar);
+			LocalDate nuevo_remate = LocalDate.parse(contrato.getFechaRemate())
+					.plusMonths(meses_renovar);
+
+			contrato.setFechaVencimiento(String.valueOf(nuevo_vencimiento));
+			contrato.setFechaRemate(String.valueOf(nuevo_remate));
 
 			Pago pago = new Pago();
 			pago.setFechaVencimiento(contrato.getFechaVencimiento());
-			pago.setFechaPago(Constantes.formatoSQL.format(new Date()));
-			pago.setDescripcion(meses_renovar + "%");
-			pago.setCapital(0);
-			pago.setInteres(Double
-					.parseDouble(/* lblTotalInteres.getText() */"0"));
-			pago.setMora(0);
-			pago.setContrato(contrato);
+			pago.setFechaPago(LocalDate.now().toString());
 
 			Ingreso ingreso = new Ingreso();
 			ingreso.setLibroCaja(Principal.LIBRO_CAJA);
 			ingreso.setDescripcion(contrato.getFlag() + "-"
 					+ contrato.getNumero());
-			ingreso.setCapital(0);
-			ingreso.setGanancia(pago.getInteres());
-			ingreso.setOtro(0);
-			ingreso.setTipo(1);
 
-			new ContratoController().RenovarContrato(contrato, pago, ingreso);
+			switch (rbgOpcionPago.getSelection().getActionCommand()) {
+			case "I":
+				pago.setDescripcion(meses_renovar + "%");
+				pago.setCapital(BigDecimal.ZERO);
+				pago.setInteres(contrato.getInteresTotal());
+				pago.setMora(BigDecimal.ZERO);
+				pago.setContrato(contrato);
+				contrato.addPago(pago);
 
-			// actualizarContratos(fcvto.getTime());
-			JOptionPane.showMessageDialog(
-					null,
+				ingreso.setCapital(BigDecimal.ZERO);
+				ingreso.setGanancia(contrato.getInteresTotal());
+				ingreso.setOtro(BigDecimal.ZERO);
+				ingreso.setTipo(pago.getDescripcion());
+
+				if (contrato.getMoraActual().compareTo(BigDecimal.ZERO) == 0) {
+					Mora mora = new Mora();
+					mora.setFechaVencimiento(contrato.getFechaVencimiento());
+					mora.setFechaMora(String.valueOf(LocalDate.now()));
+					mora.setImporte(contrato.getMoraActual());
+					mora.setStatus(1);
+					mora.setContrato(contrato);
+
+					contrato.addMora(mora);
+				}
+				break;
+			case "IM":
+				pago.setDescripcion(meses_renovar + "% + MORA");
+				pago.setCapital(BigDecimal.ZERO);
+				pago.setInteres(contrato.getInteresTotal());
+				pago.setMora(contrato.getMoraTotal());
+				pago.setContrato(contrato);
+				contrato.addPago(pago);
+
+				ingreso.setCapital(BigDecimal.ZERO);
+				ingreso.setGanancia(contrato.getInteresTotal().add(
+						contrato.getMoraTotal()));
+				ingreso.setOtro(BigDecimal.ZERO);
+				ingreso.setTipo(meses_renovar + "% + M");
+
+				PagarMoras();
+				break;
+			default:
+				pago.setDescripcion("CANCELACIÓN");
+				pago.setCapital(contrato.getCapital());
+				pago.setInteres(contrato.getInteresTotal().add(
+						contrato.getProrrateo()));
+				pago.setMora(contrato.getMoraTotal().add(
+						contrato.getProrrateoMora()));
+				pago.setContrato(contrato);
+				contrato.addPago(pago);
+
+				ingreso.setCapital(contrato.getCapital());
+				ingreso.setGanancia(contrato.getInteresTotal().add(
+						contrato.getMoraTotal().add(contrato.getProrrateo())
+								.add(contrato.getProrrateoMora())));
+				ingreso.setOtro(BigDecimal.ZERO);
+				ingreso.setTipo("PAG");
+				break;
+			}
+			
+			Actualizar_Contratos.DetectarEstado(contrato);
+			new ContratoController().GestionarContrato(contrato, ingreso);
+						
+			JOptionPane.showMessageDialog(null,
 					"<html><h1 style='color: red;'>Próximo Vencimiento : "
-							+ Constantes.formatoLocal.format(nuevo_vencimiento
-									.getTime()) + "</h1></html>");
+							+ Constantes.formatoLocal.format(nuevo_vencimiento)
+							+ "</h1></html>");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * public void renovarContratoInteresMora(int numeroContrato, String tabla)
-	 * { try { Calendar fcvto = Calendar.getInstance(); Calendar frem =
-	 * Calendar.getInstance(); fcvto.setTime(vcto); frem.setTime(remate);
-	 * fcvto.add(Calendar.MONTH, calcularRenovacion()); frem.add(Calendar.MONTH,
-	 * calcularRenovacion()); proximo_vencimiento = fcvto.getTime();
-	 * SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); Date hoy = new
-	 * Date(); String sql = "UPDATE " + tabla +
-	 * " SET fec_ven_con=?, fec_rem_con=? WHERE id_con=?"; PreparedStatement pst
-	 * = con.prepareStatement(sql); pst.setString(1,
-	 * sdf.format(fcvto.getTime())); pst.setString(2,
-	 * sdf.format(frem.getTime())); pst.setInt(3, numeroContrato);
-	 * pst.executeUpdate(); Pago_Contrato pago = new Pago_Contrato(
-	 * Integer.parseInt(lblNumeroContrato.getText()), sdf.format(vcto),
-	 * sdf.format(hoy), 0.00, Double.parseDouble(Redondeo.redondearCentimos(fd
-	 * .format(Double.parseDouble(lblTotalInteres .getText())))),
-	 * Double.parseDouble(Redondeo .redondearCentimos(fd.format(Double
-	 * .parseDouble(lblTotalMora.getText()))))); pago.grabarPago();
-	 * retirarMora(numeroContrato); registrarIngresoInteresMoraCaja();
-	 * actualizarContratos(fcvto.getTime()); JOptionPane.showMessageDialog(
-	 * null, "<html><h1 style='color: red;'>Próximo Vencimiento : " + new
-	 * SimpleDateFormat("dd-MMMM-yyyy").format(
-	 * proximo_vencimiento).toUpperCase() + "</h1></html>"); internalClose(); }
-	 * catch (Exception e) { e.printStackTrace(); } }
-	 * 
-	 * public void retirarMora(int contrato) { try { for (int i = 0; i <
-	 * modeloMora.getRowCount(); i++) { int estado =
-	 * Integer.parseInt(modeloMora.getValueAt(i, 2) .toString()); if (estado ==
-	 * 1) { String sql =
-	 * "UPDATE tb_mora SET est_mora=0 WHERE id_con=? AND id_mora=?";
-	 * PreparedStatement pst = con.prepareStatement(sql); pst.setInt(1,
-	 * contrato); pst.setInt(2, Integer.parseInt(modeloMora.getValueAt(i, 0)
-	 * .toString())); pst.executeUpdate(); } } } catch (Exception e) {
-	 * e.printStackTrace(); } }
-	 * 
-	 * public void internalClose() { this.dispose(); }
-	 * 
-	 * public void registrarIngresoInteresMoraCaja() { double cambio =
-	 * (lblTipoMoneda.getText().equalsIgnoreCase("$")) ? obtenerCambio() : 1;
-	 * String moneda = (cambio == 1) ? "" : ">($)"; Ingreso mora = new
-	 * Ingreso(Principal.id_libro_caja, lblP.getText() + "-" +
-	 * lblNumeroContrato.getText() + moneda, calcularCantidadCuotasPagadas() +
-	 * "% + M", 0.00,
-	 * (Double.parseDouble(Redondeo.redondearCentimos(fd.format(Double
-	 * .parseDouble(lblTotalInteres.getText())))) + Double
-	 * .parseDouble(Redondeo.redondearCentimos(fd
-	 * .format(Double.parseDouble(lblTotalMora .getText()))))) cambio, 0.00);
-	 * mora.registrarIngreso(); }
-	 * 
-	 * public void actualizarContratos(Date fecha_vencimiento) { try {
-	 * System.out.println(fecha_vencimiento); Date hoy = new Date();
-	 * GregorianCalendar gcPre = new GregorianCalendar(); GregorianCalendar
-	 * gcPost = new GregorianCalendar();
-	 * 
-	 * gcPre.setTime(fecha_vencimiento); gcPost.setTime(fecha_vencimiento);
-	 * gcPre.add(Calendar.MONTH, 1); gcPre.add(Calendar.DATE, -5);
-	 * gcPost.add(Calendar.MONTH, 1); gcPost.add(Calendar.DATE, 16); Date
-	 * periodoPreRiesgo = gcPre.getTime(); Date periodoPostRiesgo =
-	 * gcPost.getTime(); if (hoy.after(periodoPostRiesgo)) { // A REMATE
-	 * cambiarEstado(Integer.parseInt(lblNumeroContrato.getText()), tabla[0],
-	 * 13); } else if (periodoPostRiesgo.getTime() == hoy.getTime()) { // A POST
-	 * cambiarEstado(Integer.parseInt(lblNumeroContrato.getText()), tabla[0],
-	 * 7); } else if (periodoPreRiesgo.getTime() == hoy.getTime() &&
-	 * hoy.getTime() < fecha_vencimiento.getTime()) { // A PRE
-	 * cambiarEstado(Integer.parseInt(lblNumeroContrato.getText()), tabla[0],
-	 * 4); } else if (hoy.after(fecha_vencimiento)) { // A VENCIDO
-	 * cambiarEstado(Integer.parseInt(lblNumeroContrato.getText()), tabla[0],
-	 * 2); } else { // A ACTIVO
-	 * cambiarEstado(Integer.parseInt(lblNumeroContrato.getText()), tabla[0],
-	 * 1); } } catch (Exception e) { e.printStackTrace(); } }
-	 */
 }
