@@ -164,12 +164,12 @@ public class Contrato implements Serializable {
 
 			diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal
 					.valueOf(diff);
-			cuotas = diasExcedidos.divide(diaFinal, 0);
+			cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal,0,RoundingMode.FLOOR));
 			diasResiduo = diasExcedidos.remainder(diaFinal);
 			prorrateo = interesDiario.multiply(diasResiduo);
 
 			if (prestamo.getTMora().equals("%")) {
-				if (cuotas.add(BigDecimal.ONE).intValue() == 1
+				if (cuotas.intValue() == 1 
 						&& diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
 					moraActual = interesMensual.multiply(

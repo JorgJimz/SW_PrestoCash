@@ -10,8 +10,7 @@ import javax.swing.table.TableCellEditor;
 public class EditorIM extends AbstractCellEditor implements TableCellEditor {
 	
 	private static final long serialVersionUID = 1L;
-	JCheckBox chk = new JCheckBox();
-	@Override
+	JCheckBox chk = new JCheckBox();	
 	public Object getCellEditorValue() {
 		if(chk.isSelected()){
 			return new Integer(1);
@@ -20,7 +19,6 @@ public class EditorIM extends AbstractCellEditor implements TableCellEditor {
 		}
 	}
 
-	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {		
 		if (value instanceof Integer) {

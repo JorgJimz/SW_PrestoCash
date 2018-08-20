@@ -96,8 +96,7 @@ public class Actualizar_Contratos extends JInternalFrame {
 		lblTotalContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		lblTotalContrato.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		btnActualizar.addActionListener(new ActionListener() {
-			@Override
+		btnActualizar.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent arg0) {
 				Runnable miRunnable = new Runnable() {
 					public void run() {

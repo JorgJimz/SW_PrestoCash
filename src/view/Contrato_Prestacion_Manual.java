@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import maintenance.Mantenimiento_Clientes;
+
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.JXTitledSeparator;

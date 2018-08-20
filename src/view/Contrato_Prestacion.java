@@ -34,6 +34,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import maintenance.Mantenimiento_Clientes;
 import model.Articulo;
 import model.Cliente;
 import model.Contrato;
@@ -54,7 +55,6 @@ import org.jdesktop.swingx.JXTitledSeparator;
 import common.ComboItem;
 import common.Constantes;
 import common.Utiles;
-
 import controller.ArticuloController;
 import controller.ContratoController;
 import controller.PrestamoController;
@@ -177,7 +177,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Color(0, 0, 0)));
 		cboTipoPrestamo.setModel(new PrestamoController().CargarPrestamos());
 		cboTipoPrestamo.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnHistorial.setEnabled(true);
 				ComboItem k = (ComboItem) cboTipoPrestamo.getSelectedItem();
@@ -267,7 +266,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		spContrato.setViewportView(tbContratos);
 		tbContratos.setModel(Constantes.ContratoModel);
 		tbContratos.getModel().addTableModelListener(new TableModelListener() {
-			@Override
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int fila = tbContratos.getSelectedRow();
@@ -412,7 +410,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnMas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
 		btnMas.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (Utiles.Validar(contenedor)) {
 					AgregarDetalle();
@@ -431,7 +428,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnMenos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
 		btnMenos.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				QuitarDetalle();
 				ListarDetalle();
@@ -444,7 +440,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnLimpiar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
 		btnLimpiar.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				contrato.getDetalleContratos().clear();
 				Utiles.Limpiar(contenedor);
@@ -544,7 +539,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					egreso.setDescripcion(contrato.getFlag() + "-"
 							+ contrato.getNumero());
 					egreso.setImporte(contrato.getCapital());
-					egreso.setTipo(1);
+					egreso.setTipo("EMP");
 					new ContratoController().GenerarContrato(contrato, egreso);
 					Utiles.LimpiarModelos();
 					Utiles.Mensaje("¡Contrato generado!");
@@ -692,12 +687,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnRefrescarPrestamos.setBorder(BorderFactory.createMatteBorder(1, 1,
 				1, 1, new java.awt.Color(0, 0, 0)));
 		btnRefrescarPrestamos.setBackground(new java.awt.Color(128, 255, 255));
-		btnRefrescarPrestamos.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
 
 		btnEditarCliente = new JButton(new ImageIcon("img/edit.png"));
 		contenedor.add(btnEditarCliente);
@@ -706,7 +695,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Color(0, 0, 0)));
 		btnEditarCliente.setBackground(new java.awt.Color(128, 255, 255));
 		btnEditarCliente.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(txtDni
 						.getText());
@@ -723,8 +711,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial.setBackground(new java.awt.Color(128, 255, 255));
 		btnHistorial.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
-		btnHistorial.addActionListener(new ActionListener() {
-			@Override
+		btnHistorial.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				if (new ArticuloController().ObtenerHistorial(
 						Constantes.ContratoModel, cliente.getId())
@@ -869,10 +856,12 @@ public class Contrato_Prestacion extends JInternalFrame {
 			capital = capital.add(dc.getTasacion());
 		}
 
-		BigDecimal porcentajeInteres =  prestamo.getInteres().divide(new BigDecimal(100));
-		
-		BigDecimal interes = (capital.multiply(porcentajeInteres).compareTo(BigDecimal.TEN) <= 0) ? BigDecimal.TEN
-				: capital.multiply(porcentajeInteres).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal porcentajeInteres = prestamo.getInteres().divide(
+				new BigDecimal(100));
+
+		BigDecimal interes = (capital.multiply(porcentajeInteres).compareTo(
+				BigDecimal.TEN) <= 0) ? BigDecimal.TEN : capital.multiply(
+				porcentajeInteres).setScale(2, RoundingMode.HALF_UP);
 		BigDecimal total = capital.add(interes);
 
 		tbContratos.setRowHeight(100);

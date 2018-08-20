@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -17,9 +16,30 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import maintenance.Mantenimiento_Articulos;
+import maintenance.Mantenimiento_Cambio;
+import maintenance.Mantenimiento_Clientes;
+import maintenance.Mantenimiento_Prestamos;
+import maintenance.Mantenimiento_Usuarios;
 import model.Cliente;
 import model.LibroCaja;
 import model.Usuario;
+import report.Estadistico_Mensual_Empenos;
+import report.Estadistico_Mensual_Ganancias;
+import report.Reporte_Asistencia;
+import report.Reporte_Comision;
+import report.Reporte_Comision_Oro;
+import report.Reporte_Compra_Oro;
+import report.Reporte_Contratos_Auto_Vigente;
+import report.Reporte_Contratos_Casa_Vigente;
+import report.Reporte_Contratos_X_Tipo;
+import report.Reporte_Fundicion;
+import report.Reporte_Inventario;
+import report.Reporte_Mensual_Contratos;
+import report.Reporte_Remates;
+import report.Reporte_Superintendencia;
+import report.Reporte_Ventas;
+import report.Reporte_Vitrina;
 import controller.ClienteController;
 import controller.LibroCajaController;
 
