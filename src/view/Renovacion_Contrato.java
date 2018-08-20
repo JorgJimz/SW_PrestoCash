@@ -911,6 +911,8 @@ public class Renovacion_Contrato extends JInternalFrame {
 				}
 			}
 		}
+		
+		Mora m = contrato.getMoras().stream().filter(p -> p.getStatus() == 1).findFirst().orElse(Mora.DEFAULT);
 
 		/*
 		 * for (Mora m : contrato.getMoras()) { for (int i = 0; i <
