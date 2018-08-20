@@ -53,7 +53,7 @@ public class Constantes {
 	};
 
 	public static DefaultTableModel PagoModel = new DefaultTableModel(null,
-			new String[] { "FECHA VCTO.", "FECHA PAGO", "INTERES", "MORA",
+			new String[] { "FECHA VCTO.", "FECHA PAGO", "CONCEPTO", "INTERES", "MORA",
 					"TOTAL" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
