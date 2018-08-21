@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQuery(name = "Prestamo.findAll", query = "SELECT p FROM Prestamo p")
@@ -53,8 +56,16 @@ public class Prestamo implements Serializable {
 	// bi-directional many-to-one association to Sede
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Sede sede;
+	
+	@Transient
+	private BigDecimal porcentaje;
 
 	public Prestamo() {
+	}
+	
+	@PostLoad
+	public void procesarCamposCalculados() {
+		porcentaje = interes.divide(new BigDecimal(100)).setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public int getId() {
@@ -166,5 +177,23 @@ public class Prestamo implements Serializable {
 	public void setSede(Sede sede) {
 		this.sede = sede;
 	}
+
+	public String gettMora() {
+		return tMora;
+	}
+
+	public void settMora(String tMora) {
+		this.tMora = tMora;
+	}
+
+	public BigDecimal getPorcentaje() {
+		return porcentaje;
+	}
+
+	public void setPorcentaje(BigDecimal porcentaje) {
+		this.porcentaje = porcentaje;
+	}
+	
+	
 
 }

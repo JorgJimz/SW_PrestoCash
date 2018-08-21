@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -20,16 +21,19 @@ import model.Asistencia;
 import model.Usuario;
 import controller.UsuarioController;
 
+
 /**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings({ "deprecation", "serial" })
 public class Login extends JFrame {
 
@@ -52,7 +56,7 @@ public class Login extends JFrame {
 		txtUsuario = new JTextField();
 		getContentPane().add(txtUsuario);
 		txtUsuario.requestFocus();
-		txtUsuario.setBounds(84, 290, 363, 48);
+		txtUsuario.setBounds(100, 299, 383, 64);
 		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
 		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -87,7 +91,7 @@ public class Login extends JFrame {
 
 		txtPassword = new JPasswordField();
 		getContentPane().add(txtPassword);
-		txtPassword.setBounds(84, 345, 363, 48);
+		txtPassword.setBounds(100, 379, 383, 64);
 		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
 		txtPassword.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -120,10 +124,13 @@ public class Login extends JFrame {
 			}
 		});
 
-		btnIngreso = new JButton(/* new ImageIcon("img/singin.png") */);
+		btnIngreso = new JButton(new ImageIcon("img/signin.png"));
 		getContentPane().add(btnIngreso);
-		btnIngreso.setText("INGRESAR");
-		btnIngreso.setBounds(459, 290, 180, 103);
+		btnIngreso.setOpaque(false);
+		btnIngreso.setBorderPainted(false);
+		btnIngreso.setContentAreaFilled(false);
+		btnIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnIngreso.setBounds(495, 299, 144, 144);
 		btnIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				new java.awt.Color(0, 0, 0)));
@@ -161,15 +168,15 @@ public class Login extends JFrame {
 
 		imgUser = new JLabel(new ImageIcon("img/user.png"));
 		getContentPane().add(imgUser);
-		imgUser.setOpaque(true);
-		imgUser.setBounds(24, 290, 48, 48);
+		imgUser.setOpaque(false);
+		imgUser.setBounds(24, 299, 64, 64);
 
 		imgKey = new JLabel(new ImageIcon("img/key.png"));
 		getContentPane().add(imgKey);
-		imgKey.setOpaque(true);
-		imgKey.setBounds(24, 344, 48, 48);
+		imgKey.setOpaque(false);
+		imgKey.setBounds(24, 379, 64, 64);
 
-		this.setSize(680, 444);
+		this.setSize(680, 510);
 		this.setLocationRelativeTo(null);
 
 	}

@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import model.Contrato;
 import model.Egreso;
 import model.Ingreso;
+import model.Seguimiento;
 
 public class ContratoController {
 
@@ -111,6 +112,25 @@ public class ContratoController {
 			emf.close();
 		}
 		return c;
+	}
+	
+	public Seguimiento GrabarSeguimiento(Seguimiento s) {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();			
+			em.persist(s);
+			tx.commit();
+		} catch (Exception e1) {
+			tx.rollback();
+			e1.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return s;
 	}
 
 	public List<Contrato> ListarContratosVigentes() {

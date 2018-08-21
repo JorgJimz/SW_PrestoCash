@@ -1,7 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name="Abono.findAll", query="SELECT a FROM Abono a")
@@ -13,18 +22,18 @@ public class Abono implements Serializable {
 	private int id;
 
 	@Column(name="ARQ_CAPITAL")
-	private double arqCapital;
+	private BigDecimal arqCapital;
 
 	@Column(name="ARQ_INTERES")
-	private double arqInteres;
+	private BigDecimal arqInteres;
 
 	private String fecha;
 
 	@Column(name="NEO_CAPITAL")
-	private double neoCapital;
+	private BigDecimal neoCapital;
 
 	@Column(name="NEO_INTERES")
-	private double neoInteres;
+	private BigDecimal neoInteres;
 
 	//bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -41,19 +50,19 @@ public class Abono implements Serializable {
 		this.id = id;
 	}
 
-	public double getArqCapital() {
+	public BigDecimal getArqCapital() {
 		return this.arqCapital;
 	}
 
-	public void setArqCapital(double arqCapital) {
+	public void setArqCapital(BigDecimal arqCapital) {
 		this.arqCapital = arqCapital;
 	}
 
-	public double getArqInteres() {
+	public BigDecimal getArqInteres() {
 		return this.arqInteres;
 	}
 
-	public void setArqInteres(double arqInteres) {
+	public void setArqInteres(BigDecimal arqInteres) {
 		this.arqInteres = arqInteres;
 	}
 
@@ -65,19 +74,19 @@ public class Abono implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public double getNeoCapital() {
+	public BigDecimal getNeoCapital() {
 		return this.neoCapital;
 	}
 
-	public void setNeoCapital(double neoCapital) {
+	public void setNeoCapital(BigDecimal neoCapital) {
 		this.neoCapital = neoCapital;
 	}
 
-	public double getNeoInteres() {
+	public BigDecimal getNeoInteres() {
 		return this.neoInteres;
 	}
 
-	public void setNeoInteres(double neoInteres) {
+	public void setNeoInteres(BigDecimal neoInteres) {
 		this.neoInteres = neoInteres;
 	}
 
