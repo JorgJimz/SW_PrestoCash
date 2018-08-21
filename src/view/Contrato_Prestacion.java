@@ -542,10 +542,10 @@ public class Contrato_Prestacion extends JInternalFrame {
 					egreso.setTipo("EMP");
 					new ContratoController().GenerarContrato(contrato, egreso);
 					Utiles.LimpiarModelos();
-					Utiles.Mensaje("¡Contrato generado!");
+					Utiles.Mensaje("¡Contrato generado!", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					e.printStackTrace();
-					Utiles.Mensaje("Error. No se pudo completar la operación.");
+					Utiles.Mensaje("Error. No se pudo completar la operación.", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -720,7 +720,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					spArticulo.setVisible(true);
 					tbArticulos.setModel(Constantes.ContratoModel);
 				} else {
-					Utiles.Mensaje("Sin historial.");
+					Utiles.Mensaje("Sin historial.", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
