@@ -43,16 +43,6 @@ import report.Reporte_Superintendencia;
 import report.Reporte_Ventas;
 import report.Reporte_Vitrina;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "serial" })
 public class Principal extends JFrame {
 
@@ -567,6 +557,7 @@ public class Principal extends JFrame {
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
 				Libro_Caja libro_caja = new Libro_Caja();
 				dskPrincipal.add(libro_caja);
 			}

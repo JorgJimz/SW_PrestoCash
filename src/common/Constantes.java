@@ -54,6 +54,19 @@ public class Constantes {
 			return false;
 		}
 	};
+	
+	public static DefaultTableModel IngresoModel = new DefaultTableModel(null, new String[] {
+			"DESCRIPCIÓN", "TIPO", "CAPITAL", "GANANCIA", "OTROS", "NETO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+	public static DefaultTableModel EgresoModel = new DefaultTableModel(null, new String[] {
+			"DESCRIPCIÓN", "TIPO", "MONTO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
 
 	public static DefaultTableModel CargoModel = new DefaultTableModel(null,
 			new String[] { "FECHA", "TRANSPORTISTA", "ARTICULO", "SEDE" }) {

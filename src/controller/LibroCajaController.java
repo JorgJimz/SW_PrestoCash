@@ -2,6 +2,7 @@ package controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -16,16 +17,13 @@ import model.LibroCaja;
 public class LibroCajaController {
 
 	public LibroCaja AperturarCaja() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		LibroCaja lc = null;
 		try {
-			Query q = em
-					.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
-			q.setParameter("f",
-					new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
+			q.setParameter("f", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 			lc = (LibroCaja) q.getSingleResult();
 			if (lc.getStatus().equals("1")) {
 				return lc;
@@ -35,15 +33,14 @@ public class LibroCajaController {
 		} catch (NoResultException e1) {
 			tx.begin();
 			LibroCaja olc = new LibroCaja();
-			olc.setFechaApertura(new SimpleDateFormat("yyyy-MM-dd")
-					.format(new Date()));
-			olc.setAmanece(ObtenerAmaneceAnterior());
+			olc.setFechaApertura(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			olc.setAmanece(ObtenerAmanece());
 			olc.setStatus("1");
 			em.persist(olc);
 			tx.commit();
 			lc = olc;
 		} catch (Exception e2) {
-			tx.rollback();
+			//tx.rollback();
 			e2.printStackTrace();
 		} finally {
 			em.close();
@@ -52,15 +49,13 @@ public class LibroCajaController {
 		return lc;
 	}
 
-	public BigDecimal ObtenerAmaneceAnterior() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+	public BigDecimal ObtenerAmanece() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		BigDecimal a = new BigDecimal(0);
 		try {
 			a = (BigDecimal) em
-					.createQuery(
-							"SELECT c.amanece FROM LibroCaja c WHERE c.status = 1 ORDER BY c.fechaApertura DESC")
+					.createQuery("SELECT c.cierre FROM LibroCaja c WHERE c.status = 1 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
 
 		} catch (NoResultException e1) {
@@ -72,5 +67,22 @@ public class LibroCajaController {
 			emf.close();
 		}
 		return a;
+	}
+
+	public LibroCaja ObtenerLibroCaja() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		LibroCaja lc = null;
+		try {
+			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
+			q.setParameter("f", String.valueOf(LocalDate.now()));
+			lc = (LibroCaja) q.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return lc;
 	}
 }
