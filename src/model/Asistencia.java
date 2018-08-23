@@ -3,35 +3,30 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the asistencia database table.
- * 
- */
 @Entity
-@NamedQuery(name="Asistencia.findAll", query="SELECT a FROM Asistencia a")
+@NamedQuery(name = "Asistencia.findAll", query = "SELECT a FROM Asistencia a")
 public class Asistencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String fecha;
 
-	@Column(name="HORA_CONTRATO")
+	@Column(name = "HORA_CONTRATO")
 	private String horaContrato;
 
-	@Column(name="HORA_INGRESO")
+	@Column(name = "HORA_INGRESO")
 	private String horaIngreso;
 
-	@Column(name="HORA_SALIDA")
+	@Column(name = "HORA_SALIDA")
 	private String horaSalida;
 
 	private String obs;
 
-	//bi-directional many-to-one association to Usuario
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Usuario
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
 
 	public Asistencia() {

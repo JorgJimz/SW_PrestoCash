@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -63,7 +64,6 @@ public class Principal extends JFrame {
 	private JMenuItem mnireporteSuper;
 	private JMenuItem mniEstadisticoMensualEmpenos;
 	private JMenu mnEstadistico;
-	private JMenuItem mniBitacora;
 	private JMenuItem mniAnularSeparacion;
 	private JMenuItem mniReporteCompraOro;
 	private JMenuItem mniReporteComisionOro;
@@ -75,17 +75,13 @@ public class Principal extends JFrame {
 	private JMenuItem mniReporteSeparacion;
 	private JMenuItem mniReporteComision;
 	private JMenuItem mniReporteVentas;
-	private JMenuItem mniConsultarCargo;
 	private JMenuItem mniHistorialCliente;
 	private JMenuItem mniReporteVitrina;
 	private JMenuItem mniReporteAsistencia;
 	private JMenuItem mniReporteRemates;
 	private JMenuItem mniCuotaSeparacion;
 	private JMenuItem mniBackup;
-	private JMenuItem mniHistorialCajas;
 	private JMenuItem mniRemateContrato;
-	private JMenuItem mniCrearCargo;
-	private JMenu mnCargo;
 	private JMenuItem mniRecuperarArticulo;
 	private JMenuItem mniRegistrarIngreso;
 	private JMenuItem mniFinalizarSeparacion;
@@ -102,7 +98,6 @@ public class Principal extends JFrame {
 	private JMenuItem mniActualizarContratos;
 	private JMenuItem mniRenovacionContrato;
 	public static Usuario LOGGED;
-	public static String[] data = new String[] { "", "" };
 	public static LibroCaja LIBRO_CAJA;
 
 	public Principal(Usuario user) {
@@ -418,7 +413,7 @@ public class Principal extends JFrame {
 
 		mniContrato = new JMenuItem();
 		mnContrato.add(mniContrato);
-		mniContrato.setText("NUEVO CONTRATO");
+		mniContrato.setText("NUEVO");
 		mniContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniContrato.addActionListener(new ActionListener() {
 			@Override
@@ -432,11 +427,9 @@ public class Principal extends JFrame {
 
 						if (c == null) {
 							mensaje("No existe ningún Cliente registrado con tal número de documento, regístrelo primero.");
-							Mantenimiento_Clientes mc = new Mantenimiento_Clientes(docCliente);
-							dskPrincipal.add(mc);
+							dskPrincipal.add(new Mantenimiento_Clientes(docCliente));
 						} else {
-							Contrato_Prestacion cp = new Contrato_Prestacion(c);
-							dskPrincipal.add(cp);
+							dskPrincipal.add(new Contrato_Prestacion(c));
 						}
 					}
 				} catch (Exception e) {
@@ -447,7 +440,7 @@ public class Principal extends JFrame {
 
 		mniRenovacionContrato = new JMenuItem();
 		mnContrato.add(mniRenovacionContrato);
-		mniRenovacionContrato.setText("GESTIONAR CONTRATO");
+		mniRenovacionContrato.setText("GESTIONAR");
 		mniRenovacionContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniRenovacionContrato.addActionListener(new ActionListener() {
 			@Override
@@ -455,9 +448,7 @@ public class Principal extends JFrame {
 				try {
 					String contrato = JOptionPane.showInputDialog(null,
 							"<html><h2>Ingrese número del Contrato a renovar ...</h2></html>");
-					Gestion_Contrato renovacion_contrato;
-					renovacion_contrato = new Gestion_Contrato(contrato);
-					dskPrincipal.add(renovacion_contrato);
+					dskPrincipal.add(new Gestion_Contrato(contrato));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -487,48 +478,6 @@ public class Principal extends JFrame {
 		mniBackup.setText("COPIA DE SEGURIDAD (BACK-UP)");
 		mniBackup.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
-		mniBitacora = new JMenuItem();
-		mniBitacora.setText("GENERAR BITACORA");
-		mniBitacora.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniBitacora.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Bitacora bitacora = new Bitacora();
-				dskPrincipal.add(bitacora);
-			}
-		});
-
-		mnCargo = new JMenu();
-		mnAdministrativo.add(mnCargo);
-		mnAdministrativo.add(mniBitacora);
-		mnCargo.setText("CARGO");
-		mnCargo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mniCrearCargo = new JMenuItem();
-		mnCargo.add(mniCrearCargo);
-		mniCrearCargo.setText("NUEVO CARGO");
-		mniCrearCargo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniCrearCargo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Crear_Cargo nuevo_cargo = new Crear_Cargo();
-				dskPrincipal.add(nuevo_cargo);
-			}
-		});
-
-		mniConsultarCargo = new JMenuItem();
-		mnCargo.add(mniConsultarCargo);
-		mniConsultarCargo.setText("CONSULTAR CARGO");
-		mniConsultarCargo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniConsultarCargo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-				Consultar_Cargo_Anterior consulta_cargo = new Consultar_Cargo_Anterior();
-				dskPrincipal.add(consulta_cargo);
-			}
-		});
-
 		mniBackup.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -539,27 +488,12 @@ public class Principal extends JFrame {
 
 		mniLibroCaja = new JMenuItem();
 		mnLibroCaja.add(mniLibroCaja);
-		mniLibroCaja.setText("CONSULTAR CAJA ACTUAL");
+		mniLibroCaja.setText("CONSULTAR");
 		mniLibroCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mniHistorialCajas = new JMenuItem();
-		mnLibroCaja.add(mniHistorialCajas);
-		mniHistorialCajas.setText("CONSULTAR CAJA ANTERIOR");
-		mniHistorialCajas.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniHistorialCajas.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Consultar_Libro_Caja libro = new Consultar_Libro_Caja();
-				dskPrincipal.add(libro);
-			}
-		});
-
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				Libro_Caja libro_caja = new Libro_Caja();
-				dskPrincipal.add(libro_caja);
+				dskPrincipal.add(new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
 			}
 		});
 
@@ -614,8 +548,7 @@ public class Principal extends JFrame {
 		mniVentaArticulo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Venta_Articulos venta_articulo = new Venta_Articulos(data);
-				dskPrincipal.add(venta_articulo);
+
 			}
 		});
 
@@ -650,8 +583,7 @@ public class Principal extends JFrame {
 		mniRecuperarArticulo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Recuperar_Articulo recuperacion = new Recuperar_Articulo(data);
-				dskPrincipal.add(recuperacion);
+
 			}
 		});
 
@@ -669,8 +601,7 @@ public class Principal extends JFrame {
 		mniSepararArticulo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Separacion_Articulos separacion_articulo = new Separacion_Articulos(data);
-				dskPrincipal.add(separacion_articulo);
+
 			}
 		});
 

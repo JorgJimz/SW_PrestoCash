@@ -4,7 +4,11 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -17,8 +21,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import controller.ContratoController;
 import controller.UsuarioController;
+import model.Abono;
 import model.Asistencia;
+import model.Contrato;
 import model.Usuario;
 
 @SuppressWarnings({ "deprecation", "serial" })
@@ -36,9 +43,8 @@ public class Login extends JFrame {
 		this.setLayout(null);
 		this.setTitle("SISTEMA DE GESTION ADMINISTRATIVA Y PRENDATARIA PRESTOCASH");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		getContentPane().setBackground(new java.awt.Color(255,213,170));
-		this.setIconImage(new ImageIcon(getClass().getClassLoader()
-				.getResource("dollar.png")).getImage());
+		getContentPane().setBackground(new java.awt.Color(255, 213, 170));
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 
 		txtUsuario = new JTextField();
 		getContentPane().add(txtUsuario);
@@ -46,33 +52,27 @@ public class Login extends JFrame {
 		txtUsuario.setBounds(100, 299, 383, 64);
 		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
-		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		txtUsuario.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Usuario u = new UsuarioController().Login(new Usuario(
-						txtUsuario.getText(), txtPassword.getText()));
+				/*Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
 				if (u != null) {
 					Asistencia a = new Asistencia();
-					a.setFecha(new SimpleDateFormat("yyyy-MM-dd")
-							.format(new Date()));
+					a.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 					a.setHoraContrato(u.getHoraIngreso());
-					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()));
-					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()));
+					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss").format(new Date()));
 					a.setObs("");
 					a.setUsuario(u);
 					new UsuarioController().MarcarAsistencia(u, a);
 					new Principal(u);
 					Cerrar();
 				} else {
-					JOptionPane
-							.showMessageDialog(null,
-									" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
-				}
+					JOptionPane.showMessageDialog(null,
+							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
+				}*/
 			}
 		});
 
@@ -81,33 +81,27 @@ public class Login extends JFrame {
 		txtPassword.setBounds(100, 379, 383, 64);
 		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
-		txtPassword.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtPassword.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		txtPassword.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Usuario u = new UsuarioController().Login(new Usuario(
-						txtUsuario.getText(), txtPassword.getText()));
+				/*Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
 				if (u != null) {
 					Asistencia a = new Asistencia();
-					a.setFecha(new SimpleDateFormat("yyyy-MM-dd")
-							.format(new Date()));
+					a.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 					a.setHoraContrato(u.getHoraIngreso());
-					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()));
-					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()));
+					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss").format(new Date()));
 					a.setObs("");
 					a.setUsuario(u);
 					new UsuarioController().MarcarAsistencia(u, a);
 					new Principal(u);
 					Cerrar();
 				} else {
-					JOptionPane
-							.showMessageDialog(null,
-									" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
-				}
+					JOptionPane.showMessageDialog(null,
+							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
+				}*/
 			}
 		});
 
@@ -119,31 +113,49 @@ public class Login extends JFrame {
 		btnIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnIngreso.setBounds(495, 299, 144, 144);
 		btnIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Usuario u = new UsuarioController().Login(new Usuario(
-						txtUsuario.getText(), txtPassword.getText()));
+				Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
+				Contrato x  = new ContratoController().CargarContrato("A", 8611);
+				
+				
+				List<Abono> ao =  x.getAbonos();
+				
+				
+				System.out.println(ao.size());
+				new UsuarioController().MarcarAsistencia(u, null);
+				
 				if (u != null) {
+
+					List<Asistencia> ax = u.getAsistencias();
+					
+					System.out.println(ax);
+					
+					Predicate<Asistencia> p = new Predicate<Asistencia>() {
+						
+						@Override
+						public boolean test(Asistencia t) {
+							return LocalDate.parse(t.getFecha()).compareTo(LocalDate.now()) == 0;
+						}
+					};
+					Asistencia kk =  u.getAsistencias().stream().filter(p).findFirst().orElse(null);
+					System.out.println(kk);
+
 					Asistencia a = new Asistencia();
-					a.setFecha(new SimpleDateFormat("yyyy-MM-dd")
-							.format(new Date()));
+					a.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 					a.setHoraContrato(u.getHoraIngreso());
-					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()));
-					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()));
+					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss").format(new Date()));
 					a.setObs("");
 					a.setUsuario(u);
-					new UsuarioController().MarcarAsistencia(u, a);
+					//new UsuarioController().MarcarAsistencia(/* u, */a);
 					new Principal(u);
 					Cerrar();
 				} else {
-					JOptionPane
-							.showMessageDialog(null,
-									" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
+					JOptionPane.showMessageDialog(null,
+							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
 				}
 			}
 		});
@@ -174,8 +186,7 @@ public class Login extends JFrame {
 
 	public static void main(String[] args) {
 		try {
-			UIManager
-					.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
+			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
 			new Login();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();

@@ -36,7 +36,7 @@ public class LibroCaja implements Serializable {
 	@Column(name = "FECHA_CIERRE")
 	private String fechaCierre;
 
-	private String status;
+	private int status;
 
 	// bi-directional many-to-one association to Egreso
 	@OneToMany(mappedBy = "libroCaja", fetch = FetchType.EAGER)
@@ -79,8 +79,8 @@ public class LibroCaja implements Serializable {
 			if (e.getTipo().contains("EMP"))
 				totalEmpenos++;
 		}
-		
-		cierre = totalNeto.subtract(totalEgresos);
+
+		cierre = amanece.add(totalNeto).subtract(totalEgresos);
 	}
 
 	public int getId() {
@@ -123,11 +123,11 @@ public class LibroCaja implements Serializable {
 		this.fechaCierre = fechaCierre;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -182,7 +182,7 @@ public class LibroCaja implements Serializable {
 	public void setTotalGanancia(BigDecimal totalGanancia) {
 		this.totalGanancia = totalGanancia;
 	}
-	
+
 	public BigDecimal getTotalNeto() {
 		return totalNeto;
 	}
