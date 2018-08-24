@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import common.Utiles;
 import controller.ClienteController;
 import controller.LibroCajaController;
 import maintenance.Mantenimiento_Articulos;
@@ -47,7 +47,7 @@ import report.Reporte_Vitrina;
 @SuppressWarnings({ "serial" })
 public class Principal extends JFrame {
 
-	private JMenuBar jMenuBar1;
+	private JMenuBar menuBarPrincipal;
 	private JMenuItem mniTipoCambio;
 	private JMenuItem mniContrato;
 	private JMenu mnTransacciones;
@@ -101,7 +101,6 @@ public class Principal extends JFrame {
 	public static LibroCaja LIBRO_CAJA;
 
 	public Principal(Usuario user) {
-		LIBRO_CAJA = new LibroCajaController().AperturarCaja();
 		this.setVisible(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -122,17 +121,17 @@ public class Principal extends JFrame {
 			}
 		});
 
-		jMenuBar1 = new JMenuBar();
-		setJMenuBar(jMenuBar1);
+		menuBarPrincipal = new JMenuBar();
+		setJMenuBar(menuBarPrincipal);
 
 		jMenu1 = new JMenu();
-		jMenuBar1.add(jMenu1);
+		menuBarPrincipal.add(jMenu1);
 		jMenu1.setText("MANTENIMIENTO");
 		jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		jMenu1.setForeground(new java.awt.Color(255, 255, 255));
 
 		mnTransacciones = new JMenu();
-		jMenuBar1.add(mnTransacciones);
+		menuBarPrincipal.add(mnTransacciones);
 		mnTransacciones.setText("TRANSACCIONES");
 		mnTransacciones.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		mnTransacciones.setForeground(new java.awt.Color(255, 255, 255));
@@ -148,13 +147,13 @@ public class Principal extends JFrame {
 		mnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
 		mnReportes = new JMenu();
-		jMenuBar1.add(mnReportes);
+		menuBarPrincipal.add(mnReportes);
 		mnReportes.setText("REPORTES");
 		mnReportes.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		mnReportes.setForeground(new java.awt.Color(255, 255, 255));
 
 		mnAdministrativo = new JMenu();
-		jMenuBar1.add(mnAdministrativo);
+		menuBarPrincipal.add(mnAdministrativo);
 		mnAdministrativo.setText("ADMINISTRATIVO");
 		mnAdministrativo.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		mnAdministrativo.setForeground(new java.awt.Color(255, 255, 255));
@@ -493,7 +492,8 @@ public class Principal extends JFrame {
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dskPrincipal.add(new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
+				dskPrincipal.add(
+						new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
 			}
 		});
 
@@ -689,18 +689,16 @@ public class Principal extends JFrame {
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 
-		/*
-		 * JOptionPane .showMessageDialog(null,
-		 * "<html><h2>Es necesario ACTUALIZAR los Contratos ...</h2></html>");
-		 */
-		/*
-		 * Actualizar_Contratos ac = new Actualizar_Contratos(); dskPrincipal.add(ac);
-		 */
-		/*
-		 * aperturarCaja(); if (validarCambioDia() == false) { Tipo_Cambio cambio = new
-		 * Tipo_Cambio(); dskPrincipal.add(cambio); }
-		 */
-
+		Object obj = new LibroCajaController().AperturarCaja();
+		if (obj instanceof String) {
+			Utiles.Mensaje(String.valueOf(obj), JOptionPane.WARNING_MESSAGE);
+			Utiles.BloquearMenu(menuBarPrincipal);
+		} else {
+			LIBRO_CAJA = (LibroCaja) obj;
+			Utiles.Mensaje("Favor de actualizar los contratos.", JOptionPane.WARNING_MESSAGE);
+			Actualizar_Contratos ac = new Actualizar_Contratos();
+			dskPrincipal.add(ac);
+		}
 	}
 
 	public void mensaje(String s) {
@@ -722,18 +720,6 @@ public class Principal extends JFrame {
 	 * else { datosCliente = null; } } catch (Exception e) { e.printStackTrace(); }
 	 * return datosCliente; }
 	 */
-
-	public static void traerAlFrente(JInternalFrame fr) {
-		fr.toFront();
-	}
-
-	public void bloquearMenu() {
-		for (Object o : jMenuBar1.getComponents()) {
-			if (o instanceof JMenu) {
-				((JMenu) o).setEnabled(false);
-			}
-		}
-	}
 
 	/*
 	 * public void validarContratoAntiguo(int contrato) { try { String sql =

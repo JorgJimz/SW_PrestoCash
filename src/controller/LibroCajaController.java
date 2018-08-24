@@ -1,10 +1,10 @@
 package controller;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,29 +18,32 @@ import model.LibroCaja;
 
 public class LibroCajaController {
 
-	public LibroCaja AperturarCaja() {
+	public Object AperturarCaja() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		LibroCaja lc = null;
+		Object o = null;
 		try {
 			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
-			q.setParameter("f", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-			lc = (LibroCaja) q.getSingleResult();
-			if (lc.getStatus() == 1) {
-				return lc;
-			} else {
-				return null;
+			q.setParameter("f", String.valueOf(LocalDate.now()));
+			o = q.getSingleResult();
+			if (Objects.nonNull(o)) {
+				LibroCaja lc = (LibroCaja) o;
+				if (lc.getStatus() == 1) {
+					return o;
+				} else {
+					return "Ya existe una caja que fue aperturada y cerrada el día de hoy.";
+				}
 			}
 		} catch (NoResultException e1) {
 			tx.begin();
 			LibroCaja olc = new LibroCaja();
-			olc.setFechaApertura(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			olc.setFechaApertura(String.valueOf(LocalDate.now()));
 			olc.setAmanece(ObtenerAmanece());
 			olc.setStatus(1);
 			em.persist(olc);
 			tx.commit();
-			lc = olc;
+			o = olc;
 		} catch (Exception e2) {
 			tx.rollback();
 			e2.printStackTrace();
@@ -48,7 +51,7 @@ public class LibroCajaController {
 			em.close();
 			emf.close();
 		}
-		return lc;
+		return o;
 	}
 
 	public BigDecimal ObtenerAmanece() {

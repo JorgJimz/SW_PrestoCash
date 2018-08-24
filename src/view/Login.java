@@ -3,12 +3,9 @@ package view;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.time.LocalTime;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,11 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import controller.ContratoController;
+import common.Constantes;
+import common.Utiles;
 import controller.UsuarioController;
-import model.Abono;
 import model.Asistencia;
-import model.Contrato;
 import model.Usuario;
 
 @SuppressWarnings({ "deprecation", "serial" })
@@ -57,22 +53,7 @@ public class Login extends JFrame {
 		txtUsuario.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				/*Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
-				if (u != null) {
-					Asistencia a = new Asistencia();
-					a.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-					a.setHoraContrato(u.getHoraIngreso());
-					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-					a.setObs("");
-					a.setUsuario(u);
-					new UsuarioController().MarcarAsistencia(u, a);
-					new Principal(u);
-					Cerrar();
-				} else {
-					JOptionPane.showMessageDialog(null,
-							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
-				}*/
+				IniciarSesion();
 			}
 		});
 
@@ -86,22 +67,7 @@ public class Login extends JFrame {
 		txtPassword.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				/*Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
-				if (u != null) {
-					Asistencia a = new Asistencia();
-					a.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-					a.setHoraContrato(u.getHoraIngreso());
-					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-					a.setObs("");
-					a.setUsuario(u);
-					new UsuarioController().MarcarAsistencia(u, a);
-					new Principal(u);
-					Cerrar();
-				} else {
-					JOptionPane.showMessageDialog(null,
-							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
-				}*/
+				IniciarSesion();
 			}
 		});
 
@@ -117,46 +83,7 @@ public class Login extends JFrame {
 		btnIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
-				Contrato x  = new ContratoController().CargarContrato("A", 8611);
-				
-				
-				List<Abono> ao =  x.getAbonos();
-				
-				
-				System.out.println(ao.size());
-				new UsuarioController().MarcarAsistencia(u, null);
-				
-				if (u != null) {
-
-					List<Asistencia> ax = u.getAsistencias();
-					
-					System.out.println(ax);
-					
-					Predicate<Asistencia> p = new Predicate<Asistencia>() {
-						
-						@Override
-						public boolean test(Asistencia t) {
-							return LocalDate.parse(t.getFecha()).compareTo(LocalDate.now()) == 0;
-						}
-					};
-					Asistencia kk =  u.getAsistencias().stream().filter(p).findFirst().orElse(null);
-					System.out.println(kk);
-
-					Asistencia a = new Asistencia();
-					a.setFecha(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-					a.setHoraContrato(u.getHoraIngreso());
-					a.setHoraIngreso(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-					a.setHoraSalida(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-					a.setObs("");
-					a.setUsuario(u);
-					//new UsuarioController().MarcarAsistencia(/* u, */a);
-					new Principal(u);
-					Cerrar();
-				} else {
-					JOptionPane.showMessageDialog(null,
-							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
-				}
+				IniciarSesion();
 			}
 		});
 
@@ -182,6 +109,27 @@ public class Login extends JFrame {
 
 	public void Cerrar() {
 		this.dispose();
+	}
+
+	public void IniciarSesion() {
+		Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
+		if (Objects.nonNull(u)) {
+			Asistencia ga = u.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
+					.orElse(Asistencia.DEFAULT);
+			if (Objects.isNull(ga)) {
+				Asistencia a = new Asistencia();
+				a.setFecha(String.valueOf(LocalDate.now()));
+				a.setHoraContrato(u.getHoraIngreso());
+				a.setHoraIngreso(String.valueOf(LocalTime.now()));
+				a.setObs("");
+				a.setUsuario(u);
+				Utiles.Mensaje(new UsuarioController().MarcarAsistencia(a), JOptionPane.INFORMATION_MESSAGE);
+			}
+			new Principal(u);
+			Cerrar();
+		} else {
+			JOptionPane.showMessageDialog(null, " Acceso Denegado. Comuníquese con el Administrador del Sistema.");
+		}
 	}
 
 	public static void main(String[] args) {

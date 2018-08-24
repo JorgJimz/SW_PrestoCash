@@ -649,7 +649,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial = new JButton(new ImageIcon("img/historial.png"));
 		contenedor.add(btnHistorial);
 		btnHistorial.setEnabled(false);
-		btnHistorial.setText(" PRENDAS ANTERIORES");
+		btnHistorial.setText(" HISTORIAL PRENDAS");
 		btnHistorial.setOpaque(false);
 		btnHistorial.setBorderPainted(false);
 		btnHistorial.setContentAreaFilled(false);
@@ -737,7 +737,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		spArticulo = new JScrollPane();
 		contenedor.add(spArticulo);
-		spArticulo.setBounds(12, 449, 894, 295);
+		spArticulo.setBounds(12, 471, 1198, 283);
 		spArticulo.setVisible(false);
 		spArticulo.setViewportView(tbArticulos);
 	}

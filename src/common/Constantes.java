@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
+import model.Asistencia;
 import model.Pago;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
@@ -44,7 +46,7 @@ public class Constantes {
 
 	public static DefaultTableModel ArticuloModel = new DefaultTableModel(null, new String[] { "CÓDIGO", "CANTIDAD",
 			"DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "COVER", "TASACIÓN" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {			
 			return false;
 		}
 	};
@@ -59,6 +61,9 @@ public class Constantes {
 	public static DefaultTableModel IngresoModel = new DefaultTableModel(null, new String[] {
 			"DESCRIPCIÓN", "TIPO", "CAPITAL", "GANANCIA", "OTROS", "NETO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if(rowIndex == this.getRowCount()-1) {
+				return true;
+			}
 			return false;
 		}
 	};
@@ -106,6 +111,13 @@ public class Constantes {
 		@Override
 		public int compare(Pago p1, Pago p2) {
 			return LocalDate.parse(p1.getFechaPago()).compareTo(LocalDate.parse(p2.getFechaPago()));
+		}
+	};
+	
+	public static Predicate<Asistencia> predicadoAsistencia = new Predicate<Asistencia>() {
+		@Override
+		public boolean test(Asistencia t) {
+			return LocalDate.parse(t.getFecha()).compareTo(LocalDate.now()) == 0;
 		}
 	};
 

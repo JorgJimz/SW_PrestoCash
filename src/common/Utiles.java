@@ -2,6 +2,8 @@ package common;
 
 import java.awt.Color;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -51,15 +53,15 @@ public class Utiles {
 					((JTextField) o).setForeground(Color.WHITE);
 					((JTextField) o).requestFocus();
 					return val = false;
-				}				
+				}
 			}
-			if(o instanceof JTextArea && !(o instanceof JXSearchField)) {
+			if (o instanceof JTextArea && !(o instanceof JXSearchField)) {
 				if (((JTextArea) o).getText().equals("")) {
 					((JTextArea) o).setBackground(Color.RED);
 					((JTextArea) o).setForeground(Color.WHITE);
 					((JTextArea) o).requestFocus();
 					return val = false;
-				}	
+				}
 			}
 		}
 		return val;
@@ -86,6 +88,14 @@ public class Utiles {
 			}
 			if (o instanceof JDateChooser) {
 				((JDateChooser) o).setEnabled(false);
+			}
+		}
+	}
+
+	public static void BloquearMenu(JMenuBar bar) {
+		for (Object o : bar.getComponents()) {
+			if (o instanceof JMenu) {
+				((JMenu) o).setEnabled(false);
 			}
 		}
 	}

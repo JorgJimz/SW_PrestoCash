@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -78,7 +79,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JButton btnRegresar;
 	private JButton btnGrabarSeguimiento;
 	private JTextArea txtDetalleSeguimiento;
-	private JPanel pnlOperacionContainer;
+	private JLayeredPane pnlOperacionContainer;
 	private JPanel pnlSeguimientoContainer;
 	private JLabel lblMoraProrrateo;
 	private JLabel jLabel19;
@@ -393,7 +394,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlSeguimiento.add(spSeguimiento);
 		tpContrato.addTab("SEGUIMIENTO", null, pnlSeguimiento, null);
 
-		pnlOperacionContainer = new JPanel();
+		pnlOperacionContainer = new JLayeredPane();
 		pnlOperacionContainer.setVisible(true);
 		pnlOperacionContainer.setOpaque(false);
 		contenedor.add(pnlOperacionContainer);
@@ -567,12 +568,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		txtAbono = new JTextField();
 		pnlOperacionContainer.add(txtAbono);
 		txtAbono.setVisible(false);
-		txtAbono.setBounds(234, 59, 449, 123);
+		txtAbono.setBounds(222, 57, 404, 128);
 		txtAbono.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtAbono.setForeground(new java.awt.Color(255, 0, 0));
 		txtAbono.setFont(new java.awt.Font("Segoe UI", 1, 72));
 		txtAbono.setBackground(new Color(255, 255, 128));
-		txtAbono.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAbono.setHorizontalAlignment(SwingConstants.LEFT);
 		txtAbono.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (Utiles.Validar(contenedor)) {
@@ -875,7 +876,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbAbonarCapital.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contrato.setOperacion("ABONAR AL CAPITAL");
-
+				btnPagar.repaint();
 			}
 		});
 		rbgOpcionPago.add(rbAbonarCapital);
@@ -899,6 +900,8 @@ public class Gestion_Contrato extends JInternalFrame {
 					tbIntereses.setEnabled(true);
 					tbMoras.setEnabled(true);
 				}
+
+				btnPagar.repaint();
 			}
 		});
 		rbCancelarContrato.addActionListener(new ActionListener() {
@@ -915,14 +918,14 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		lblTotalAPagar = new JLabel();
 		pnlOperacionContainer.add(lblTotalAPagar);
-		lblTotalAPagar.setBounds(234, 59, 449, 123);
+		lblTotalAPagar.setBounds(222, 57, 404, 128);
 		lblTotalAPagar.setFont(new java.awt.Font("Segoe UI", 1, 72));
 		lblTotalAPagar.setVerticalTextPosition(SwingConstants.TOP);
 		lblTotalAPagar.setForeground(new java.awt.Color(255, 0, 0));
 		lblTotalAPagar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblTotalAPagar.setOpaque(true);
-		lblTotalAPagar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTotalAPagar.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblTotalAPagar.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTotalAPagar.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblTotalAPagar.setBackground(new java.awt.Color(234, 255, 255));
 
 		btnSeguimiento = new JButton(new ImageIcon("img/seguimiento.png"));
@@ -932,7 +935,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnSeguimiento.setContentAreaFilled(false);
 		btnSeguimiento.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnSeguimiento.setText("SEGUIMIENTO");
-		btnSeguimiento.setBounds(465, 206, 218, 75);
+		btnSeguimiento.setBounds(222, 201, 218, 75);
 		btnSeguimiento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnSeguimiento.setHorizontalAlignment(SwingConstants.LEFT);
@@ -944,24 +947,12 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 		});
 
-		btnPagar = new JButton(new ImageIcon("img/pagar.png"));
-		pnlOperacionContainer.add(btnPagar);
-		btnPagar.setText("PAGAR");
-		btnPagar.setBounds(234, 206, 225, 75);
-		btnPagar.setOpaque(false);
-		btnPagar.setBorderPainted(false);
-		btnPagar.setContentAreaFilled(false);
-		btnPagar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnPagar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnPagar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		btnPagar.setHorizontalAlignment(SwingConstants.LEFT);
-
 		jLabel21 = new JLabel();
 		pnlOperacionContainer.add(jLabel21);
 		jLabel21.setText("TOTAL A PAGAR");
 		jLabel21.setForeground(new java.awt.Color(0, 128, 255));
 		jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel21.setBounds(234, 12, 449, 35);
+		jLabel21.setBounds(222, 12, 461, 35);
 
 		jLabel22 = new JLabel();
 		pnlOperacionContainer.add(jLabel22);
@@ -970,6 +961,17 @@ public class Gestion_Contrato extends JInternalFrame {
 		jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		jLabel22.setBounds(0, 9, 222, 40);
 
+		btnPagar = new JButton(new ImageIcon("img/pagar.png"));
+		pnlOperacionContainer.add(btnPagar);
+		pnlOperacionContainer.moveToFront(btnPagar);
+		btnPagar.setBounds(554, 57, 128, 128);
+		btnPagar.setOpaque(false);
+		btnPagar.setBorderPainted(false);
+		btnPagar.setContentAreaFilled(false);
+		btnPagar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnPagar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnPagar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		btnPagar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int opc = JOptionPane.showConfirmDialog(null, "<html><h2>¿Confirma <strong style='color:red'>"

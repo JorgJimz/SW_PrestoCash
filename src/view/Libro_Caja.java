@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -28,10 +29,13 @@ import org.jdesktop.swingx.JXTitledSeparator;
 import com.toedter.calendar.JDateChooser;
 
 import common.Constantes;
+import common.EditorLCI;
 import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
 import controller.LibroCajaController;
+import controller.UsuarioController;
+import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
@@ -62,6 +66,8 @@ public class Libro_Caja extends JInternalFrame {
 	private JXTitledSeparator jSeparator1;
 	private JButton btnCerrarCaja;
 	private JLabel jLabel3;
+	private JButton btnNuevoEgreso;
+	private JButton btnNuevoIngreso;
 	private JButton btnBuscarCaja;
 	private JDateChooser dpFecha;
 
@@ -127,13 +133,13 @@ public class Libro_Caja extends JInternalFrame {
 		jLabel1 = new JLabel();
 		contenedor.add(jLabel1);
 		jLabel1.setText("AMANECE (S/.)");
-		jLabel1.setBounds(349, 88, 186, 38);
+		jLabel1.setBounds(12, 88, 186, 38);
 		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblAmanece = new JLabel(String.valueOf(caja.getAmanece()));
 		contenedor.add(lblAmanece);
-		lblAmanece.setBounds(535, 88, 186, 38);
+		lblAmanece.setBounds(204, 88, 186, 38);
 		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblAmanece.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblAmanece.setOpaque(true);
@@ -155,10 +161,11 @@ public class Libro_Caja extends JInternalFrame {
 		tbIngresos.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		tbIngresos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbIngresos.getTableHeader().setForeground(new Color(181, 0, 0));
+		tbIngresos.setDefaultEditor(Object.class, new EditorLCI());
 
 		spEgresos = new JScrollPane();
 		contenedor.add(spEgresos);
-		spEgresos.setBounds(739, 91, 538, 441);
+		spEgresos.setBounds(739, 159, 538, 373);
 		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spEgresos.setBackground(new java.awt.Color(255, 255, 255));
 		tbEgresos = new JTable();
@@ -238,10 +245,14 @@ public class Libro_Caja extends JInternalFrame {
 				int opc = JOptionPane.showConfirmDialog(null,
 						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
-				if (opc == JOptionPane.YES_OPTION) {					
+				if (opc == JOptionPane.YES_OPTION) {
 					caja.setStatus(0);
 					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
 					caja.setFechaCierre(String.valueOf(LocalDate.now()));
+					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
+							.findFirst().orElse(Asistencia.DEFAULT);
+					a.setHoraSalida(String.valueOf(LocalTime.now()));
+					new UsuarioController().MarcarAsistencia(a);
 					List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
 					Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
 				}
@@ -320,6 +331,23 @@ public class Libro_Caja extends JInternalFrame {
 		lblCierre.setBackground(new java.awt.Color(255, 255, 128));
 		lblCierre.setHorizontalAlignment(SwingConstants.CENTER);
 
+		btnNuevoIngreso = new JButton();
+		contenedor.add(btnNuevoIngreso);
+		btnNuevoIngreso.setText("Nuevo Ingreso");
+		btnNuevoIngreso.setBounds(612, 97, 110, 28);
+		btnNuevoIngreso.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+				Constantes.IngresoModel.addRow(new Object[] { "", "", "", "", "", "" });
+				tbIngresos.setModel(Constantes.IngresoModel);
+			}
+		});
+
+		btnNuevoEgreso = new JButton();
+		contenedor.add(btnNuevoEgreso);
+		btnNuevoEgreso.setText("Nuevo Egreso");
+		btnNuevoEgreso.setBounds(1212, 84, 64, 64);
+
 		CargarIngresos();
 		CargarEgresos();
 
@@ -348,7 +376,7 @@ public class Libro_Caja extends JInternalFrame {
 			Constantes.EgresoModel.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte() });
 		}
 		tbEgresos.setModel(Constantes.EgresoModel);
-	}	
+	}
 
 	public void Cerrar() {
 		this.dispose();

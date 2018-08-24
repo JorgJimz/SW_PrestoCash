@@ -1,12 +1,8 @@
 package controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -33,36 +29,23 @@ public class UsuarioController {
 		return u;
 	}
 
-	public String MarcarAsistencia(Usuario x, Asistencia y) {
+	public String MarcarAsistencia(Asistencia a) {
+		String msg = "";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		String mensaje = "";
 		try {
-			Query q = em.createQuery("SELECT a FROM Asistencia a WHERE a.usuario.id= :u AND a.fecha= :f");
-			q.setParameter("u", x.getId());
-			q.setParameter("f", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-			Asistencia a = (Asistencia) q.getSingleResult();
-			if (a != null) {
-				try {
-					tx.begin();
-					em.persist(a);
-					mensaje = "Se grabó asistencia.";
-					tx.commit();
-				} catch (Exception e) {
-					tx.rollback();
-					e.printStackTrace();
-				}
-			}
-		} catch (NoResultException e1) {
-			mensaje = "Sin resultados.";
-		} catch (Exception e2) {
-			e2.printStackTrace();
+			tx.begin();
+			em.merge(a);
+			msg = "Se grabó asistencia.";
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();			
 		} finally {
 			em.close();
 			emf.close();
 		}
-
-		return mensaje;
+		return msg;
 	}
 }
