@@ -21,29 +21,39 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import org.jdesktop.swingx.JXTitledSeparator;
+
+import com.toedter.calendar.JDateChooser;
+
+import common.Constantes;
+import common.EditorLCE;
+import common.EditorLCI;
+import common.JEditableTable;
+import common.RenderLCE;
+import common.RenderLCI;
+import common.Utiles;
+import controller.LibroCajaController;
+import controller.UsuarioController;
 import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
 
-import org.jdesktop.swingx.JXTitledSeparator;
-
-import com.toedter.calendar.JDateChooser;
-import common.Constantes;
-import common.EditorLCI;
-import common.RenderLCE;
-import common.RenderLCI;
-import common.Utiles;
-
-import controller.LibroCajaController;
-import controller.UsuarioController;
-
+/**
+ * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
+ * Builder, which is free for non-commercial use. If Jigloo is being used
+ * commercially (ie, by a corporation, company or business for any purpose
+ * whatever) then you should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details. Use of Jigloo implies
+ * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
+ * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
+ * ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 @SuppressWarnings({ "serial" })
 public class Libro_Caja extends JInternalFrame {
 	private JPanel contenedor;
@@ -62,14 +72,15 @@ public class Libro_Caja extends JInternalFrame {
 	private JLabel lblTotalEmpenios;
 	private JLabel lblNeto;
 	private JLabel lblTotalGanacia;
-	private JTable tbEgresos;
-	private JTable tbIngresos;
+	private JEditableTable tbEgresos;
+	private JEditableTable tbIngresos;
 	private JScrollPane spIngresos;
 	private JLabel jLabel1;
 	private JLabel lblFecha;
 	private JXTitledSeparator jSeparator1;
 	private JButton btnCerrarCaja;
 	private JLabel jLabel3;
+	private JButton btnSalir;
 	private JButton btnGrabarEgreso;
 	private JButton btnGrabarIngreso;
 	private JButton btnNuevoEgreso;
@@ -87,7 +98,7 @@ public class Libro_Caja extends JInternalFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new java.awt.Dimension(1296, 854));
 		this.setBounds(0, 0, 1296, 854);
-		this.setClosable(true);
+		this.setClosable(false);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
@@ -105,16 +116,14 @@ public class Libro_Caja extends JInternalFrame {
 		btnBuscarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				LocalDate nueva_fecha = dpFecha.getDate().toInstant()
-						.atZone(ZoneId.systemDefault()).toLocalDate();
-				LibroCaja nueva_caja = new LibroCajaController()
-						.ObtenerLibroCaja(String.valueOf(nueva_fecha));
+				LocalDate nueva_fecha = dpFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				LibroCaja nueva_caja = new LibroCajaController().ObtenerLibroCaja(String.valueOf(nueva_fecha));
 				if (Objects.nonNull(nueva_caja)) {
 					Principal.dskPrincipal.add(new Libro_Caja(nueva_caja));
 					Cerrar();
 				} else {
-					Utiles.Mensaje("No hay registros de caja para el día "
-							+ Constantes.formatoLocal.format(nueva_fecha),
+					Utiles.Mensaje(
+							"No hay registros de caja para el día " + Constantes.formatoLocal.format(nueva_fecha),
 							JOptionPane.WARNING_MESSAGE);
 				}
 
@@ -124,17 +133,15 @@ public class Libro_Caja extends JInternalFrame {
 		dpFecha = new JDateChooser();
 		contenedor.add(dpFecha);
 		dpFecha.setBounds(920, 26, 262, 38);
-		dpFecha.setDate(Date.from(LocalDate.parse(caja.getFechaApertura())
-				.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		dpFecha.setDate(
+				Date.from(LocalDate.parse(caja.getFechaApertura()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		dpFecha.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
-		lblFecha = new JLabel(Constantes.formatoCaja.format(
-				LocalDate.parse(caja.getFechaApertura())).toUpperCase());
+		lblFecha = new JLabel(Constantes.formatoCaja.format(LocalDate.parse(caja.getFechaApertura())).toUpperCase());
 		contenedor.add(lblFecha);
 		lblFecha.setBounds(0, 0, 1294, 79);
 		lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 36));
-		lblFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		lblFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblFecha.setBackground(new java.awt.Color(0, 128, 128));
 		lblFecha.setForeground(new java.awt.Color(255, 255, 255));
 		lblFecha.setOpaque(true);
@@ -150,8 +157,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblAmanece = new JLabel(String.valueOf(caja.getAmanece()));
 		contenedor.add(lblAmanece);
 		lblAmanece.setBounds(204, 88, 186, 38);
-		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblAmanece.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblAmanece.setOpaque(true);
 		lblAmanece.setBackground(new java.awt.Color(255, 255, 128));
@@ -161,18 +167,17 @@ public class Libro_Caja extends JInternalFrame {
 		spIngresos = new JScrollPane();
 		contenedor.add(spIngresos);
 		spIngresos.setBounds(12, 138, 710, 394);
-		spIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spIngresos.setBackground(new java.awt.Color(255, 255, 255));
 
-		tbIngresos = new JTable();
+		tbIngresos = /* new JTable() */new JEditableTable();
 		spIngresos.setViewportView(tbIngresos);
 		tbIngresos.setModel(Constantes.IngresoModel);
 		tbIngresos.setDefaultRenderer(Object.class, new RenderLCI());
+
 		tbIngresos.setRowHeight(40);
 		tbIngresos.setFont(new Font("Segoe UI", Font.BOLD, 22));
-		tbIngresos.getTableHeader()
-				.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbIngresos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbIngresos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbIngresos.setDefaultEditor(Object.class, new EditorLCI());
 		tbIngresos.getModel().addTableModelListener(new TableModelListener() {
@@ -180,18 +185,10 @@ public class Libro_Caja extends JInternalFrame {
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					if (e.getColumn() != 5) {
-						BigDecimal capital = new BigDecimal(String
-								.valueOf(tbIngresos.getValueAt(e.getLastRow(),
-										2)));
-						BigDecimal interes = new BigDecimal(String
-								.valueOf(tbIngresos.getValueAt(e.getLastRow(),
-										3)));
-						BigDecimal otro = new BigDecimal(String
-								.valueOf(tbIngresos.getValueAt(e.getLastRow(),
-										4)));
-						tbIngresos.getModel().setValueAt(
-								capital.add(interes).add(otro),
-								tbIngresos.getSelectedRow(), 5);
+						BigDecimal capital = new BigDecimal(String.valueOf(tbIngresos.getValueAt(e.getLastRow(), 2)));
+						BigDecimal interes = new BigDecimal(String.valueOf(tbIngresos.getValueAt(e.getLastRow(), 3)));
+						BigDecimal otro = new BigDecimal(String.valueOf(tbIngresos.getValueAt(e.getLastRow(), 4)));
+						tbIngresos.getModel().setValueAt(capital.add(interes).add(otro), e.getLastRow(), 5);
 					}
 				}
 			}
@@ -199,10 +196,9 @@ public class Libro_Caja extends JInternalFrame {
 		spEgresos = new JScrollPane();
 		contenedor.add(spEgresos);
 		spEgresos.setBounds(739, 159, 538, 373);
-		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spEgresos.setBackground(new java.awt.Color(255, 255, 255));
-		tbEgresos = new JTable();
+		tbEgresos = new JEditableTable();
 		spEgresos.setViewportView(tbEgresos);
 		tbEgresos.setModel(Constantes.EgresoModel);
 		tbEgresos.setRowHeight(40);
@@ -210,6 +206,7 @@ public class Libro_Caja extends JInternalFrame {
 		tbEgresos.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		tbEgresos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbEgresos.getTableHeader().setForeground(new Color(181, 0, 0));
+		tbEgresos.setDefaultEditor(Object.class, new EditorLCE());
 
 		lblTotalGanacia = new JLabel(String.valueOf(caja.getTotalGanancia()));
 		contenedor.add(lblTotalGanacia);
@@ -232,8 +229,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEmpenios = new JLabel(String.valueOf(caja.getTotalEmpenos()));
 		contenedor.add(lblTotalEmpenios);
 		lblTotalEmpenios.setBounds(964, 530, 118, 68);
-		lblTotalEmpenios.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		lblTotalEmpenios.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblTotalEmpenios.setFont(new java.awt.Font("Segoe UI", 1, 60));
 		lblTotalEmpenios.setOpaque(true);
 		lblTotalEmpenios.setForeground(new java.awt.Color(255, 0, 0));
@@ -271,30 +267,24 @@ public class Libro_Caja extends JInternalFrame {
 		btnCerrarCaja.setBorderPainted(false);
 		btnCerrarCaja.setContentAreaFilled(false);
 		btnCerrarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCerrarCaja.setBounds(1028, 705, 246, 82);
+		btnCerrarCaja.setBounds(1028, 636, 246, 82);
 		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnCerrarCaja.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnCerrarCaja.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnCerrarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int opc = JOptionPane
-						.showConfirmDialog(
-								null,
-								"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
-								"Confirmación", JOptionPane.YES_NO_OPTION);
+				int opc = JOptionPane.showConfirmDialog(null,
+						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
+						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
 					caja.setStatus(0);
-					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto())
-							.subtract(caja.getTotalEgresos()));
+					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
 					caja.setFechaCierre(String.valueOf(LocalDate.now()));
-					Asistencia a = Principal.LOGGED.getAsistencias().stream()
-							.filter(Constantes.predicadoAsistencia).findFirst()
-							.orElse(Asistencia.DEFAULT);
+					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
+							.findFirst().orElse(Asistencia.DEFAULT);
 					a.setHoraSalida(String.valueOf(LocalTime.now()));
 					new UsuarioController().MarcarAsistencia(a);
-					List<String> msg = new LibroCajaController()
-							.CerrarLibroCaja(caja);
+					List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
 					Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
 				}
 			}
@@ -320,12 +310,10 @@ public class Libro_Caja extends JInternalFrame {
 		jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		jLabel6.setForeground(new java.awt.Color(0, 128, 0));
 
-		lbltotalIngresos = new JLabel(String.valueOf(caja.getAmanece().add(
-				caja.getTotalNeto())));
+		lbltotalIngresos = new JLabel(String.valueOf(caja.getAmanece().add(caja.getTotalNeto())));
 		contenedor.add(lbltotalIngresos);
 		lbltotalIngresos.setBounds(12, 706, 257, 81);
-		lbltotalIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		lbltotalIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lbltotalIngresos.setOpaque(true);
 		lbltotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 50));
 		lbltotalIngresos.setForeground(new java.awt.Color(255, 255, 255));
@@ -335,8 +323,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEgresos = new JLabel(String.valueOf(caja.getTotalEgresos()));
 		contenedor.add(lblTotalEgresos);
 		lblTotalEgresos.setBounds(343, 706, 257, 81);
-		lblTotalEgresos.setBorder(new LineBorder(new java.awt.Color(0, 0, 0),
-				1, false));
+		lblTotalEgresos.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
 		lblTotalEgresos.setOpaque(true);
 		lblTotalEgresos.setFont(new java.awt.Font("Segoe UI", 1, 50));
 		lblTotalEgresos.setForeground(new java.awt.Color(255, 255, 255));
@@ -368,8 +355,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblCierre = new JLabel(String.valueOf(caja.getCierre()));
 		contenedor.add(lblCierre);
 		lblCierre.setBounds(676, 706, 334, 81);
-		lblCierre.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1,
-				false));
+		lblCierre.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
 		lblCierre.setOpaque(true);
 		lblCierre.setFont(new java.awt.Font("Segoe UI", 1, 72));
 		lblCierre.setForeground(new java.awt.Color(0, 0, 0));
@@ -383,11 +369,17 @@ public class Libro_Caja extends JInternalFrame {
 		btnNuevoIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Constantes.IngresoModel.addRow(new Object[] { "", "", "0.00",
-						"0.00", "0.00", "0.00" });
-				tbIngresos.setModel(Constantes.IngresoModel);
-				btnNuevoIngreso.setVisible(false);
-				btnGrabarIngreso.setVisible(true);
+				if (!btnGrabarEgreso.isVisible()) {
+					Constantes.IngresoModel.addRow(new Object[] { "", "", "0.00", "0.00", "0.00", "0.00" });
+					tbIngresos.setCellEditable(true);
+					tbIngresos.setModel(Constantes.IngresoModel);
+					btnNuevoIngreso.setVisible(false);
+					btnGrabarIngreso.setVisible(true);
+				} else {
+					Utiles.Mensaje(
+							"Tiene cambios pendientes en el lado de <b>EGRESOS</b>. Guarde la información primero antes de continuar.",
+							JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -395,6 +387,22 @@ public class Libro_Caja extends JInternalFrame {
 		contenedor.add(btnNuevoEgreso);
 		btnNuevoEgreso.setText("Nuevo Egreso");
 		btnNuevoEgreso.setBounds(1212, 84, 64, 64);
+		btnNuevoEgreso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!btnGrabarIngreso.isVisible()) {
+					Constantes.EgresoModel.addRow(new Object[] { "", "", "0.00" });
+					tbEgresos.setCellEditable(true);
+					tbEgresos.setModel(Constantes.EgresoModel);
+					btnNuevoEgreso.setVisible(false);
+					btnGrabarEgreso.setVisible(true);
+				} else {
+					Utiles.Mensaje(
+							"Tiene cambios pendientes en el lado de <b>INGRESOS</b>. Guarde la información primero antes de continuar.",
+							JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 
 		btnGrabarIngreso = new JButton();
 		contenedor.add(btnGrabarIngreso);
@@ -406,31 +414,72 @@ public class Libro_Caja extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Ingreso ingreso = new Ingreso();
 				ingreso.setLibroCaja(Principal.LIBRO_CAJA);
-				ingreso.setDescripcion(String.valueOf(Constantes.IngresoModel
-						.getValueAt(Constantes.IngresoModel.getRowCount() - 1,
-								0)));
-				ingreso.setTipo(String.valueOf(Constantes.IngresoModel
-						.getValueAt(Constantes.IngresoModel.getRowCount() - 1,
-								1)));
+				ingreso.setDescripcion(String
+						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 0)));
+				ingreso.setTipo(String
+						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 1)));
 				ingreso.setCapital(new BigDecimal(String
-						.valueOf(Constantes.IngresoModel.getValueAt(
-								Constantes.IngresoModel.getRowCount() - 1, 2))));
+						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 2))));
 				ingreso.setGanancia(new BigDecimal(String
-						.valueOf(Constantes.IngresoModel.getValueAt(
-								Constantes.IngresoModel.getRowCount() - 1, 3))));
+						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 3))));
 				ingreso.setOtro(new BigDecimal(String
-						.valueOf(Constantes.IngresoModel.getValueAt(
-								Constantes.IngresoModel.getRowCount() - 1, 4))));
+						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 4))));
 				new LibroCajaController().RegistrarIngreso(ingreso);
+				tbIngresos.setCellEditable(false);
 				btnGrabarIngreso.setVisible(false);
 				btnNuevoIngreso.setVisible(true);
+				Utiles.Mensaje("Ingreso registrado.", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 
 		btnGrabarEgreso = new JButton();
 		contenedor.add(btnGrabarEgreso);
+		btnGrabarEgreso.setVisible(false);
 		btnGrabarEgreso.setText("Grabar Egreso");
 		btnGrabarEgreso.setBounds(1065, 99, 92, 23);
+		btnGrabarEgreso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Egreso egreso = new Egreso();
+				egreso.setLibroCaja(Principal.LIBRO_CAJA);
+				egreso.setDescripcion(
+						String.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 0)));
+				egreso.setTipo(String
+						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 1)));
+				egreso.setImporte(new BigDecimal(String
+						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 2))));
+				new LibroCajaController().RegistrarEgreso(egreso);
+				tbEgresos.setCellEditable(false);
+				btnGrabarEgreso.setVisible(false);
+				btnNuevoEgreso.setVisible(true);
+				Utiles.Mensaje("Egreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+
+		btnSalir = new JButton(new ImageIcon("img/salir.png"));
+		contenedor.add(btnSalir);
+		btnSalir.setOpaque(false);
+		btnSalir.setBorderPainted(false);
+		btnSalir.setContentAreaFilled(false);
+		btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnSalir.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnSalir.setText("SALIR");
+		btnSalir.setBounds(1028, 726, 246, 82);
+		btnSalir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (btnGrabarIngreso.isVisible() || btnGrabarEgreso.isVisible()) {
+					int opc = JOptionPane.showConfirmDialog(null,
+							"<html><h2>Si cierra esta ventana perderá los cambios pendientes a grabar. ¿Desea salir de todos modos?</h2></html>",
+							"Confirmación", JOptionPane.YES_NO_OPTION);
+					if (opc == JOptionPane.YES_OPTION) {
+						Cerrar();
+					}
+				} else {
+					Cerrar();
+				}
+			}
+		});
 
 		CargarIngresos();
 		CargarEgresos();
@@ -444,9 +493,8 @@ public class Libro_Caja extends JInternalFrame {
 	public void CargarIngresos() {
 		Constantes.IngresoModel.setRowCount(0);
 		for (Ingreso i : caja.getIngresos()) {
-			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(),
-					i.getTipo(), i.getCapital(), i.getGanancia(), i.getOtro(),
-					i.getCapital().add(i.getGanancia()).add(i.getOtro()) });
+			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(),
+					i.getGanancia(), i.getOtro(), i.getCapital().add(i.getGanancia()).add(i.getOtro()) });
 		}
 		tbIngresos.setModel(Constantes.IngresoModel);
 	}
@@ -458,8 +506,7 @@ public class Libro_Caja extends JInternalFrame {
 	public void CargarEgresos() {
 		Constantes.EgresoModel.setRowCount(0);
 		for (Egreso e : caja.getEgresos()) {
-			Constantes.EgresoModel.addRow(new Object[] { e.getDescripcion(),
-					e.getTipo(), e.getImporte() });
+			Constantes.EgresoModel.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte() });
 		}
 		tbEgresos.setModel(Constantes.EgresoModel);
 	}
@@ -476,16 +523,16 @@ public class Libro_Caja extends JInternalFrame {
 	 * SimpleDateFormat("yyyy-MM-dd").format(new Date())); parametros.put("p",
 	 * Constantes.SUCURSAL); try { JasperReport reporte = (JasperReport)
 	 * JRLoader.loadObject("reporte_caja_diaria.jasper"); JasperPrint print =
-	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer
-	 * viewer = new JasperViewer(print, true); viewer.show(); viewer.toFront();
-	 * } catch (Exception e) { e.printStackTrace(); } }
+	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer viewer =
+	 * new JasperViewer(print, true); viewer.show(); viewer.toFront(); } catch
+	 * (Exception e) { e.printStackTrace(); } }
 	 * 
-	 * public double obtenerCambio() { Connection con =
-	 * MySQLConexion.getConexion(); double cambio = 1; try { String sql =
-	 * "select ven_cam from tb_cambio where fec_cam=date_Format(now(),'%y-%m-%d')"
-	 * ; PreparedStatement pst = con.prepareStatement(sql); ResultSet rs =
+	 * public double obtenerCambio() { Connection con = MySQLConexion.getConexion();
+	 * double cambio = 1; try { String sql =
+	 * "select ven_cam from tb_cambio where fec_cam=date_Format(now(),'%y-%m-%d')" ;
+	 * PreparedStatement pst = con.prepareStatement(sql); ResultSet rs =
 	 * pst.executeQuery(); if (rs.next()) { cambio = rs.getDouble(1); } } catch
-	 * (Exception e) { e.printStackTrace(); } finally { try { con.close(); }
-	 * catch (SQLException e) { e.printStackTrace(); } } return cambio; }
+	 * (Exception e) { e.printStackTrace(); } finally { try { con.close(); } catch
+	 * (SQLException e) { e.printStackTrace(); } } return cambio; }
 	 */
 }
