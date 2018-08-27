@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -23,22 +24,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
+import model.Asistencia;
+import model.Egreso;
+import model.Ingreso;
+import model.LibroCaja;
 
 import org.jdesktop.swingx.JXTitledSeparator;
 
 import com.toedter.calendar.JDateChooser;
-
 import common.Constantes;
 import common.EditorLCI;
 import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
+
 import controller.LibroCajaController;
 import controller.UsuarioController;
-import model.Asistencia;
-import model.Egreso;
-import model.Ingreso;
-import model.LibroCaja;
 
 @SuppressWarnings({ "serial" })
 public class Libro_Caja extends JInternalFrame {
@@ -66,6 +70,8 @@ public class Libro_Caja extends JInternalFrame {
 	private JXTitledSeparator jSeparator1;
 	private JButton btnCerrarCaja;
 	private JLabel jLabel3;
+	private JButton btnGrabarEgreso;
+	private JButton btnGrabarIngreso;
 	private JButton btnNuevoEgreso;
 	private JButton btnNuevoIngreso;
 	private JButton btnBuscarCaja;
@@ -99,14 +105,16 @@ public class Libro_Caja extends JInternalFrame {
 		btnBuscarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				LocalDate nueva_fecha = dpFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				LibroCaja nueva_caja = new LibroCajaController().ObtenerLibroCaja(String.valueOf(nueva_fecha));
+				LocalDate nueva_fecha = dpFecha.getDate().toInstant()
+						.atZone(ZoneId.systemDefault()).toLocalDate();
+				LibroCaja nueva_caja = new LibroCajaController()
+						.ObtenerLibroCaja(String.valueOf(nueva_fecha));
 				if (Objects.nonNull(nueva_caja)) {
 					Principal.dskPrincipal.add(new Libro_Caja(nueva_caja));
 					Cerrar();
 				} else {
-					Utiles.Mensaje(
-							"No hay registros de caja para el día " + Constantes.formatoLocal.format(nueva_fecha),
+					Utiles.Mensaje("No hay registros de caja para el día "
+							+ Constantes.formatoLocal.format(nueva_fecha),
 							JOptionPane.WARNING_MESSAGE);
 				}
 
@@ -116,15 +124,17 @@ public class Libro_Caja extends JInternalFrame {
 		dpFecha = new JDateChooser();
 		contenedor.add(dpFecha);
 		dpFecha.setBounds(920, 26, 262, 38);
-		dpFecha.setDate(
-				Date.from(LocalDate.parse(caja.getFechaApertura()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		dpFecha.setDate(Date.from(LocalDate.parse(caja.getFechaApertura())
+				.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		dpFecha.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
-		lblFecha = new JLabel(Constantes.formatoCaja.format(LocalDate.parse(caja.getFechaApertura())).toUpperCase());
+		lblFecha = new JLabel(Constantes.formatoCaja.format(
+				LocalDate.parse(caja.getFechaApertura())).toUpperCase());
 		contenedor.add(lblFecha);
 		lblFecha.setBounds(0, 0, 1294, 79);
 		lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 36));
-		lblFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lblFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		lblFecha.setBackground(new java.awt.Color(0, 128, 128));
 		lblFecha.setForeground(new java.awt.Color(255, 255, 255));
 		lblFecha.setOpaque(true);
@@ -140,7 +150,8 @@ public class Libro_Caja extends JInternalFrame {
 		lblAmanece = new JLabel(String.valueOf(caja.getAmanece()));
 		contenedor.add(lblAmanece);
 		lblAmanece.setBounds(204, 88, 186, 38);
-		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		lblAmanece.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblAmanece.setOpaque(true);
 		lblAmanece.setBackground(new java.awt.Color(255, 255, 128));
@@ -150,7 +161,8 @@ public class Libro_Caja extends JInternalFrame {
 		spIngresos = new JScrollPane();
 		contenedor.add(spIngresos);
 		spIngresos.setBounds(12, 138, 710, 394);
-		spIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		spIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		spIngresos.setBackground(new java.awt.Color(255, 255, 255));
 
 		tbIngresos = new JTable();
@@ -159,14 +171,36 @@ public class Libro_Caja extends JInternalFrame {
 		tbIngresos.setDefaultRenderer(Object.class, new RenderLCI());
 		tbIngresos.setRowHeight(40);
 		tbIngresos.setFont(new Font("Segoe UI", Font.BOLD, 22));
-		tbIngresos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbIngresos.getTableHeader()
+				.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbIngresos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbIngresos.setDefaultEditor(Object.class, new EditorLCI());
-
+		tbIngresos.getModel().addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				if (e.getType() == TableModelEvent.UPDATE) {
+					if (e.getColumn() != 5) {
+						BigDecimal capital = new BigDecimal(String
+								.valueOf(tbIngresos.getValueAt(e.getLastRow(),
+										2)));
+						BigDecimal interes = new BigDecimal(String
+								.valueOf(tbIngresos.getValueAt(e.getLastRow(),
+										3)));
+						BigDecimal otro = new BigDecimal(String
+								.valueOf(tbIngresos.getValueAt(e.getLastRow(),
+										4)));
+						tbIngresos.getModel().setValueAt(
+								capital.add(interes).add(otro),
+								tbIngresos.getSelectedRow(), 5);
+					}
+				}
+			}
+		});
 		spEgresos = new JScrollPane();
 		contenedor.add(spEgresos);
 		spEgresos.setBounds(739, 159, 538, 373);
-		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		spEgresos.setBackground(new java.awt.Color(255, 255, 255));
 		tbEgresos = new JTable();
 		spEgresos.setViewportView(tbEgresos);
@@ -198,7 +232,8 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEmpenios = new JLabel(String.valueOf(caja.getTotalEmpenos()));
 		contenedor.add(lblTotalEmpenios);
 		lblTotalEmpenios.setBounds(964, 530, 118, 68);
-		lblTotalEmpenios.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lblTotalEmpenios.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		lblTotalEmpenios.setFont(new java.awt.Font("Segoe UI", 1, 60));
 		lblTotalEmpenios.setOpaque(true);
 		lblTotalEmpenios.setForeground(new java.awt.Color(255, 0, 0));
@@ -238,22 +273,28 @@ public class Libro_Caja extends JInternalFrame {
 		btnCerrarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCerrarCaja.setBounds(1028, 705, 246, 82);
 		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnCerrarCaja.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		btnCerrarCaja.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		btnCerrarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int opc = JOptionPane.showConfirmDialog(null,
-						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
-						"Confirmación", JOptionPane.YES_NO_OPTION);
+				int opc = JOptionPane
+						.showConfirmDialog(
+								null,
+								"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
+								"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
 					caja.setStatus(0);
-					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
+					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto())
+							.subtract(caja.getTotalEgresos()));
 					caja.setFechaCierre(String.valueOf(LocalDate.now()));
-					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
-							.findFirst().orElse(Asistencia.DEFAULT);
+					Asistencia a = Principal.LOGGED.getAsistencias().stream()
+							.filter(Constantes.predicadoAsistencia).findFirst()
+							.orElse(Asistencia.DEFAULT);
 					a.setHoraSalida(String.valueOf(LocalTime.now()));
 					new UsuarioController().MarcarAsistencia(a);
-					List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
+					List<String> msg = new LibroCajaController()
+							.CerrarLibroCaja(caja);
 					Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
 				}
 			}
@@ -279,10 +320,12 @@ public class Libro_Caja extends JInternalFrame {
 		jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		jLabel6.setForeground(new java.awt.Color(0, 128, 0));
 
-		lbltotalIngresos = new JLabel(String.valueOf(caja.getAmanece().add(caja.getTotalNeto())));
+		lbltotalIngresos = new JLabel(String.valueOf(caja.getAmanece().add(
+				caja.getTotalNeto())));
 		contenedor.add(lbltotalIngresos);
 		lbltotalIngresos.setBounds(12, 706, 257, 81);
-		lbltotalIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lbltotalIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+				new java.awt.Color(0, 0, 0)));
 		lbltotalIngresos.setOpaque(true);
 		lbltotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 50));
 		lbltotalIngresos.setForeground(new java.awt.Color(255, 255, 255));
@@ -292,7 +335,8 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEgresos = new JLabel(String.valueOf(caja.getTotalEgresos()));
 		contenedor.add(lblTotalEgresos);
 		lblTotalEgresos.setBounds(343, 706, 257, 81);
-		lblTotalEgresos.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
+		lblTotalEgresos.setBorder(new LineBorder(new java.awt.Color(0, 0, 0),
+				1, false));
 		lblTotalEgresos.setOpaque(true);
 		lblTotalEgresos.setFont(new java.awt.Font("Segoe UI", 1, 50));
 		lblTotalEgresos.setForeground(new java.awt.Color(255, 255, 255));
@@ -324,7 +368,8 @@ public class Libro_Caja extends JInternalFrame {
 		lblCierre = new JLabel(String.valueOf(caja.getCierre()));
 		contenedor.add(lblCierre);
 		lblCierre.setBounds(676, 706, 334, 81);
-		lblCierre.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
+		lblCierre.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1,
+				false));
 		lblCierre.setOpaque(true);
 		lblCierre.setFont(new java.awt.Font("Segoe UI", 1, 72));
 		lblCierre.setForeground(new java.awt.Color(0, 0, 0));
@@ -335,11 +380,14 @@ public class Libro_Caja extends JInternalFrame {
 		contenedor.add(btnNuevoIngreso);
 		btnNuevoIngreso.setText("Nuevo Ingreso");
 		btnNuevoIngreso.setBounds(612, 97, 110, 28);
-		btnNuevoIngreso.addActionListener(new ActionListener() {			
+		btnNuevoIngreso.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {				
-				Constantes.IngresoModel.addRow(new Object[] { "", "", "", "", "", "" });
+			public void actionPerformed(ActionEvent arg0) {
+				Constantes.IngresoModel.addRow(new Object[] { "", "", "0.00",
+						"0.00", "0.00", "0.00" });
 				tbIngresos.setModel(Constantes.IngresoModel);
+				btnNuevoIngreso.setVisible(false);
+				btnGrabarIngreso.setVisible(true);
 			}
 		});
 
@@ -347,6 +395,42 @@ public class Libro_Caja extends JInternalFrame {
 		contenedor.add(btnNuevoEgreso);
 		btnNuevoEgreso.setText("Nuevo Egreso");
 		btnNuevoEgreso.setBounds(1212, 84, 64, 64);
+
+		btnGrabarIngreso = new JButton();
+		contenedor.add(btnGrabarIngreso);
+		btnGrabarIngreso.setVisible(false);
+		btnGrabarIngreso.setText("Grabar Ingreso");
+		btnGrabarIngreso.setBounds(493, 91, 97, 23);
+		btnGrabarIngreso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Ingreso ingreso = new Ingreso();
+				ingreso.setLibroCaja(Principal.LIBRO_CAJA);
+				ingreso.setDescripcion(String.valueOf(Constantes.IngresoModel
+						.getValueAt(Constantes.IngresoModel.getRowCount() - 1,
+								0)));
+				ingreso.setTipo(String.valueOf(Constantes.IngresoModel
+						.getValueAt(Constantes.IngresoModel.getRowCount() - 1,
+								1)));
+				ingreso.setCapital(new BigDecimal(String
+						.valueOf(Constantes.IngresoModel.getValueAt(
+								Constantes.IngresoModel.getRowCount() - 1, 2))));
+				ingreso.setGanancia(new BigDecimal(String
+						.valueOf(Constantes.IngresoModel.getValueAt(
+								Constantes.IngresoModel.getRowCount() - 1, 3))));
+				ingreso.setOtro(new BigDecimal(String
+						.valueOf(Constantes.IngresoModel.getValueAt(
+								Constantes.IngresoModel.getRowCount() - 1, 4))));
+				new LibroCajaController().RegistrarIngreso(ingreso);
+				btnGrabarIngreso.setVisible(false);
+				btnNuevoIngreso.setVisible(true);
+			}
+		});
+
+		btnGrabarEgreso = new JButton();
+		contenedor.add(btnGrabarEgreso);
+		btnGrabarEgreso.setText("Grabar Egreso");
+		btnGrabarEgreso.setBounds(1065, 99, 92, 23);
 
 		CargarIngresos();
 		CargarEgresos();
@@ -360,8 +444,9 @@ public class Libro_Caja extends JInternalFrame {
 	public void CargarIngresos() {
 		Constantes.IngresoModel.setRowCount(0);
 		for (Ingreso i : caja.getIngresos()) {
-			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(),
-					i.getGanancia(), i.getOtro(), i.getCapital().add(i.getGanancia()).add(i.getOtro()) });
+			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(),
+					i.getTipo(), i.getCapital(), i.getGanancia(), i.getOtro(),
+					i.getCapital().add(i.getGanancia()).add(i.getOtro()) });
 		}
 		tbIngresos.setModel(Constantes.IngresoModel);
 	}
@@ -373,7 +458,8 @@ public class Libro_Caja extends JInternalFrame {
 	public void CargarEgresos() {
 		Constantes.EgresoModel.setRowCount(0);
 		for (Egreso e : caja.getEgresos()) {
-			Constantes.EgresoModel.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte() });
+			Constantes.EgresoModel.addRow(new Object[] { e.getDescripcion(),
+					e.getTipo(), e.getImporte() });
 		}
 		tbEgresos.setModel(Constantes.EgresoModel);
 	}
@@ -383,23 +469,23 @@ public class Libro_Caja extends JInternalFrame {
 	}
 
 	/*
-	 *
+	 * 
 	 * public void imprimirReporteCaja() { Connection con =
 	 * MySQLConexion.getConexion(); HashMap<String, Object> parametros = new
 	 * HashMap<String, Object>(); parametros.put("fecha_master", new
 	 * SimpleDateFormat("yyyy-MM-dd").format(new Date())); parametros.put("p",
 	 * Constantes.SUCURSAL); try { JasperReport reporte = (JasperReport)
 	 * JRLoader.loadObject("reporte_caja_diaria.jasper"); JasperPrint print =
-	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer viewer =
-	 * new JasperViewer(print, true); viewer.show(); viewer.toFront(); } catch
-	 * (Exception e) { e.printStackTrace(); } }
+	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer
+	 * viewer = new JasperViewer(print, true); viewer.show(); viewer.toFront();
+	 * } catch (Exception e) { e.printStackTrace(); } }
 	 * 
-	 * public double obtenerCambio() { Connection con = MySQLConexion.getConexion();
-	 * double cambio = 1; try { String sql =
-	 * "select ven_cam from tb_cambio where fec_cam=date_Format(now(),'%y-%m-%d')";
-	 * PreparedStatement pst = con.prepareStatement(sql); ResultSet rs =
+	 * public double obtenerCambio() { Connection con =
+	 * MySQLConexion.getConexion(); double cambio = 1; try { String sql =
+	 * "select ven_cam from tb_cambio where fec_cam=date_Format(now(),'%y-%m-%d')"
+	 * ; PreparedStatement pst = con.prepareStatement(sql); ResultSet rs =
 	 * pst.executeQuery(); if (rs.next()) { cambio = rs.getDouble(1); } } catch
-	 * (Exception e) { e.printStackTrace(); } finally { try { con.close(); } catch
-	 * (SQLException e) { e.printStackTrace(); } } return cambio; }
+	 * (Exception e) { e.printStackTrace(); } finally { try { con.close(); }
+	 * catch (SQLException e) { e.printStackTrace(); } } return cambio; }
 	 */
 }

@@ -14,17 +14,21 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
+import model.Egreso;
+import model.Ingreso;
 import model.LibroCaja;
 
 public class LibroCajaController {
 
 	public Object AperturarCaja() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		Object o = null;
 		try {
-			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
+			Query q = em
+					.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
 			q.setParameter("f", String.valueOf(LocalDate.now()));
 			o = q.getSingleResult();
 			if (Objects.nonNull(o)) {
@@ -55,12 +59,14 @@ public class LibroCajaController {
 	}
 
 	public BigDecimal ObtenerAmanece() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		BigDecimal a = new BigDecimal(0);
 		try {
 			a = (BigDecimal) em
-					.createQuery("SELECT c.cierre FROM LibroCaja c WHERE c.status = 1 ORDER BY c.fechaApertura DESC")
+					.createQuery(
+							"SELECT c.cierre FROM LibroCaja c WHERE c.status = 1 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
 
 		} catch (NoResultException e1) {
@@ -75,11 +81,13 @@ public class LibroCajaController {
 	}
 
 	public LibroCaja ObtenerLibroCaja(String fecha) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		LibroCaja lc = null;
 		try {
-			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
+			Query q = em
+					.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
 			q.setParameter("f", fecha);
 			lc = (LibroCaja) q.getSingleResult();
 		} catch (NoResultException e1) {
@@ -95,24 +103,64 @@ public class LibroCajaController {
 
 	public List<String> CerrarLibroCaja(LibroCaja c) {
 		List<String> msg = null;
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
 			em.merge(c);
 			tx.commit();
-			msg = Arrays.asList(
-					"<b>CAJA CERRADA</b>. <br/> Imprimiendo el reporte de caja diaria. Favor de colocar papel en la impresora.",
-					String.valueOf(JOptionPane.WARNING_MESSAGE));
+			msg = Arrays
+					.asList("<b>CAJA CERRADA</b>. <br/> Imprimiendo el reporte de caja diaria. Favor de colocar papel en la impresora.",
+							String.valueOf(JOptionPane.WARNING_MESSAGE));
 		} catch (Exception e1) {
 			tx.rollback();
 			e1.printStackTrace();
-			msg = Arrays.asList("Error: " + e1.getMessage(), String.valueOf(JOptionPane.ERROR_MESSAGE));
+			msg = Arrays.asList("Error: " + e1.getMessage(),
+					String.valueOf(JOptionPane.ERROR_MESSAGE));
 		} finally {
 			em.close();
 			emf.close();
 		}
 		return msg;
+	}
+
+	public Ingreso RegistrarIngreso(Ingreso i) {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.persist(i);
+			tx.commit();
+		} catch (Exception e1) {
+			tx.rollback();
+			e1.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return i;
+	}
+
+	public Egreso RegistrarEgreso(Egreso e) {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.persist(e);
+			tx.commit();
+		} catch (Exception e1) {
+			tx.rollback();
+			e1.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return e;
 	}
 }

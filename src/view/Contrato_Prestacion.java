@@ -57,6 +57,19 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings({ "serial", "rawtypes", "unchecked", "deprecation" })
 public class Contrato_Prestacion extends JInternalFrame {
 	private JLabel jLabel2;
@@ -495,7 +508,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnGrabar.setBounds(737, 775, 294, 64);
+		//btnGrabar.setBounds(737, 775, 294, 64);
+		btnGrabar.setBounds(960, 287, 294, 64);
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));
 		btnGrabar.setHorizontalAlignment(SwingConstants.LEFT);
@@ -542,7 +556,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnSalir.setBorderPainted(false);
 		btnSalir.setContentAreaFilled(false);
 		btnSalir.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnSalir.setBounds(1043, 775, 212, 64);
+		//btnSalir.setBounds(1043, 775, 212, 64);
+		btnSalir.setBounds(1057, 221, 212, 64);
 		btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnSalir.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnSalir.setBackground(new java.awt.Color(128, 255, 255));

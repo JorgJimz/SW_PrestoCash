@@ -695,9 +695,9 @@ public class Principal extends JFrame {
 			Utiles.BloquearMenu(menuBarPrincipal);
 		} else {
 			LIBRO_CAJA = (LibroCaja) obj;
-			Utiles.Mensaje("Favor de actualizar los contratos.", JOptionPane.WARNING_MESSAGE);
+			/*Utiles.Mensaje("Favor de actualizar los contratos.", JOptionPane.WARNING_MESSAGE);
 			Actualizar_Contratos ac = new Actualizar_Contratos();
-			dskPrincipal.add(ac);
+			dskPrincipal.add(ac);*/
 		}
 	}
 
