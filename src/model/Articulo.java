@@ -1,35 +1,40 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
-/**
- * The persistent class for the articulo database table.
- * 
- */
 @Entity
-@NamedQuery(name="Articulo.findAll", query="SELECT a FROM Articulo a")
+@NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a")
 public class Articulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="CAPITAL_CONTRATO")
+	@Column(name = "CAPITAL_CONTRATO")
 	private BigDecimal capitalContrato;
 
 	private String contrato;
 
 	private String descripcion;
 
-	@Column(name="FECHA_CREACION")
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="FECHA_MODIFICACION")
+	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
 	private String marca;
@@ -38,46 +43,50 @@ public class Articulo implements Serializable {
 
 	private String obs;
 
-	@Column(name="PRECIO_INTERNO")
+	@Column(name = "PRECIO_INTERNO")
 	private BigDecimal precioInterno;
 
-	@Column(name="PRECIO_VENTA")
+	@Column(name = "PRECIO_VENTA")
 	private BigDecimal precioVenta;
 
 	private String serie;
 
-	@Column(name="USUARIO_CREACION")
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name="USUARIO_MODIFICACION")
+	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
-	//bi-directional many-to-one association to EArticulo
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="E_ARTICULO_ID")
+	// bi-directional many-to-one association to EArticulo
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "E_ARTICULO_ID")
 	private EArticulo EArticulo;
 
-	//bi-directional many-to-one association to DetalleCargo
-	@OneToMany(mappedBy="articulo")
+	// bi-directional many-to-one association to DetalleCargo
+	@OneToMany(mappedBy = "articulo")
 	private List<DetalleCargo> detalleCargos;
 
-	//bi-directional many-to-one association to DetalleContrato
-	@OneToMany(mappedBy="articulo")
+	// bi-directional many-to-one association to DetalleContrato
+	@OneToMany(mappedBy = "articulo")
 	private List<DetalleContrato> detalleContratos;
 
-	//bi-directional many-to-one association to Fundicion
-	@OneToMany(mappedBy="articulo")
+	// bi-directional many-to-one association to Fundicion
+	@OneToMany(mappedBy = "articulo")
 	private List<Fundicion> fundicions;
 
-	//bi-directional many-to-one association to Separacion
-	@OneToMany(mappedBy="articulo")
+	// bi-directional many-to-one association to Separacion
+	@OneToMany(mappedBy = "articulo")
 	private List<Separacion> separacions;
 
-	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="articulo")
+	// bi-directional many-to-one association to Venta
+	@OneToMany(mappedBy = "articulo")
 	private List<Venta> ventas;
 
 	public Articulo() {
+	}
+
+	public Articulo(int id) {
+		this.id = id;
 	}
 
 	public int getId() {

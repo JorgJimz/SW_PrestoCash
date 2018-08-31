@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,6 +37,7 @@ public class Cargo implements Serializable {
 	private List<DetalleCargo> detalleCargos;
 
 	public Cargo() {
+		detalleCargos = new ArrayList<DetalleCargo>();
 	}
 
 	public int getId() {

@@ -1,11 +1,14 @@
 package common;
 
 import java.awt.Color;
+import java.awt.Container;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -15,7 +18,6 @@ import com.toedter.calendar.JDateChooser;
 
 import view.Contrato_Prestacion;
 import view.Principal;
-import view.Separacion_Articulos;
 import view.Venta_Articulos;
 
 public class Utiles {
@@ -28,11 +30,8 @@ public class Utiles {
 				Contrato_Prestacion c = new Contrato_Prestacion(null);
 				Principal.dskPrincipal.add(c);
 			} else if (opc == 1) {
-				Venta_Articulos venta = new Venta_Articulos(null);
+				Venta_Articulos venta = new Venta_Articulos();
 				Principal.dskPrincipal.add(venta);
-			} else {
-				Separacion_Articulos sep = new Separacion_Articulos(null);
-				Principal.dskPrincipal.add(sep);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,7 +42,7 @@ public class Utiles {
 		JOptionPane.showMessageDialog(null, "<html><h3>" + s + "</h3></html>", "Mensaje del Sistema", type);
 	}
 
-	public static boolean Validar(JPanel pnl) {
+	public static boolean Validar(Container pnl) {
 		boolean val = true;
 
 		for (Object o : pnl.getComponents()) {
@@ -52,26 +51,48 @@ public class Utiles {
 					((JTextField) o).setBackground(Color.RED);
 					((JTextField) o).setForeground(Color.WHITE);
 					((JTextField) o).requestFocus();
-					return val = false;
+					val = false;
+				} else {
+					((JTextField) o).setBackground(Color.WHITE);
+					((JTextField) o).setForeground(Color.BLACK);
 				}
 			}
-			if (o instanceof JTextArea && !(o instanceof JXSearchField)) {
-				if (((JTextArea) o).getText().equals("")) {
-					((JTextArea) o).setBackground(Color.RED);
-					((JTextArea) o).setForeground(Color.WHITE);
-					((JTextArea) o).requestFocus();
-					return val = false;
+			if (o instanceof JScrollPane && !(o instanceof JXSearchField)) {
+				JTextArea innerTextArea = (JTextArea) ((JScrollPane) o).getViewport().getView();
+				if (innerTextArea.getText().equals("")) {
+					innerTextArea.setBackground(Color.RED);
+					innerTextArea.setForeground(Color.WHITE);
+					innerTextArea.requestFocus();
+					val = false;
+				} else {
+					innerTextArea.setBackground(Color.WHITE);
+					innerTextArea.setForeground(Color.BLACK);
 				}
 			}
+			if (o instanceof JRadioButton && !(o instanceof JXSearchField)) {
+				if (!((JRadioButton) o).isSelected()) {
+					((JRadioButton) o).setForeground(Color.RED);
+					((JRadioButton) o).requestFocus();
+					val = false;
+				} else {
+					((JRadioButton) o).setForeground(new Color(0, 128, 0));
+				}
+			}
+
 		}
 		return val;
 	}
 
-	public static void Limpiar(JPanel contenedor) {
+	public static void Limpiar(Container contenedor) {
 		for (Object o : contenedor.getComponents()) {
 			if (o instanceof JTextField) {
 				((JTextField) o).setText("");
 				((JTextField) o).setBackground(Color.WHITE);
+			}
+			if (o instanceof JScrollPane) {
+				JTextArea a = (JTextArea)((JScrollPane)o).getViewport().getView();
+				a.setText("");
+				a.setBackground(Color.WHITE);
 			}
 		}
 	}

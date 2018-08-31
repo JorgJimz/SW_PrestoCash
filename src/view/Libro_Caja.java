@@ -44,16 +44,6 @@ import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "serial" })
 public class Libro_Caja extends JInternalFrame {
 	private JPanel contenedor;
@@ -96,14 +86,14 @@ public class Libro_Caja extends JInternalFrame {
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new java.awt.Dimension(1296, 854));
-		this.setBounds(0, 0, 1296, 854);
+		this.setPreferredSize(new java.awt.Dimension(1319, 854));
+		this.setBounds(0, 0, 1319, 854);
 		this.setClosable(false);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1295, 825);
+		contenedor.setBounds(0, 0, 1317, 825);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		btnBuscarCaja = new JButton(new ImageIcon("img/search.png"));
@@ -139,7 +129,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		lblFecha = new JLabel(Constantes.formatoCaja.format(LocalDate.parse(caja.getFechaApertura())).toUpperCase());
 		contenedor.add(lblFecha);
-		lblFecha.setBounds(0, 0, 1294, 79);
+		lblFecha.setBounds(0, 0, 1306, 79);
 		lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 36));
 		lblFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblFecha.setBackground(new java.awt.Color(0, 128, 128));
@@ -150,13 +140,13 @@ public class Libro_Caja extends JInternalFrame {
 		jLabel1 = new JLabel();
 		contenedor.add(jLabel1);
 		jLabel1.setText("AMANECE (S/.)");
-		jLabel1.setBounds(12, 88, 186, 38);
+		jLabel1.setBounds(12, 99, 186, 38);
 		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblAmanece = new JLabel(String.valueOf(caja.getAmanece()));
 		contenedor.add(lblAmanece);
-		lblAmanece.setBounds(204, 88, 186, 38);
+		lblAmanece.setBounds(204, 99, 186, 38);
 		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblAmanece.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblAmanece.setOpaque(true);
@@ -166,7 +156,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		spIngresos = new JScrollPane();
 		contenedor.add(spIngresos);
-		spIngresos.setBounds(12, 138, 710, 394);
+		spIngresos.setBounds(12, 163, 710, 369);
 		spIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spIngresos.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -195,7 +185,7 @@ public class Libro_Caja extends JInternalFrame {
 		});
 		spEgresos = new JScrollPane();
 		contenedor.add(spEgresos);
-		spEgresos.setBounds(739, 159, 538, 373);
+		spEgresos.setBounds(739, 159, 555, 373);
 		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spEgresos.setBackground(new java.awt.Color(255, 255, 255));
 		tbEgresos = new JEditableTable();
@@ -238,7 +228,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		lblTotalEgreso = new JLabel(String.valueOf(caja.getTotalEgresos()));
 		contenedor.add(lblTotalEgreso);
-		lblTotalEgreso.setBounds(1168, 531, 109, 46);
+		lblTotalEgreso.setBounds(1185, 530, 109, 46);
 		lblTotalEgreso.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalEgreso.setOpaque(true);
 		lblTotalEgreso.setForeground(new java.awt.Color(0, 0, 0));
@@ -267,9 +257,10 @@ public class Libro_Caja extends JInternalFrame {
 		btnCerrarCaja.setBorderPainted(false);
 		btnCerrarCaja.setContentAreaFilled(false);
 		btnCerrarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCerrarCaja.setBounds(1028, 636, 246, 82);
+		btnCerrarCaja.setBounds(1028, 636, 266, 82);
 		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnCerrarCaja.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		btnCerrarCaja.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCerrarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -362,10 +353,16 @@ public class Libro_Caja extends JInternalFrame {
 		lblCierre.setBackground(new java.awt.Color(255, 255, 128));
 		lblCierre.setHorizontalAlignment(SwingConstants.CENTER);
 
-		btnNuevoIngreso = new JButton();
+		btnNuevoIngreso = new JButton(new ImageIcon("img/ingreso.png"));
 		contenedor.add(btnNuevoIngreso);
-		btnNuevoIngreso.setText("Nuevo Ingreso");
-		btnNuevoIngreso.setBounds(612, 97, 110, 28);
+		btnNuevoIngreso.setOpaque(false);
+		btnNuevoIngreso.setBorderPainted(false);
+		btnNuevoIngreso.setContentAreaFilled(false);
+		btnNuevoIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnNuevoIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnNuevoIngreso.setText("NUEVO INGRESO");
+		btnNuevoIngreso.setBounds(426, 88, 296, 70);
+		btnNuevoIngreso.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnNuevoIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -383,10 +380,16 @@ public class Libro_Caja extends JInternalFrame {
 			}
 		});
 
-		btnNuevoEgreso = new JButton();
+		btnNuevoEgreso = new JButton(new ImageIcon("img/egreso.png"));
 		contenedor.add(btnNuevoEgreso);
-		btnNuevoEgreso.setText("Nuevo Egreso");
-		btnNuevoEgreso.setBounds(1212, 84, 64, 64);
+		btnNuevoEgreso.setOpaque(false);
+		btnNuevoEgreso.setBorderPainted(false);
+		btnNuevoEgreso.setContentAreaFilled(false);
+		btnNuevoEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnNuevoEgreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnNuevoEgreso.setText("NUEVO EGRESO");
+		btnNuevoEgreso.setBounds(998, 85, 296, 70);
+		btnNuevoEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnNuevoEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -404,11 +407,17 @@ public class Libro_Caja extends JInternalFrame {
 			}
 		});
 
-		btnGrabarIngreso = new JButton();
+		btnGrabarIngreso = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabarIngreso);
 		btnGrabarIngreso.setVisible(false);
-		btnGrabarIngreso.setText("Grabar Ingreso");
-		btnGrabarIngreso.setBounds(493, 91, 97, 23);
+		btnGrabarIngreso.setText("GRABAR INGRESO");
+		btnGrabarIngreso.setOpaque(false);
+		btnGrabarIngreso.setBorderPainted(false);
+		btnGrabarIngreso.setContentAreaFilled(false);
+		btnGrabarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGrabarIngreso.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnGrabarIngreso.setBounds(426, 88, 296, 64);
 		btnGrabarIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -432,11 +441,17 @@ public class Libro_Caja extends JInternalFrame {
 			}
 		});
 
-		btnGrabarEgreso = new JButton();
+		btnGrabarEgreso = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabarEgreso);
+		btnGrabarEgreso.setOpaque(false);
+		btnGrabarEgreso.setBorderPainted(false);
+		btnGrabarEgreso.setContentAreaFilled(false);
+		btnGrabarEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnGrabarEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnGrabarEgreso.setVisible(false);
-		btnGrabarEgreso.setText("Grabar Egreso");
-		btnGrabarEgreso.setBounds(1065, 99, 92, 23);
+		btnGrabarEgreso.setText("GRABAR EGRESO");
+		btnGrabarEgreso.setBounds(964, 88, 313, 64);
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -445,9 +460,9 @@ public class Libro_Caja extends JInternalFrame {
 				egreso.setDescripcion(
 						String.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 0)));
 				egreso.setTipo(String
-						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 1)));
+						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 1)));
 				egreso.setImporte(new BigDecimal(String
-						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 2))));
+						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2))));
 				new LibroCajaController().RegistrarEgreso(egreso);
 				tbEgresos.setCellEditable(false);
 				btnGrabarEgreso.setVisible(false);
@@ -464,7 +479,8 @@ public class Libro_Caja extends JInternalFrame {
 		btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnSalir.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnSalir.setText("SALIR");
-		btnSalir.setBounds(1028, 726, 246, 82);
+		btnSalir.setBounds(1028, 726, 266, 82);
+		btnSalir.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

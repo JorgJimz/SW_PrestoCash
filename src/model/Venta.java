@@ -1,41 +1,38 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
-
-/**
- * The persistent class for the venta database table.
- * 
- */
 @Entity
-@NamedQuery(name="Venta.findAll", query="SELECT v FROM Venta v")
+@NamedQuery(name = "Venta.findAll", query = "SELECT v FROM Venta v")
 public class Venta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String fecha;
 
-	@Column(name="FECHA_CREACION")
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
 	private BigDecimal importe;
 
 	private String obs;
 
-	@Column(name="USUARIO_CREACION")
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	//bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Articulo
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Articulo articulo;
 
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Cliente
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
 	public Venta() {

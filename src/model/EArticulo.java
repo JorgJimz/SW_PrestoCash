@@ -4,10 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * The persistent class for the e_articulo database table.
- * 
- */
 @Entity
 @Table(name = "e_articulo")
 @NamedQuery(name = "EArticulo.findAll", query = "SELECT e FROM EArticulo e")
@@ -30,8 +26,12 @@ public class EArticulo implements Serializable {
 	}
 
 	public EArticulo(int id) {
-		super();
 		this.id = id;
+	}
+	
+	public EArticulo(int id, String descripcion) {
+		this.id = id;
+		this.descripcion = descripcion;
 	}
 
 	public int getId() {

@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
@@ -64,10 +63,9 @@ public class Principal extends JFrame {
 	private JMenuItem mnireporteSuper;
 	private JMenuItem mniEstadisticoMensualEmpenos;
 	private JMenu mnEstadistico;
-	private JMenuItem mniAnularSeparacion;
 	private JMenuItem mniReporteCompraOro;
+	private JMenuItem mniVentas;
 	private JMenuItem mniReporteComisionOro;
-	private JMenuItem mniCompraOro;
 	private JMenuItem mniReporteFundicion;
 	private JMenuItem mniReporteInventario;
 	private JMenuItem mniEmpeniosMensuales;
@@ -75,21 +73,9 @@ public class Principal extends JFrame {
 	private JMenuItem mniReporteSeparacion;
 	private JMenuItem mniReporteComision;
 	private JMenuItem mniReporteVentas;
-	private JMenuItem mniHistorialCliente;
 	private JMenuItem mniReporteVitrina;
 	private JMenuItem mniReporteAsistencia;
 	private JMenuItem mniReporteRemates;
-	private JMenuItem mniCuotaSeparacion;
-	private JMenuItem mniBackup;
-	private JMenuItem mniRemateContrato;
-	private JMenuItem mniRecuperarArticulo;
-	private JMenuItem mniRegistrarIngreso;
-	private JMenuItem mniFinalizarSeparacion;
-	private JMenu mnEgresos;
-	private JMenu mnIngresos;
-	private JMenuItem mniSepararArticulo;
-	private JMenuItem mniVentaArticulo;
-	private JMenuItem mniEgreso;
 	private JMenu mnLibroCaja;
 	private JMenuItem mniLibroCaja;
 	private JMenu mnSeguimiento;
@@ -158,11 +144,6 @@ public class Principal extends JFrame {
 		mnAdministrativo.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		mnAdministrativo.setForeground(new java.awt.Color(255, 255, 255));
 
-		mniHistorialCliente = new JMenuItem();
-		mnReportes.add(mniHistorialCliente);
-		mniHistorialCliente.setText("HISTORIAL DEL CLIENTE");
-		mniHistorialCliente.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
 		mniReporteRemates = new JMenuItem();
 		mnReportes.add(mniReporteRemates);
 		mniReporteRemates.setText("REPORTE DE REMATES MENSUAL");
@@ -212,23 +193,6 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Reporte_Remates reporte_remates = new Reporte_Remates();
 				dskPrincipal.add(reporte_remates);
-
-			}
-		});
-
-		mniHistorialCliente.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-				try {
-					String dni = JOptionPane.showInputDialog(null,
-							"<html><h2>Ingrese APELLIDOS o D.N.I. del Cliente a buscar ...</h2></html>");
-
-					Historial_Cliente historial = new Historial_Cliente(dni);
-					dskPrincipal.add(historial);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 
 			}
 		});
@@ -395,16 +359,6 @@ public class Principal extends JFrame {
 			}
 		});
 
-		mnIngresos = new JMenu();
-		mnTransacciones.add(mnIngresos);
-		mnIngresos.setText("INGRESOS");
-		mnIngresos.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mnEgresos = new JMenu();
-		mnTransacciones.add(mnEgresos);
-		mnEgresos.setText("EGRESOS");
-		mnEgresos.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
 		mnLibroCaja = new JMenu();
 		mnTransacciones.add(mnLibroCaja);
 		mnLibroCaja.setText("LIBRO CAJA");
@@ -454,41 +408,23 @@ public class Principal extends JFrame {
 			}
 		});
 
-		mniRemateContrato = new JMenuItem();
-		mnContrato.add(mniRemateContrato);
-		mniRemateContrato.setText("ENVIAR A VITRINA");
-		mniRemateContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniRemateContrato.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String numero = JOptionPane.showInputDialog(null,
-							"<html><h2>Ingrese número del Contrato cuyos Artículos saldrán a VITRINA ...</h2></html>");
-					Remate_Contrato remate = new Remate_Contrato(numero);
-					dskPrincipal.add(remate);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		mniBackup = new JMenuItem();
-		mnAdministrativo.add(mniBackup);
-		mniBackup.setText("COPIA DE SEGURIDAD (BACK-UP)");
-		mniBackup.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mniBackup.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Backup backup_db = new Backup();
-				dskPrincipal.add(backup_db);
-			}
-		});
-
 		mniLibroCaja = new JMenuItem();
 		mnLibroCaja.add(mniLibroCaja);
 		mniLibroCaja.setText("CONSULTAR");
 		mniLibroCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
+
+		mniVentas = new JMenuItem();
+		mnLibroCaja.add(mniVentas);
+		mniVentas.setText("VENDER");
+		mniVentas.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniVentas.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Venta_Articulos venta = new Venta_Articulos();
+				dskPrincipal.add(venta);
+			}
+		});
+
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -497,125 +433,9 @@ public class Principal extends JFrame {
 			}
 		});
 
-		mniCompraOro = new JMenuItem();
-		mniCompraOro.setText("NUEVA COMPRA DE ORO");
-		mniCompraOro.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniCompraOro.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Compra_Oro cau = new Compra_Oro();
-				dskPrincipal.add(cau);
-
-			}
-		});
-
-		mniAnularSeparacion = new JMenuItem();
-		mniAnularSeparacion.setText("ANULAR SEPARACION");
-		mniAnularSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniAnularSeparacion.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String codigo_separacion = JOptionPane.showInputDialog(null,
-						"<html><h2>Ingresa el número de separación ...</h2></html>");
-				Anular_Separacion anulacion = new Anular_Separacion(codigo_separacion);
-				dskPrincipal.add(anulacion);
-			}
-		});
-
-		mniEgreso = new JMenuItem();
-		mnEgresos.add(mniEgreso);
-		mnEgresos.add(mniCompraOro);
-		mnEgresos.add(mniAnularSeparacion);
-		mniEgreso.setText("GENERAR EGRESO MANUAL");
-		mniEgreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mniRegistrarIngreso = new JMenuItem();
-		mnIngresos.add(mniRegistrarIngreso);
-		mniRegistrarIngreso.setText("GENERAR INGRESO MANUAL");
-		mniRegistrarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniRegistrarIngreso.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Registrar_Ingreso registrar_ingreso = new Registrar_Ingreso();
-				dskPrincipal.add(registrar_ingreso);
-			}
-		});
-
-		mniVentaArticulo = new JMenuItem();
-		mnIngresos.add(mniVentaArticulo);
-		mniVentaArticulo.setText("VENDER ARTÍCULO");
-		mniVentaArticulo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniVentaArticulo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-
-		mniSepararArticulo = new JMenuItem();
-		mnIngresos.add(mniSepararArticulo);
-		mniSepararArticulo.setText("SEPARAR ARTÍCULO");
-		mniSepararArticulo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mniCuotaSeparacion = new JMenuItem();
-		mnIngresos.add(mniCuotaSeparacion);
-		mniCuotaSeparacion.setText("NUEVA CUOTA SEPARACIÓN");
-		mniCuotaSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniCuotaSeparacion.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String contrato = JOptionPane.showInputDialog("<html><h2>Ingrese Número de Contrato</h2></html>");
-				Nueva_Cuota_Separacion ncs = new Nueva_Cuota_Separacion(Integer.parseInt(contrato));
-				dskPrincipal.add(ncs);
-
-			}
-		});
-
-		mniFinalizarSeparacion = new JMenuItem();
-		mnIngresos.add(mniFinalizarSeparacion);
-		mniFinalizarSeparacion.setText("FINALIZAR SEPARACIÓN");
-		mniFinalizarSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		mniRecuperarArticulo = new JMenuItem();
-		mnIngresos.add(mniRecuperarArticulo);
-		mniRecuperarArticulo.setText("RECUPERAR ARTÍCULO");
-		mniRecuperarArticulo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniRecuperarArticulo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-
-		mniFinalizarSeparacion.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String codigo_separacion = JOptionPane.showInputDialog(null,
-						"<html><h2>Ingresa el número de separación ...</h2></html>");
-				Finalizar_Separacion finalizar_separacion = new Finalizar_Separacion(codigo_separacion);
-				dskPrincipal.add(finalizar_separacion);
-
-			}
-		});
-
-		mniSepararArticulo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
-		mniEgreso.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Registrar_Egreso egreso = new Registrar_Egreso();
-				dskPrincipal.add(egreso);
-			}
-		});
-
 		mniActualizarContratos = new JMenuItem();
 		mnSeguimiento.add(mniActualizarContratos);
-		mniActualizarContratos.setText("ACTUALIZAR CONTRATOS");
+		mniActualizarContratos.setText("ACTUALIZAR");
 		mniActualizarContratos.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniActualizarContratos.addActionListener(new ActionListener() {
 			@Override
@@ -695,9 +515,11 @@ public class Principal extends JFrame {
 			Utiles.BloquearMenu(menuBarPrincipal);
 		} else {
 			LIBRO_CAJA = (LibroCaja) obj;
-			/*Utiles.Mensaje("Favor de actualizar los contratos.", JOptionPane.WARNING_MESSAGE);
-			Actualizar_Contratos ac = new Actualizar_Contratos();
-			dskPrincipal.add(ac);*/
+			/*
+			 * Utiles.Mensaje("Favor de actualizar los contratos.",
+			 * JOptionPane.WARNING_MESSAGE); Actualizar_Contratos ac = new
+			 * Actualizar_Contratos(); dskPrincipal.add(ac);
+			 */
 		}
 	}
 

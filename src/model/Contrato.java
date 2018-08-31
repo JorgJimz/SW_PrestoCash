@@ -90,7 +90,7 @@ public class Contrato implements Serializable {
 	private List<DetalleCargo> detalleCargos;
 
 	// bi-directional many-to-one association to DetalleContrato
-	@OneToMany(mappedBy = "contrato")
+	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
 	private List<DetalleContrato> detalleContratos;
 
 	// bi-directional many-to-one association to Mora

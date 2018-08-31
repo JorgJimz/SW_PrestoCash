@@ -1,47 +1,48 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
-/**
- * The persistent class for the separacion database table.
- * 
- */
 @Entity
-@NamedQuery(name="Separacion.findAll", query="SELECT s FROM Separacion s")
+@NamedQuery(name = "Separacion.findAll", query = "SELECT s FROM Separacion s")
 public class Separacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String fecha;
 
-	@Column(name="FECHA_CREACION")
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="PRECIO_VENTA")
+	@Column(name = "PRECIO_VENTA")
 	private BigDecimal precioVenta;
 
-	private String status;
+	private int status;
 
-	@Column(name="USUARIO_CREACION")
+	private BigDecimal importe;
+
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	//bi-directional many-to-one association to DetalleSeparacion
-	@OneToMany(mappedBy="separacion")
-	private List<DetalleSeparacion> detalleSeparacions;
-
-	//bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Articulo
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Articulo articulo;
 
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Cliente
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
 	public Separacion() {
@@ -79,11 +80,11 @@ public class Separacion implements Serializable {
 		this.precioVenta = precioVenta;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -93,28 +94,6 @@ public class Separacion implements Serializable {
 
 	public void setUsuarioCreacion(String usuarioCreacion) {
 		this.usuarioCreacion = usuarioCreacion;
-	}
-
-	public List<DetalleSeparacion> getDetalleSeparacions() {
-		return this.detalleSeparacions;
-	}
-
-	public void setDetalleSeparacions(List<DetalleSeparacion> detalleSeparacions) {
-		this.detalleSeparacions = detalleSeparacions;
-	}
-
-	public DetalleSeparacion addDetalleSeparacion(DetalleSeparacion detalleSeparacion) {
-		getDetalleSeparacions().add(detalleSeparacion);
-		detalleSeparacion.setSeparacion(this);
-
-		return detalleSeparacion;
-	}
-
-	public DetalleSeparacion removeDetalleSeparacion(DetalleSeparacion detalleSeparacion) {
-		getDetalleSeparacions().remove(detalleSeparacion);
-		detalleSeparacion.setSeparacion(null);
-
-		return detalleSeparacion;
 	}
 
 	public Articulo getArticulo() {
@@ -133,4 +112,11 @@ public class Separacion implements Serializable {
 		this.cliente = cliente;
 	}
 
+	public BigDecimal getImporte() {
+		return importe;
+	}
+
+	public void setImporte(BigDecimal importe) {
+		this.importe = importe;
+	}
 }

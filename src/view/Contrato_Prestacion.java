@@ -509,7 +509,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		//btnGrabar.setBounds(737, 775, 294, 64);
-		btnGrabar.setBounds(960, 287, 294, 64);
+		btnGrabar.setBounds(751, 778, 294, 64);
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));
 		btnGrabar.setHorizontalAlignment(SwingConstants.LEFT);
@@ -557,7 +557,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnSalir.setContentAreaFilled(false);
 		btnSalir.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		//btnSalir.setBounds(1043, 775, 212, 64);
-		btnSalir.setBounds(1057, 221, 212, 64);
+		btnSalir.setBounds(1025, 766, 212, 64);
 		btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnSalir.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnSalir.setBackground(new java.awt.Color(128, 255, 255));

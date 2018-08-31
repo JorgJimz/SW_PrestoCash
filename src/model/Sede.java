@@ -4,44 +4,47 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the sede database table.
  * 
  */
 @Entity
-@NamedQuery(name="Sede.findAll", query="SELECT s FROM Sede s")
+@NamedQuery(name = "Sede.findAll", query = "SELECT s FROM Sede s")
 public class Sede implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String descripcion;
 
 	private String direccion;
 
-	@Column(name="FLAG_ELECTRO")
+	@Column(name = "FLAG_ELECTRO")
 	private String flagElectro;
 
-	@Column(name="FLAG_ORO")
+	@Column(name = "FLAG_ORO")
 	private String flagOro;
 
 	private String status;
 
-	@Column(name="T_SEDE")
+	@Column(name = "T_SEDE")
 	private String tSede;
 
-	//bi-directional many-to-one association to DetalleCargo
-	@OneToMany(mappedBy="sede")
+	// bi-directional many-to-one association to DetalleCargo
+	@OneToMany(mappedBy = "sede")
 	private List<DetalleCargo> detalleCargos;
 
-	//bi-directional many-to-one association to Prestamo
-	@OneToMany(mappedBy="sede")
+	// bi-directional many-to-one association to Prestamo
+	@OneToMany(mappedBy = "sede")
 	private List<Prestamo> prestamos;
 
 	public Sede() {
+	}
+
+	public Sede(int id) {
+		this.id = id;
 	}
 
 	public int getId() {

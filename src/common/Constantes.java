@@ -12,6 +12,8 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
+import controller.ArticuloController;
+import model.Articulo;
 import model.Asistencia;
 import model.Pago;
 
@@ -28,6 +30,8 @@ public class Constantes {
 			"LINCE", "MAGDALENA", "MIRAFLORES", "PUEBLO LIBRE", "PTE.PIEDRA", "RIMAC", "SAN ISIDRO", "INDEPENDENCIA",
 			"SJM", "SAN LUIS", "SMP", "SAN MIGUEL", "SURCO", "SURQUILLO", "VMT", "SJL", "SANTA ROSA", "LOS OLIVOS",
 			"SAN BORJA", "VES", "SANTA ANITA", "CALLAO" });
+	
+	public static DefaultComboBoxModel AlmacenModel = new ArticuloController().ListarSedes("ALMACEN");
 
 	public static ComboBoxModel CategoriaModel = new DefaultComboBoxModel(
 			new String[] { "BUENO", "MOROSO", "PROBLEMATICO" });
@@ -37,10 +41,17 @@ public class Constantes {
 	public static DefaultTableModel ContratoModel = new DefaultTableModel(null,
 			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
-			if (colIndex == 0) {
-				return false;
+			return false;
+		}
+	};
+
+	public static DefaultTableModel DetalleContratoModel = new DefaultTableModel(null,
+			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN", "" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if (colIndex == 6) {
+				return true;
 			}
-			return true;
+			return false;
 		}
 	};
 
@@ -85,7 +96,7 @@ public class Constantes {
 	};
 
 	public static DefaultTableModel CargoModel = new DefaultTableModel(null,
-			new String[] { "FECHA", "TRANSPORTISTA", "ARTICULO", "SEDE" }) {
+			new String[] { "FECHA", "TRANSPORTISTA", "ARTICULO", "SEDE", "OBS" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
@@ -109,6 +120,13 @@ public class Constantes {
 			return Integer.class;
 		}
 	};
+	
+	public static DefaultTableModel VitrinaModel = new DefaultTableModel(null, new String[] { "CONTRATO", "CÓDIGO",
+			"DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "CAPITAL", "PRECIO VENTA", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
 
 	public static DefaultComboBoxModel<ComboItem> PrestamoModel = new DefaultComboBoxModel();
 
@@ -130,6 +148,10 @@ public class Constantes {
 		public boolean test(Asistencia t) {
 			return LocalDate.parse(t.getFecha()).compareTo(LocalDate.now()) == 0;
 		}
+	};	
+
+	public static Predicate<Articulo> predicadoArticulo(String contrato){
+		return p-> p.getContrato().contains(contrato);	
 	};
 
 }

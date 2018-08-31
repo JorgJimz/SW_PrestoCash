@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,11 +28,11 @@ public class DetalleContrato implements Serializable {
 	private BigDecimal tasacion;
 
 	//bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Articulo articulo;
 
 	//bi-directional many-to-one association to Contrato
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Contrato contrato;
 
 	public DetalleContrato() {

@@ -21,13 +21,12 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import model.Contrato;
-import model.EContrato;
-
 import common.Constantes;
 import common.RenderCC;
-
 import controller.ContratoController;
+import model.Contrato;
+import model.DetalleContrato;
+import model.EContrato;
 
 @SuppressWarnings("serial")
 public class Actualizar_Contratos extends JInternalFrame {
@@ -59,8 +58,7 @@ public class Actualizar_Contratos extends JInternalFrame {
 		jScrollPane1 = new JScrollPane();
 		contenedor.add(jScrollPane1);
 		jScrollPane1.setBounds(12, 41, 1226, 615);
-		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		tbContratos = new JTable();
 		jScrollPane1.setViewportView(tbContratos);
@@ -68,35 +66,30 @@ public class Actualizar_Contratos extends JInternalFrame {
 		tbContratos.setDefaultRenderer(Object.class, new RenderCC());
 		tbContratos.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbContratos.setRowHeight(35);
-		tbContratos.getTableHeader().setFont(
-				new Font("Segoe UI", Font.BOLD, 20));
+		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbContratos.getTableHeader().setForeground(new Color(181, 0, 0));
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
-				Constantes.ActualizacionModel);
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(Constantes.ActualizacionModel);
 		tbContratos.setRowSorter(sorter);
 		btnActualizar = new JButton(new ImageIcon("img/update_contratos.png"));
 		contenedor.add(btnActualizar);
 		btnActualizar.setText("ACTUALIZAR CONTRATOS");
 		btnActualizar.setBounds(12, 673, 728, 71);
-		btnActualizar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnActualizar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		btnActualizar.setBackground(new java.awt.Color(192, 192, 192));
 		dobar = new JProgressBar();
 		contenedor.add(dobar);
 		dobar.setBounds(752, 673, 486, 71);
-		dobar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		dobar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
-		lblTotalContrato = new JLabel("TOTAL: " + l.stream().count()
-				+ " CONTRATOS VIGENTES.");
+		lblTotalContrato = new JLabel("TOTAL: " + l.stream().count() + " CONTRATOS VIGENTES.");
 		contenedor.add(lblTotalContrato);
 		lblTotalContrato.setBounds(752, 6, 486, 27);
 		lblTotalContrato.setForeground(new java.awt.Color(0, 128, 0));
 		lblTotalContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		lblTotalContrato.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		btnActualizar.addActionListener(new ActionListener() {			
+		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Runnable miRunnable = new Runnable() {
 					public void run() {
@@ -104,8 +97,7 @@ public class Actualizar_Contratos extends JInternalFrame {
 					}
 				};
 				btnActualizar.setEnabled(false);
-				btnActualizar
-						.setText("PROCESANDO LA PETICIÓN, ESPERE POR FAVOR...");
+				btnActualizar.setText("PROCESANDO LA PETICIÓN, ESPERE POR FAVOR...");
 				Thread hilo = new Thread(miRunnable);
 				hilo.start();
 				dobar.setIndeterminate(true);
@@ -118,10 +110,8 @@ public class Actualizar_Contratos extends JInternalFrame {
 	public void ListarContratosVigentes() {
 		Constantes.ActualizacionModel.setRowCount(0);
 		for (Contrato c : l) {
-			Constantes.ActualizacionModel.addRow(new Object[] {
-					c.getFlag() + "-" + c.getNumero(), c.getFechaContrato(),
-					c.getFechaVencimiento(), c.getFechaRemate(),
-					c.getEContrato().getDescripcion() });
+			Constantes.ActualizacionModel.addRow(new Object[] { c.getFlag() + "-" + c.getNumero(), c.getFechaContrato(),
+					c.getFechaVencimiento(), c.getFechaRemate(), c.getEContrato().getDescripcion() });
 		}
 		tbContratos.setModel(Constantes.ActualizacionModel);
 	}
@@ -134,8 +124,7 @@ public class Actualizar_Contratos extends JInternalFrame {
 			new ContratoController().ActualizarContratos(l);
 			ListarContratosVigentes();
 			dobar.setIndeterminate(false);
-			JOptionPane.showMessageDialog(null,
-					"<html><h2>Contratos actualizados.</h2></html>");
+			JOptionPane.showMessageDialog(null, "<html><h2>Contratos actualizados.</h2></html>");
 			btnActualizar.setEnabled(true);
 			btnActualizar.setText("ACTUALIZAR CONTRATOS");
 		} catch (Exception e) {
@@ -145,29 +134,32 @@ public class Actualizar_Contratos extends JInternalFrame {
 
 	public static void DetectarEstado(Contrato c) {
 		LocalDate hoy = LocalDate.now();
-		LocalDate gcPre = LocalDate.parse(c.getFechaVencimiento())
-				.plusMonths(1).minusDays(5);
-		LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento())
-				.plusMonths(1).plusDays(15);
+		LocalDate gcPre = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).minusDays(5);
+		LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).plusDays(15);
 		LocalDate gcRem = LocalDate.parse(c.getFechaRemate());
 
 		if (hoy.isAfter(gcPost)) {
-			c.setEContrato(new EContrato(13, "VITRINA (SP)"));			
+			c.setEContrato(new EContrato(13, "VITRINA (SP)"));
+			for (DetalleContrato dc : c.getDetalleContratos()) {
+				dc.getArticulo().getEArticulo().setId(5);
+				dc.getArticulo().setContrato(c.getFlag() + "-" + c.getNumero());
+				dc.getArticulo().setCapitalContrato(c.getCapital());
+				dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
+				dc.getArticulo().setUsuarioModificacion("UPDATING");
+			}
 		}
 
-		else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost)
-				|| hoy.isEqual(gcPost)) {
-			c.setEContrato(new EContrato(7, "POST"));			
+		else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost) || hoy.isEqual(gcPost)) {
+			c.setEContrato(new EContrato(7, "POST"));
 		}
 
-		else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre)
-				&& hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
-			c.setEContrato(new EContrato(4, "PRE"));			
+		else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre) && hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
+			c.setEContrato(new EContrato(4, "PRE"));
 		}
 
 		else if (hoy.isAfter(LocalDate.parse(c.getFechaVencimiento()))
 				&& !hoy.isEqual(LocalDate.parse(c.getFechaVencimiento()))) {
-			c.setEContrato(new EContrato(2, "VENCIDO"));			
+			c.setEContrato(new EContrato(2, "VENCIDO"));
 		}
 
 		else {
