@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,6 +15,9 @@ import model.Egreso;
 import model.Ingreso;
 import model.Seguimiento;
 
+import common.Constantes;
+
+@SuppressWarnings("unchecked")
 public class ContratoController {
 
 	public Contrato GenerarContrato(Contrato c, Egreso e) {
@@ -48,7 +52,7 @@ public class ContratoController {
 			}
 			tx.commit();
 		} catch (Exception e1) {
-			//tx.rollback();
+			// tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -114,14 +118,14 @@ public class ContratoController {
 		}
 		return c;
 	}
-	
+
 	public Seguimiento GrabarSeguimiento(Seguimiento s) {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
-			tx.begin();			
+			tx.begin();
 			em.persist(s);
 			tx.commit();
 		} catch (Exception e1) {
@@ -151,7 +155,38 @@ public class ContratoController {
 		}
 		return l;
 	}
-	
+
+	public void BuscarContratosPorCliente(int id) {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery(
+					"SELECT c FROM Contrato c WHERE c.cliente.id = :i",
+					Contrato.class);
+			q.setParameter("i", id);
+			List<Contrato> l = q.getResultList();
+			Constantes.HistorialModel.setRowCount(0);
+			for (Contrato c : l) {
+
+				String x = c.getDetalleContratos().stream()
+						.map(a -> a.getArticulo().getDescripcion())
+						.collect(Collectors.joining(","));
+
+				Constantes.HistorialModel.addRow(new Object[] {
+						c.getFlag() + "-" + c.getNumero(),
+						c.getFechaContrato(), c.getFechaVencimiento(),
+						c.getFechaRemate(), c.getEContrato().getDescripcion(),
+						x, c.getPrestamo().getDescripcion(), c.getCapital() });
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+	}
+
 	public Cargo GenerarCargo(Cargo c) {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
@@ -170,5 +205,5 @@ public class ContratoController {
 		}
 		return c;
 	}
-	
+
 }

@@ -267,7 +267,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		btnMenos = new JButton(new ImageIcon("img/menos.png"));
 		contenedor.add(btnMenos);
-		btnMenos.setBounds(1191, 676, 64, 64);
+		btnMenos.setBounds(1191, 530, 64, 64);
 		btnMenos.setOpaque(false);
 		btnMenos.setBorderPainted(false);
 		btnMenos.setContentAreaFilled(false);
@@ -283,7 +283,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		btnLimpiar = new JButton(new ImageIcon("img/limpiar.png"));
 		contenedor.add(btnLimpiar);
-		btnLimpiar.setBounds(1191, 600, 64, 64);
+		btnLimpiar.setBounds(1191, 630, 64, 64);
 		btnLimpiar.setOpaque(false);
 		btnLimpiar.setBorderPainted(false);
 		btnLimpiar.setContentAreaFilled(false);
@@ -557,7 +557,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnSalir.setContentAreaFilled(false);
 		btnSalir.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		//btnSalir.setBounds(1043, 775, 212, 64);
-		btnSalir.setBounds(1025, 766, 212, 64);
+		btnSalir.setBounds(1022, 778, 212, 64);
 		btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnSalir.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnSalir.setBackground(new java.awt.Color(128, 255, 255));
@@ -669,7 +669,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial.setBorderPainted(false);
 		btnHistorial.setContentAreaFilled(false);
 		btnHistorial.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnHistorial.setBounds(960, 318, 295, 64);
+		btnHistorial.setBounds(960, 312, 295, 64);
 		btnHistorial.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnHistorial.setBackground(new java.awt.Color(128, 255, 255));
 		btnHistorial.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));

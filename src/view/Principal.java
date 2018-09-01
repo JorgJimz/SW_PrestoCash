@@ -64,6 +64,7 @@ public class Principal extends JFrame {
 	private JMenuItem mniEstadisticoMensualEmpenos;
 	private JMenu mnEstadistico;
 	private JMenuItem mniReporteCompraOro;
+	private JMenuItem mniBuscar;
 	private JMenuItem mniVentas;
 	private JMenuItem mniReporteComisionOro;
 	private JMenuItem mniReporteFundicion;
@@ -91,7 +92,8 @@ public class Principal extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setResizable(false);
-		this.setTitle("USUARIO ACTUAL: " + user.getNombres() + " " + user.getPaterno());
+		this.setTitle("USUARIO ACTUAL: " + user.getNombres() + " "
+				+ user.getPaterno());
 		Principal.LOGGED = user;
 		dskPrincipal = new JDesktopPane();
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
@@ -99,7 +101,8 @@ public class Principal extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int n = JOptionPane.showConfirmDialog(null, "<html><h2>¿Desea salir de la aplicación?</h2></html>",
+				int n = JOptionPane.showConfirmDialog(null,
+						"<html><h2>¿Desea salir de la aplicación?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (n == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -282,7 +285,8 @@ public class Principal extends JFrame {
 		});
 		mniEstadisticoMensualEmpenos = new JMenuItem();
 		mniEstadisticoMensualEmpenos.setText("GRAFICO MENSUAL DE EMPEÑOS");
-		mniEstadisticoMensualEmpenos.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniEstadisticoMensualEmpenos.setFont(new java.awt.Font("Segoe UI", 1,
+				20));
 		mniEstadisticoMensualEmpenos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -311,7 +315,8 @@ public class Principal extends JFrame {
 		mniReporteEstadisticoGanancia = new JMenuItem();
 		mnEstadistico.add(mniReporteEstadisticoGanancia);
 		mniReporteEstadisticoGanancia.setText("GRAFICO MENSUAL DE GANANCIAS");
-		mniReporteEstadisticoGanancia.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniReporteEstadisticoGanancia.setFont(new java.awt.Font("Segoe UI", 1,
+				20));
 		mniReporteEstadisticoGanancia.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -372,15 +377,19 @@ public class Principal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String docCliente = JOptionPane.showInputDialog(null,
-							"<html><h2>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h2></html>",
-							"");
+					String docCliente = JOptionPane
+							.showInputDialog(
+									null,
+									"<html><h2>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h2></html>",
+									"");
 					if (docCliente != null) {
-						Cliente c = new ClienteController().BuscarCliente(docCliente);
+						Cliente c = new ClienteController()
+								.BuscarCliente(docCliente);
 
 						if (c == null) {
 							mensaje("No existe ningún Cliente registrado con tal número de documento, regístrelo primero.");
-							dskPrincipal.add(new Mantenimiento_Clientes(docCliente));
+							dskPrincipal.add(new Mantenimiento_Clientes(
+									docCliente));
 						} else {
 							dskPrincipal.add(new Contrato_Prestacion(c));
 						}
@@ -395,12 +404,26 @@ public class Principal extends JFrame {
 		mnContrato.add(mniRenovacionContrato);
 		mniRenovacionContrato.setText("GESTIONAR");
 		mniRenovacionContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
+
+		mniBuscar = new JMenuItem();
+		mnContrato.add(mniBuscar);
+		mniBuscar.setText("BUSCAR");
+		mniBuscar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Historial h = new Historial();
+				dskPrincipal.add(h);
+			}
+		});
+
 		mniRenovacionContrato.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String contrato = JOptionPane.showInputDialog(null,
-							"<html><h2>Ingrese número del Contrato a renovar ...</h2></html>");
+					String contrato = JOptionPane
+							.showInputDialog(null,
+									"<html><h2>Ingrese número del Contrato a renovar ...</h2></html>");
 					dskPrincipal.add(new Gestion_Contrato(contrato));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -428,8 +451,8 @@ public class Principal extends JFrame {
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dskPrincipal.add(
-						new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
+				dskPrincipal.add(new Libro_Caja(new LibroCajaController()
+						.ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
 			}
 		});
 
@@ -507,7 +530,8 @@ public class Principal extends JFrame {
 			}
 		});
 		this.setExtendedState(MAXIMIZED_BOTH);
-		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getClassLoader()
+				.getResource("dollar.png")).getImage());
 
 		Object obj = new LibroCajaController().AperturarCaja();
 		if (obj instanceof String) {
@@ -532,23 +556,23 @@ public class Principal extends JFrame {
 	}
 
 	/*
-	 * public String[] validarCliente(String dniCliente) { String[] datosCliente =
-	 * null; try { String sql =
+	 * public String[] validarCliente(String dniCliente) { String[] datosCliente
+	 * = null; try { String sql =
 	 * "SELECT doc_cli,pat_cli,mat_cli,nom_cli,dir_cli,fi1_cli,mo1_cli FROM tb_cliente WHERE doc_cli=?"
 	 * ; PreparedStatement pst = con.prepareStatement(sql); pst.setString(1,
 	 * dniCliente); ResultSet rs = pst.executeQuery(); if (rs.next()) { String[]
-	 * array = { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-	 * rs.getString(5), rs.getString(6), rs.getString(7) }; datosCliente = array; }
-	 * else { datosCliente = null; } } catch (Exception e) { e.printStackTrace(); }
-	 * return datosCliente; }
+	 * array = { rs.getString(1), rs.getString(2), rs.getString(3),
+	 * rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7) };
+	 * datosCliente = array; } else { datosCliente = null; } } catch (Exception
+	 * e) { e.printStackTrace(); } return datosCliente; }
 	 */
 
 	/*
 	 * public void validarContratoAntiguo(int contrato) { try { String sql =
-	 * "SELECT * FROM tb_contrato_manual WHERE id_con=?"; PreparedStatement pst =
-	 * con.prepareStatement(sql); pst.setInt(1, contrato); ResultSet rs =
-	 * pst.executeQuery(); if (rs.next()) { Registrar_Pago_Manual pago_manual = new
-	 * Registrar_Pago_Manual( rs.getInt("id_con"));
+	 * "SELECT * FROM tb_contrato_manual WHERE id_con=?"; PreparedStatement pst
+	 * = con.prepareStatement(sql); pst.setInt(1, contrato); ResultSet rs =
+	 * pst.executeQuery(); if (rs.next()) { Registrar_Pago_Manual pago_manual =
+	 * new Registrar_Pago_Manual( rs.getInt("id_con"));
 	 * Principal.dskPrincipal.add(pago_manual); } else { JOptionPane
 	 * .showMessageDialog(null,
 	 * "<html><h2>No existe tal Número de Contrato</h2></html>"); } } catch
@@ -557,10 +581,10 @@ public class Principal extends JFrame {
 
 	/*
 	 * public void validarContratoAntiguoMora(int contrato) { try { String sql =
-	 * "SELECT * FROM tb_contrato_manual WHERE id_con=?"; PreparedStatement pst =
-	 * con.prepareStatement(sql); pst.setInt(1, contrato); ResultSet rs =
-	 * pst.executeQuery(); if (rs.next()) { Registrar_Mora_Manual mora_manual = new
-	 * Registrar_Mora_Manual( rs.getInt("id_con"));
+	 * "SELECT * FROM tb_contrato_manual WHERE id_con=?"; PreparedStatement pst
+	 * = con.prepareStatement(sql); pst.setInt(1, contrato); ResultSet rs =
+	 * pst.executeQuery(); if (rs.next()) { Registrar_Mora_Manual mora_manual =
+	 * new Registrar_Mora_Manual( rs.getInt("id_con"));
 	 * Principal.dskPrincipal.add(mora_manual); } else { JOptionPane
 	 * .showMessageDialog(null,
 	 * "<html><h2>No existe tal Número de Contrato</h2></html>"); } } catch
@@ -570,20 +594,20 @@ public class Principal extends JFrame {
 	/*
 	 * public void mostrarReporteSeparaciones() { Connection con =
 	 * MySQLConexion.getConexion(); HashMap<String, Object> parametros = new
-	 * HashMap<String, Object>(); parametros.put("p", Constantes.SUCURSAL); try {
-	 * JasperReport reporte = (JasperReport) JRLoader
+	 * HashMap<String, Object>(); parametros.put("p", Constantes.SUCURSAL); try
+	 * { JasperReport reporte = (JasperReport) JRLoader
 	 * .loadObject("reporte_separacion.jasper"); JasperPrint print =
-	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer viewer =
-	 * new JasperViewer(print, false); viewer.show(); viewer.toFront(); } catch
-	 * (Exception e) { e.printStackTrace(); } }
+	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer
+	 * viewer = new JasperViewer(print, false); viewer.show(); viewer.toFront();
+	 * } catch (Exception e) { e.printStackTrace(); } }
 	 */
 
 	/*
 	 * public boolean validarCambioDia() { Connection con =
 	 * MySQLConexion.getConexion(); boolean flag = false; try { String sql =
 	 * "SELECT MAX(fec_cam) FROM prestocash.tb_cambio"; PreparedStatement pst =
-	 * con.prepareStatement(sql); ResultSet rs = pst.executeQuery(); if (rs.next())
-	 * { if (rs.getString(1).equalsIgnoreCase( new
+	 * con.prepareStatement(sql); ResultSet rs = pst.executeQuery(); if
+	 * (rs.next()) { if (rs.getString(1).equalsIgnoreCase( new
 	 * SimpleDateFormat("yyyy-MM-dd").format(new Date()))) { flag = true; } } }
 	 * catch (Exception e) {
 	 * 

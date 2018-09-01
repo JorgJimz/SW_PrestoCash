@@ -1,14 +1,11 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
-
-/**
- * The persistent class for the cliente database table.
- * 
- */
 @Entity
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
 public class Cliente implements Serializable {
@@ -309,4 +306,8 @@ public class Cliente implements Serializable {
 		return venta;
 	}
 
+	@Override
+	public String toString() {
+		return paterno + " " + materno + " " + nombres;
+	}
 }

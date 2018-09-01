@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 import model.Cliente;
@@ -48,6 +49,24 @@ public class ClienteController {
 			em.close();
 			emf.close();
 		}
+	}
+	
+	public DefaultListModel<Cliente> FiltrarClientes(){
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		DefaultListModel<Cliente> model = new DefaultListModel<Cliente>();
+		try {
+			Query q = em.createQuery("SELECT c FROM Cliente c",Cliente.class);
+			//q.setParameter("v", val);
+			List<Cliente> l = q.getResultList();
+			for (Cliente c : l) {
+				model.addElement(c);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return model;
 	}
 
 	public DefaultTableModel BuscarClientes(String filtro, String val, DefaultTableModel model) {
