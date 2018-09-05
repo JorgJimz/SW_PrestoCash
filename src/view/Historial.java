@@ -44,6 +44,8 @@ public class Historial extends JInternalFrame {
 	private JTable tbContratos;
 
 	public Historial() {
+		Constantes.HistorialModel.setRowCount(0);
+		
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setSize(1223, 471);
@@ -148,7 +150,7 @@ public class Historial extends JInternalFrame {
 
 	public void CargarHistorial() {
 		Cliente c = (Cliente) lstClientes.getSelectedValue();
-		new ContratoController().BuscarContratosPorCliente(c.getId());
+		new ContratoController().BuscarContratosPorCliente(c.getId(),false,"",0);
 		tbContratos.setModel(Constantes.HistorialModel);
 	}
 }

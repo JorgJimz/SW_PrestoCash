@@ -63,6 +63,7 @@ public class LibroCaja implements Serializable {
 
 	@PostLoad
 	public void procesarCamposCalculados() {
+		
 		totalGanancia = BigDecimal.ZERO;
 		totalNeto = BigDecimal.ZERO;
 		totalEgresos = BigDecimal.ZERO;

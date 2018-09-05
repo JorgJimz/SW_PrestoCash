@@ -12,7 +12,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
-import controller.ArticuloController;
 import model.Articulo;
 import model.Asistencia;
 import model.Pago;
@@ -44,9 +43,6 @@ public class Constantes {
 					"SANTA ROSA", "LOS OLIVOS", "SAN BORJA", "VES",
 					"SANTA ANITA", "CALLAO" });
 
-	public static DefaultComboBoxModel AlmacenModel = new ArticuloController()
-			.ListarSedes("ALMACEN");
-
 	public static ComboBoxModel CategoriaModel = new DefaultComboBoxModel(
 			new String[] { "BUENO", "MOROSO", "PROBLEMATICO" });
 
@@ -54,6 +50,16 @@ public class Constantes {
 			new String[] { "SOLES", "DOLARES" });
 
 	public static DefaultTableModel ContratoModel = new DefaultTableModel(null,
+			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO",
+					"OBSERVACIONES", "TASACIÓN" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if (colIndex == 5)
+				return true;
+			return false;
+		}
+	};
+
+	public static DefaultTableModel ArticuloModel = new DefaultTableModel(null,
 			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO",
 					"OBSERVACIONES", "TASACIÓN" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -68,14 +74,6 @@ public class Constantes {
 			if (colIndex == 6) {
 				return true;
 			}
-			return false;
-		}
-	};
-
-	public static DefaultTableModel ArticuloModel = new DefaultTableModel(null,
-			new String[] { "CÓDIGO", "CANTIDAD", "DESCRIPCIÓN", "MARCA",
-					"MODELO", "OBSERVACIONES", "COVER", "TASACIÓN" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
 	};
@@ -153,8 +151,6 @@ public class Constantes {
 			return false;
 		}
 	};
-
-	public static DefaultComboBoxModel<ComboItem> PrestamoModel = new DefaultComboBoxModel();
 
 	public static DateTimeFormatter formatoCaja = DateTimeFormatter
 			.ofPattern("  EEEE, dd MMMM yyyy");

@@ -66,9 +66,8 @@ public class LibroCajaController {
 		try {
 			a = (BigDecimal) em
 					.createQuery(
-							"SELECT c.cierre FROM LibroCaja c WHERE c.status = 1 ORDER BY c.fechaApertura DESC")
+							"SELECT COALESCE(c.cierre,0) cierre FROM LibroCaja c WHERE c.status = 1 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
-
 		} catch (NoResultException e1) {
 			a = BigDecimal.ZERO;
 		} catch (Exception e2) {

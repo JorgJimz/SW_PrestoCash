@@ -23,9 +23,12 @@ import view.Venta_Articulos;
 public class Utiles {
 	public static void MostrarOperaciones() {
 		try {
-			String[] botones = new String[] { "Contrato de Prestación", "Venta", "Separación"/* , "Recuperación" */ };
-			int opc = JOptionPane.showOptionDialog(null, "¿Qué operación deseas realizar?", "Seleccionar",
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+			String[] botones = new String[] { "Contrato de Prestación",
+					"Venta", "Separación"/* , "Recuperación" */};
+			int opc = JOptionPane.showOptionDialog(null,
+					"¿Qué operación deseas realizar?", "Seleccionar",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 			if (opc == 0) {
 				Contrato_Prestacion c = new Contrato_Prestacion(null);
 				Principal.dskPrincipal.add(c);
@@ -39,7 +42,8 @@ public class Utiles {
 	}
 
 	public static void Mensaje(String s, int type) {
-		JOptionPane.showMessageDialog(null, "<html><h3>" + s + "</h3></html>", "Mensaje del Sistema", type);
+		JOptionPane.showMessageDialog(null, "<html><h3>" + s + "</h3></html>",
+				"Mensaje del Sistema", type);
 	}
 
 	public static boolean Validar(Container pnl) {
@@ -58,15 +62,18 @@ public class Utiles {
 				}
 			}
 			if (o instanceof JScrollPane && !(o instanceof JXSearchField)) {
-				JTextArea innerTextArea = (JTextArea) ((JScrollPane) o).getViewport().getView();
-				if (innerTextArea.getText().equals("")) {
-					innerTextArea.setBackground(Color.RED);
-					innerTextArea.setForeground(Color.WHITE);
-					innerTextArea.requestFocus();
-					val = false;
-				} else {
-					innerTextArea.setBackground(Color.WHITE);
-					innerTextArea.setForeground(Color.BLACK);
+				if (((JScrollPane) o).getViewport().getView() instanceof JTextArea) {
+					JTextArea innerTextArea = (JTextArea) ((JScrollPane) o)
+							.getViewport().getView();
+					if (innerTextArea.getText().equals("")) {
+						innerTextArea.setBackground(Color.RED);
+						innerTextArea.setForeground(Color.WHITE);
+						innerTextArea.requestFocus();
+						val = false;
+					} else {
+						innerTextArea.setBackground(Color.WHITE);
+						innerTextArea.setForeground(Color.BLACK);
+					}
 				}
 			}
 			if (o instanceof JRadioButton && !(o instanceof JXSearchField)) {
@@ -87,12 +94,17 @@ public class Utiles {
 		for (Object o : contenedor.getComponents()) {
 			if (o instanceof JTextField) {
 				((JTextField) o).setText("");
+				((JTextField) o).setForeground(new java.awt.Color(0, 64, 128));
 				((JTextField) o).setBackground(Color.WHITE);
 			}
-			if (o instanceof JScrollPane) {
-				JTextArea a = (JTextArea)((JScrollPane)o).getViewport().getView();
-				a.setText("");
-				a.setBackground(Color.WHITE);
+			if (o instanceof JScrollPane) {				
+				if(o instanceof JTextArea){
+					JTextArea a = (JTextArea) ((JScrollPane) o).getViewport()
+							.getView();
+					a.setText("");
+					a.setBackground(Color.WHITE);
+				}			
+				
 			}
 		}
 	}

@@ -156,20 +156,25 @@ public class ContratoController {
 		return l;
 	}
 
-	public void BuscarContratosPorCliente(int id) {
+	public void BuscarContratosPorCliente(int id, boolean except, String flag,
+			int numero) {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
+		String e = "";
 		try {
+			if (except) {
+				e = " AND CONCAT(c.flag,'-',c.numero) <> '" + flag + "-" + numero + "'";
+			}
 			Query q = em.createQuery(
-					"SELECT c FROM Contrato c WHERE c.cliente.id = :i",
+					"SELECT c FROM Contrato c WHERE c.cliente.id = :i" + e,
 					Contrato.class);
 			q.setParameter("i", id);
 			List<Contrato> l = q.getResultList();
 			Constantes.HistorialModel.setRowCount(0);
 			for (Contrato c : l) {
 
-				String x = c.getDetalleContratos().stream()
+				String articulos = c.getDetalleContratos().stream()
 						.map(a -> a.getArticulo().getDescripcion())
 						.collect(Collectors.joining(","));
 
@@ -177,10 +182,11 @@ public class ContratoController {
 						c.getFlag() + "-" + c.getNumero(),
 						c.getFechaContrato(), c.getFechaVencimiento(),
 						c.getFechaRemate(), c.getEContrato().getDescripcion(),
-						x, c.getPrestamo().getDescripcion(), c.getCapital() });
+						articulos, c.getPrestamo().getDescripcion(),
+						c.getCapital() });
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		} finally {
 			em.close();
 			emf.close();
