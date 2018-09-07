@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="voucher_cancelacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="52760acc-fff2-4a03-bd3d-a41a9dacbbdd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="contrato" class="java.lang.String"/>
+	<parameter name="monto" class="java.lang.String"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="articulos" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="161" splitType="Stretch">
+			<textField>
+				<reportElement uuid="cda0532f-43c0-4bb9-b3d6-b4162360cfd5" x="168" y="11" width="100" height="23"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="da8ce307-cea1-49e6-b282-6a3442b24611" x="420" y="11" width="100" height="23"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{monto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="466ec2ef-cb72-4544-aa57-9396f9d36281" x="125" y="77" width="395" height="23"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement uuid="8c45cdd7-3cbb-4b43-857c-10d314624084" x="125" y="112" width="100" height="23"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ccc3cde8-ae7a-4649-8e7f-0c12425359f4" x="25" y="11" width="143" height="23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO.CONTRATO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3eb2ea98-5cc0-4c02-914e-8b8fed789fe7" x="25" y="77" width="100" height="23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="19fc5a40-5e36-4f5a-86be-eef9fa41c323" x="25" y="112" width="100" height="23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4290f4cb-5049-4b5e-9755-e0a12b9a7616" x="320" y="11" width="100" height="23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO (S/.)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="af9b317b-5761-4455-83e8-bc744fd42970" x="25" y="44" width="118" height="23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARTICULO(S):]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7af332d9-9633-486b-bb06-9a7b13685aaa" x="143" y="47" width="377" height="23"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{articulos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

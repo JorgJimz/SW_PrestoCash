@@ -372,6 +372,7 @@ public class Libro_Caja extends JInternalFrame {
 					tbIngresos.setModel(Constantes.IngresoModel);
 					btnNuevoIngreso.setVisible(false);
 					btnGrabarIngreso.setVisible(true);
+					btnCerrarCaja.setEnabled(false);
 				} else {
 					Utiles.Mensaje(
 							"Tiene cambios pendientes en el lado de <b>EGRESOS</b>. Guarde la información primero antes de continuar.",
@@ -399,6 +400,7 @@ public class Libro_Caja extends JInternalFrame {
 					tbEgresos.setModel(Constantes.EgresoModel);
 					btnNuevoEgreso.setVisible(false);
 					btnGrabarEgreso.setVisible(true);
+					btnCerrarCaja.setEnabled(false);
 				} else {
 					Utiles.Mensaje(
 							"Tiene cambios pendientes en el lado de <b>INGRESOS</b>. Guarde la información primero antes de continuar.",
@@ -421,23 +423,28 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Ingreso ingreso = new Ingreso();
-				ingreso.setLibroCaja(Principal.LIBRO_CAJA);
-				ingreso.setDescripcion(String
-						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 0)));
-				ingreso.setTipo(String
-						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 1)));
-				ingreso.setCapital(new BigDecimal(String
-						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 2))));
-				ingreso.setGanancia(new BigDecimal(String
-						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 3))));
-				ingreso.setOtro(new BigDecimal(String
-						.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 4))));
-				new LibroCajaController().RegistrarIngreso(ingreso);
-				tbIngresos.setCellEditable(false);
-				btnGrabarIngreso.setVisible(false);
-				btnNuevoIngreso.setVisible(true);
-				Utiles.Mensaje("Ingreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+				if (Utiles.ValidarTabla(tbIngresos)) {
+					Ingreso ingreso = new Ingreso();
+					ingreso.setLibroCaja(Principal.LIBRO_CAJA);
+					ingreso.setDescripcion(String
+							.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 0)));
+					ingreso.setTipo(String
+							.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 1)));
+					ingreso.setCapital(new BigDecimal(String.valueOf(
+							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 2))));
+					ingreso.setGanancia(new BigDecimal(String.valueOf(
+							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 3))));
+					ingreso.setOtro(new BigDecimal(String.valueOf(
+							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 4))));
+					new LibroCajaController().RegistrarIngreso(ingreso);
+					tbIngresos.setCellEditable(false);
+					btnGrabarIngreso.setVisible(false);
+					btnNuevoIngreso.setVisible(true);
+					btnCerrarCaja.setEnabled(true);
+					Utiles.Mensaje("Ingreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					Utiles.Mensaje("Complete los datos", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -455,19 +462,24 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Egreso egreso = new Egreso();
-				egreso.setLibroCaja(Principal.LIBRO_CAJA);
-				egreso.setDescripcion(
-						String.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 0)));
-				egreso.setTipo(String
-						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 1)));
-				egreso.setImporte(new BigDecimal(String
-						.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2))));
-				new LibroCajaController().RegistrarEgreso(egreso);
-				tbEgresos.setCellEditable(false);
-				btnGrabarEgreso.setVisible(false);
-				btnNuevoEgreso.setVisible(true);
-				Utiles.Mensaje("Egreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+				if (Utiles.ValidarTabla(tbEgresos)) {
+					Egreso egreso = new Egreso();
+					egreso.setLibroCaja(Principal.LIBRO_CAJA);
+					egreso.setDescripcion(String
+							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 0)));
+					egreso.setTipo(String
+							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 1)));
+					egreso.setImporte(new BigDecimal(String
+							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2))));
+					new LibroCajaController().RegistrarEgreso(egreso);
+					tbEgresos.setCellEditable(false);
+					btnGrabarEgreso.setVisible(false);
+					btnNuevoEgreso.setVisible(true);
+					btnCerrarCaja.setEnabled(true);
+					Utiles.Mensaje("Egreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					Utiles.Mensaje("Complete los datos", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 

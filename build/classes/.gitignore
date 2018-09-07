@@ -1,2 +1,5 @@
-/controller
-/view
+/model/
+/report/
+/view/
+/common/
+/controller/

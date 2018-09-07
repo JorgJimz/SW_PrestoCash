@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_compra_oro" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12e5fc32-4ede-4418-b835-585036ebd624">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="a" class="java.lang.Integer"/>
+	<parameter name="m" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT fec_com,des_com,bru_com,tot_com FROM prestocash.tb_compra_oro
+WHERE MONTH(fec_com)=$P{m} AND YEAR(fec_com)=$P{a}
+ORDER BY fec_com]]>
+	</queryString>
+	<field name="fec_com" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="des_com" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bru_com" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tot_com" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total_peso" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{bru_com}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tot_com}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="26d19ab3-f93b-4f98-9f4e-ab0b20743929" x="0" y="0" width="555" height="33"/>
+				<textElement>
+					<font size="25" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE COMPRA ORO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1db1287f-4b76-4999-aea2-cc704a876352" mode="Opaque" x="0" y="2" width="100" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA COMPRA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f915ab68-71e7-4b41-afe2-9204e15d9122" mode="Opaque" x="100" y="2" width="315" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN DE LA COMPRA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eedd29c3-70d9-4269-a2dd-d9021e0b21b9" mode="Opaque" x="415" y="2" width="70" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PESO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e7d2ec33-ae6d-49a0-acc6-996dbced38ec" mode="Opaque" x="485" y="2" width="70" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement uuid="862237cc-779b-4f1f-ac73-a84b71699f49" x="0" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MMM-yyyy").format($F{fec_com})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a75fe88a-fe1a-43b6-96c8-7d0a2eef5361" x="100" y="0" width="315" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{des_com}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c37d6426-b34f-4e7c-96ab-6cf3d216b4f1" x="415" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bru_com}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="330e2da8-42d9-440d-8d01-2a388a1d0838" x="485" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tot_com}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<textField pattern="###0.00">
+				<reportElement uuid="b6fa56b0-bf64-4d62-ace4-73c684567802" x="485" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="05d95ad3-f940-45b9-953f-390e23a6a5e8" x="415" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_peso}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="54b09683-59d7-45a9-8a5c-a848b38a1cac" x="0" y="0" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="6e53ef6e-6f61-495e-a774-805ad9e676c4" x="0" y="1" width="415" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL PRENDAS COMPRADAS: "+$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

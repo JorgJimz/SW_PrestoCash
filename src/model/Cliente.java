@@ -70,9 +70,18 @@ public class Cliente implements Serializable {
 	//bi-directional many-to-one association to Venta
 	@OneToMany(mappedBy="cliente")
 	private List<Venta> ventas;
+	
+	@Transient
+	private String nombreCompleto;
 
 	public Cliente() {
 	}
+	
+	@PostLoad
+	public void procesarCamposCalculados() {
+		nombreCompleto = paterno + " " + materno + " " + nombres;
+	}
+	
 
 	public int getId() {
 		return this.id;
@@ -310,4 +319,14 @@ public class Cliente implements Serializable {
 	public String toString() {
 		return paterno + " " + materno + " " + nombres;
 	}
+
+	public String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+	
+	
 }

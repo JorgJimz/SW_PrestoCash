@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_mobiliario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d6d17a0-7c0e-4841-8660-f3e404042ffe">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM tb_contrato c
+INNER JOIN tb_cliente cl
+ON c.tb_cliente_doc_cli = cl.doc_cli
+INNER JOIN tb_detalle_contrato dc
+ON c.id_con = dc.tb_contrato_id_con
+WHERE c.id_con=$P{id}]]>
+	</queryString>
+	<field name="id_con" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tb_cliente_doc_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tb_prestamo_cod_pre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fec_con" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fec_ven_con" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fec_rem_con" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cap_con" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="int_con" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mon_con" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tb_usuario_dni_usu" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tb_estado_contrato_id_est" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="obs_con" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="p" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="doc_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pat_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mat_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ema_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fi1_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fi2_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mo1_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mo2_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dir_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dis_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cat_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="obs_cli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="est_cli" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tb_articulo_cod_art" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tb_contrato_id_con" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tas_det_con" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="95" splitType="Stretch"/>
+	</title>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5f14fc93-a060-455b-b66c-902ba3be2dae" x="0" y="22" width="555" height="693"/>
+				<textElement>
+					<font size="13" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Conste por el presente documento, suscrito en el Distrito de Lima, a los …… dias del mes de……………….año  20…….., en letras suscripción del presente contrato, con el siguiente CONTRATO DE PRÉSTAMO CON GARANTÍA MOBILIARIA que celebran la empresa PRESTOCASH S.A.C., en adelante LA EMPRESA, con R.U.C. N° 20508494735, con domicilio en Avenida Arenales N° 1544, Distrito de Lince; representado por su Titular-Gerente General Don Jorge Otilio Escajadillo Bazzo DNI 07322023 y, como EL CLIENTE a la persona constituyente del presente Contrato de Préstamo con Garantía Mobiliaria, que se menciona a continuación:
+1.	CONSTITUYENTE (S).- Producido el incumplimiento del presente Contrato de Préstamo con Garantía Mobiliaria el constituyente pasa hacer deudor, del cual dejará constancia LA EMPRESA que sería la única acreedora mediante carta notarial dirigida al deudor y al representante y, en su caso, al constituyente, el acreedor garantizado podrá proceder a la venta del bien mueble afectado en garantía mobiliaria, después de transcurridos tres días hábiles de recibida la carta notarial, según el inciso 3, del artículo 47, de la Ley N° 28677.
+NOMBRE Y APELLIDOS: ………………………………………………………………………………  DNI ………………………..   declara que procede por Derecho Propio, bajo las siguientes condiciones,:
+a)	OBJETO.- por el presente Contrato, LA EMPRESA otorga al cliente un préstamo, constituyéndose el mismo en una línea de crédito revolvente y por su parte EL CLIENTE se compromete a pagar el préstamo en los términos pactados y, para el caso de un incumplimiento, constituye con preferencia una Garantía Mobiliaria en respaldo del préstamo y todas las obligaciones presentes y futuras que asuma frente a LA EMPRESA, tal como se detalla en el numeral 7 del presente documento.
+b)	CONTRATO.- al firmar éste documento, EL CLIENTE declara estar conforme con todas sus cláusulas, condiciones y con la información consignada en el presente documento, las cuales forman parte integrante del mismo. Declara haber verificado que la descripción de los bienes otorgados en Garantía Mobiliaria es correcta y que la fecha del préstamo y su vencimiento son los pactados, renunciando a todo reclamo futuro por éstos conceptos. LA EMPRESA no reconoce adulteraciones, borrones, enmendaduras, ni modificación alguna en la información consignada en el presente documento, este documento se extiende por duplicado quedando un ejemplar en poder de LA EMPRESA y otro en poder de EL CLIENTE. En caso de duda, se preferirá el ejemplar del Contrato que obra en poder de LA EMPRESA. Se deja expresa constancia que EL CLIENTE no podrá ceder el presente Contrato a terceros.
+c)	PRÉSTAMO Y GARANTÍA.- por el presente contrato, LA EMPRESA otorga a EL CLIENTE en calidad de Préstamo la suma de dinero en efectivo en moneda nacional como se indica en el numeral 3 de este documento y a su vez constituye una línea de crédito revolvente a favor de EL CLIENTE por un importe igual al monto del préstamo. El monto de la línea de crédito revolvente podrá ser variada, disminuida o aumentada, en cualquier oportunidad por LA EMPRESA; asimismo, esta línea podrá ser anulada por LA EMPRESA en caso de indicios de deterioro de la calidad crediticia de EL CLIENTE, tanto en LA EMPRESA como en el Sistema Financiero Nacional. Durante la vigencia del Contrato, EL CLIENTE, podrá realizar el uso total de la línea de crédito revolvente, siempre que dichos usos de línea sumados a los saldos pendientes no excedan en conjunto la línea máxima autorizada. Las obligaciones que EL CLIENTE asume o asuma en el futuro frente a LA EMPRESA, generarán el pago de la deuda principal, los intereses, las comisiones, los gastos, las primas de seguros pagadas por el acreedor garantizado, las costas y los costos procesales, los eventuales gastos de custodia y conservación, las penalidades, la indemnización por daños y perjuicios y cualquier otro concepto acordado por las partes hasta el monto del gravamen establecido en el presente acto jurídico constitutivo, según el inciso 3.2, del artículo 3, de la Ley de Garantía Mobiliaria N° 28677.
+d)	CONSTITUCIÓN.- según el artículo 17, de la Ley N° 28677, la relación jurídica entre las partes, derivada de la garantía mobiliaria sobre el bien mueble se constituye unilateralmente o plurilateralmente, debidamente otorgado con la finalidad de asegurar el cumplimiento de una obligación. Para que la garantía mobiliaria sea oponible frente a terceros debe estar inscrita en el Registro correspondiente.
+EL acto jurídico constitutivo constará por escrito y podrá instrumentarse por cualquier medio fehaciente que deje constancia de la voluntad de quien lo otorga, incluyendo el télex, telefax, intercambio electrónico de datos, correo electrónico y medios ópticos o similares, de conformidad con la Ley N° 27269 Ley de Firmas y Certificados Digitales, el Decreto Supremo N° 019-2002-JUS Reglamento de la Ley de Firmas y Certificados Digitales y las demás normas aplicables en esta materia. Cuando la garantía mobiliaria se constituya por un tercero, no se requerirá del consentimiento del deudor.
+
+e)	PLAZO.- El plazo que otorga LA EMPRESA a EL CLIENTE para el pago de sus obligaciones referidas al presente contrato, es de 30 Días calendario, a cuyo vencimiento EL CLIENTE podrá optar por algunas de las siguientes alternativas:
+a)	Pago total del capital del préstamo, así como los intereses compensatorios y, moratorios, comisiones, gastos e impuestos pactados que se devenguen.
+b)	Pago parcial del capital del préstamo y el total de los intereses compensatorios y, moratorios, comisiones, gastos e impuestos pactados que se devenguen.
+c)	Pago total de los intereses compensatorios y, moratorios, comisiones, gastos e impuestos pactados que se devenguen.
+De optarse por las alternativas b ó c, LA EMPRESA fijará un nuevo plazo de vencimiento y el saldo correspondiente del capital adeudado por EL CLIENTE. En ambos casos, se mantendrá vigente para todos sus efectos la Garantía Mobiliaria constituida, manteniendo LA EMPRESA en su poder los bienes otorgados en garantía por EL CLIENTE. Los pagos se realizarán en efectivo y únicamente en las agencias de LA EMPRESA.
+Si LA EMPRESA no puede devolver los bienes otorgados en garantía mobiliaria por causa no imputable, pagará a EL CLIENTE un importe igual al acordado como valor de tasación.
+2.	GARANTÍA.- Se constituye garantía mobiliaria sobre el bien mueble descrito a continuación:
+Poner las características del objeto mueble a empeñar:
+VEHICULO………………………….AÑO DE  FARICACION ……………, PLACA …………………… , MARCA  ……………………………..
+MODELO ……………….…… , NUMERO DE SERIE …..……………………….. , NUMERO DE MOTOR ………………….…………….. COLOR ……………………………,   COMBUSTIBLE …………………………………………
+3.	VALOR DEL BIEN AFECTADO.- El valor del bien mueble afectado en garantía mobiliaria asciende a           (….…..…………………………………………….………) Poner el monto en números y letras, valor que ha sido fijado por las partes.
+4.	MONTO DEL GRAVAMEN.- Se establece como monto del gravamen vehicular la suma de:
+(………………………………………………..…………..), poner el monto en números y letras, el mismo que comprende todos los conceptos establecidos por el artículo 3.2 de la Ley N° 28677.
+5.	DATOS DEL DEPOSITARIO.- Las partes acuerdan que el Depositario es LA EMPRESA.
+6.	ACTO CONSTITUTIVO.- Se formaliza a través del Contrato Privado de fecha ……..DE………………………DEL 20……., de suscripción del contrato, las partes declaran bajo juramento que los datos consignados en el presente instrumento, guardan estricta coincidencia con lo establecido en el acto constitutivo.
+7.	FORMA DE EJECUCIÓN EXTRAJUDICIAL.- Las partes convienen que si resulta exigible la obligación garantizada EL ACREEDOR podrá proceder a la venta del bien garantizado en la forma prevista en el artículo 47 de la Ley N° 28677; las partes acuerdan ampliar a  60 DIAS el plazo prorrogable el plazo previsto en el inciso 6, del artículo 47, de la Ley N° 28677; asimismo, de considerarlo conveniente el acreedor, alternativamente, podrá adjudicarse la propiedad del bien dado en Garantía Mobiliaria en la forma prevista en el artículo 53 de la Ley N° 28677.
+
+8.	REPRESENTANTE COMÚN.- Para los efectos de dar cumplimiento al pacto de ejecución extrajudicial establecido en el presente instrumento se otorga poder específico e irrevocable, conforme al inciso 1, del artículo 47, de la Ley N° 28677, para realizar y formalizar la transferencia del bien afecto en garantía mobiliaria, a ……………………………………………………………….………………….…………………, identificada con D.N.I. N°……………………………, con domicilio en ……………………………………………………………..Distrito de…..……………………………., Provincia y Departamento de Lima, para que en caso de incumplimiento del presente Contrato proceda a suscribir la documentación necesaria para la transferencia del bien mueble afecto en garantía mobiliaria, según el inciso 6, del artículo 53, de la Ley N° 28677.
+
+9.	DOMICILIOS REALES.- Para la validez de todas las comunicaciones y notificaciones, con motivo de la ejecución de este contrato, ambas partes señalan sus domicilios los indicados en el presente documento. El cambio de domicilio de cualquiera de las partes solo surtirá efectos desde la fecha de comunicación a la otra parte, por cualquier medio escrito, con un plazo de anticipación no menor a cinco días.
+
+10.	POSICIÓN CONTRACTUAL Y CESIÓN DE DERECHOS.- EL CLIENTE presta asentimiento y autoriza para que EL ACREEDOR pueda ceder o transmitir total o parcialmente todos los derechos y obligaciones derivados de este contrato a favor de un tercero. Este pacto comprende tanto la cesión de derechos como la cesión de posición contractual.
+11.	CLAUSULA EXTRAORDINARIA: ESTACIONAMIENTO VEHICULAR COMO ABONADO.   El vehículo de placa……..                     quedará en la playa de  estacionamiento previamente fijada por EL ACREEDOR  exclusivamente en calidad de ABONADO, siendo el mismo enviado por EL ACREEDOR .Este es un  vehículo que queda en calidad  de GARANTIA por un préstamo pactado con el titular del mismo Sr(a).                                            con DNI ..……..                     y el mismo no puede ser retirado ni movilizado por ninguna persona ni motivo, a excepción de personal autorizado por EL ACREEDOR o por El mismo.
+
+
+                                                                                                           	     PRESTOCASH S.A.C.
+
+
+
+
+
+ ……....………………………………………			       	       ………………………………………………………
+          	     EL CLIENTE							Jorge Otilio Escajadillo Bazzo
+                  DNI    				         		                        Gerente General
+          	                                                                                                     RUC  20508494735
+]]></text>
+			</staticText>
+			<break>
+				<reportElement uuid="724ab51e-8be2-4baf-833e-053f8adeba5e" x="0" y="729" width="555" height="1"/>
+			</break>
+			<staticText>
+				<reportElement uuid="26409183-fadb-4178-9387-36fd47a4876b" x="0" y="0" width="555" height="22"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE PRÉSTAMO CON GARATÍA MOBILARIA]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

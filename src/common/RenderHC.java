@@ -11,10 +11,11 @@ import javax.swing.table.TableCellRenderer;
 public class RenderHC implements TableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
 
 		JLabel e = new JLabel();
+
 		e.setOpaque(true);
 
 		if (isSelected) {

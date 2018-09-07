@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import common.Utiles;
 import controller.ClienteController;
+import controller.ContratoController;
 import controller.LibroCajaController;
 import maintenance.Mantenimiento_Articulos;
 import maintenance.Mantenimiento_Cambio;
@@ -24,6 +26,7 @@ import maintenance.Mantenimiento_Clientes;
 import maintenance.Mantenimiento_Prestamos;
 import maintenance.Mantenimiento_Usuarios;
 import model.Cliente;
+import model.Contrato;
 import model.LibroCaja;
 import model.Usuario;
 import report.Estadistico_Mensual_Empenos;
@@ -81,7 +84,6 @@ public class Principal extends JFrame {
 	private JMenuItem mniLibroCaja;
 	private JMenu mnSeguimiento;
 	private JMenu mnContrato;
-	private JMenu mnAdministrativo;
 	private JMenuItem mniActualizarContratos;
 	private JMenuItem mniRenovacionContrato;
 	public static Usuario LOGGED;
@@ -92,8 +94,7 @@ public class Principal extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setResizable(false);
-		this.setTitle("USUARIO ACTUAL: " + user.getNombres() + " "
-				+ user.getPaterno());
+		this.setTitle("USUARIO ACTUAL: " + user.getNombres() + " " + user.getPaterno());
 		Principal.LOGGED = user;
 		dskPrincipal = new JDesktopPane();
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
@@ -101,8 +102,7 @@ public class Principal extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int n = JOptionPane.showConfirmDialog(null,
-						"<html><h2>¿Desea salir de la aplicación?</h2></html>",
+				int n = JOptionPane.showConfirmDialog(null, "<html><h2>¿Desea salir de la aplicación?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (n == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -116,6 +116,7 @@ public class Principal extends JFrame {
 		jMenu1 = new JMenu();
 		menuBarPrincipal.add(jMenu1);
 		jMenu1.setText("MANTENIMIENTO");
+		jMenu1.setVisible(false);
 		jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		jMenu1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -140,12 +141,6 @@ public class Principal extends JFrame {
 		mnReportes.setText("REPORTES");
 		mnReportes.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		mnReportes.setForeground(new java.awt.Color(255, 255, 255));
-
-		mnAdministrativo = new JMenu();
-		menuBarPrincipal.add(mnAdministrativo);
-		mnAdministrativo.setText("ADMINISTRATIVO");
-		mnAdministrativo.setFont(new java.awt.Font("Segoe UI", 1, 22));
-		mnAdministrativo.setForeground(new java.awt.Color(255, 255, 255));
 
 		mniReporteRemates = new JMenuItem();
 		mnReportes.add(mniReporteRemates);
@@ -285,8 +280,7 @@ public class Principal extends JFrame {
 		});
 		mniEstadisticoMensualEmpenos = new JMenuItem();
 		mniEstadisticoMensualEmpenos.setText("GRAFICO MENSUAL DE EMPEÑOS");
-		mniEstadisticoMensualEmpenos.setFont(new java.awt.Font("Segoe UI", 1,
-				20));
+		mniEstadisticoMensualEmpenos.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniEstadisticoMensualEmpenos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -315,8 +309,7 @@ public class Principal extends JFrame {
 		mniReporteEstadisticoGanancia = new JMenuItem();
 		mnEstadistico.add(mniReporteEstadisticoGanancia);
 		mniReporteEstadisticoGanancia.setText("GRAFICO MENSUAL DE GANANCIAS");
-		mniReporteEstadisticoGanancia.setFont(new java.awt.Font("Segoe UI", 1,
-				20));
+		mniReporteEstadisticoGanancia.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniReporteEstadisticoGanancia.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -377,19 +370,17 @@ public class Principal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String docCliente = JOptionPane
-							.showInputDialog(
-									null,
-									"<html><h2>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h2></html>",
-									"");
-					if (docCliente != null) {
-						Cliente c = new ClienteController()
-								.BuscarCliente(docCliente);
+					String docCliente = JOptionPane.showInputDialog(null,
+							"<html><h2>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h2></html>",
+							"");
+					if (Objects.nonNull(docCliente)) {
+						Cliente c = new ClienteController().BuscarCliente(docCliente);
 
-						if (c == null) {
-							mensaje("No existe ningún Cliente registrado con tal número de documento, regístrelo primero.");
-							dskPrincipal.add(new Mantenimiento_Clientes(
-									docCliente));
+						if (Objects.isNull(c)) {
+							Utiles.Mensaje(
+									"No existe ningún Cliente registrado con tal número de documento, regístrelo primero.",
+									JOptionPane.WARNING_MESSAGE);
+							dskPrincipal.add(new Mantenimiento_Clientes(docCliente));
 						} else {
 							dskPrincipal.add(new Contrato_Prestacion(c));
 						}
@@ -421,10 +412,18 @@ public class Principal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String contrato = JOptionPane
-							.showInputDialog(null,
-									"<html><h2>Ingrese número del Contrato a renovar ...</h2></html>");
-					dskPrincipal.add(new Gestion_Contrato(contrato));
+					String c = JOptionPane.showInputDialog(null,
+							"<html><h2>Ingrese número del Contrato a renovar ...</h2></html>");
+					if (Objects.nonNull(c)) {
+						String flag = String.valueOf(c.split("-")[0]);
+						int numero = Integer.parseInt(String.valueOf(c.split("-")[1]));
+						Contrato contrato = new ContratoController().CargarContrato(flag.toUpperCase(), numero);
+						if (Objects.nonNull(contrato)) {
+							dskPrincipal.add(new Gestion_Contrato(contrato));
+						} else {
+							Utiles.Mensaje("Contrato no existe. Verifique.", JOptionPane.WARNING_MESSAGE);
+						}
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -451,8 +450,8 @@ public class Principal extends JFrame {
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dskPrincipal.add(new Libro_Caja(new LibroCajaController()
-						.ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
+				dskPrincipal.add(
+						new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
 			}
 		});
 
@@ -530,8 +529,7 @@ public class Principal extends JFrame {
 			}
 		});
 		this.setExtendedState(MAXIMIZED_BOTH);
-		this.setIconImage(new ImageIcon(getClass().getClassLoader()
-				.getResource("dollar.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 
 		Object obj = new LibroCajaController().AperturarCaja();
 		if (obj instanceof String) {
@@ -546,72 +544,5 @@ public class Principal extends JFrame {
 			 */
 		}
 	}
-
-	public void mensaje(String s) {
-		JOptionPane.showMessageDialog(null, s);
-	}
-
-	public JFrame obtenerFrame() {
-		return this;
-	}
-
-	/*
-	 * public String[] validarCliente(String dniCliente) { String[] datosCliente
-	 * = null; try { String sql =
-	 * "SELECT doc_cli,pat_cli,mat_cli,nom_cli,dir_cli,fi1_cli,mo1_cli FROM tb_cliente WHERE doc_cli=?"
-	 * ; PreparedStatement pst = con.prepareStatement(sql); pst.setString(1,
-	 * dniCliente); ResultSet rs = pst.executeQuery(); if (rs.next()) { String[]
-	 * array = { rs.getString(1), rs.getString(2), rs.getString(3),
-	 * rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7) };
-	 * datosCliente = array; } else { datosCliente = null; } } catch (Exception
-	 * e) { e.printStackTrace(); } return datosCliente; }
-	 */
-
-	/*
-	 * public void validarContratoAntiguo(int contrato) { try { String sql =
-	 * "SELECT * FROM tb_contrato_manual WHERE id_con=?"; PreparedStatement pst
-	 * = con.prepareStatement(sql); pst.setInt(1, contrato); ResultSet rs =
-	 * pst.executeQuery(); if (rs.next()) { Registrar_Pago_Manual pago_manual =
-	 * new Registrar_Pago_Manual( rs.getInt("id_con"));
-	 * Principal.dskPrincipal.add(pago_manual); } else { JOptionPane
-	 * .showMessageDialog(null,
-	 * "<html><h2>No existe tal Número de Contrato</h2></html>"); } } catch
-	 * (Exception e) { e.printStackTrace(); } }
-	 */
-
-	/*
-	 * public void validarContratoAntiguoMora(int contrato) { try { String sql =
-	 * "SELECT * FROM tb_contrato_manual WHERE id_con=?"; PreparedStatement pst
-	 * = con.prepareStatement(sql); pst.setInt(1, contrato); ResultSet rs =
-	 * pst.executeQuery(); if (rs.next()) { Registrar_Mora_Manual mora_manual =
-	 * new Registrar_Mora_Manual( rs.getInt("id_con"));
-	 * Principal.dskPrincipal.add(mora_manual); } else { JOptionPane
-	 * .showMessageDialog(null,
-	 * "<html><h2>No existe tal Número de Contrato</h2></html>"); } } catch
-	 * (Exception e) { e.printStackTrace(); } }
-	 */
-
-	/*
-	 * public void mostrarReporteSeparaciones() { Connection con =
-	 * MySQLConexion.getConexion(); HashMap<String, Object> parametros = new
-	 * HashMap<String, Object>(); parametros.put("p", Constantes.SUCURSAL); try
-	 * { JasperReport reporte = (JasperReport) JRLoader
-	 * .loadObject("reporte_separacion.jasper"); JasperPrint print =
-	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer
-	 * viewer = new JasperViewer(print, false); viewer.show(); viewer.toFront();
-	 * } catch (Exception e) { e.printStackTrace(); } }
-	 */
-
-	/*
-	 * public boolean validarCambioDia() { Connection con =
-	 * MySQLConexion.getConexion(); boolean flag = false; try { String sql =
-	 * "SELECT MAX(fec_cam) FROM prestocash.tb_cambio"; PreparedStatement pst =
-	 * con.prepareStatement(sql); ResultSet rs = pst.executeQuery(); if
-	 * (rs.next()) { if (rs.getString(1).equalsIgnoreCase( new
-	 * SimpleDateFormat("yyyy-MM-dd").format(new Date()))) { flag = true; } } }
-	 * catch (Exception e) {
-	 * 
-	 * } return flag; }
-	 */
 
 }

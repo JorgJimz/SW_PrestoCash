@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_mensual_empenios" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c6f48ce-72ff-40ec-97cf-5db768d1967f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ds_electro" uuid="5d841320-dbf7-4c7c-88d9-d33fe4e2a1ca">
+		<parameter name="e_a" class="java.lang.Integer"/>
+		<parameter name="e_m" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT CONCAT(p,'-',id_con) AS 'CONTRATO', cap_con, mon_con, ec.des_est FROM tb_contrato c
+INNER JOIN tb_estado_contrato ec ON c.tb_estado_contrato_id_est=ec.id_est
+WHERE MONTH(fec_con)=$P{e_m} AND YEAR(fec_con)=$P{e_a}
+ORDER BY CONTRATO]]>
+		</queryString>
+		<field name="CONTRATO" class="java.lang.String"/>
+		<field name="cap_con" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="mon_con" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="des_est" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="ds_oro" uuid="87a6b7ad-d93e-4416-a1f8-1ebf7e93bdb4">
+		<parameter name="o_a" class="java.lang.Integer"/>
+		<parameter name="o_m" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT CONCAT(p,'-',id_con) AS 'CONTRATO', cap_con, mon_con, ec.des_est FROM tb_contrato_oro c
+INNER JOIN tb_estado_contrato ec ON c.tb_estado_contrato_id_est=ec.id_est
+WHERE MONTH(fec_con)=$P{o_m} AND YEAR(fec_con)=$P{o_a}
+ORDER BY CONTRATO]]>
+		</queryString>
+		<field name="CONTRATO" class="java.lang.String"/>
+		<field name="cap_con" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="mon_con" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="des_est" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="a" class="java.lang.Integer"/>
+	<parameter name="m" class="java.lang.Integer"/>
+	<parameter name="p" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT CONCAT(p,'-',id_con) AS 'CONTRATO', cap_con, mon_con FROM tb_contrato
+WHERE MONTH(fec_con)=$P{m} AND YEAR(fec_con)=$P{a}
+UNION
+SELECT CONCAT(p,'-',id_con) AS 'CONTRATO', cap_con, mon_con FROM tb_contrato_oro
+WHERE MONTH(fec_con)=$P{m} AND YEAR(fec_con)=$P{a}]]>
+	</queryString>
+	<field name="CONTRATO" class="java.lang.String"/>
+	<field name="cap_con" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mon_con" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="monto_total_soles" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[($F{mon_con}.equalsIgnoreCase( "SOLES" ))? $F{cap_con}:$V{cero}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{cero}]]></initialValueExpression>
+	</variable>
+	<variable name="cero" class="java.lang.Double">
+		<variableExpression><![CDATA[0.00]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="monto_total_dolares" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[($F{mon_con}.equalsIgnoreCase( "DOLARES" ))? $F{cap_con}:$V{cero}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{cero}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d162fbbf-11f1-4d93-bb1b-7971b7704ef0" x="0" y="0" width="555" height="30"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE MENSUAL DE EMPEÑOS - "+$P{p}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="85">
+			<textField evaluationTime="Report">
+				<reportElement uuid="6ddeeeae-283d-4534-b8b1-a9e459ceca2e" x="0" y="30" width="555" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CAPITAL INVERTIDO DÓLARES = S/."+$V{monto_total_dolares}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="e10c0e0e-0c38-4990-be05-76f61957aeb5" x="0" y="55" width="555" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL EMPEÑOS EN EL MES = "+$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="5e4ed70d-2f0b-4363-b66f-7a86b5ef4ac6" x="0" y="5" width="555" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CAPITAL INVERTIDO SOLES = S/."+$V{monto_total_soles}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="80" splitType="Stretch">
+			<componentElement>
+				<reportElement uuid="c26a92bd-2d04-449b-b9fc-44e4579997fc" key="table 1" style="table 1" x="280" y="0" width="275" height="80"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ds_oro" uuid="ff5e9c50-b03f-4d9e-9cc6-2892c4d4e320">
+						<datasetParameter name="o_a">
+							<datasetParameterExpression><![CDATA[$P{a}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="o_m">
+							<datasetParameterExpression><![CDATA[$P{m}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="275" uuid="3636722c-2599-40bf-b6d6-733f94f1b39e">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="6a4815f8-e9e8-4f65-a7b4-a5f8347bf778" x="0" y="0" width="275" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="15" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CONTRATOS ORO]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="6b614de6-3289-4006-ba9d-1738c973be08" x="0" y="0" width="275" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="13" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["CANTIDAD TOTAL = "+$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:column width="55" uuid="ca3b549b-1df0-4822-bf37-ead863542d72">
+							<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="5d6a15c8-9ffe-41ce-9b4c-f1d049a7effe" x="0" y="0" width="55" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[NRO]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="0a679f0f-fce8-4311-aee1-8c8f18ca8fb5" x="0" y="0" width="55" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{CONTRATO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="77a87126-2d5a-484d-a960-8a483505f2f5">
+							<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="5a237359-42a4-4482-ae32-b4899dbb6db5" x="0" y="0" width="60" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[CAP.]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="28c2e0f5-339a-4147-add7-26a145dbd11e" x="0" y="0" width="60" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{cap_con}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="70" uuid="05b4a2ed-a7e0-4bff-a0c8-a8ac58e44a0f">
+							<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="458b8292-ab75-411d-a1ee-bef4b56db4fe" x="0" y="0" width="70" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[MONEDA]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="db459630-5bc1-4a28-8338-4c940eed16be" x="0" y="0" width="70" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{mon_con}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="90" uuid="e9143ea1-141f-46ca-be66-c8521c34851b">
+							<jr:columnHeader height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="48faa7a4-452e-4282-a7e9-a2303bc8f6a2" style="table_CH" x="0" y="0" width="90" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[ESTADO]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="67e80a34-8cb1-47fd-8e5b-953a2800497e" style="table_TD" x="0" y="0" width="90" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{des_est}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement uuid="afd8a84b-749b-41f6-b65a-cb86c29c21bd" key="table" style="table" x="0" y="0" width="280" height="80"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ds_electro" uuid="8aaab816-6569-407f-8c53-3a09cfc4ae59">
+						<datasetParameter name="e_a">
+							<datasetParameterExpression><![CDATA[$P{a}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="e_m">
+							<datasetParameterExpression><![CDATA[$P{m}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="275" uuid="ca0d6707-385c-430f-a8f2-d50425a7f530">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="83aefe9d-3902-4271-ab81-19fc30f9470d" x="0" y="0" width="275" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="15" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CONTRATOS ELECTRO]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="31efab0e-0a69-4d13-ba31-00de613cd7ee" x="0" y="0" width="275" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="13" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["CANTIDAD TOTAL = "+$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:column width="55" uuid="78f42bc1-9eef-4c7e-a884-4b568a2cd1ee">
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="8f6b2118-1746-45d7-875d-a1aa720a34e7" x="0" y="0" width="55" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[NRO]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table_TD" height="20" rowSpan="1">
+								<textField pattern="">
+									<reportElement uuid="67dfdcfa-6dc5-4454-9ec0-1f50eecb5e1f" x="0" y="0" width="55" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{CONTRATO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="c860a23c-6c32-446f-8044-9f98da03845c">
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="8f58edaf-e099-48df-b3fb-f6b06fd01e02" x="0" y="0" width="60" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[CAP.]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="27b2ed5d-b05b-4656-9935-6e6a0c90b0ca" x="0" y="0" width="60" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{cap_con}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="70" uuid="25ee8545-bca0-4d10-a240-352cc4df2607">
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="b2d2bf36-4af8-4a2f-a9a5-5150766cefeb" x="0" y="0" width="70" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[MON.]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="8babfb9f-b72a-45ee-a88b-7ea587448b7b" x="0" y="0" width="70" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{mon_con}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="90" uuid="f14f5087-ae7f-40f4-85ca-594301b4a5e2">
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement uuid="ee134126-56ec-4beb-bc43-0e96c8147b20" x="0" y="0" width="90" height="30"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="13" isBold="true"/>
+									</textElement>
+									<text><![CDATA[ESTADO]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="919ca965-a5b6-4fc1-8b1a-1a7e4e4b3372" x="0" y="0" width="90" height="20"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{des_est}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

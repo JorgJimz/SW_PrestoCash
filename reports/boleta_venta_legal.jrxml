@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boleta_venta" language="groovy" pageWidth="650" pageHeight="842" columnWidth="610" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="02fbc783-665c-46f0-b1d3-4001365c20c5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nombre_cliente" class="java.lang.String"/>
+	<parameter name="nro_contrato" class="java.lang.String"/>
+	<parameter name="detalle_articulo" class="java.lang.String"/>
+	<parameter name="fecha_venta" class="java.lang.String"/>
+	<parameter name="obs_art" class="java.lang.String"/>
+	<parameter name="tlf_cliente" class="java.lang.String"/>
+	<field name="dni_cliente" class="java.lang.String"/>
+	<field name="codigo_articulo" class="java.lang.Integer"/>
+	<field name="importe_venta" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="252" splitType="Stretch">
+			<textField>
+				<reportElement uuid="8191ee23-c713-40aa-be9c-47709ac358f2" x="447" y="25" width="160" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dni_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f7e1910c-fa11-498e-bce4-ee694989ef95" x="0" y="87" width="63" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_articulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="63cb9c7d-0800-4e39-9cbc-09005c4aee1d" x="396" y="50" width="71" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P.UNIT:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c9c7e15f-eb11-455c-a006-53e9eb5bd153" x="454" y="50" width="153" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e508dfac-ee91-4c1d-b2f6-fa603d6e5618" x="63" y="0" width="323" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6af0446a-4ddd-45d1-b624-f437ead40cfa" x="126" y="227" width="239" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_contrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cffea243-130f-4776-bd83-2437722c9601" x="64" y="87" width="332" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{detalle_articulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="512c47cf-4a3a-4f15-a165-b258bc8bf3c5" x="396" y="0" width="71" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="9f8907c6-1da2-454d-a871-9ba1859c8cb5" x="467" y="0" width="140" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a565eda4-c45d-43a6-bb22-c6584a020990" x="0" y="112" width="396" height="103"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{obs_art}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="512c47cf-4a3a-4f15-a165-b258bc8bf3c5" x="0" y="0" width="95" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEÑOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="512c47cf-4a3a-4f15-a165-b258bc8bf3c5" x="396" y="25" width="95" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[D.N.I.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="512c47cf-4a3a-4f15-a165-b258bc8bf3c5" x="13" y="227" width="113" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO: T-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="512c47cf-4a3a-4f15-a165-b258bc8bf3c5" x="0" y="25" width="95" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="16da3a0e-bd32-46ca-8f63-436ca92814ff" x="95" y="25" width="176" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tlf_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9c7e15f-eb11-455c-a006-53e9eb5bd153" x="454" y="87" width="153" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9c7e15f-eb11-455c-a006-53e9eb5bd153" x="447" y="227" width="153" height="25"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe_venta}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="f8cf8bdf-35ae-40fd-bca4-e38172cdaffe" x="447" y="215" width="153" height="1"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

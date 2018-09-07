@@ -24,6 +24,8 @@ import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
 import common.Constantes;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Entity
 @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c")
@@ -149,6 +151,9 @@ public class Contrato implements Serializable {
 
 	@Transient
 	private String operacion;
+
+	@Transient
+	private String clienteJasper;
 
 	public Contrato() {
 		detalleContratos = new ArrayList<DetalleContrato>();
@@ -625,4 +630,16 @@ public class Contrato implements Serializable {
 		this.operacion = operacion;
 	}
 
+	public String getClienteJasper() {
+		return cliente.getPaterno() + " " + cliente.getMaterno() + ", " + cliente.getNombres();
+	}
+
+	public void setClienteJasper(String clienteJasper) {
+		this.clienteJasper = clienteJasper;
+	}
+
+	public JRDataSource getDetalleContratoJasper() {
+		return new JRBeanCollectionDataSource(detalleContratos);
+	}
+	
 }

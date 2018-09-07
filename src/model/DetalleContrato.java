@@ -12,28 +12,35 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name="detalle_contrato")
-@NamedQuery(name="DetalleContrato.findAll", query="SELECT d FROM DetalleContrato d")
+@Table(name = "detalle_contrato")
+@NamedQuery(name = "DetalleContrato.findAll", query = "SELECT d FROM DetalleContrato d")
 public class DetalleContrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private int cantidad;
 
 	private BigDecimal tasacion;
 
-	//bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	// bi-directional many-to-one association to Articulo
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Articulo articulo;
 
-	//bi-directional many-to-one association to Contrato
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	// bi-directional many-to-one association to Contrato
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Contrato contrato;
+
+	@Transient
+	private String articuloJasper;
+
+	@Transient
+	private String observacionArticuloJasper;
 
 	public DetalleContrato() {
 	}
@@ -76,6 +83,22 @@ public class DetalleContrato implements Serializable {
 
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
+	}
+
+	public String getArticuloJasper() {
+		return articuloJasper;
+	}
+
+	public void setArticuloJasper(String articuloJasper) {
+		this.articuloJasper = articuloJasper;
+	}
+
+	public void setObservacionArticuloJasper(String observacionArticuloJasper) {
+		this.observacionArticuloJasper = observacionArticuloJasper;
+	}
+
+	public String getObservacionArticuloJasper() {
+		return observacionArticuloJasper;
 	}
 
 }

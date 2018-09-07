@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_ganancia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b109806d-5d3f-4d54-aff5-760af3662dac">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="mes_n" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT p_bit,SUM(gan_bit) as 'suma',fec_bit FROM tb_bitacora
+WHERE MONTH(fec_bit)=$P{mes_n}
+]]>
+	</queryString>
+	<field name="p_bit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="suma" class="java.math.BigDecimal"/>
+	<field name="fec_bit" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement uuid="706e17e2-c847-46a8-bdf7-65d17715fb0d" x="0" y="0" width="555" height="32"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE MENSUAL DE EMPEÑOS ("+$P{mes}+")"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="113" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement uuid="1303f718-6360-4d0e-b22a-7bce9606c412" x="0" y="0" width="555" height="113"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["ARENALES"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{p_bit}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{suma}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["PERU"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{p_bit}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{suma}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["ARICA"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{p_bit}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{suma}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["HUAYLAS"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{p_bit}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{suma}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

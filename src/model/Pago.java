@@ -34,6 +34,8 @@ public class Pago implements Serializable {
 	private BigDecimal interes;
 
 	private BigDecimal mora;
+	
+	public static final Pago DEFAULT = null;
 
 	// bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch = FetchType.LAZY)

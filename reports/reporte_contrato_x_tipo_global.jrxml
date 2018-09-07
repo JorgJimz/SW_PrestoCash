@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_contrato_x_tipo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e009ab30-0eda-4627-ba45-3c0ef139c206">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tipos" class="java.lang.String"/>
+	<parameter name="p" class="java.lang.String"/>
+	<parameter name="estado" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT p.des_pre AS 'prestamo', CONCAT(p,'-',id_con) ,DATE_FORMAT(fec_con,'%d-%b-%y') ,DATE_FORMAT(fec_ven_con,'%d-%b-%y'),
+DATE_FORMAT(fec_rem_con,'%d-%b-%y'),cap_con,int_con,mon_con, des_est
+FROM tb_contrato c
+INNER JOIN tb_prestamo p ON c.tb_prestamo_cod_pre=p.cod_pre
+INNER JOIN tb_estado_contrato ec ON c.tb_estado_contrato_id_est= ec.id_est
+WHERE p.des_pre LIKE $P{tipos}
+UNION
+SELECT p.des_pre AS 'prestamo', CONCAT(p,'-',id_con),DATE_FORMAT(fec_con,'%d-%b-%y') ,DATE_FORMAT(fec_ven_con,'%d-%b-%y'),
+DATE_FORMAT(fec_rem_con,'%d-%b-%y'),cap_con,int_con,mon_con, des_est
+FROM tb_contrato_manual c
+INNER JOIN tb_prestamo p ON c.tb_prestamo_cod_pre=p.cod_pre
+INNER JOIN tb_estado_contrato ec ON c.tb_estado_contrato_id_est= ec.id_est
+WHERE p.des_pre LIKE $P{tipos}
+UNION
+SELECT p.des_pre AS 'prestamo', CONCAT(p,'-',id_con),DATE_FORMAT(fec_con,'%d-%b-%y') ,DATE_FORMAT(fec_ven_con,'%d-%b-%y'),
+DATE_FORMAT(fec_rem_con,'%d-%b-%y'),cap_con,int_con,mon_con, des_est
+FROM tb_contrato_oro c
+INNER JOIN tb_prestamo p ON c.tb_prestamo_cod_pre=p.cod_pre
+INNER JOIN tb_estado_contrato ec ON c.tb_estado_contrato_id_est= ec.id_est
+WHERE p.des_pre LIKE $P{tipos}]]>
+	</queryString>
+	<field name="CONCAT(p,&apos;-&apos;,id_con)" class="java.lang.String"/>
+	<field name="DATE_FORMAT(fec_con,&apos;%d-%b-%y&apos;)" class="java.lang.String"/>
+	<field name="DATE_FORMAT(fec_ven_con,&apos;%d-%b-%y&apos;)" class="java.lang.String"/>
+	<field name="DATE_FORMAT(fec_rem_con,&apos;%d-%b-%y&apos;)" class="java.lang.String"/>
+	<field name="cap_con" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="int_con" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mon_con" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prestamo" class="java.lang.String"/>
+	<field name="des_est" class="java.lang.String"/>
+	<variable name="total_capital" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{cap_con}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5780f17d-d59d-454b-8dfd-d6869d5f37d4" x="0" y="0" width="376" height="26"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE CONTRATOS POR TIPO]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="802ecd22-c38f-4396-93ed-e8224c77ba1b" x="468" y="0" width="87" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f230ea7c-adff-4fe9-abae-d23cb687c02c" x="57" y="2" width="54" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CTO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce4bdb25-2508-4892-943d-fc94b660ef39" x="111" y="2" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e4b1354d-cb33-4cdc-8a18-d8f8ca3d2765" x="423" y="2" width="72" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONEDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="959979d7-b9a9-47e3-af69-db2ea409021c" x="361" y="2" width="62" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INTERES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5e9e1c83-c56a-4598-8a57-3bb8137075d0" x="174" y="2" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENCI.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="28f37e69-6754-472a-a8fc-8decd4404e83" x="237" y="2" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RIESGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3c28e1ef-0b60-4966-beea-6d6f8a5311a2" x="300" y="2" width="61" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAPITAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="efec4469-f527-41f0-a1ed-d2cb2e148503" x="0" y="2" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ba6a5fd9-7b7e-40d6-8a9a-63470e9fc59e" x="495" y="2" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="2535ef26-fcf8-49fa-8a41-7aedcc25b23b" x="57" y="0" width="54" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CONCAT(p,'-',id_con)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0399568b-d69e-4be0-8dbc-06ff9237e3de" x="111" y="0" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATE_FORMAT(fec_con,'%d-%b-%y')}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="637cffc9-00d5-4b5c-990a-60d7ced5fcc5" x="174" y="0" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATE_FORMAT(fec_ven_con,'%d-%b-%y')}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f8b96fc3-c1e9-463c-82e5-592698d8fbf7" x="237" y="0" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATE_FORMAT(fec_rem_con,'%d-%b-%y')}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d694ee1e-6d86-472b-a57d-eb81d0f65a6c" x="423" y="0" width="72" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mon_con}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="12a48a99-8ba0-4d43-aed2-b59c82b250e9" x="361" y="0" width="62" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{int_con}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a7aeaea-5842-40f3-b9a2-f8195798fa14" x="300" y="0" width="61" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cap_con}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="119d25a1-cedf-4e8e-bbcd-3b168d981293" x="0" y="0" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{prestamo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="567ad2fc-a578-475e-a052-21500e3f762b" x="495" y="0" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{des_est}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement uuid="e48bc470-6cd4-42ea-9f84-73fc111949a0" x="0" y="26" width="555" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL DE CONTRATOS: "+$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="839d0c8f-3787-447b-9e08-4de83242a974" x="0" y="24" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="cf45b998-8988-406b-9751-ac80cce47b9a" x="166" y="0" width="195" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL CAPITAL: "+$V{total_capital}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

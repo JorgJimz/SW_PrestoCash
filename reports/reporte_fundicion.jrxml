@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_fundicion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="100f4832-cd57-40ee-bd6e-9f1f951114d9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BorderFactory">
+		<box>
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="1.0"/>
+			<leftPen lineWidth="1.0"/>
+			<bottomPen lineWidth="1.0"/>
+			<rightPen lineWidth="1.0"/>
+		</box>
+	</style>
+	<parameter name="p" class="java.lang.String"/>
+	<parameter name="a" class="java.lang.Integer"/>
+	<parameter name="m" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT CONCAT(p_con_asoc,'-',id_con_asoc) AS 'CONTRATO',
+CONCAT(a.des_art,SPACE(1),a.mar_art,SPACE(1),a.mod_art,SPACE(1),'GR.') AS 'ARTICULO',
+fec_fun,mod_art
+FROM tb_fundicion f
+INNER JOIN tb_articulo a
+ON f.tb_articulo_cod_art = a.cod_art
+WHERE MONTH(fec_fun)=$P{m} AND YEAR(fec_fun)=$P{a}]]>
+	</queryString>
+	<field name="CONTRATO" class="java.lang.String"/>
+	<field name="ARTICULO" class="java.lang.String"/>
+	<field name="fec_fun" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mod_art" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total_gramaje" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{mod_art}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="98aab902-8ff4-422c-98f2-5dd7aaf6aeae" x="0" y="0" width="555" height="35"/>
+				<textElement verticalAlignment="Middle">
+					<font size="25" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE FUNDICIÓN DE ORO - "+$P{p}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="dedb0355-1385-41b7-8647-1daf73d91ad0" style="BorderFactory" mode="Opaque" x="101" y="1" width="95" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e9fe32e2-7f1d-40dd-abcb-7cdd5b9964ee" style="BorderFactory" mode="Opaque" x="1" y="1" width="100" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ddfd9942-c463-4b7f-baaa-cc028fe1436a" style="BorderFactory" mode="Opaque" x="196" y="1" width="259" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="48c9cdab-4b63-45b9-b22c-1f8957a4a925" style="BorderFactory" mode="Opaque" x="455" y="1" width="99" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRAMAJE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bf6d78ed-106e-443b-8871-0c2c3b818e64" style="BorderFactory" x="101" y="0" width="95" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTRATO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a2738975-a16a-4d43-9367-2656f04128f0" style="BorderFactory" x="196" y="0" width="259" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ARTICULO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5aa64cec-ad24-43b4-aba6-9c157f4c8ac8" style="BorderFactory" x="1" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MMM-yyyy").format($F{fec_fun})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0c47cdac-c3fd-452e-903a-6d103d504a54" style="BorderFactory" x="455" y="0" width="99" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mod_art}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="51" splitType="Stretch">
+			<textField>
+				<reportElement uuid="f3a5daee-bfbf-43dc-a571-a1bf53b6bae5" x="0" y="6" width="554" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL DE PRENDAS FUNDIDAS: "+$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4b30c989-acf5-4526-bd52-14a6e4e354ee" x="1" y="31" width="554" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PESO TOTAL FUNDIDO: "+$V{total_gramaje}+" GR."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="dde7d0e0-20ae-4e90-93e1-df2aa2937807" x="1" y="0" width="554" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
