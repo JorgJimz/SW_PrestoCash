@@ -20,8 +20,7 @@ import common.Constantes;
 public class ArticuloController {
 
 	public Articulo RegistrarArticulo(Articulo a) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -29,7 +28,7 @@ public class ArticuloController {
 			em.merge(a);
 			tx.commit();
 		} catch (Exception e1) {
-			// tx.rollback();
+			//tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -38,23 +37,30 @@ public class ArticuloController {
 		return a;
 	}
 
+	public List<Articulo> ListarArticulos() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Articulo> l = null;
+		try {
+			l = em.createQuery("SELECT a FROM Articulo a", Articulo.class).getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return l;
+	}
+
 	public DefaultTableModel ObtenerHistorial(DefaultTableModel model, int id) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query q = em
-					.createQuery(
-							"SELECT DISTINCT(a) FROM DetalleContrato dc "
-									+ "INNER JOIN dc.articulo a "
-									+ "INNER JOIN dc.contrato c WHERE c.cliente.id = :i",
-							Articulo.class);
+			Query q = em.createQuery("SELECT DISTINCT(a) FROM DetalleContrato dc " + "INNER JOIN dc.articulo a "
+					+ "INNER JOIN dc.contrato c WHERE c.cliente.id = :i", Articulo.class);
 			q.setParameter("i", id);
 			List<Articulo> l = q.getResultList();
 			model.setRowCount(0);
 			for (Articulo a : l) {
-				model.addRow(new Object[] { a.getId(), a.getDescripcion(),
-						a.getMarca(), a.getModelo(), a.getObs(), "200" });
+				model.addRow(
+						new Object[] { a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(), a.getObs(), "200" });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,21 +72,17 @@ public class ArticuloController {
 	}
 
 	public void CargarVitrina() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query q = em
-					.createQuery(
-							"SELECT a FROM Articulo a WHERE a.EArticulo.id IN (2,5) AND a.precioVenta > 0",
-							Articulo.class);
+			Query q = em.createQuery("SELECT a FROM Articulo a WHERE a.EArticulo.id IN (2,5) AND a.precioVenta > 0",
+					Articulo.class);
 			List<Articulo> l = q.getResultList();
 			Constantes.VitrinaModel.setRowCount(0);
 			for (Articulo a : l) {
-				Constantes.VitrinaModel.addRow(new Object[] { a.getContrato(),
-						a.getId(), a.getDescripcion(), a.getMarca(),
-						a.getModelo(), a.getObs(), a.getCapitalContrato(),
-						a.getPrecioVenta(), a.getEArticulo().getId() });
+				Constantes.VitrinaModel.addRow(
+						new Object[] { a.getContrato(), a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(),
+								a.getObs(), a.getCapitalContrato(), a.getPrecioVenta(), a.getEArticulo().getId() });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,8 +93,7 @@ public class ArticuloController {
 	}
 
 	public Articulo ObtenerArticulo(int id) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		Articulo articulo = null;
 		try {
@@ -107,14 +108,12 @@ public class ArticuloController {
 	}
 
 	public List<ComboItem> ListarSedes(String tipo) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<ComboItem> l = null;
 		try {
-			l = em.createQuery("SELECT s FROM Sede s WHERE s.tSede = :s",
-					Sede.class).setParameter("s", tipo).getResultList()
-					.stream().map(p -> {
+			l = em.createQuery("SELECT s FROM Sede s WHERE s.tSede = :s", Sede.class).setParameter("s", tipo)
+					.getResultList().stream().map(p -> {
 						ComboItem ci = new ComboItem();
 						ci.setId(p.getId());
 						ci.setDescripcion(p.getDescripcion());

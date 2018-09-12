@@ -495,7 +495,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar = new JButton(new ImageIcon("img/grabarContrato.png"));
 		contenedor.add(btnGrabar);
 		btnGrabar.setText(" GENERAR CONTRATO");
-		btnGrabar.setFocusable(false);
 		btnGrabar.setOpaque(false);
 		btnGrabar.setBorderPainted(false);
 		btnGrabar.setContentAreaFilled(false);

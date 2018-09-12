@@ -26,11 +26,18 @@ public class Constantes {
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
 	public static BigDecimal MORA_SOLES = new BigDecimal(150);
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
-	
+
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
 
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+	
+	public static DefaultTableModel ClienteModel = new DefaultTableModel(null, new String[] { "ID", "DOC.IDENTIDAD", "NOMBRE",
+			"A.PATERNO", "A.MATERNO", "E-MAIL", "TLF 1", "TLF 2", "DIRECCIÓN", "DISTRITO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
@@ -44,6 +51,10 @@ public class Constantes {
 
 	public static ComboBoxModel CategoriaModel = new DefaultComboBoxModel(
 			new String[] { "BUENO", "MOROSO", "PROBLEMATICO" });
+	
+	public static ComboBoxModel TipoDocumentoModel = new DefaultComboBoxModel(
+			new String[] { "DNI", "C.EXTRANJERÍA", "PASAPORTE" });
+
 
 	public static ComboBoxModel MonedaModel = new DefaultComboBoxModel(new String[] { "SOLES", "DOLARES" });
 
@@ -55,9 +66,16 @@ public class Constantes {
 			return false;
 		}
 	};
-	
-	public static DefaultTableModel AbonoModel = new DefaultTableModel(null, new String[] { "FECHA PAGO", "CAPITAL ANTERIOR",
-			"INTERES ANTERIOR", "IMPORTE ABONADO", "NUEVO CAPITAL", "NUEVO INTERES" }) {
+
+	public static DefaultTableModel MtoArticuloModel = new DefaultTableModel(null, new String[] { "ID", "DESCRIPCIÓN",
+			"MARCA", "MODELO", "SERIE", "OBSERVACIONES", "CONTRATO", "CAPITAL", "P.VENTA", "P.INTERNO", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
+	public static DefaultTableModel AbonoModel = new DefaultTableModel(null, new String[] { "FECHA PAGO",
+			"CAPITAL ANTERIOR", "INTERES ANTERIOR", "IMPORTE ABONADO", "NUEVO CAPITAL", "NUEVO INTERES" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
@@ -180,7 +198,7 @@ public class Constantes {
 	public static Predicate<Component> predicadoCajaTexto = new Predicate<Component>() {
 		@Override
 		public boolean test(Component p) {
-			return (p instanceof JLabel && ((JLabel)p).getBackground() == Color.WHITE) ? true : false;
+			return (p instanceof JLabel && ((JLabel) p).getBackground() == Color.WHITE) ? true : false;
 		}
 	};
 }

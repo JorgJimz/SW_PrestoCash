@@ -21,7 +21,6 @@ import controller.ClienteController;
 import controller.ContratoController;
 import controller.LibroCajaController;
 import maintenance.Mantenimiento_Articulos;
-import maintenance.Mantenimiento_Cambio;
 import maintenance.Mantenimiento_Clientes;
 import maintenance.Mantenimiento_Prestamos;
 import maintenance.Mantenimiento_Usuarios;
@@ -50,7 +49,6 @@ import report.Reporte_Vitrina;
 public class Principal extends JFrame {
 
 	private JMenuBar menuBarPrincipal;
-	private JMenuItem mniTipoCambio;
 	private JMenuItem mniContrato;
 	private JMenu mnTransacciones;
 	private JMenu mnReportes;
@@ -59,7 +57,7 @@ public class Principal extends JFrame {
 	private JMenuItem mniPrestamos;
 	public static JDesktopPane dskPrincipal;
 	private JMenuItem mniUsuario;
-	private JMenu jMenu1;
+	private JMenu mnMantenimiento;
 	private JMenuItem mniReporteEstadisticoGanancia;
 	private JMenuItem mniCasaViva;
 	private JMenuItem mniReporteAutoVigente;
@@ -113,12 +111,11 @@ public class Principal extends JFrame {
 		menuBarPrincipal = new JMenuBar();
 		setJMenuBar(menuBarPrincipal);
 
-		jMenu1 = new JMenu();
-		menuBarPrincipal.add(jMenu1);
-		jMenu1.setText("MANTENIMIENTO");
-		jMenu1.setVisible(false);
-		jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 22));
-		jMenu1.setForeground(new java.awt.Color(255, 255, 255));
+		mnMantenimiento = new JMenu();
+		menuBarPrincipal.add(mnMantenimiento);
+		mnMantenimiento.setText("MANTENIMIENTO");
+		mnMantenimiento.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		mnMantenimiento.setForeground(new java.awt.Color(255, 255, 255));
 
 		mnTransacciones = new JMenu();
 		menuBarPrincipal.add(mnTransacciones);
@@ -468,12 +465,12 @@ public class Principal extends JFrame {
 		});
 
 		mniUsuario = new JMenuItem();
-		jMenu1.add(mniUsuario);
+		mnMantenimiento.add(mniUsuario);
 		mniUsuario.setText("USUARIOS");
 		mniUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
 		mniPrestamos = new JMenuItem();
-		jMenu1.add(mniPrestamos);
+		mnMantenimiento.add(mniPrestamos);
 		mniPrestamos.setText("PRÉSTAMOS");
 		mniPrestamos.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniPrestamos.addActionListener(new ActionListener() {
@@ -486,7 +483,7 @@ public class Principal extends JFrame {
 		});
 
 		mniClientes = new JMenuItem();
-		jMenu1.add(mniClientes);
+		mnMantenimiento.add(mniClientes);
 		mniClientes.setText("CLIENTES");
 		mniClientes.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniClientes.addActionListener(new ActionListener() {
@@ -497,20 +494,8 @@ public class Principal extends JFrame {
 			}
 		});
 
-		mniTipoCambio = new JMenuItem();
-		jMenu1.add(mniTipoCambio);
-		mniTipoCambio.setText("TIPO DE CAMBIO");
-		mniTipoCambio.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniTipoCambio.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Mantenimiento_Cambio mtc = new Mantenimiento_Cambio();
-				dskPrincipal.add(mtc);
-			}
-		});
-
 		mniArticulos = new JMenuItem();
-		jMenu1.add(mniArticulos);
+		mnMantenimiento.add(mniArticulos);
 		mniArticulos.setText("ARTÍCULOS");
 		mniArticulos.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		mniArticulos.addActionListener(new ActionListener() {

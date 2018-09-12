@@ -45,8 +45,7 @@ public class Login extends JFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(new java.awt.Color(255, 213, 170));
 
-		this.setIconImage(new ImageIcon(getClass().getClassLoader()
-				.getResource("dollar.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 
 		txtUsuario = new JTextField();
 		getContentPane().add(txtUsuario);
@@ -54,8 +53,7 @@ public class Login extends JFrame {
 		txtUsuario.setBounds(100, 299, 383, 64);
 		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
-		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		order.add(txtUsuario);
 		txtUsuario.addActionListener(new ActionListener() {
@@ -70,8 +68,7 @@ public class Login extends JFrame {
 		txtPassword.setBounds(100, 379, 383, 64);
 		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
-		txtPassword.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtPassword.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		order.add(txtPassword);
 		txtPassword.addActionListener(new ActionListener() {
@@ -90,8 +87,7 @@ public class Login extends JFrame {
 		btnIngreso.setBounds(495, 299, 144, 144);
 		btnIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		order.add(btnIngreso);
-		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -126,11 +122,9 @@ public class Login extends JFrame {
 	}
 
 	public void IniciarSesion() {
-		Usuario u = new UsuarioController().Login(new Usuario(txtUsuario
-				.getText(), txtPassword.getText()));
+		Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
 		if (Objects.nonNull(u)) {
-			Asistencia ga = u.getAsistencias().stream()
-					.filter(Constantes.predicadoAsistencia).findFirst()
+			Asistencia ga = u.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
 					.orElse(Asistencia.DEFAULT);
 			if (Objects.isNull(ga)) {
 				Asistencia a = new Asistencia();
@@ -139,22 +133,19 @@ public class Login extends JFrame {
 				a.setHoraIngreso(String.valueOf(LocalTime.now()));
 				a.setObs("");
 				a.setUsuario(u);
-				Utiles.Mensaje(new UsuarioController().MarcarAsistencia(a),
-						JOptionPane.INFORMATION_MESSAGE);
+				Utiles.Mensaje(new UsuarioController().MarcarAsistencia(a), JOptionPane.INFORMATION_MESSAGE);
 			}
 			new Principal(u);
 			Cerrar();
 		} else {
-			JOptionPane
-					.showMessageDialog(null,
-							" Acceso Denegado. Comuníquese con el Administrador del Sistema.");
+			JOptionPane.showMessageDialog(null, " Acceso Denegado. Comuníquese con el Administrador del Sistema.");
 		}
 	}
 
 	public static void main(String[] args) {
 		try {
-			UIManager
-					.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
+			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
+
 			new Login();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
