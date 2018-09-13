@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -93,8 +96,20 @@ public class Principal extends JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("USUARIO ACTUAL: " + user.getNombres() + " " + user.getPaterno());
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
-		dskPrincipal = new JDesktopPane();
+		dskPrincipal = new JDesktopPane() {
+			ImageIcon icon = new ImageIcon("img/bkg.jpg");
+			Image image = icon.getImage();
+			Image newimage = image.getScaledInstance(1280, 1024, Image.SCALE_SMOOTH);
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(newimage, 640, 0, this);
+			}
+		};
+		dskPrincipal.setBackground(new Color(18, 53, 20));
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
 		dskPrincipal.setBounds(0, 0, 704, 377);
 		this.addWindowListener(new WindowAdapter() {
@@ -513,9 +528,7 @@ public class Principal extends JFrame {
 				dskPrincipal.add(mu);
 			}
 		});
-		this.setExtendedState(MAXIMIZED_BOTH);
-		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
-
+		
 		Object obj = new LibroCajaController().AperturarCaja();
 		if (obj instanceof String) {
 			Utiles.Mensaje(String.valueOf(obj), JOptionPane.WARNING_MESSAGE);

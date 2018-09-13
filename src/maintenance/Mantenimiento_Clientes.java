@@ -24,12 +24,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import common.Constantes;
 import common.Utiles;
 import controller.ClienteController;
-import de.javasoft.swing.JYTable;
 import model.Cliente;
 import view.Principal;
 
@@ -63,7 +63,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 	private JLabel jLabel3;
 	private JComboBox cboTipoDocumento;
 	private JLabel jLabel2;
-	private JYTable tbClientes;
+	private JXTable tbClientes;
 	private JLabel lblIdUbigeo;
 	private JTextField txtDni;
 	private JLabel txtId;
@@ -428,7 +428,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		cboTipoDocumento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		cboTipoDocumento.setBounds(15, 62, 157, 32);
 
-		tbClientes = new JYTable();
+		tbClientes = new JXTable();
 		tbClientes.setRowHeight(25);
 		tbClientes.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));

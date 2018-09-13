@@ -61,11 +61,13 @@ public class Utiles {
 		for (Object o : pnl.getComponents()) {
 			if (o instanceof JTextField && !(o instanceof JXSearchField)) {
 				if (((JTextField) o).getText().equals("")) {
+					((JTextField) o).setOpaque(true);
 					((JTextField) o).setBackground(Color.RED);
 					((JTextField) o).setForeground(Color.WHITE);
 					((JTextField) o).requestFocus();
 					val = false;
 				} else {
+					((JTextField) o).setOpaque(false);
 					((JTextField) o).setBackground(Color.WHITE);
 					((JTextField) o).setForeground(Color.BLACK);
 				}
@@ -74,11 +76,13 @@ public class Utiles {
 				if (((JScrollPane) o).getViewport().getView() instanceof JTextArea) {
 					JTextArea innerTextArea = (JTextArea) ((JScrollPane) o).getViewport().getView();
 					if (innerTextArea.getText().equals("")) {
+						innerTextArea.setOpaque(true);
 						innerTextArea.setBackground(Color.RED);
 						innerTextArea.setForeground(Color.WHITE);
 						innerTextArea.requestFocus();
 						val = false;
 					} else {
+						innerTextArea.setOpaque(false);
 						innerTextArea.setBackground(Color.WHITE);
 						innerTextArea.setForeground(Color.BLACK);
 					}

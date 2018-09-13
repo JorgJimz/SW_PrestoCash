@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 
 import common.Constantes;
 import common.MyFocusTraversalPolicy;
@@ -97,7 +99,6 @@ public class Login extends JFrame {
 
 		lblLogo = new JLabel(new ImageIcon("img/logo.png"));
 		getContentPane().add(lblLogo);
-		lblLogo.setOpaque(true);
 		lblLogo.setBounds(24, 12, 615, 261);
 
 		imgUser = new JLabel(new ImageIcon("img/user.png"));
@@ -109,7 +110,7 @@ public class Login extends JFrame {
 		getContentPane().add(imgKey);
 		imgKey.setOpaque(false);
 		imgKey.setBounds(24, 379, 64, 64);
-
+		
 		this.setSize(680, 510);
 		this.setLocationRelativeTo(null);
 
@@ -144,8 +145,8 @@ public class Login extends JFrame {
 
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
-
+			UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
+			UIManager.put("TitledBorder.border", new LineBorder(new Color(0, 0, 0), 1));
 			new Login();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
