@@ -16,8 +16,7 @@ import model.Cliente;
 public class ClienteController {
 
 	public Cliente RegistrarCliente(Cliente c) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -35,8 +34,7 @@ public class ClienteController {
 	}
 
 	public void ActualizarCliente(Cliente c) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -50,54 +48,48 @@ public class ClienteController {
 			emf.close();
 		}
 	}
-	
-	public DefaultListModel<Cliente> FiltrarClientes(){
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+
+	public DefaultListModel<Cliente> FiltrarClientes() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		DefaultListModel<Cliente> model = new DefaultListModel<Cliente>();
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c",Cliente.class);
-			//q.setParameter("v", val);
+			Query q = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
+			// q.setParameter("v", val);
 			List<Cliente> l = q.getResultList();
 			for (Cliente c : l) {
 				model.addElement(c);
-			}			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 		return model;
 	}
 
 	public DefaultTableModel BuscarClientes(String filtro, String val, DefaultTableModel model) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente WHERE " + filtro + " LIKE :v",Cliente.class);
+			Query q = em.createQuery("SELECT c FROM Cliente WHERE " + filtro + " LIKE :v", Cliente.class);
 			q.setParameter("v", val);
 			List<Cliente> l = q.getResultList();
 			for (Cliente c : l) {
-				model.addRow(new Object[] { c.getId(),
-						c.getTDocumento() + " - " + c.getDocumento(),
-						c.getNombres(), c.getPaterno(), c.getMaterno(),
-						c.getEmail(), c.getTlf1(), c.getTlf2(),
-						c.getDireccion(), c.getDistrito() });
-			}			
+				model.addRow(new Object[] { c.getId(), c.getTDocumento() + " - " + c.getDocumento(), c.getNombres(),
+						c.getPaterno(), c.getMaterno(), c.getEmail(), c.getTlf1(), c.getTlf2(), c.getDireccion(),
+						c.getDistrito() });
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 		return model;
 	}
 
 	public Cliente BuscarCliente(String doc) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		Cliente c = null;
 		try {
-			Query q = em
-					.createQuery("SELECT c FROM Cliente c WHERE c.documento = :d AND c.status = 1");
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.documento = :d AND c.status = 1");
 			q.setParameter("d", doc);
 			c = (Cliente) q.getSingleResult();
 		} catch (NoResultException e1) {
@@ -112,19 +104,15 @@ public class ClienteController {
 	}
 
 	public DefaultTableModel ListarClientes(DefaultTableModel model) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		try {
-			List<Cliente> l = em.createNamedQuery("Cliente.findAll",
-					Cliente.class).getResultList();
+			List<Cliente> l = em.createNamedQuery("Cliente.findAll", Cliente.class).getResultList();
 			model.setRowCount(0);
 			for (Cliente c : l) {
-				model.addRow(new Object[] { c.getId(),
-						c.getTDocumento() + " - " + c.getDocumento(),
-						c.getNombres(), c.getPaterno(), c.getMaterno(),
-						c.getEmail(), c.getTlf1(), c.getTlf2(),
-						c.getDireccion(), c.getDistrito() });
+				model.addRow(new Object[] { c.getId(), c.getTDocumento() + " - " + c.getDocumento(), c.getNombres(),
+						c.getPaterno(), c.getMaterno(), c.getEmail(), c.getTlf1(), c.getTlf2(), c.getDireccion(),
+						c.getDistrito(), c.getCategoriaId(), c.getObs() });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

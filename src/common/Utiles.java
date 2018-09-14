@@ -17,21 +17,24 @@ import org.jdesktop.swingx.JXSearchField;
 
 import com.toedter.calendar.JDateChooser;
 
+import controller.ClienteController;
+import model.Cliente;
 import view.Contrato_Prestacion;
 import view.Principal;
 import view.Venta_Articulos;
 
 public class Utiles {
-	public static void MostrarOperaciones() {
+	public static void MostrarOperaciones(String documento) {
 		try {
-			String[] botones = new String[] { "Contrato de Prestación", "Venta", "Separación"/* , "Recuperación" */ };
+			String[] botones = new String[] { "Contrato de Prestación", "Venta / Separación" };
 			int opc = JOptionPane.showOptionDialog(null, "¿Qué operación deseas realizar?", "Seleccionar",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 			if (opc == 0) {
-				Contrato_Prestacion c = new Contrato_Prestacion(null);
+				Cliente k  = new ClienteController().BuscarCliente(documento);				
+				Contrato_Prestacion c = new Contrato_Prestacion(k);
 				Principal.dskPrincipal.add(c);
 			} else if (opc == 1) {
-				Venta_Articulos venta = new Venta_Articulos();
+				Venta_Articulos venta = new Venta_Articulos(documento);
 				Principal.dskPrincipal.add(venta);
 			}
 		} catch (Exception e) {

@@ -86,7 +86,7 @@ public class Venta_Articulos extends JInternalFrame {
 	private boolean MOUSECLICKED;
 	private BigDecimal totalFecha = BigDecimal.ZERO;
 
-	public Venta_Articulos() {
+	public Venta_Articulos(String documento) {
 		MOUSECLICKED = true;
 		new ArticuloController().CargarVitrina();
 		this.setVisible(true);
@@ -118,20 +118,17 @@ public class Venta_Articulos extends JInternalFrame {
 		btnRematar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (tbArticulos.getSelectedRow() >= 0
-						&& lblCliente.getText().length() > 0) {
-					articulo = new ArticuloController().ObtenerArticulo(Integer
-							.parseInt(String.valueOf(tbArticulos.getValueAt(
-									tbArticulos.getSelectedRow(), 1))));
-					spArticulos.setSize(spArticulos.getWidth(),210);
-					pnlRemate.setVisible(true);					
+				if (tbArticulos.getSelectedRow() >= 0 && lblCliente.getText().length() > 0) {
+					articulo = new ArticuloController().ObtenerArticulo(
+							Integer.parseInt(String.valueOf(tbArticulos.getValueAt(tbArticulos.getSelectedRow(), 1))));
+					spArticulos.setSize(spArticulos.getWidth(), 210);
+					pnlRemate.setVisible(true);
 					btnRematar.setEnabled(false);
 					btnSeparar.setEnabled(false);
 					tbArticulos.setEnabled(false);
 					MOUSECLICKED = false;
 				} else {
-					Utiles.Mensaje("Seleccione Cliente y/o Artículo",
-							JOptionPane.WARNING_MESSAGE);
+					Utiles.Mensaje("Seleccione Cliente y/o Artículo", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -149,26 +146,22 @@ public class Venta_Articulos extends JInternalFrame {
 		btnSeparar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (tbArticulos.getSelectedRow() >= 0
-						&& lblCliente.getText().length() > 0) {
-					articulo = new ArticuloController().ObtenerArticulo(Integer
-							.parseInt(String.valueOf(tbArticulos.getValueAt(
-									tbArticulos.getSelectedRow(), 1))));										
-					pnlSeparacion.setVisible(true);					
+				if (tbArticulos.getSelectedRow() >= 0 && lblCliente.getText().length() > 0) {
+					articulo = new ArticuloController().ObtenerArticulo(
+							Integer.parseInt(String.valueOf(tbArticulos.getValueAt(tbArticulos.getSelectedRow(), 1))));
+					pnlSeparacion.setVisible(true);
 
-					totalFecha = totalFecha.add(articulo.getSeparacions()
-							.stream().map(Separacion::getImporte)
+					totalFecha = totalFecha.add(articulo.getSeparacions().stream().map(Separacion::getImporte)
 							.reduce(BigDecimal.ZERO, BigDecimal::add));
 					txtTotalFecha.setText(String.valueOf(totalFecha));
-					spArticulos.setSize(spArticulos.getWidth(),400);
+					spArticulos.setSize(spArticulos.getWidth(), 400);
 					pnlSeparacion.setVisible(true);
 					btnRematar.setEnabled(false);
 					btnSeparar.setEnabled(false);
 					tbArticulos.setEnabled(false);
 					MOUSECLICKED = false;
 				} else {
-					Utiles.Mensaje("Seleccione Cliente y/o Artículo",
-							JOptionPane.WARNING_MESSAGE);
+					Utiles.Mensaje("Seleccione Cliente y/o Artículo", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -177,13 +170,11 @@ public class Venta_Articulos extends JInternalFrame {
 		contenedor.add(spArticulos);
 		contenedor.moveToBack(spArticulos);
 		spArticulos.setBounds(16, 157, 973, 500);
-		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		spArticulos.setEnabled(false);
 
-		TableRowSorter<DefaultTableModel> filtro = new TableRowSorter<DefaultTableModel>(
-				Constantes.VitrinaModel);
+		TableRowSorter<DefaultTableModel> filtro = new TableRowSorter<DefaultTableModel>(Constantes.VitrinaModel);
 
 		tbArticulos = new JTable();
 		spArticulos.setViewportView(tbArticulos);
@@ -192,15 +183,13 @@ public class Venta_Articulos extends JInternalFrame {
 		tbArticulos.setRowSorter(filtro);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbArticulos.removeColumn(tbArticulos.getColumnModel().getColumn(8));
-		tbArticulos.getTableHeader().setFont(
-				new Font("Segoe UI", Font.BOLD, 20));
+		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbArticulos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (MOUSECLICKED) {
-					int estado = Integer.parseInt(String.valueOf(tbArticulos
-							.getModel().getValueAt(
-									tbArticulos.getSelectedRow(), 8)));
+					int estado = Integer.parseInt(
+							String.valueOf(tbArticulos.getModel().getValueAt(tbArticulos.getSelectedRow(), 8)));
 					if (estado == 2) {
 						btnRematar.setEnabled(false);
 					} else {
@@ -246,27 +235,25 @@ public class Venta_Articulos extends JInternalFrame {
 		lblCliente = new JLabel();
 		contenedor.add(lblCliente);
 		lblCliente.setBounds(451, 57, 561, 39);
-		lblCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		lblCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblCliente.setBackground(new java.awt.Color(255, 255, 255));
 		lblCliente.setOpaque(true);
 
-		txtDni = new JTextField();
+		txtDni = new JTextField(documento);
 		contenedor.add(txtDni);
 		txtDni.setBounds(185, 57, 162, 39);
-		txtDni.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtDni.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtDni.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					cliente = new ClienteController().BuscarCliente(txtDni
-							.getText());
-					txtDni.setText(cliente.getTDocumento() + "-"
-							+ cliente.getDocumento());
-					lblCliente.setText(cliente.getNombres() + " "
-							+ cliente.getPaterno() + " " + cliente.getMaterno());
+					if (!txtDni.getText().isEmpty()) {
+						cliente = new ClienteController().BuscarCliente(txtDni.getText());
+						txtDni.setText(cliente.getTDocumento() + "-" + cliente.getDocumento());
+						lblCliente.setText(
+								cliente.getNombres() + " " + cliente.getPaterno() + " " + cliente.getMaterno());
+					}
 				}
 			}
 		});
@@ -292,8 +279,7 @@ public class Venta_Articulos extends JInternalFrame {
 		sfContrato = new JXSearchField();
 		contenedor.add(sfContrato);
 		sfContrato.setBounds(744, 108, 268, 37);
-		sfContrato.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		sfContrato.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		sfContrato.setPrompt("BUSCAR POR CONTRATO");
 		sfContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 
@@ -312,7 +298,7 @@ public class Venta_Articulos extends JInternalFrame {
 		pnlRemate.setBounds(12, 455, 977, 223);
 		pnlRemate.setLayout(null);
 		pnlRemate.setVisible(false);
-		
+
 		pnlSeparacion = new JPanel();
 		contenedor.add(pnlSeparacion);
 		pnlSeparacion.setBounds(12, 557, 973, 121);
@@ -334,7 +320,7 @@ public class Venta_Articulos extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Utiles.Limpiar(pnlRemate);
-				spArticulos.setSize(spArticulos.getWidth(),500);
+				spArticulos.setSize(spArticulos.getWidth(), 500);
 				tbArticulos.setEnabled(true);
 				btnRematar.setEnabled(true);
 				btnSeparar.setEnabled(true);
@@ -346,13 +332,13 @@ public class Venta_Articulos extends JInternalFrame {
 		txtMonto = new JTextField();
 		pnlSeparacion.add(txtMonto);
 		txtMonto.setBounds(247, 63, 162, 39);
-		txtMonto.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtMonto.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtMonto.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtMonto.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				BigDecimal diff = articulo.getPrecioVenta().subtract(totalFecha.add(new BigDecimal(txtMonto.getText())));
+				BigDecimal diff = articulo.getPrecioVenta()
+						.subtract(totalFecha.add(new BigDecimal(txtMonto.getText())));
 				if (diff.compareTo(BigDecimal.ZERO) == 0) {
 					Utiles.Mensaje("Última cuota de separación.", JOptionPane.WARNING_MESSAGE);
 				}
@@ -378,8 +364,7 @@ public class Venta_Articulos extends JInternalFrame {
 		txtTotalFecha.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		txtTotalFecha.setEnabled(true);
 		txtTotalFecha.setEnabled(false);
-		txtTotalFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtTotalFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtTotalFecha.setBounds(247, 12, 162, 39);
 
 		btnFinSeparacion = new JButton(new ImageIcon("img/pagar_separacion.png"));
@@ -407,8 +392,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 					Ingreso ingreso = new Ingreso();
 					ingreso.setLibroCaja(Principal.LIBRO_CAJA);
-					ingreso.setDescripcion(String.valueOf(tbArticulos
-							.getValueAt(tbArticulos.getSelectedRow(), 0)));
+					ingreso.setDescripcion(String.valueOf(tbArticulos.getValueAt(tbArticulos.getSelectedRow(), 0)));
 
 					BigDecimal diff = articulo.getPrecioVenta().subtract(totalFecha.add(separacion.getImporte()));
 
@@ -416,8 +400,7 @@ public class Venta_Articulos extends JInternalFrame {
 						articulo.setEArticulo(new EArticulo(3));
 						ingreso.setTipo("SEP(R)");
 						ingreso.setCapital(articulo.getCapitalContrato());
-						ingreso.setGanancia(articulo.getPrecioVenta().subtract(
-								articulo.getCapitalContrato()));
+						ingreso.setGanancia(articulo.getPrecioVenta().subtract(articulo.getCapitalContrato()));
 						ingreso.setOtro(separacion.getImporte());
 					} else {
 						articulo.setEArticulo(new EArticulo(2));
@@ -429,8 +412,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 					separacion.setArticulo(articulo);
 
-					new VentaController()
-							.GenerarSeparacion(separacion, ingreso);
+					new VentaController().GenerarSeparacion(separacion, ingreso);
 
 					Utiles.Limpiar(pnlSeparacion);
 					pnlSeparacion.setVisible(false);
@@ -439,8 +421,7 @@ public class Venta_Articulos extends JInternalFrame {
 					btnSeparar.setEnabled(true);
 					new ArticuloController().CargarVitrina();
 
-					Utiles.Mensaje("Separación realizada satisfactoriamente",
-							JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Mensaje("Separación realizada satisfactoriamente", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -459,7 +440,7 @@ public class Venta_Articulos extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Utiles.Limpiar(pnlSeparacion);
-				spArticulos.setSize(spArticulos.getWidth(),500);
+				spArticulos.setSize(spArticulos.getWidth(), 500);
 				tbArticulos.setEnabled(true);
 				btnRematar.setEnabled(true);
 				btnSeparar.setEnabled(true);
@@ -477,8 +458,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnVender.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnVender.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnVender.setBounds(777, 51, 200, 70);
-		btnVender.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnVender.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnVender.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnVender.addActionListener(new ActionListener() {
 			@Override
@@ -488,8 +468,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 					Venta venta = new Venta();
 					venta.setFecha(String.valueOf(LocalDate.now()));
-					venta.setImporte(new BigDecimal(String.valueOf(tbArticulos
-							.getValueAt(row, 7))));
+					venta.setImporte(new BigDecimal(String.valueOf(tbArticulos.getValueAt(row, 7))));
 					venta.setObs(txtObservaciones.getText());
 					venta.setCliente(cliente);
 					venta.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -499,14 +478,11 @@ public class Venta_Articulos extends JInternalFrame {
 
 					Ingreso ingreso = new Ingreso();
 					ingreso.setLibroCaja(Principal.LIBRO_CAJA);
-					ingreso.setDescripcion(String.valueOf(tbArticulos
-							.getValueAt(row, 0)));
+					ingreso.setDescripcion(String.valueOf(tbArticulos.getValueAt(row, 0)));
 					ingreso.setTipo("REM");
 
-					BigDecimal capital = new BigDecimal(String
-							.valueOf(tbArticulos.getValueAt(row, 6)));
-					BigDecimal precio_venta = new BigDecimal(String
-							.valueOf(tbArticulos.getValueAt(row, 7)));
+					BigDecimal capital = new BigDecimal(String.valueOf(tbArticulos.getValueAt(row, 6)));
+					BigDecimal precio_venta = new BigDecimal(String.valueOf(tbArticulos.getValueAt(row, 7)));
 
 					ingreso.setCapital(capital);
 					ingreso.setGanancia(precio_venta.subtract(capital));
@@ -521,11 +497,9 @@ public class Venta_Articulos extends JInternalFrame {
 					btnSeparar.setEnabled(true);
 					new ArticuloController().CargarVitrina();
 
-					Utiles.Mensaje("Venta realizada satisfactoriamente",
-							JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Mensaje("Venta realizada satisfactoriamente", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Utiles.Mensaje("Complete el formulario.",
-							JOptionPane.WARNING_MESSAGE);
+					Utiles.Mensaje("Complete el formulario.", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -545,21 +519,21 @@ public class Venta_Articulos extends JInternalFrame {
 		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		spObservaciones.setViewportView(txtObservaciones);
 		txtObservaciones.setPreferredSize(new java.awt.Dimension(644, 131));
-		spObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		sfContrato.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (sfContrato.getText().length() == 0) {
 					filtro.setRowFilter(null);
 				} else {
-					filtro.setRowFilter(RowFilter.regexFilter(sfContrato
-							.getText()));
+					filtro.setRowFilter(RowFilter.regexFilter(sfContrato.getText()));
 				}
 			}
 		});
+
+		txtDni.requestFocus();
 	}
-	
+
 	public void Cerrar() {
 		this.dispose();
 	}
@@ -569,87 +543,79 @@ public class Venta_Articulos extends JInternalFrame {
 	 * MySQLConexion.getConexion(); try { String sql =
 	 * "UPDATE tb_articulo SET tb_estado_articulo_cod_est=4 WHERE cod_art=?";
 	 * PreparedStatement pst = con.prepareStatement(sql); pst.setInt(1, codigo);
-	 * pst.executeUpdate(); JOptionPane.showMessageDialog(null,
-	 * "Articulo Vendido"); Ingreso ingreso = new
-	 * Ingreso(Principal.id_libro_caja, lblLetra.getText()+"-"+
-	 * lblContratoAsociado.getText(), "REM",
+	 * pst.executeUpdate(); JOptionPane.showMessageDialog(null, "Articulo Vendido");
+	 * Ingreso ingreso = new Ingreso(Principal.id_libro_caja,
+	 * lblLetra.getText()+"-"+ lblContratoAsociado.getText(), "REM",
 	 * Double.parseDouble(lblCapital.getText()),
 	 * (Double.parseDouble(txtPrecioVenta.getText()) -
-	 * Double.parseDouble(lblCapital.getText())), 0.00);
-	 * ingreso.registrarIngreso(); registrarVenta(); listarArticulos();
+	 * Double.parseDouble(lblCapital.getText())), 0.00); ingreso.registrarIngreso();
+	 * registrarVenta(); listarArticulos(); JOptionPane.showMessageDialog(null,
+	 * "<html><h2>SE IMPRIMIRÁ LA HOJA MEMBRETADA</h2></html>"); imprimirBoleta();
 	 * JOptionPane.showMessageDialog(null,
-	 * "<html><h2>SE IMPRIMIRÁ LA HOJA MEMBRETADA</h2></html>");
-	 * imprimirBoleta(); JOptionPane.showMessageDialog(null,
-	 * "<html><h2>SE IMPRIMIRÁ EL RECIBO INTERNO</h2></html>");
-	 * imprimirRecibo(); int i = JOptionPane.showConfirmDialog(null,
+	 * "<html><h2>SE IMPRIMIRÁ EL RECIBO INTERNO</h2></html>"); imprimirRecibo();
+	 * int i = JOptionPane.showConfirmDialog(null,
 	 * "<html><h2>PREPARANDO PARA IMPRIMIR LA BOLETA DE VENTA, INGRESE EL PAPEL Y PRESIONE \"SÍ\" SI DESEA CONTINUAR ...</h2></html>"
 	 * , "ALERTA", JOptionPane.YES_OPTION); if (i == JOptionPane.YES_OPTION) {
 	 * imprimirReciboLegal(); this.dispose(); } else { this.dispose(); }
 	 * actualizarContrato
 	 * (arrayTablas(Integer.parseInt(lblContratoAsociado.getText()
-	 * .split("-")[1]))[0]); } catch (NullPointerException e) { } catch
-	 * (Exception e) { e.printStackTrace(); } finally { try { con.close(); }
-	 * catch (SQLException e) { e.printStackTrace(); } } }
+	 * .split("-")[1]))[0]); } catch (NullPointerException e) { } catch (Exception
+	 * e) { e.printStackTrace(); } finally { try { con.close(); } catch
+	 * (SQLException e) { e.printStackTrace(); } } }
 	 */
 
 	/*
 	 * public void imprimirBoleta() { ArrayList<Venta> arreglo_venta = new
-	 * ArrayList<Venta>(); arreglo_venta.add(vt); HashMap<String, Object>
-	 * parametros = new HashMap<String, Object>();
-	 * parametros.put("nombre_cliente", lblCliente.getText());
-	 * parametros.put("nro_contrato", lblLetra.getText()+"-"+
+	 * ArrayList<Venta>(); arreglo_venta.add(vt); HashMap<String, Object> parametros
+	 * = new HashMap<String, Object>(); parametros.put("nombre_cliente",
+	 * lblCliente.getText()); parametros.put("nro_contrato", lblLetra.getText()+"-"+
 	 * lblContratoAsociado.getText()); parametros.put("detalle_articulo",
 	 * txtDescripcion.getText() + " " + txtMarca.getText() + " " +
 	 * txtModelo.getText()); parametros.put("obs_art", txtObs.getText());
-	 * parametros.put("fecha_venta", new
-	 * SimpleDateFormat("dd-MMMM-yyyy").format(new Date()).toUpperCase());
-	 * parametros.put("tlf_cliente", lblTelefono.getText()); try { JasperReport
-	 * reporte = (JasperReport) JRLoader.loadObject("boleta_venta.jasper");
-	 * JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,
-	 * parametros, new JRBeanCollectionDataSource(arreglo_venta));
-	 * JasperPrintManager.printReport(jasperPrint, false); } catch (Exception e)
-	 * { e.printStackTrace(); } }
+	 * parametros.put("fecha_venta", new SimpleDateFormat("dd-MMMM-yyyy").format(new
+	 * Date()).toUpperCase()); parametros.put("tlf_cliente", lblTelefono.getText());
+	 * try { JasperReport reporte = (JasperReport)
+	 * JRLoader.loadObject("boleta_venta.jasper"); JasperPrint jasperPrint =
+	 * JasperFillManager.fillReport(reporte, parametros, new
+	 * JRBeanCollectionDataSource(arreglo_venta));
+	 * JasperPrintManager.printReport(jasperPrint, false); } catch (Exception e) {
+	 * e.printStackTrace(); } }
 	 * 
 	 * 
 	 * 
 	 * public void imprimirRecibo() { ArrayList<Venta> arreglo_venta = new
-	 * ArrayList<Venta>(); arreglo_venta.add(vt); HashMap<String, Object>
-	 * parametros = new HashMap<String, Object>();
-	 * parametros.put("nombre_cliente", lblCliente.getText());
-	 * parametros.put("nro_contrato", lblLetra.getText()+"-"+
+	 * ArrayList<Venta>(); arreglo_venta.add(vt); HashMap<String, Object> parametros
+	 * = new HashMap<String, Object>(); parametros.put("nombre_cliente",
+	 * lblCliente.getText()); parametros.put("nro_contrato", lblLetra.getText()+"-"+
 	 * lblContratoAsociado.getText());parametros.put("detalle_articulo",
 	 * txtDescripcion.getText()+" "+txtMarca.getText()+" "+txtModelo.getText());
-	 * parametros
-	 * .put("obs_art",txtObs.getText());parametros.put("fecha_venta",new
-	 * SimpleDateFormat("dd-MMM-yyyy").format(new
-	 * Date()).toUpperCase());parametros
+	 * parametros .put("obs_art",txtObs.getText());parametros.put("fecha_venta",new
+	 * SimpleDateFormat("dd-MMM-yyyy").format(new Date()).toUpperCase());parametros
 	 * .put("tlf_cliente",lblTelefono.getText());
 	 * parametros.put("monto_recibido",txtPrecioVenta.getText());try
 	 * 
 	 * { JasperReport reporte = (JasperReport)
-	 * JRLoader.loadObject("boleta_venta_recibo.jasper"); JasperPrint
-	 * jasperPrint = JasperFillManager.fillReport(reporte, parametros, new
+	 * JRLoader.loadObject("boleta_venta_recibo.jasper"); JasperPrint jasperPrint =
+	 * JasperFillManager.fillReport(reporte, parametros, new
 	 * JRBeanCollectionDataSource(arreglo_venta));
-	 * JasperPrintManager.printReport(jasperPrint, false); }catch( Exception e)
-	 * { e.printStackTrace(); } }
+	 * JasperPrintManager.printReport(jasperPrint, false); }catch( Exception e) {
+	 * e.printStackTrace(); } }
 	 * 
 	 * public void imprimirReciboLegal() { ArrayList<Venta> arreglo_venta = new
-	 * ArrayList<Venta>(); arreglo_venta.add(vt); HashMap<String, Object>
-	 * parametros = new HashMap<String, Object>();
-	 * parametros.put("nombre_cliente", lblCliente.getText());
-	 * parametros.put("nro_contrato", /* lblLetra.getText()+"-"+
-	 * lblContratoAsociado.getText()); parametros.put("detalle_articulo",
-	 * txtDescripcion.getText() + " " + txtMarca.getText() + " " +
-	 * txtModelo.getText()); parametros.put("obs_art", txtObs.getText());
-	 * parametros.put("fecha_venta", new
+	 * ArrayList<Venta>(); arreglo_venta.add(vt); HashMap<String, Object> parametros
+	 * = new HashMap<String, Object>(); parametros.put("nombre_cliente",
+	 * lblCliente.getText()); parametros.put("nro_contrato", /*
+	 * lblLetra.getText()+"-"+ lblContratoAsociado.getText());
+	 * parametros.put("detalle_articulo", txtDescripcion.getText() + " " +
+	 * txtMarca.getText() + " " + txtModelo.getText()); parametros.put("obs_art",
+	 * txtObs.getText()); parametros.put("fecha_venta", new
 	 * SimpleDateFormat("dd-MMM-yyyy").format(new Date()).toUpperCase());
 	 * parametros.put("tlf_cliente", lblDirCli.getText()); try { JasperReport
-	 * reporte = (JasperReport)
-	 * JRLoader.loadObject("boleta_venta_legal.jasper"); JasperPrint jasperPrint
-	 * = JasperFillManager.fillReport(reporte, parametros, new
-	 * JRBeanCollectionDataSource(arreglo_venta));
-	 * JasperPrintManager.printReport(jasperPrint, false); } catch (Exception e)
-	 * { e.printStackTrace(); } }
+	 * reporte = (JasperReport) JRLoader.loadObject("boleta_venta_legal.jasper");
+	 * JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
+	 * new JRBeanCollectionDataSource(arreglo_venta));
+	 * JasperPrintManager.printReport(jasperPrint, false); } catch (Exception e) {
+	 * e.printStackTrace(); } }
 	 */
 
 }

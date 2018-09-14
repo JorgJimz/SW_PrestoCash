@@ -37,7 +37,7 @@ public class Constantes {
 	};
 	
 	public static DefaultTableModel ClienteModel = new DefaultTableModel(null, new String[] { "ID", "DOC.IDENTIDAD", "NOMBRE",
-			"A.PATERNO", "A.MATERNO", "E-MAIL", "TLF 1", "TLF 2", "DIRECCIÓN", "DISTRITO" }) {
+			"A.PATERNO", "A.MATERNO", "E-MAIL", "TLF 1", "TLF 2", "DIRECCIÓN", "DISTRITO", "CATEGORIA", "DETALLE" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}

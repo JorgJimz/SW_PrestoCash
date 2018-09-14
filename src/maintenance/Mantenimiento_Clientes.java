@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -40,8 +39,6 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 	private JTextField txtNombre;
 	private JLabel jLabel5;
 	private JScrollPane jScrollPane1;
-	private JLabel jLabel7;
-	private JXSearchField sfBuscar;
 	private JButton btnEliminar;
 	private JButton btnEditar;
 	private JButton btnGrabar;
@@ -77,13 +74,13 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(800, 470);
 		this.setTitle("MANTENIMIENTO DE CLIENTES");
-		this.setPreferredSize(new java.awt.Dimension(1258, 715));
-		this.setBounds(0, 0, 1258, 715);
+		this.setPreferredSize(new java.awt.Dimension(1258, 842));
+		this.setBounds(0, 0, 1258, 842);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1256, 685);
+		contenedor.setBounds(0, 0, 1256, 812);
 		contenedor.setBackground(new java.awt.Color(255, 184, 113));
 
 		jLabel1 = new JLabel();
@@ -185,9 +182,9 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					ListarClientes();
 					Utiles.Limpiar(contenedor);
 					Utiles.Mensaje("Cliente registrado.", JOptionPane.INFORMATION_MESSAGE);
-					Utiles.MostrarOperaciones();
-				} else if (btnGrabar.getToolTipText().equalsIgnoreCase("CONTRATO")) {
-					Utiles.MostrarOperaciones();
+					Utiles.MostrarOperaciones(c.getDocumento());
+				} else if (btnGrabar.getToolTipText().equalsIgnoreCase("GENERAR CONTRATO")) {
+					Utiles.MostrarOperaciones(txtDni.getText());
 				} else {
 					JOptionPane.showMessageDialog(null, "Faltan datos. Complete los campos.");
 				}
@@ -226,7 +223,6 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				txtDni.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnEliminar.setEnabled(false);
-				btnGrabar.setText(" REGISTRAR");
 				Utiles.Limpiar(contenedor);
 				ListarClientes();
 				Utiles.Mensaje("Cliente actualizado.", JOptionPane.INFORMATION_MESSAGE);
@@ -265,7 +261,6 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					new ClienteController().ActualizarCliente(c);
 					btnEliminar.setEnabled(false);
 					btnEditar.setEnabled(false);
-					btnGrabar.setText(" REGISTRAR");
 					Utiles.Limpiar(contenedor);
 					ListarClientes();
 					Utiles.Mensaje("Cliente eliminado.", JOptionPane.INFORMATION_MESSAGE);
@@ -274,20 +269,6 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				}
 			}
 		});
-
-		sfBuscar = new JXSearchField();
-		contenedor.add(sfBuscar);
-		sfBuscar.setText("");
-		sfBuscar.setBounds(663, 305, 282, 32);
-		sfBuscar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		sfBuscar.setFont(new java.awt.Font("Segoe UI", 1, 22));
-
-		jLabel7 = new JLabel();
-		contenedor.add(jLabel7);
-		jLabel7.setText("BÚSQUEDA");
-		jLabel7.setBounds(663, 267, 136, 32);
-		jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel7.setForeground(new java.awt.Color(0, 128, 0));
 
 		jLabel17 = new JLabel();
 		contenedor.add(jLabel17);
@@ -388,7 +369,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 
 		jScrollPane1 = new JScrollPane();
 		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(12, 349, 1205, 302);
+		jScrollPane1.setBounds(12, 349, 1205, 435);
 		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
@@ -416,7 +397,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 
 		txtObs = new JTextField();
 		contenedor.add(txtObs);
-		txtObs.setBounds(184, 305, 467, 32);
+		txtObs.setBounds(184, 305, 762, 32);
 		txtObs.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtObs.setFont(new java.awt.Font("Segoe UI", 1, 22));
 
@@ -442,8 +423,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					btnEditar.setEnabled(true);
 					btnEliminar.setEnabled(true);
 					txtDni.setEnabled(false);
-					int fila = tbClientes.getSelectedRow();
-					Utiles.Mensaje(tbClientes.getValueAt(fila, 0).toString(), JOptionPane.INFORMATION_MESSAGE);
+					int fila = tbClientes.getSelectedRow();					
 					txtId.setText(tbClientes.getValueAt(fila, 0).toString());
 					txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
 					txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
@@ -453,6 +433,8 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
 					txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
 					txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
+					cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
+					txtObs.setText(tbClientes.getValueAt(fila, 9).toString());
 					cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
 					btnGrabar.setIcon(new ImageIcon("img/grabarContrato.png"));
 					btnGrabar.setToolTipText("GENERAR CONTRATO");

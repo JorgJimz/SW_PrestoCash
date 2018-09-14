@@ -110,7 +110,7 @@ public class Login extends JFrame {
 		getContentPane().add(imgKey);
 		imgKey.setOpaque(false);
 		imgKey.setBounds(24, 379, 64, 64);
-		
+
 		this.setSize(680, 510);
 		this.setLocationRelativeTo(null);
 
@@ -145,8 +145,8 @@ public class Login extends JFrame {
 
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
-			UIManager.put("TitledBorder.border", new LineBorder(new Color(0, 0, 0), 1));
+			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
+			UIManager.put("TitledBorder.border", new LineBorder(new Color(255, 255, 255), 3));
 			new Login();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
@@ -158,12 +158,5 @@ public class Login extends JFrame {
 	public void mensaje(String s) {
 		JOptionPane.showMessageDialog(null, s);
 	}
-
-	/*
-	 * public String pedirJustificacion() { String j = JOptionPane
-	 * .showInputDialog("Usted ha llegado TARDE, ingrese el motivo ..."); if
-	 * (j.equalsIgnoreCase("")) { return j = "NO ESPECIFICADO"; } return
-	 * j.toUpperCase(); }
-	 */
 
 }

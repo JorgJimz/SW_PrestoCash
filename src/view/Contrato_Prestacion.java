@@ -395,12 +395,12 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtDescripcion.setBounds(134, 234, 475, 66);
 		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		txtDescripcion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDescripcion.setOpaque(false);
+		txtDescripcion.setHorizontalAlignment(SwingConstants.CENTER);		
+		txtDescripcion.putClientProperty("Synthetica.opaque", Boolean.FALSE);
 		txtDescripcion.setForeground(new java.awt.Color(0, 64, 128));
 		txtDescripcion.setBorder(BorderFactory.createTitledBorder(null, "DESCRIPCIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));	
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));	
 
 		txtModelo = new JTextField();
 		contenedor.add(txtModelo);
@@ -409,10 +409,10 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtModelo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtModelo.setHorizontalAlignment(SwingConstants.CENTER);
 		txtModelo.setForeground(new java.awt.Color(0, 64, 128));
-		txtModelo.setOpaque(false);
+		txtModelo.putClientProperty("Synthetica.opaque", Boolean.FALSE);		
 		txtModelo.setBorder(BorderFactory.createTitledBorder(null, "MODELO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));	
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));	
 
 		txtMarca = new JTextField();
 		contenedor.add(txtMarca);
@@ -421,10 +421,10 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtMarca.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtMarca.setHorizontalAlignment(SwingConstants.CENTER);
 		txtMarca.setForeground(new java.awt.Color(0, 64, 128));
-		txtMarca.setOpaque(false);
+		txtMarca.putClientProperty("Synthetica.opaque", Boolean.FALSE);		
 		txtMarca.setBorder(BorderFactory.createTitledBorder(null, "MARCA",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));	
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));	
 
 		lblReferencia = new JLabel();
 		contenedor.add(lblReferencia);
@@ -438,10 +438,10 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtTasacion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtTasacion.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTasacion.setForeground(new java.awt.Color(0, 64, 128));
-		txtTasacion.setOpaque(false);
+		txtTasacion.putClientProperty("Synthetica.opaque", Boolean.FALSE);
 		txtTasacion.setBorder(BorderFactory.createTitledBorder(null, "TASACIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
 		txtTasacion.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -592,11 +592,11 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtCantidad.setBounds(12, 235, 110, 66);
 		txtCantidad.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		txtCantidad.setHorizontalAlignment(SwingConstants.CENTER);
-		txtCantidad.setForeground(new java.awt.Color(0, 64, 128));
-		txtCantidad.setOpaque(false);
+		txtCantidad.setForeground(new java.awt.Color(0, 64, 128));		
+		txtCantidad.putClientProperty("Synthetica.opaque", Boolean.FALSE);
 		txtCantidad.setBorder(BorderFactory.createTitledBorder(null, "CANTIDAD",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));	
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));	
 
 		txtObservaciones = new JTextField();
 		contenedor.add(txtObservaciones);
@@ -604,22 +604,23 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		txtObservaciones.setHorizontalAlignment(SwingConstants.CENTER);
-		txtObservaciones.setForeground(new java.awt.Color(0, 64, 128));
-		txtObservaciones.setOpaque(false);
+		txtObservaciones.setForeground(new java.awt.Color(0, 64, 128));		
+		
+		txtObservaciones.putClientProperty("Synthetica.opaque", Boolean.FALSE);
 		txtObservaciones.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));	
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));	
 
 		txtEn = new JTextField();
 		contenedor.add(txtEn);
 		txtEn.setBounds(351, 391, 327, 66);
 		txtEn.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtEn.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		txtEn.setForeground(new java.awt.Color(0, 64, 128));
-		txtEn.setOpaque(false);
+		txtEn.setForeground(new java.awt.Color(0, 64, 128));		
+		txtEn.putClientProperty("Synthetica.opaque", Boolean.FALSE);
 		txtEn.setBorder(BorderFactory.createTitledBorder(null, "COVER",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
 
 		btnHistorial = new JButton(new ImageIcon("img/historial.png"));
 		contenedor.add(btnHistorial);
@@ -669,10 +670,10 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtSerie.setForeground(new java.awt.Color(0, 64, 128));
 		txtSerie.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtSerie.setBounds(12, 391, 327, 66);		
-		txtSerie.setOpaque(false);
+		txtSerie.putClientProperty("Synthetica.opaque", Boolean.FALSE);
 		txtSerie.setBorder(BorderFactory.createTitledBorder(null, "SERIE",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 14), new java.awt.Color(0, 128, 0)));	
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));	
 
 		tbArticulos = new JTable();
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 20));
