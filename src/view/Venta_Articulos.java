@@ -29,22 +29,20 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXTitledSeparator;
+
+import common.Constantes;
+import common.Utiles;
+import controller.ArticuloController;
+import controller.ClienteController;
+import controller.VentaController;
 import model.Articulo;
 import model.Cliente;
 import model.EArticulo;
 import model.Ingreso;
 import model.Separacion;
 import model.Venta;
-
-import org.jdesktop.swingx.JXSearchField;
-import org.jdesktop.swingx.JXTitledSeparator;
-
-import common.Constantes;
-import common.Utiles;
-
-import controller.ArticuloController;
-import controller.ClienteController;
-import controller.VentaController;
 
 @SuppressWarnings("serial")
 public class Venta_Articulos extends JInternalFrame {
@@ -530,8 +528,6 @@ public class Venta_Articulos extends JInternalFrame {
 				}
 			}
 		});
-
-		txtDni.requestFocus();
 	}
 
 	public void Cerrar() {

@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -98,19 +96,19 @@ public class Principal extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
-		dskPrincipal = new JDesktopPane() {
+		dskPrincipal = new JDesktopPane();/* {
 			ImageIcon icon = new ImageIcon("img/bkg.png");
 			Image image = icon.getImage();
-			Image newimage = image.getScaledInstance(1280, 1024, Image.SCALE_SMOOTH);
+			Image newimage = image.getScaledInstance(739, 533, Image.SCALE_SMOOTH);
 
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(newimage, 0, 0, this);
 			}
-		};
+		};*/
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
-		dskPrincipal.setBounds(0, 0, 704, 377);
+		//dskPrincipal.setBounds(0, 0, 704, 377);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
