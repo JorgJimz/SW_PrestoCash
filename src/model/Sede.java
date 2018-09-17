@@ -146,5 +146,10 @@ public class Sede implements Serializable {
 
 		return prestamo;
 	}
+	
+	@Override
+	public String toString() {		
+		return descripcion;
+	}
 
 }

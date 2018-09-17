@@ -28,7 +28,7 @@ public class ArticuloController {
 			em.merge(a);
 			tx.commit();
 		} catch (Exception e1) {
-			//tx.rollback();
+			// tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -105,6 +105,19 @@ public class ArticuloController {
 			emf.close();
 		}
 		return articulo;
+	}
+
+	public List<Sede> CargarSedes(String tipo) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Sede> l = null;
+		try {
+			l = em.createQuery("SELECT s FROM Sede s WHERE s.tSede = :s", Sede.class).setParameter("s", tipo)
+					.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return l;
 	}
 
 	public List<ComboItem> ListarSedes(String tipo) {

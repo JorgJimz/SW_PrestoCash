@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.JButton;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -24,18 +25,20 @@ import view.Principal;
 import view.Venta_Articulos;
 
 public class Utiles {
-	public static void MostrarOperaciones(String documento) {
+	public static void MostrarOperaciones(String documento, JInternalFrame internal) {
 		try {
-			String[] botones = new String[] { "Contrato de Prestación", "Venta / Separación" };
+			String[] botones = new String[] { "Contrato de Prestación", "Venta / Separación", "Ninguna" };
 			int opc = JOptionPane.showOptionDialog(null, "¿Qué operación deseas realizar?", "Seleccionar",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 			if (opc == 0) {
-				Cliente k  = new ClienteController().BuscarCliente(documento);				
-				Contrato_Prestacion c = new Contrato_Prestacion(k);
-				Principal.dskPrincipal.add(c);
+				Cliente k = new ClienteController().BuscarCliente(documento);
+				Contrato_Prestacion contrato = new Contrato_Prestacion(k);				
+				Principal.dskPrincipal.add(contrato);
+				internal.dispose();
 			} else if (opc == 1) {
-				Venta_Articulos venta = new Venta_Articulos(documento);
+				Venta_Articulos venta = new Venta_Articulos(documento);				
 				Principal.dskPrincipal.add(venta);
+				internal.dispose();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,7 +49,7 @@ public class Utiles {
 		JOptionPane.showMessageDialog(null, "<html><h3>" + s + "</h3></html>", "Mensaje del Sistema", type);
 	}
 
-	public static boolean ValidarTabla(JTable tabla) {		
+	public static boolean ValidarTabla(JTable tabla) {
 		for (int i = 0; i < tabla.getRowCount(); i++) {
 			for (int j = 0; j < tabla.getColumnCount(); j++) {
 				String om = tabla.getValueAt(i, j).toString();

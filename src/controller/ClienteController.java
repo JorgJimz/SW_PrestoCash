@@ -54,8 +54,7 @@ public class ClienteController {
 		EntityManager em = emf.createEntityManager();
 		DefaultListModel<Cliente> model = new DefaultListModel<Cliente>();
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
-			// q.setParameter("v", val);
+			Query q = em.createQuery("SELECT c FROM Cliente c", Cliente.class);			
 			List<Cliente> l = q.getResultList();
 			for (Cliente c : l) {
 				model.addElement(c);
@@ -112,7 +111,7 @@ public class ClienteController {
 			for (Cliente c : l) {
 				model.addRow(new Object[] { c.getId(), c.getTDocumento() + " - " + c.getDocumento(), c.getNombres(),
 						c.getPaterno(), c.getMaterno(), c.getEmail(), c.getTlf1(), c.getTlf2(), c.getDireccion(),
-						c.getDistrito(), c.getCategoriaId(), c.getObs() });
+						c.getDistrito(), c.getCategoriaId(), c.getObs(), c.getStatus() });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

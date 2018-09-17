@@ -35,9 +35,24 @@ public class Constantes {
 			return false;
 		}
 	};
-	
-	public static DefaultTableModel ClienteModel = new DefaultTableModel(null, new String[] { "ID", "DOC.IDENTIDAD", "NOMBRE",
-			"A.PATERNO", "A.MATERNO", "E-MAIL", "TLF 1", "TLF 2", "DIRECCIÓN", "DISTRITO", "CATEGORIA", "DETALLE" }) {
+
+	public static DefaultTableModel ClienteModel = new DefaultTableModel(null,
+			new String[] { "ID", "DOC.IDENTIDAD", "NOMBRE", "A.PATERNO", "A.MATERNO", "E-MAIL", "TLF 1", "TLF 2",
+					"DIRECCIÓN", "DISTRITO", "CATEGORIA", "DETALLE", "STATUS" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
+	public static DefaultTableModel PrestamoModel = new DefaultTableModel(null,
+			new String[] { "ID", "DESCRIPCIÓN", "INTERES (%)", "TIPO MORA", "MORA (%)", "TIPO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
+	public static DefaultTableModel UsuarioModel = new DefaultTableModel(null,
+			new String[] { "ID", "LOGIN", "A.PATERNO", "A.MATERNO", "NOMBRE", "CLAVE", "TIPO", "INGRESO", "STATUS" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
@@ -51,10 +66,13 @@ public class Constantes {
 
 	public static ComboBoxModel CategoriaModel = new DefaultComboBoxModel(
 			new String[] { "BUENO", "MOROSO", "PROBLEMATICO" });
-	
-	public static ComboBoxModel TipoDocumentoModel = new DefaultComboBoxModel(
-			new String[] { "DNI", "C.EXTRANJERÍA", "PASAPORTE" });
 
+	public static ComboBoxModel TipoUsuarioModel = new DefaultComboBoxModel(
+			new String[] { "USUARIO", "ADMINISTRADOR" });
+
+	public static ComboBoxModel TipoMoraModel = new DefaultComboBoxModel(new String[] { "%", "M" });
+
+	public static ComboBoxModel TipoDocumentoModel = new DefaultComboBoxModel(new String[] { "DNI", "CEX", "PAS" });
 
 	public static ComboBoxModel MonedaModel = new DefaultComboBoxModel(new String[] { "SOLES", "DOLARES" });
 

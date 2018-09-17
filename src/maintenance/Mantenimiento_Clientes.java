@@ -1,6 +1,7 @@
 package maintenance;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -27,6 +29,8 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import common.Constantes;
+import common.MyFocusTraversalPolicy;
+import common.RenderMC;
 import common.Utiles;
 import controller.ClienteController;
 import model.Cliente;
@@ -66,6 +70,8 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 	private JLabel txtId;
 	private JLabel jLabel17;
 	private JPanel contenedor;
+	private JInternalFrame internal = null;
+	Vector<Component> order = new Vector<Component>(11);
 
 	public Mantenimiento_Clientes(String documento) {
 		this.setVisible(true);
@@ -76,6 +82,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		this.setTitle("MANTENIMIENTO DE CLIENTES");
 		this.setPreferredSize(new java.awt.Dimension(1258, 842));
 		this.setBounds(0, 0, 1258, 842);
+		internal = this;
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
@@ -163,7 +170,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Utiles.Validar(contenedor) && btnGrabar.getToolTipText().equalsIgnoreCase("REGISTRAR CLIENTE")) {
 					Cliente c = new Cliente();
-					c.setTDocumento("DNI");
+					c.setTDocumento(String.valueOf(cboTipoDocumento.getSelectedItem()));
 					c.setDocumento(txtDni.getText());
 					c.setNombres(txtNombre.getText().toUpperCase());
 					c.setPaterno(txtPaterno.getText().toUpperCase());
@@ -180,13 +187,15 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					c.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					new ClienteController().RegistrarCliente(c);
 					ListarClientes();
+					btnGrabar.setIcon(new ImageIcon("img/grabar.png"));
+					btnGrabar.setToolTipText("REGISTRAR CLIENTE");
 					Utiles.Limpiar(contenedor);
 					Utiles.Mensaje("Cliente registrado.", JOptionPane.INFORMATION_MESSAGE);
-					Utiles.MostrarOperaciones(c.getDocumento());
+					Utiles.MostrarOperaciones(c.getDocumento(), internal);
 				} else if (btnGrabar.getToolTipText().equalsIgnoreCase("GENERAR CONTRATO")) {
-					Utiles.MostrarOperaciones(txtDni.getText());
+					Utiles.MostrarOperaciones(txtDni.getText(), internal);
 				} else {
-					JOptionPane.showMessageDialog(null, "Faltan datos. Complete los campos.");
+					Utiles.Mensaje("Complete el formulario.", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -206,6 +215,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Cliente c = new Cliente();
 				c.setId(Integer.parseInt(txtId.getText()));
+				c.setTDocumento(String.valueOf(cboTipoDocumento.getSelectedItem()));
 				c.setDocumento(txtDni.getText());
 				c.setNombres(txtNombre.getText().toUpperCase());
 				c.setPaterno(txtPaterno.getText().toUpperCase());
@@ -215,12 +225,15 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				c.setTlf2(txtTlf2.getText());
 				c.setDireccion(txtDireccion.getText().toUpperCase());
 				c.setDistrito(cboDistrito.getSelectedItem().toString().toUpperCase());
-				c.setCategoriaId("1");
+				c.setCategoriaId(String.valueOf(cboCategoriaCliente.getSelectedItem()));
+				c.setObs(txtObs.getText());
 				c.setStatus(1);
 				c.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 				c.setUsuarioModificacion(Principal.LOGGED.getLogin());
-				new ClienteController().ActualizarCliente(c);
-				txtDni.setEnabled(true);
+				new ClienteController().ActualizarCliente(c);				
+				btnGrabar.setIcon(new ImageIcon("img/grabar.png"));
+				btnGrabar.setToolTipText("REGISTRAR CLIENTE");
+				btnGrabar.setEnabled(true);
 				btnEditar.setEnabled(false);
 				btnEliminar.setEnabled(false);
 				Utiles.Limpiar(contenedor);
@@ -245,6 +258,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				try {
 					Cliente c = new Cliente();
 					c.setId(Integer.parseInt(txtId.getText()));
+					c.setTDocumento(String.valueOf(cboTipoDocumento.getSelectedItem()));
 					c.setDocumento(txtDni.getText());
 					c.setNombres(txtNombre.getText().toUpperCase());
 					c.setPaterno(txtPaterno.getText().toUpperCase());
@@ -254,11 +268,14 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 					c.setTlf2(txtTlf2.getText());
 					c.setDireccion(txtDireccion.getText().toUpperCase());
 					c.setDistrito(cboDistrito.getSelectedItem().toString().toUpperCase());
-					c.setCategoriaId("1");
+					c.setCategoriaId(String.valueOf(cboCategoriaCliente.getSelectedItem()));
 					c.setStatus(0);
+					c.setObs(txtObs.getText());
 					c.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 					c.setUsuarioModificacion(Principal.LOGGED.getLogin());
 					new ClienteController().ActualizarCliente(c);
+					btnGrabar.setIcon(new ImageIcon("img/grabar.png"));
+					btnGrabar.setToolTipText("REGISTRAR CLIENTE");
 					btnEliminar.setEnabled(false);
 					btnEditar.setEnabled(false);
 					Utiles.Limpiar(contenedor);
@@ -295,6 +312,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 							"Este Cliente ya se encuentra registrado, ¿Desea traer los registros del mismo?",
 							"Coincidencia de Datos", JOptionPane.YES_NO_OPTION);
 					if (q == JOptionPane.YES_OPTION) {
+						cboTipoDocumento.setSelectedItem(c.getTDocumento());
 						txtDni.setText(c.getDocumento());
 						txtNombre.setText(c.getNombres());
 						txtPaterno.setText(c.getPaterno());
@@ -311,7 +329,6 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 						btnGrabar.setEnabled(false);
 						btnGrabar.setIcon(new ImageIcon("img/grabarContrato.png"));
 						btnGrabar.setToolTipText("GENERAR CONTRATO");
-						txtDni.setEnabled(false);
 					} else {
 						txtDni.setText("");
 						txtDni.requestFocus();
@@ -415,32 +432,71 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		tbClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbClientes.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbClientes.setModel(Constantes.ClienteModel);
+		tbClientes.setColumnControlVisible(true);
+		tbClientes.setSearchable(null);
+		tbClientes.setDefaultRenderer(Object.class, new RenderMC());
 		jScrollPane1.setViewportView(tbClientes);
 		tbClientes.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					Utiles.Limpiar(contenedor);
-					btnEditar.setEnabled(true);
-					btnEliminar.setEnabled(true);
-					txtDni.setEnabled(false);
-					int fila = tbClientes.getSelectedRow();					
-					txtId.setText(tbClientes.getValueAt(fila, 0).toString());
-					txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
-					txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
-					txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
-					txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
-					txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
-					txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
-					txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
-					txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
-					cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
-					txtObs.setText(tbClientes.getValueAt(fila, 9).toString());
-					cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
-					btnGrabar.setIcon(new ImageIcon("img/grabarContrato.png"));
-					btnGrabar.setToolTipText("GENERAR CONTRATO");
+					int fila = tbClientes.getSelectedRow();
+					if(Integer.parseInt(String.valueOf(tbClientes.getModel().getValueAt(fila, 12))) == 1) {
+						Utiles.Limpiar(contenedor);				
+						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
+						cboTipoDocumento.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
+						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
+						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
+						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
+						txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
+						txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
+						txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
+						txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
+						txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
+						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
+						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
+						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
+						btnGrabar.setIcon(new ImageIcon("img/grabarContrato.png"));
+						btnGrabar.setToolTipText("GENERAR CONTRATO");
+						btnGrabar.setEnabled(true);
+						btnEditar.setEnabled(true);
+						btnEliminar.setEnabled(true);
+					}else {
+						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
+						cboTipoDocumento.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
+						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
+						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
+						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
+						txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
+						txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
+						txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
+						txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
+						txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
+						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
+						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
+						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
+						btnGrabar.setEnabled(false);
+						btnEditar.setEnabled(true);						
+						Utiles.Mensaje("Cliente inactivo. Actualizar status.", JOptionPane.WARNING_MESSAGE);
+					}
+					
 				}
 			}
 		});
+
+		order.add(cboTipoDocumento);
+		order.add(txtDni);
+		order.add(txtPaterno);
+		order.add(txtMaterno);
+		order.add(txtNombre);
+		order.add(txtTlf1);
+		order.add(txtTlf2);
+		order.add(txtEmail);
+		order.add(txtDireccion);
+		order.add(cboDistrito);
+		order.add(cboCategoriaCliente);
+		order.add(txtObs);
+
+		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
 
 		ListarClientes();
 	}

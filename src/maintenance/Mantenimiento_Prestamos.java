@@ -1,356 +1,242 @@
 package maintenance;
+
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import javax.swing.BorderFactory;
-
-import javax.swing.JButton;
-
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.border.TitledBorder;
 
-import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXTable;
 
-import com.toedter.calendar.JDateChooser;
+import common.Constantes;
+import common.Utiles;
+import controller.ArticuloController;
+import controller.PrestamoController;
+import model.Prestamo;
+import model.Sede;
+import view.Principal;
 
-import Beans.Cliente;
-import Beans.Prestamo;
-import Conexion.MySQLConexion;
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class Mantenimiento_Prestamos extends JInternalFrame{
-	private JLabel jLabel1;
+@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
+public class Mantenimiento_Prestamos extends JInternalFrame {
 	private JTextField txtTipo;
-	private JLabel jLabel2;
-	private JLabel jLabel3;
-	private JLabel jLabel4;
-	private JScrollPane jScrollPane1;
-	private JButton btnCancelar;
+	private JScrollPane spPrestamo;
 	private JButton btnEliminar;
 	private JButton btnEditar;
 	private JButton btnGrabar;
-	private JTable tbPrestamos;
+	private JXTable tbPrestamos;
 	private JTextField txtInteres;
 	private JTextField txtDescripcion;
 	private JPanel contenedor;
-	Connection con = MySQLConexion.getConexion();
-	private JTextField txtMora;
-	DefaultTableModel modeloPrestamos = new DefaultTableModel(null,new String[]{"TIPO","DESCRIPCIÓN","INTERES (%)","MORA (%)"}){
-		public boolean isCellEditable(int rowIndex, int colIndex){
-			return false;
-		}
-	};
+	private JComboBox cboSede;
+	private JComboBox cboTipoMora;
 
 	public Mantenimiento_Prestamos() {
 		this.setVisible(true);
 		this.setLayout(null);
-		this.setTitle("MANTENIMIENTO DE PRESTAMOS");
+		this.setTitle("MANTENIMIENTO DE PRÉSTAMOS");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(520, 241);	
-		this.setPreferredSize(new java.awt.Dimension(887, 451));
-		this.setBounds(0, 0, 887, 451);
+		this.setSize(520, 241);
+		this.setClosable(true);
+		this.setPreferredSize(new java.awt.Dimension(1221, 382));
+		this.setBounds(0, 0, 1221, 382);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 886, 427);
-		contenedor.setBackground(new java.awt.Color(255,200,147));
-
-		jLabel1 = new JLabel();
-		contenedor.add(jLabel1);
-		jLabel1.setText("TIPO:");
-		jLabel1.setBounds(12, 18, 84, 29);	
-		jLabel1.setFont(new java.awt.Font("Segoe UI",1,20));
-		jLabel1.setForeground(new java.awt.Color(0,128,0));
+		contenedor.setBounds(0, 0, 1219, 353);
+		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		txtTipo = new JTextField();
 		contenedor.add(txtTipo);
-		txtTipo.setBounds(71, 16, 47, 34);		
-		txtTipo.setFont(new java.awt.Font("Segoe UI",1,20));
-		txtTipo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
-
-		jLabel2 = new JLabel();
-		contenedor.add(jLabel2);
-		jLabel2.setText("DESCRIPCIÓN:");
-		jLabel2.setBounds(130, 18, 171, 29);	
-		jLabel2.setFont(new java.awt.Font("Segoe UI",1,20));
-		jLabel2.setForeground(new java.awt.Color(0,128,0));
+		txtTipo.setBounds(20, 90, 213, 66);
+		txtTipo.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtTipo.setOpaque(false);
+		txtTipo.setBorder(BorderFactory.createTitledBorder(null, "TIPO", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				new java.awt.Color(0, 128, 0)));
 
 		txtDescripcion = new JTextField();
 		contenedor.add(txtDescripcion);
-		txtDescripcion.setBounds(274, 16, 301, 34);	
-		txtDescripcion.setFont(new java.awt.Font("Segoe UI",1,20));
-		txtDescripcion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
-
-		jLabel3 = new JLabel();
-		contenedor.add(jLabel3);
-		jLabel3.setText("I %");
-		jLabel3.setBounds(600, 20, 50, 29);	
-		jLabel3.setFont(new java.awt.Font("Segoe UI",1,20));
-		jLabel3.setForeground(new java.awt.Color(0,128,0));
+		txtDescripcion.setBounds(20, 12, 432, 66);
+		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtDescripcion.setOpaque(false);
+		txtDescripcion.setBorder(BorderFactory.createTitledBorder(null, "DESCRIPCIÓN",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
 
 		txtInteres = new JTextField();
 		contenedor.add(txtInteres);
-		txtInteres.setBounds(650, 18, 66, 34);
-		txtInteres.setFont(new java.awt.Font("Segoe UI",1,20));
-		txtInteres.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
+		txtInteres.setBounds(20, 168, 213, 66);
+		txtInteres.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtInteres.setOpaque(false);
+		txtInteres.setBorder(BorderFactory.createTitledBorder(null, "INTERÉS (%)", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				new java.awt.Color(0, 128, 0)));
 
-		jScrollPane1 = new JScrollPane();
-		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(14, 71, 562, 323);
-		jScrollPane1.setBackground(new java.awt.Color(255,255,255));
-		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
+		cboTipoMora = new JComboBox();
+		contenedor.add(cboTipoMora);
+		cboTipoMora.setBounds(239, 168, 213, 66);
+		cboTipoMora.setModel(Constantes.TipoMoraModel);
+		cboTipoMora.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		cboTipoMora.setOpaque(false);
+		cboTipoMora.setBorder(BorderFactory.createTitledBorder(null, "TIPO MORA", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				new java.awt.Color(0, 128, 0)));
+		cboTipoMora.setBackground(new java.awt.Color(255, 255, 255));
 
-		btnGrabar = new JButton(new ImageIcon("img/registrarPrestamo.png"));
+		btnGrabar = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabar);
-		btnGrabar.setText(" GRABAR");
-		btnGrabar.setBounds(593, 71, 267, 77);
-		btnGrabar.setFont(new java.awt.Font("Segoe UI",1,26));
-		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
+		btnGrabar.setBorderPainted(false);
+		btnGrabar.setToolTipText("REGISTRAR PRÉSTAMO");
+		btnGrabar.setContentAreaFilled(false);
+		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnGrabar.setBounds(72, 252, 64, 64);	
+		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 26));
+		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(validador(contenedor)){
-					registrarPrestamo();
-				}else{
-					JOptionPane.showMessageDialog(null, "Faltan completar datos.");
+				if(Utiles.Validar(contenedor)) {
+					BigDecimal mora = (String.valueOf(cboTipoMora.getSelectedItem()).equals("%")) ? Constantes.MORA_CERO : Constantes.MORA_SOLES;
+					Prestamo prestamo = new Prestamo();
+					prestamo.setDescripcion(txtDescripcion.getText().toUpperCase());
+					prestamo.setInteres(new BigDecimal(txtInteres.getText()));
+					prestamo.setSede(((Sede) cboSede.getSelectedItem()));
+					prestamo.setFlag(txtTipo.getText().toUpperCase());
+					prestamo.setTMora(String.valueOf(cboTipoMora.getSelectedItem()));
+					prestamo.setMora(String.valueOf(mora));
+					prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
+					prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+					new PrestamoController().RegistrarPrestamo(prestamo);
+					Utiles.Mensaje("Préstamo registrado.", JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Limpiar(contenedor);
+					ListarPrestamos();
+				}else {
+					Utiles.Mensaje("Complete el formulario.", JOptionPane.WARNING_MESSAGE);
 				}
-				
 			}
 		});
-			
-		btnEditar = new JButton(new ImageIcon("img/editarPrestamo.png"));
+
+		btnEditar = new JButton(new ImageIcon("img/edit.png"));
 		contenedor.add(btnEditar);
-		btnEditar.setText(" EDITAR");
-		btnEditar.setBounds(593, 153, 267, 77);	
-		btnEditar.setFont(new java.awt.Font("Segoe UI",1,26));
-		btnEditar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
+		btnEditar.setBorderPainted(false);
+		btnEditar.setToolTipText("ACTUALIZAR PRÉSTAMO");
+		btnEditar.setContentAreaFilled(false);
+		btnEditar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnEditar.setBounds(202, 252, 64, 64);
+		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 26));
+		btnEditar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEditar.setEnabled(false);
 		btnEditar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actualizarPrestamo();
+				if(Utiles.Validar(contenedor)) {
+					BigDecimal mora = (String.valueOf(cboTipoMora.getSelectedItem()).equals("%")) ? Constantes.MORA_CERO : Constantes.MORA_SOLES;
+					Prestamo prestamo = new Prestamo();
+					prestamo.setDescripcion(txtDescripcion.getText().toUpperCase());
+					prestamo.setInteres(new BigDecimal(txtInteres.getText()));
+					prestamo.setSede(((Sede) cboSede.getSelectedItem()));
+					prestamo.setFlag(txtTipo.getText().toUpperCase());
+					prestamo.setTMora(String.valueOf(cboTipoMora.getSelectedItem()));
+					prestamo.setMora(String.valueOf(mora));
+					prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
+					prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+					new PrestamoController().ActualizarPrestamo(prestamo);
+					Utiles.Mensaje("Préstamo registrado.", JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Limpiar(contenedor);
+					ListarPrestamos();
+				}else {
+					Utiles.Mensaje("Complete el formulario.", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
-				
-		btnEliminar = new JButton(new ImageIcon("img/retirarPrestamo.png"));
+
+		btnEliminar = new JButton(new ImageIcon("img/eliminar.png"));
 		contenedor.add(btnEliminar);
-		btnEliminar.setText(" ELIMINAR");
-		btnEliminar.setBounds(593, 235, 267, 77);
-		btnEliminar.setFont(new java.awt.Font("Segoe UI",1,26));
-		btnEliminar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
+		btnEliminar.setBorderPainted(false);
+		btnEliminar.setToolTipText("ELIMINAR PRÉSTAMO");
+		btnEliminar.setContentAreaFilled(false);
+		btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnEliminar.setBounds(333, 252, 64, 64);
+		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 26));
+		btnEliminar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				eliminarPrestamo();
-			}
-		});
-				
-		btnCancelar = new JButton(new ImageIcon("img/salir.png"));
-		contenedor.add(btnCancelar);
-		btnCancelar.setText(" SALIR");
-		btnCancelar.setBounds(593, 317, 267, 77);
-		btnCancelar.setFont(new java.awt.Font("Segoe UI",1,26));
-		btnCancelar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
-		{
-			jLabel4 = new JLabel();
-			contenedor.add(jLabel4);
-			jLabel4.setText("M %");
-			jLabel4.setBounds(734, 20, 57, 29);	
-			jLabel4.setFont(new java.awt.Font("Segoe UI",1,20));
-			jLabel4.setForeground(new java.awt.Color(0,128,0));
-		}
 
-		txtMora = new JTextField();
-		contenedor.add(txtMora);
-		txtMora.setBounds(794, 21, 66, 34);
-		txtMora.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
-		txtMora.setFont(new java.awt.Font("Segoe UI",1,20));
-
-		btnCancelar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				cerrar();
 			}
 		});
 
-		tbPrestamos = new JTable();
-		tbPrestamos.setFont(new Font("Segoe UI", Font.BOLD, 24));
-		tbPrestamos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 24));
-		tbPrestamos.getTableHeader().setForeground(new Color(181,0,0));
+		spPrestamo = new JScrollPane();
+		contenedor.add(spPrestamo);
+		spPrestamo.setBounds(464, 12, 710, 304);
+		spPrestamo.setBackground(new java.awt.Color(255, 255, 255));
+		spPrestamo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+
+		cboSede = new JComboBox();
+		contenedor.add(cboSede);
+		new ArticuloController().CargarSedes("CASA").forEach(s -> cboSede.addItem(s));
+		cboSede.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		cboSede.setBorder(BorderFactory.createTitledBorder(null, "SEDE", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				new java.awt.Color(0, 128, 0)));
+		cboSede.setOpaque(false);
+		cboSede.setBounds(239, 90, 213, 66);
+		cboSede.setBackground(new java.awt.Color(255, 255, 255));
+
+		tbPrestamos = new JXTable();
+		tbPrestamos.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbPrestamos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbPrestamos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbPrestamos.setRowHeight(35);
-		jScrollPane1.setViewportView(tbPrestamos);		
-		tbPrestamos.setModel(modeloPrestamos);
+		spPrestamo.setViewportView(tbPrestamos);
+		tbPrestamos.setPreferredSize(new java.awt.Dimension(1133, 271));
+		tbPrestamos.setModel(Constantes.PrestamoModel);
 		tbPrestamos.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e){
-				if(e.getClickCount()==2){
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
 					int fila = tbPrestamos.getSelectedRow();
-					txtTipo.setText(tbPrestamos.getValueAt(fila, 0).toString());
+					
 					txtDescripcion.setText(tbPrestamos.getValueAt(fila, 1).toString());
-					txtInteres.setText(tbPrestamos.getValueAt(fila,2).toString());
-					txtMora.setText(tbPrestamos.getValueAt(fila,3).toString());
-					txtTipo.setEnabled(false);
+					txtInteres.setText(tbPrestamos.getValueAt(fila, 2).toString());
+					cboTipoMora.setSelectedItem(tbPrestamos.getValueAt(fila, 3).toString());
+					txtTipo.setText(tbPrestamos.getValueAt(fila, 5).toString());	
 					btnEditar.setEnabled(true);
 					btnEliminar.setEnabled(true);
 				}
 			}
 		});
-		
-		listarPrestamos();
+
+		ListarPrestamos();
 	}
-	
-	public void listarPrestamos(){
-		try {
-			String sql = "SELECT * FROM tb_prestamo";
-			PreparedStatement pst = con.prepareStatement(sql);
-			ResultSet rs = pst.executeQuery();
-			modeloPrestamos.setRowCount(0);
-			while(rs.next()){
-				modeloPrestamos.addRow(new Object[]{rs.getString(1),rs.getString(2),rs.getDouble(3),rs.getDouble(4)});
-			}tbPrestamos.setModel(modeloPrestamos);			
-		} catch (Exception e) {
-			e.printStackTrace();
+
+	public void ListarPrestamos() {
+		Constantes.PrestamoModel.setRowCount(0);
+		for (Prestamo p : new PrestamoController().ListarPrestamos()) {
+			Constantes.PrestamoModel.addRow(
+					new Object[] { p.getId(), p.getDescripcion(), p.getInteres(), p.getTMora(), p.getMora(), p.getFlag()
+
+					});
 		}
+		tbPrestamos.setModel(Constantes.PrestamoModel);
 	}
-	
-	public void mensaje(String s){
-		JOptionPane.showMessageDialog(null, s);
-	}
-	
-	public void cerrar(){
-		int n = JOptionPane.showConfirmDialog(null, "¿Cancelar la operación?","Confirmación",JOptionPane.YES_NO_OPTION);
-		if(n == JOptionPane.YES_OPTION){
-		this.dispose();
-		}
-	}
-	
-	public void buscarPrestamo(){
-		String val = JOptionPane.showInputDialog("Ingrese el tipo de préstamo a modificar.");
-		try {
-			String sql = "SELECT * FROM tb_prestamo WHERE tip_pre=?";
-			PreparedStatement pst = con.prepareStatement(sql);
-			pst.setString(1, val);
-			ResultSet rs = pst.executeQuery();
-			if(rs.next()){
-				txtTipo.setText(rs.getString(1));
-				txtTipo.setEnabled(false);
-				txtDescripcion.setText(rs.getString(2));
-				txtInteres.setText(rs.getDouble(3)+"");
-				txtMora.setText(rs.getDouble(4)+"");
-			}else{
-				mensaje("No existe tal tipo de préstamo.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void registrarPrestamo(){
-		Prestamo p = new Prestamo(txtTipo.getText(), txtDescripcion.getText(), Double.parseDouble(txtInteres.getText()),Double.parseDouble(txtMora.getText()));
-		if(p.validar()){
-			p.registrar();
-			mensaje("Nuevo tipo de préstamo registrado con éxito.");
-			limpiarCajas();
-			listarPrestamos();
-			txtTipo.setEnabled(true);
-		}else{
-			mensaje("El tipo de préstamo que intentas registrar ya existe.");
-			limpiarCajas();
-			txtTipo.setEnabled(true);
-		}
-	}
-	
-	public void actualizarPrestamo(){
-		Prestamo p = new Prestamo(txtTipo.getText(), txtDescripcion.getText(), Double.parseDouble(txtInteres.getText()),Double.parseDouble(txtMora.getText()));
-		p.actualizar();
-		limpiarCajas();
-		listarPrestamos();
-		txtTipo.setEnabled(true);
-		btnEditar.setEnabled(false);
-		btnEliminar.setEnabled(false);
-		mensaje("Tipo de préstamo actualizado con éxito.");
-	}
-	
-	public void eliminarPrestamo(){
-		int n = JOptionPane.showConfirmDialog(null, "¿Realmente desea eliminar este tipo de préstamo?","Confirmación",JOptionPane.YES_NO_OPTION);
-		if(n == JOptionPane.YES_OPTION){
-			try {
-				String sql = "DELETE FROM tb_prestamo WHERE cod_pre=?";
-				PreparedStatement pst = con.prepareStatement(sql);
-				pst.setString(1, txtTipo.getText());
-				pst.executeUpdate();
-				limpiarCajas();
-				listarPrestamos();
-				mensaje("Se eliminó el tipo de préstamo.");
-				btnEditar.setEnabled(false);
-				btnEliminar.setEnabled(false);
-				txtTipo.setEnabled(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}	
-	}
-	
-	public void limpiarCajas(){
-		for(Object o : contenedor.getComponents()){
-			if(o instanceof JTextField){
-				((JTextField)o).setText("");
-				((JTextField)o).setBackground(Color.WHITE);
-			}if(o instanceof JDateChooser){
-				((JDateChooser)o).setDate(null);
-			}
-				
-		}
-	}
-	
-	public boolean validador(JPanel pnl){
-		boolean val = true;
-		
-		for(Object o : pnl.getComponents()){
-			if(o instanceof JTextField && !(o instanceof JXSearchField)){
-				if(((JTextField) o).getText().equals("")){
-					((JTextField)o).setBackground(Color.RED);
-					((JTextField)o).requestFocus();
-						return val = false;
-				}
-			}
-			if(o instanceof JDateChooser){
-				if(((JDateChooser)o).getDate() == null){
-					((JDateChooser)o).getDateEditor().getUiComponent().setBackground(Color.RED);
-					return val = false;
-				}
-			}
-				
-			}
-					return val;
-	}
-	
-	
 }

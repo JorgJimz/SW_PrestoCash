@@ -178,14 +178,6 @@ public class Prestamo implements Serializable {
 		this.sede = sede;
 	}
 
-	public String gettMora() {
-		return tMora;
-	}
-
-	public void settMora(String tMora) {
-		this.tMora = tMora;
-	}
-
 	public BigDecimal getPorcentaje() {
 		return porcentaje;
 	}
