@@ -146,6 +146,7 @@ public class Principal extends JFrame {
 		mnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
 		mnReportes = new JMenu();
+		mnReportes.setVisible(false);
 		menuBarPrincipal.add(mnReportes);
 		mnReportes.setText("REPORTES");
 		mnReportes.setFont(new java.awt.Font("Segoe UI", 1, 22));
