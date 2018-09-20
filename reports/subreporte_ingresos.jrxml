@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_caja_diaria_subreport1" language="groovy" pageWidth="300" pageHeight="802" columnWidth="300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e8e24eec-0c73-49ce-b31b-c26cee12619a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="totalGanancia_master" class="java.math.BigDecimal" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[descripcion]]></fieldDescription>
+	</field>
+	<field name="capital" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[capital]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[tipo]]></fieldDescription>
+	</field>
+	<field name="otro" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[otro]]></fieldDescription>
+	</field>
+	<field name="ganancia" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[ganancia]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="49" height="20" uuid="6e9f2eb2-235d-4b8e-bf67-9fea661e1a63"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="49" height="20" uuid="f4e5d39e-8031-4b20-8b56-778055f59b81"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DET.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="49" height="20" uuid="c8f2ef06-28ca-4a7b-9cf7-72a1c60663e8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAP.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="0" width="50" height="20" uuid="78cec849-a60a-4cf8-bd4f-dde51dd2b3a4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GAN.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="0" width="52" height="20" uuid="890360b6-9683-4a80-ae18-3f543812cbd4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OTRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="50" height="20" uuid="d5cd012f-0fdc-4b8c-9c24-60c558374d42"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NETO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="-1" y="0" width="50" height="20" uuid="dae3f325-2330-400b-8cba-71dc3b9dc684"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="0" width="50" height="20" uuid="b99fe45f-4b0b-436f-9eac-c3dc9a5cee31"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="0" width="50" height="20" uuid="be9ff61a-6d17-4c1a-b3af-22e5bd0bf08c"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{capital}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="0" width="50" height="20" uuid="327f794e-7f04-480e-93ad-bd19d6376a8c"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ganancia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="0" width="50" height="20" uuid="7e06492c-3f79-44bf-84f6-dcb7e46d8251"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="50" height="20" uuid="e44ab5e0-07e6-416c-ac7f-5039389e44f9"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{capital}.add($F{ganancia}).add($F{otro})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="300" height="20" uuid="e010c9f3-554d-45f8-8c50-e5a8fc19a351"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GANANCIA: S/." + $P{totalGanancia_master}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

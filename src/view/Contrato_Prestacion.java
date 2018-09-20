@@ -30,7 +30,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
@@ -40,6 +39,7 @@ import org.jdesktop.swingx.JXTitledSeparator;
 
 import common.ComboItem;
 import common.Constantes;
+import common.JIconTextField;
 import common.MyFocusTraversalPolicy;
 import common.Utiles;
 import controller.ArticuloController;
@@ -73,9 +73,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 	private JLabel lblInteres;
 	private JComboBox cboTipoPrestamo;
 	private JXTitledSeparator jSeparator2;
-	private JTextField txtEn;
-	private JTextField txtObservaciones;
-	private JTextField txtCantidad;
+	private JIconTextField txtEn;
+	private JIconTextField txtObservaciones;
+	private JIconTextField txtCantidad;
 	private JLabel jLabel11;
 	private JLabel jLabel10;
 	private JLabel jLabel9;
@@ -84,27 +84,27 @@ public class Contrato_Prestacion extends JInternalFrame {
 	private JLabel lblEstado;
 	private JButton btnSalir;
 	private JLabel lblTotal;
-	private JTextField txtTasacion;
+	private JIconTextField txtTasacion;
 	private JLabel jLabel15;
 	private JLabel lblP;
 	private JButton btnHistorial;
 	private JButton btnEditarCliente;
 	private JLabel lblReferencia;
-	private JTextField txtMarca;
+	private JIconTextField txtMarca;
 	private JButton btnLimpiar;
 	private JButton btnMenos;
 	private JButton btnMas;
 	private JButton btnGrabar;
 
-	private JTextField txtModelo;
-	private JTextField txtDescripcion;
+	private JIconTextField txtModelo;
+	private JIconTextField txtDescripcion;
 	private JLabel lblNumeroContrato;
 	private JComboBox cboTipoMoneda;
 	private JLabel jLabel14;
 	private JLabel lblInteresCalculado;
 	private JLabel lblCapital;
 	private JButton btnRegresar;
-	private JTextField txtSerie;
+	private JIconTextField txtSerie;
 	private JLabel lblNombres;
 	private JLabel jLabel13;
 	private JPanel contenedor;
@@ -302,7 +302,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int fila = tbContratos.getSelectedRow();
 					int codigo = Integer.parseInt(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 0)));
-					for (DetalleContrato dc : /* contrato.getDetalleContratos() */detalle) {
+					for (DetalleContrato dc : detalle) {
 						if (dc.getId() == codigo) {
 							dc.getArticulo()
 									.setDescripcion(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 1)));
@@ -393,7 +393,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		cboTipoMoneda.setModel(Constantes.MonedaModel);
 		cboTipoMoneda.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
-		txtDescripcion = new JTextField();
+		txtDescripcion = new JIconTextField();
 		contenedor.add(txtDescripcion);
 		txtDescripcion.setBounds(134, 234, 475, 66);
 		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 24));
@@ -403,7 +403,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
 
-		txtModelo = new JTextField();
+		txtModelo = new JIconTextField();
 		contenedor.add(txtModelo);
 		txtModelo.setBounds(930, 234, 325, 66);
 		txtModelo.setFont(new java.awt.Font("Segoe UI", 1, 24));
@@ -413,7 +413,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
 				new java.awt.Color(0, 128, 0)));
 
-		txtMarca = new JTextField();
+		txtMarca = new JIconTextField();
 		contenedor.add(txtMarca);
 		txtMarca.setBounds(621, 234, 288, 66);
 		txtMarca.setFont(new java.awt.Font("Segoe UI", 1, 24));
@@ -428,7 +428,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		lblReferencia.setBounds(290, 79, 10, 10);
 		lblReferencia.setVisible(false);
 
-		txtTasacion = new JTextField();
+		txtTasacion = new JIconTextField();
 		contenedor.add(txtTasacion);
 		txtTasacion.setBounds(695, 391, 214, 66);
 		txtTasacion.setFont(new java.awt.Font("Segoe UI", 1, 24));
@@ -465,7 +465,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		btnGrabar = new JButton(new ImageIcon("img/grabarContrato.png"));
 		contenedor.add(btnGrabar);
-		btnGrabar.setText(" GENERAR CONTRATO");
+		btnGrabar.setText("GENERAR CONTRATO");
 		btnGrabar.setOpaque(false);
 		btnGrabar.setBorderPainted(false);
 		btnGrabar.setContentAreaFilled(false);
@@ -477,7 +477,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnGrabar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (Utiles.Validar(contenedor)) {
+				if (tbContratos.getRowCount() > 0) {
 					try {
 						contrato.setCapital(new BigDecimal(lblCapital.getText()));
 						contrato.setInteresMensual(new BigDecimal(lblInteresCalculado.getText()));
@@ -509,7 +509,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 						Utiles.Mensaje("Error. No se pudo completar la operación.", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					Utiles.Mensaje("Completar el formulario", JOptionPane.WARNING_MESSAGE);
+					Utiles.Mensaje("Se requiere como mínimo una prenda para generar el contrato.", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -582,7 +582,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		jLabel11.setForeground(new java.awt.Color(0, 128, 0));
 
-		txtCantidad = new JTextField();
+		txtCantidad = new JIconTextField();
 		contenedor.add(txtCantidad);
 		txtCantidad.setBounds(12, 235, 110, 66);
 		txtCantidad.setFont(new java.awt.Font("Segoe UI", 1, 24));
@@ -591,7 +591,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
 				new java.awt.Color(0, 128, 0)));
 
-		txtObservaciones = new JTextField();
+		txtObservaciones = new JIconTextField();
 		contenedor.add(txtObservaciones);
 		txtObservaciones.setBounds(12, 313, 897, 66);
 		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -601,7 +601,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
 
-		txtEn = new JTextField();
+		txtEn = new JIconTextField();
 		contenedor.add(txtEn);
 		txtEn.setBounds(351, 391, 327, 66);
 		txtEn.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -652,7 +652,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 72));
 		jLabel15.setForeground(new java.awt.Color(0, 0, 255));
 
-		txtSerie = new JTextField();
+		txtSerie = new JIconTextField();
 		contenedor.add(txtSerie);
 		txtSerie.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		txtSerie.setForeground(new java.awt.Color(0, 64, 128));

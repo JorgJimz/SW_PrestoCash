@@ -3,6 +3,7 @@ package common;
 import java.awt.Color;
 import java.awt.Container;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -13,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXSearchField;
 
@@ -32,11 +35,11 @@ public class Utiles {
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 			if (opc == 0) {
 				Cliente k = new ClienteController().BuscarCliente(documento);
-				Contrato_Prestacion contrato = new Contrato_Prestacion(k);				
+				Contrato_Prestacion contrato = new Contrato_Prestacion(k);
 				Principal.dskPrincipal.add(contrato);
 				internal.dispose();
 			} else if (opc == 1) {
-				Venta_Articulos venta = new Venta_Articulos(documento);				
+				Venta_Articulos venta = new Venta_Articulos(documento);
 				Principal.dskPrincipal.add(venta);
 				internal.dispose();
 			}
@@ -65,17 +68,23 @@ public class Utiles {
 		boolean val = true;
 
 		for (Object o : pnl.getComponents()) {
-			if (o instanceof JTextField && !(o instanceof JXSearchField)) {
-				if (((JTextField) o).getText().equals("")) {
-					((JTextField) o).setOpaque(true);
-					((JTextField) o).setBackground(Color.RED);
-					((JTextField) o).setForeground(Color.WHITE);
-					((JTextField) o).requestFocus();
+			if (o instanceof JIconTextField && !(o instanceof JXSearchField)) {
+				if (((JIconTextField) o).getText().equals("")) {
 					val = false;
+					((JIconTextField) o).setOpaque(false);
+					TitledBorder titledBorder = (TitledBorder) ((JIconTextField) o).getBorder();
+					titledBorder.setTitleColor(new Color(200, 0, 0));
+					titledBorder.setBorder(new LineBorder(new Color(200, 0, 0), 2));
+					((JIconTextField) o).setIcon(new ImageIcon("img/alerta.png"));
+					((JIconTextField) o).requestFocus();
+					pnl.repaint();
 				} else {
-					((JTextField) o).setOpaque(false);
-					((JTextField) o).setBackground(Color.WHITE);
-					((JTextField) o).setForeground(Color.BLACK);
+					((JIconTextField) o).setOpaque(false);
+					TitledBorder titledBorder = (TitledBorder) ((JIconTextField) o).getBorder();
+					titledBorder.setTitleColor(new Color(0, 128, 0));
+					titledBorder.setBorder(new LineBorder(new Color(0, 128, 0), 2));
+					((JIconTextField) o).setIcon(null);
+					pnl.repaint();
 				}
 			}
 			if (o instanceof JScrollPane && !(o instanceof JXSearchField)) {

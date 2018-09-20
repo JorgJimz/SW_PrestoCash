@@ -16,6 +16,9 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 @Entity
 @Table(name = "libro_caja")
 @NamedQuery(name = "LibroCaja.findAll", query = "SELECT l FROM LibroCaja l")
@@ -206,6 +209,14 @@ public class LibroCaja implements Serializable {
 
 	public void setTotalEmpenos(int totalEmpenos) {
 		this.totalEmpenos = totalEmpenos;
+	}
+	
+	public JRDataSource getIngresosJasper() {
+		return new JRBeanCollectionDataSource(ingresos);
+	}
+	
+	public JRDataSource getEgresosJasper() {
+		return new JRBeanCollectionDataSource(egresos);
 	}
 
 }

@@ -146,7 +146,7 @@ public class Login extends JFrame {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
-			UIManager.put("TitledBorder.border", new LineBorder(new Color(255, 255, 255), 3));
+			UIManager.put("TitledBorder.border", new LineBorder(new Color(0, 128, 0), 2));
 			new Login();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();

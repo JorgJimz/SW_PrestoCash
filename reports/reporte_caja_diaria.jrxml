@@ -1,136 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_caja_diaria" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="15" bottomMargin="10" uuid="5fd089e1-af71-4621-a9cc-400b32fd22e1">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="fecha_master" class="java.lang.String">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
-	<parameter name="p" class="java.lang.String"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT fec_caja,cer_caja,desc_ing,tip_ing,cap_ing,gan_ing,oto_ing,
-format ( ama_caja ,  2 ) as 'ama_caja', ape_caja,cie_caja FROM tb_libro_caja c
-INNER JOIN tb_ingreso i
-ON c.id_caja = i.tb_libro_caja_id_caja
-WHERE c.fec_caja=$P{fecha_master}]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="fec_caja" class="java.sql.Date">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="amanece" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[amanece]]></fieldDescription>
 	</field>
-	<field name="ama_caja" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="egresosJasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[egresosJasper]]></fieldDescription>
 	</field>
-	<field name="cer_caja" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="totalEmpenos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalEmpenos]]></fieldDescription>
 	</field>
-	<field name="desc_ing" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="ingresosJasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[ingresosJasper]]></fieldDescription>
 	</field>
-	<field name="tip_ing" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="totalGanancia" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalGanancia]]></fieldDescription>
 	</field>
-	<field name="cap_ing" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="fechaCierre" class="java.lang.String">
+		<fieldDescription><![CDATA[fechaCierre]]></fieldDescription>
 	</field>
-	<field name="gan_ing" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="fechaApertura" class="java.lang.String">
+		<fieldDescription><![CDATA[fechaApertura]]></fieldDescription>
 	</field>
-	<field name="oto_ing" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+	<field name="totalNeto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalNeto]]></fieldDescription>
 	</field>
-	<field name="ape_caja" class="java.lang.String"/>
-	<field name="cie_caja" class="java.lang.String"/>
+	<field name="totalEgresos" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalEgresos]]></fieldDescription>
+	</field>
+	<field name="cierre" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[cierre]]></fieldDescription>
+	</field>
 	<background>
 		<band/>
 	</background>
 	<pageHeader>
-		<band height="27">
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="76f06b13-7b1c-49ab-9bde-911f503a676c" x="0" y="0" width="297" height="27"/>
-				<textElement verticalAlignment="Middle">
+		<band height="41">
+			<textField>
+				<reportElement x="0" y="0" width="575" height="30" uuid="a094a103-e711-4f16-8f14-4a541bb7646c"/>
+				<textElement>
 					<font size="20" isBold="true"/>
-					<paragraph lineSpacing="Double"/>
 				</textElement>
-				<textFieldExpression><![CDATA["AMANECE S/. "+$F{ama_caja}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["AMANECE: " + $F{amanece}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<lastPageFooter>
-		<band height="137">
-			<subreport>
-				<reportElement uuid="09bd5d8f-3457-4c84-a670-2cf400afe852" x="0" y="46" width="575" height="91"/>
-				<subreportParameter name="fecha">
-					<subreportParameterExpression><![CDATA[$P{fecha_master}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["reporte_caja_diaria_subreport3.jasper"]]></subreportExpression>
-			</subreport>
+		<band height="90">
 			<textField>
-				<reportElement uuid="acf8d330-d5ef-4850-a03b-1d61bf8ce178" x="297" y="26" width="278" height="20"/>
-				<textElement textAlignment="Right">
-					<font size="13" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["HORA DE CIERRE: "+$F{cie_caja}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="98380b9c-e763-4616-8fe2-4b4db1cf13a7" x="0" y="27" width="297" height="20"/>
+				<reportElement x="0" y="10" width="297" height="20" uuid="c28bea6a-d51d-41d8-bfbd-82ec00bd7953"/>
 				<textElement>
-					<font size="13" isBold="true"/>
+					<font size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA["HORA DE APERTURA: "+$F{ape_caja}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["APERTURA: " + $F{fechaApertura}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement uuid="d3a1b5dc-959c-41ae-9184-9b87837eaec6" x="0" y="26" width="575" height="1"/>
-			</line>
 			<textField>
-				<reportElement uuid="7f8c6ef5-96aa-4910-9755-9483b1d4edc9" x="0" y="0" width="187" height="27"/>
-				<textElement verticalAlignment="Middle">
-					<font size="19" isBold="true"/>
+				<reportElement x="305" y="10" width="270" height="20" uuid="ab377563-bb02-4c40-a1b1-0a176541ad94"/>
+				<textElement>
+					<font size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA["CAJA "+$P{p}+" - "]]></textFieldExpression>
+				<textFieldExpression><![CDATA["CIERRE: " + $F{fechaCierre}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="b2c0360f-40ac-4254-b009-d1583448f2a7" x="113" y="0" width="206" height="27"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+			<textField>
+				<reportElement x="0" y="60" width="190" height="30" uuid="ae665465-9074-4def-9b1c-3c61ae19b2ce"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMM yyyy").format($F{fec_caja}).toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalNeto}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="190" y="60" width="200" height="30" uuid="2d482e89-1613-405f-ad36-fd658583f23d"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalEgresos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="60" width="185" height="30" uuid="1bcff537-2250-47cf-8045-61774380b1dd"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cierre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="190" height="30" uuid="5c772ca1-0d5e-49ab-b213-c6dde2b02951"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INGRESOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="30" width="200" height="30" uuid="499d9547-a81e-4171-baa2-7524facb4719"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EGRESOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="30" width="185" height="30" uuid="07a509d4-e96f-40a3-a89a-9fab332023de"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIERRE]]></text>
+			</staticText>
 		</band>
 	</lastPageFooter>
 	<summary>
-		<band height="137">
-			<rectangle>
-				<reportElement uuid="ebea5ebf-a53e-47c8-a9db-c7f5c13fce19" x="305" y="0" width="270" height="35"/>
-			</rectangle>
-			<rectangle>
-				<reportElement uuid="c688449f-e28a-4913-8f8b-662308321120" x="0" y="0" width="297" height="35"/>
-			</rectangle>
+		<band height="133">
 			<subreport>
-				<reportElement uuid="a0256ed0-17b2-49f9-a9c4-7a733bff9206" x="305" y="37" width="270" height="100"/>
-				<subreportParameter name="fecha">
-					<subreportParameterExpression><![CDATA[$P{fecha_master}]]></subreportParameterExpression>
+				<reportElement x="305" y="60" width="270" height="70" uuid="a33f012c-9711-4ba3-8798-4336179ee143"/>
+				<subreportParameter name="totalEmpenos_master">
+					<subreportParameterExpression><![CDATA[$F{totalEmpenos}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["reporte_caja_diaria_subreport2.jasper"]]></subreportExpression>
+				<dataSourceExpression><![CDATA[$F{egresosJasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/subreporte_egresos.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement uuid="90ae3b41-10bf-4b89-a3f7-a1f1fe4b0d7f" x="0" y="37" width="298" height="100"/>
-				<subreportParameter name="fecha">
-					<subreportParameterExpression><![CDATA[$P{fecha_master}]]></subreportParameterExpression>
+				<reportElement x="1" y="60" width="297" height="73" uuid="4659b692-3bfc-49ff-b18a-762b02af288d"/>
+				<subreportParameter name="totalGanancia_master">
+					<subreportParameterExpression><![CDATA[$F{totalGanancia}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["reporte_caja_diaria_subreport1.jasper"]]></subreportExpression>
+				<dataSourceExpression><![CDATA[$F{ingresosJasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/subreporte_ingresos.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement uuid="5ffbe5e6-bf12-4522-8c34-dd4e67ebccff" x="-1" y="2" width="298" height="35"/>
+				<reportElement x="0" y="13" width="298" height="35" uuid="5ffbe5e6-bf12-4522-8c34-dd4e67ebccff"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INGRESOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="3aa0f880-1c6f-4756-87a1-093fd7c452fd" x="305" y="2" width="270" height="35"/>
+				<reportElement x="305" y="13" width="270" height="35" uuid="3aa0f880-1c6f-4756-87a1-093fd7c452fd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>

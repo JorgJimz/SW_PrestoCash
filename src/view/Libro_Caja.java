@@ -7,10 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -38,13 +38,27 @@ import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
 import controller.LibroCajaController;
-import controller.UsuarioController;
-import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
-@SuppressWarnings({ "serial" })
+/**
+ * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
+ * Builder, which is free for non-commercial use. If Jigloo is being used
+ * commercially (ie, by a corporation, company or business for any purpose
+ * whatever) then you should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details. Use of Jigloo implies
+ * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
+ * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
+ * ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
+@SuppressWarnings({ "serial", "deprecation" })
 public class Libro_Caja extends JInternalFrame {
 	private JPanel contenedor;
 	private JLabel lblAmanece;
@@ -70,6 +84,7 @@ public class Libro_Caja extends JInternalFrame {
 	private JXTitledSeparator jSeparator1;
 	private JButton btnCerrarCaja;
 	private JLabel jLabel3;
+	private JButton btnImprimir;
 	private JButton btnSalir;
 	private JButton btnGrabarEgreso;
 	private JButton btnGrabarIngreso;
@@ -252,14 +267,13 @@ public class Libro_Caja extends JInternalFrame {
 		btnCerrarCaja = new JButton(new ImageIcon("img/cerrar_caja.png"));
 		contenedor.add(btnCerrarCaja);
 		btnCerrarCaja.setText("CERRAR CAJA");
-		btnCerrarCaja.setEnabled((caja.getStatus() == 1) ? true : false);
+		btnCerrarCaja.setVisible((caja.getStatus() == 1) ? true : false);
 		btnCerrarCaja.setOpaque(false);
 		btnCerrarCaja.setBorderPainted(false);
 		btnCerrarCaja.setContentAreaFilled(false);
 		btnCerrarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCerrarCaja.setBounds(1028, 636, 266, 82);
-		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnCerrarCaja.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		btnCerrarCaja.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCerrarCaja.addActionListener(new ActionListener() {
 			@Override
@@ -268,15 +282,18 @@ public class Libro_Caja extends JInternalFrame {
 						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
-					caja.setStatus(0);
-					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
-					caja.setFechaCierre(String.valueOf(LocalDate.now()));
-					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
-							.findFirst().orElse(Asistencia.DEFAULT);
-					a.setHoraSalida(String.valueOf(LocalTime.now()));
-					new UsuarioController().MarcarAsistencia(a);
-					List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
-					Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
+					/*
+					 * caja.setStatus(0);
+					 * caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.
+					 * getTotalEgresos())); caja.setFechaCierre(String.valueOf(LocalDate.now()));
+					 * Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.
+					 * predicadoAsistencia) .findFirst().orElse(Asistencia.DEFAULT);
+					 * a.setHoraSalida(String.valueOf(LocalTime.now())); new
+					 * UsuarioController().MarcarAsistencia(a); List<String> msg = new
+					 * LibroCajaController().CerrarLibroCaja(caja); Utiles.Mensaje(msg.get(0),
+					 * Integer.parseInt(msg.get(1)));
+					 */
+					ImprimirCaja();
 				}
 			}
 		});
@@ -418,7 +435,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarIngreso.setContentAreaFilled(false);
 		btnGrabarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabarIngreso.setHorizontalAlignment(SwingConstants.RIGHT);
-		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		btnGrabarIngreso.setBounds(426, 88, 296, 64);
 		btnGrabarIngreso.addActionListener(new ActionListener() {
 			@Override
@@ -455,7 +472,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarEgreso.setContentAreaFilled(false);
 		btnGrabarEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnGrabarEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		btnGrabarEgreso.setVisible(false);
 		btnGrabarEgreso.setText("GRABAR EGRESO");
 		btnGrabarEgreso.setBounds(964, 88, 313, 64);
@@ -493,6 +510,24 @@ public class Libro_Caja extends JInternalFrame {
 		btnSalir.setText("SALIR");
 		btnSalir.setBounds(1028, 726, 266, 82);
 		btnSalir.setHorizontalAlignment(SwingConstants.LEFT);
+
+		btnImprimir = new JButton(new ImageIcon("img/printer.png"));
+		contenedor.add(btnImprimir);
+		btnImprimir.setText("IMPRIMIR CAJA");
+		btnImprimir.setVisible(!btnCerrarCaja.isVisible());
+		btnImprimir.setOpaque(false);
+		btnImprimir.setBorderPainted(false);
+		btnImprimir.setContentAreaFilled(false);
+		btnImprimir.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnImprimir.setBounds(1028, 636, 266, 82);
+		btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		btnImprimir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ImprimirCaja();
+			}
+		});
+
 		btnSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -543,17 +578,25 @@ public class Libro_Caja extends JInternalFrame {
 		this.dispose();
 	}
 
+	public void ImprimirCaja() {
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		ArrayList<LibroCaja> arreglo_caja = new ArrayList<LibroCaja>();
+		arreglo_caja.add(caja);
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObject("reports/reporte_caja_diaria.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
+					new JRBeanCollectionDataSource(arreglo_caja));
+			JasperViewer viewer = new JasperViewer(jasperPrint, true);
+			viewer.show();
+			viewer.toFront();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/*
 	 * 
-	 * public void imprimirReporteCaja() { Connection con =
-	 * MySQLConexion.getConexion(); HashMap<String, Object> parametros = new
-	 * HashMap<String, Object>(); parametros.put("fecha_master", new
-	 * SimpleDateFormat("yyyy-MM-dd").format(new Date())); parametros.put("p",
-	 * Constantes.SUCURSAL); try { JasperReport reporte = (JasperReport)
-	 * JRLoader.loadObject("reporte_caja_diaria.jasper"); JasperPrint print =
-	 * JasperFillManager.fillReport(reporte, parametros, con); JasperViewer viewer =
-	 * new JasperViewer(print, true); viewer.show(); viewer.toFront(); } catch
-	 * (Exception e) { e.printStackTrace(); } }
+	 * 
 	 * 
 	 * public double obtenerCambio() { Connection con = MySQLConexion.getConexion();
 	 * double cambio = 1; try { String sql =
