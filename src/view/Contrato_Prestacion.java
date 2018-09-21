@@ -61,7 +61,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-@SuppressWarnings({ "serial", "rawtypes", "unchecked", "deprecation" })
+@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Contrato_Prestacion extends JInternalFrame {
 	private JLabel jLabel2;
 	private JLabel jLabel3;
@@ -509,7 +509,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 						Utiles.Mensaje("Error. No se pudo completar la operación.", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					Utiles.Mensaje("Se requiere como mínimo una prenda para generar el contrato.", JOptionPane.WARNING_MESSAGE);
+					Utiles.Mensaje("Se requiere como mínimo una prenda para generar el contrato.",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -832,7 +833,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		parametros.put("fecha_contrato", lblFechaContrato.getText().toUpperCase());
 		parametros.put("fecha_vencimiento", lblFechaVencimiento.getText().toUpperCase());
 		try {
-			JasperReport reporte = (JasperReport) JRLoader.loadObject("reports/contrato.jasper");
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/contrato.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
 					new JRBeanCollectionDataSource(arreglo_contrato));
 			JasperPrintManager.printReport(jasperPrint, true);

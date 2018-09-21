@@ -461,7 +461,7 @@ public class Principal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				dskPrincipal.add(
-						new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(String.valueOf(LocalDate.now()))));
+						new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(LocalDate.now())));
 			}
 		});
 

@@ -48,16 +48,6 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "serial", "deprecation" })
 public class Libro_Caja extends JInternalFrame {
 	private JPanel contenedor;
@@ -122,7 +112,7 @@ public class Libro_Caja extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				LocalDate nueva_fecha = dpFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				LibroCaja nueva_caja = new LibroCajaController().ObtenerLibroCaja(String.valueOf(nueva_fecha));
+				LibroCaja nueva_caja = new LibroCajaController().ObtenerLibroCaja(nueva_fecha);
 				if (Objects.nonNull(nueva_caja)) {
 					Principal.dskPrincipal.add(new Libro_Caja(nueva_caja));
 					Cerrar();
@@ -215,7 +205,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		lblTotalGanacia = new JLabel(String.valueOf(caja.getTotalGanancia()));
 		contenedor.add(lblTotalGanacia);
-		lblTotalGanacia.setBounds(368, 532, 119, 46);
+		lblTotalGanacia.setBounds(370, 530, 130, 46);
 		lblTotalGanacia.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalGanacia.setOpaque(true);
 		lblTotalGanacia.setForeground(new java.awt.Color(0, 0, 0));
@@ -224,7 +214,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		lblNeto = new JLabel(String.valueOf(caja.getTotalNeto()));
 		contenedor.add(lblNeto);
-		lblNeto.setBounds(609, 532, 113, 46);
+		lblNeto.setBounds(600, 532, 122, 46);
 		lblNeto.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblNeto.setOpaque(true);
 		lblNeto.setForeground(new java.awt.Color(0, 0, 0));
@@ -243,7 +233,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		lblTotalEgreso = new JLabel(String.valueOf(caja.getTotalEgresos()));
 		contenedor.add(lblTotalEgreso);
-		lblTotalEgreso.setBounds(1185, 530, 109, 46);
+		lblTotalEgreso.setBounds(1177, 530, 117, 46);
 		lblTotalEgreso.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalEgreso.setOpaque(true);
 		lblTotalEgreso.setForeground(new java.awt.Color(0, 0, 0));
@@ -282,6 +272,7 @@ public class Libro_Caja extends JInternalFrame {
 						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
+
 					/*
 					 * caja.setStatus(0);
 					 * caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.
@@ -583,7 +574,7 @@ public class Libro_Caja extends JInternalFrame {
 		ArrayList<LibroCaja> arreglo_caja = new ArrayList<LibroCaja>();
 		arreglo_caja.add(caja);
 		try {
-			JasperReport reporte = (JasperReport) JRLoader.loadObject("reports/reporte_caja_diaria.jasper");
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_caja_diaria.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
 					new JRBeanCollectionDataSource(arreglo_caja));
 			JasperViewer viewer = new JasperViewer(jasperPrint, true);

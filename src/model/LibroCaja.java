@@ -36,8 +36,14 @@ public class LibroCaja implements Serializable {
 	@Column(name = "FECHA_APERTURA")
 	private String fechaApertura;
 
+	@Column(name = "HORA_APERTURA")
+	private String horaApertura;
+
 	@Column(name = "FECHA_CIERRE")
 	private String fechaCierre;
+
+	@Column(name = "HORA_CIERRE")
+	private String horaCierre;
 
 	private int status;
 
@@ -66,7 +72,7 @@ public class LibroCaja implements Serializable {
 
 	@PostLoad
 	public void procesarCamposCalculados() {
-		
+
 		totalGanancia = BigDecimal.ZERO;
 		totalNeto = BigDecimal.ZERO;
 		totalEgresos = BigDecimal.ZERO;
@@ -125,6 +131,22 @@ public class LibroCaja implements Serializable {
 
 	public void setFechaCierre(String fechaCierre) {
 		this.fechaCierre = fechaCierre;
+	}
+
+	public String getHoraApertura() {
+		return horaApertura;
+	}
+
+	public void setHoraApertura(String horaApertura) {
+		this.horaApertura = horaApertura;
+	}
+
+	public String getHoraCierre() {
+		return horaCierre;
+	}
+
+	public void setHoraCierre(String horaCierre) {
+		this.horaCierre = horaCierre;
 	}
 
 	public int getStatus() {
@@ -210,11 +232,11 @@ public class LibroCaja implements Serializable {
 	public void setTotalEmpenos(int totalEmpenos) {
 		this.totalEmpenos = totalEmpenos;
 	}
-	
+
 	public JRDataSource getIngresosJasper() {
 		return new JRBeanCollectionDataSource(ingresos);
 	}
-	
+
 	public JRDataSource getEgresosJasper() {
 		return new JRBeanCollectionDataSource(egresos);
 	}

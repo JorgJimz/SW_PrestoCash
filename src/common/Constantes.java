@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -186,7 +185,6 @@ public class Constantes {
 	public static DateTimeFormatter formatoLocal = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	public static DateTimeFormatter formatoSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM");
-	public static SimpleDateFormat formatoDate = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static Comparator<Pago> PagoComparator = new Comparator<Pago>() {
 		@Override

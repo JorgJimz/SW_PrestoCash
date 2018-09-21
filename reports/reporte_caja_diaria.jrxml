@@ -38,84 +38,140 @@
 	<field name="cierre" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[cierre]]></fieldDescription>
 	</field>
+	<field name="horaCierre" class="java.lang.String">
+		<fieldDescription><![CDATA[horaCierre]]></fieldDescription>
+	</field>
+	<field name="horaApertura" class="java.lang.String">
+		<fieldDescription><![CDATA[horaApertura]]></fieldDescription>
+	</field>
 	<background>
 		<band/>
 	</background>
 	<pageHeader>
-		<band height="41">
+		<band height="30">
 			<textField>
 				<reportElement x="0" y="0" width="575" height="30" uuid="a094a103-e711-4f16-8f14-4a541bb7646c"/>
 				<textElement>
 					<font size="20" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["AMANECE: " + $F{amanece}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["AMANECE: S/." + $F{amanece}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<lastPageFooter>
-		<band height="90">
+		<band height="120">
 			<textField>
-				<reportElement x="0" y="10" width="297" height="20" uuid="c28bea6a-d51d-41d8-bfbd-82ec00bd7953"/>
+				<reportElement x="0" y="40" width="297" height="20" uuid="c28bea6a-d51d-41d8-bfbd-82ec00bd7953"/>
 				<textElement>
 					<font size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA["APERTURA: " + $F{fechaApertura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["APERTURA: " + $F{fechaApertura} + " " + $F{horaApertura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="305" y="10" width="270" height="20" uuid="ab377563-bb02-4c40-a1b1-0a176541ad94"/>
+				<reportElement x="305" y="40" width="270" height="20" uuid="ab377563-bb02-4c40-a1b1-0a176541ad94"/>
 				<textElement>
 					<font size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA["CIERRE: " + $F{fechaCierre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["CIERRE: " + $F{fechaCierre} + " " + $F{horaCierre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="60" width="190" height="30" uuid="ae665465-9074-4def-9b1c-3c61ae19b2ce"/>
+				<reportElement x="0" y="90" width="190" height="30" uuid="ae665465-9074-4def-9b1c-3c61ae19b2ce"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalNeto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="60" width="200" height="30" uuid="2d482e89-1613-405f-ad36-fd658583f23d"/>
+				<reportElement x="190" y="90" width="200" height="30" uuid="2d482e89-1613-405f-ad36-fd658583f23d"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalEgresos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="390" y="60" width="185" height="30" uuid="1bcff537-2250-47cf-8045-61774380b1dd"/>
+				<reportElement x="390" y="90" width="185" height="30" uuid="1bcff537-2250-47cf-8045-61774380b1dd"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cierre}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="30" width="190" height="30" uuid="5c772ca1-0d5e-49ab-b213-c6dde2b02951"/>
+				<reportElement x="0" y="60" width="190" height="30" uuid="5c772ca1-0d5e-49ab-b213-c6dde2b02951"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INGRESOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="30" width="200" height="30" uuid="499d9547-a81e-4171-baa2-7524facb4719"/>
+				<reportElement x="190" y="60" width="200" height="30" uuid="499d9547-a81e-4171-baa2-7524facb4719"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[EGRESOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="390" y="30" width="185" height="30" uuid="07a509d4-e96f-40a3-a89a-9fab332023de"/>
+				<reportElement x="390" y="60" width="185" height="30" uuid="07a509d4-e96f-40a3-a89a-9fab332023de"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CIERRE]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="160" y="10" width="415" height="30" uuid="d031d243-bb11-446e-9b37-5a579fe3832b"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="150" height="30" uuid="13a4d5f7-c982-4c87-8925-705301c62a3e"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARENALES]]></text>
+			</staticText>
 		</band>
 	</lastPageFooter>
 	<summary>
-		<band height="133">
+		<band height="82">
 			<subreport>
-				<reportElement x="305" y="60" width="270" height="70" uuid="a33f012c-9711-4ba3-8798-4336179ee143"/>
+				<reportElement x="305" y="1" width="270" height="72" uuid="a33f012c-9711-4ba3-8798-4336179ee143"/>
 				<subreportParameter name="totalEmpenos_master">
 					<subreportParameterExpression><![CDATA[$F{totalEmpenos}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -123,27 +179,13 @@
 				<subreportExpression><![CDATA["reports/subreporte_egresos.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="1" y="60" width="297" height="73" uuid="4659b692-3bfc-49ff-b18a-762b02af288d"/>
+				<reportElement x="0" y="0" width="297" height="73" uuid="4659b692-3bfc-49ff-b18a-762b02af288d"/>
 				<subreportParameter name="totalGanancia_master">
 					<subreportParameterExpression><![CDATA[$F{totalGanancia}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[$F{ingresosJasper}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/subreporte_ingresos.jasper"]]></subreportExpression>
 			</subreport>
-			<staticText>
-				<reportElement x="0" y="13" width="298" height="35" uuid="5ffbe5e6-bf12-4522-8c34-dd4e67ebccff"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true"/>
-				</textElement>
-				<text><![CDATA[INGRESOS]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="305" y="13" width="270" height="35" uuid="3aa0f880-1c6f-4756-87a1-093fd7c452fd"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true"/>
-				</textElement>
-				<text><![CDATA[EGRESOS]]></text>
-			</staticText>
 		</band>
 	</summary>
 </jasperReport>

@@ -2,6 +2,7 @@ package controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class LibroCajaController {
 			tx.begin();
 			LibroCaja olc = new LibroCaja();
 			olc.setFechaApertura(String.valueOf(LocalDate.now()));
+			olc.setHoraApertura(String.valueOf(LocalTime.now()));
 			olc.setAmanece(ObtenerAmanece());
 			olc.setStatus(1);
 			em.persist(olc);
@@ -79,7 +81,7 @@ public class LibroCajaController {
 		return a;
 	}
 
-	public LibroCaja ObtenerLibroCaja(String fecha) {
+	public LibroCaja ObtenerLibroCaja(LocalDate fecha) {
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
@@ -87,10 +89,11 @@ public class LibroCajaController {
 		try {
 			Query q = em
 					.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
-			q.setParameter("f", fecha);
+			q.setParameter("f", String.valueOf(fecha));
 			lc = (LibroCaja) q.getSingleResult();
 		} catch (NoResultException e1) {
 			lc = null;
+			e1.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
