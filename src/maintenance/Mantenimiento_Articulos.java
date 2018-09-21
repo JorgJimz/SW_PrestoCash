@@ -19,11 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXTable;
 
 import common.Constantes;
 import common.Utiles;
@@ -47,7 +47,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 	private JLabel jLabel8;
 	private JTextField txtDescripcion;
 	private JLabel jLabel7;
-	private JTable tbArticulos;
+	private JXTable tbArticulos;
 	private JLabel jLabel3;
 	private JLabel txtId;
 	private JTextField txtPrecioInterno;
@@ -253,7 +253,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-		tbArticulos = new JTable();
+		tbArticulos = new JXTable();
 		jScrollPane1.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(35);
 		tbArticulos.setModel(Constantes.MtoArticuloModel);
