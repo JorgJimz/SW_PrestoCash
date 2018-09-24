@@ -7,10 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -38,6 +40,8 @@ import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
 import controller.LibroCajaController;
+import controller.UsuarioController;
+import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
@@ -273,17 +277,16 @@ public class Libro_Caja extends JInternalFrame {
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
 
-					/*
-					 * caja.setStatus(0);
-					 * caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.
-					 * getTotalEgresos())); caja.setFechaCierre(String.valueOf(LocalDate.now()));
-					 * Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.
-					 * predicadoAsistencia) .findFirst().orElse(Asistencia.DEFAULT);
-					 * a.setHoraSalida(String.valueOf(LocalTime.now())); new
-					 * UsuarioController().MarcarAsistencia(a); List<String> msg = new
-					 * LibroCajaController().CerrarLibroCaja(caja); Utiles.Mensaje(msg.get(0),
-					 * Integer.parseInt(msg.get(1)));
-					 */
+					caja.setStatus(0);
+					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
+					caja.setFechaCierre(String.valueOf(LocalDate.now()));
+					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
+							.findFirst().orElse(Asistencia.DEFAULT);
+					a.setHoraSalida(String.valueOf(LocalTime.now()));
+					new UsuarioController().MarcarAsistencia(a);
+					List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
+					Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
+
 					ImprimirCaja();
 				}
 			}
@@ -584,17 +587,4 @@ public class Libro_Caja extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * 
-	 * 
-	 * 
-	 * public double obtenerCambio() { Connection con = MySQLConexion.getConexion();
-	 * double cambio = 1; try { String sql =
-	 * "select ven_cam from tb_cambio where fec_cam=date_Format(now(),'%y-%m-%d')" ;
-	 * PreparedStatement pst = con.prepareStatement(sql); ResultSet rs =
-	 * pst.executeQuery(); if (rs.next()) { cambio = rs.getDouble(1); } } catch
-	 * (Exception e) { e.printStackTrace(); } finally { try { con.close(); } catch
-	 * (SQLException e) { e.printStackTrace(); } } return cambio; }
-	 */
 }

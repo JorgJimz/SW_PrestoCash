@@ -1,13 +1,13 @@
 package controller;
 
 import java.util.List;
+import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 import model.Cliente;
@@ -49,15 +49,15 @@ public class ClienteController {
 		}
 	}
 
-	public DefaultListModel<Cliente> FiltrarClientes() {
+	public Vector<Cliente> FiltrarClientes() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
-		DefaultListModel<Cliente> model = new DefaultListModel<Cliente>();
+		Vector<Cliente> model = new Vector<Cliente>();
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c", Cliente.class);			
+			Query q = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
 			List<Cliente> l = q.getResultList();
 			for (Cliente c : l) {
-				model.addElement(c);
+				model.add(c);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

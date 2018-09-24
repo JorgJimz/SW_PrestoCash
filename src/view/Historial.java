@@ -11,28 +11,24 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import model.Cliente;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
-
 import common.Constantes;
+import common.JFilterComboBox;
 import common.RenderHC;
 import common.Utiles;
 import controller.ClienteController;
 import controller.ContratoController;
+import model.Cliente;
 
-@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
+@SuppressWarnings({ "serial", "rawtypes" })
 public class Historial extends JInternalFrame {
 
 	private JPanel contenedor;
@@ -41,8 +37,7 @@ public class Historial extends JInternalFrame {
 	private JLabel lblConteo;
 	private JButton btnConsultar;
 	private JScrollPane jScrollPane1;
-	private JTextField txtCliente;
-	private JList lstClientes;
+	private JComboBox cboCliente;
 	private JTable tbContratos;
 
 	public Historial() {
@@ -107,16 +102,16 @@ public class Historial extends JInternalFrame {
 		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbContratos.getTableHeader().setForeground(new Color(181, 0, 0));
 
-		txtCliente = new JTextField();
-		contenedor.add(txtCliente);
-		txtCliente.setBounds(128, 26, 893, 40);
-		txtCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtCliente.setBackground(new java.awt.Color(255, 255, 255));
-		txtCliente.setOpaque(true);
-		txtCliente.setFont(new java.awt.Font("Segoe UI", 1, 22));
-		txtCliente.setForeground(new java.awt.Color(0, 64, 128));
-		txtCliente.requestFocus();
-		txtCliente.addKeyListener(new KeyAdapter() {
+		cboCliente = new JFilterComboBox(new ClienteController().FiltrarClientes());
+		contenedor.add(cboCliente);
+		cboCliente.setBounds(128, 26, 893, 40);
+		cboCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		cboCliente.setBackground(new java.awt.Color(255, 255, 255));
+		cboCliente.setOpaque(true);
+		cboCliente.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		cboCliente.setForeground(new java.awt.Color(0, 64, 128));
+		cboCliente.requestFocus();
+		cboCliente.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -124,12 +119,6 @@ public class Historial extends JInternalFrame {
 				}
 			}
 		});
-
-		lstClientes = new JList();
-		lstClientes.setVisible(false);
-		contenedor.add(lstClientes);
-		lstClientes.setModel(new ClienteController().FiltrarClientes());
-		lstClientes.setBounds(128, 19, 27, 33);
 
 		btnBuscarContratos = new JButton(new ImageIcon("img/buscar_historial.png"));
 		contenedor.add(btnBuscarContratos);
@@ -154,12 +143,10 @@ public class Historial extends JInternalFrame {
 			}
 		});
 
-		AutoCompleteDecorator.decorate(lstClientes, txtCliente, ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
-
 	}
 
 	public void CargarHistorial() {
-		Cliente c = (Cliente) lstClientes.getSelectedValue();
+		Cliente c = (Cliente) cboCliente.getSelectedItem();
 		new ContratoController().BuscarContratosPorCliente(c.getId(), false, "", 0);
 		tbContratos.setModel(Constantes.HistorialModel);
 		lblConteo.setText("TOTAL DE CONTRATOS ENCONTRADOS: " + Constantes.HistorialModel.getRowCount());

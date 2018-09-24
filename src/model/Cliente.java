@@ -7,15 +7,15 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c ORDER BY c.id DESC")
+@NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c ORDER BY c.id DESC")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="CATEGORIA_ID")
+	@Column(name = "CATEGORIA_ID")
 	private String categoriaId;
 
 	private String direccion;
@@ -26,10 +26,10 @@ public class Cliente implements Serializable {
 
 	private String email;
 
-	@Column(name="FECHA_CREACION")
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
-	@Column(name="FECHA_MODIFICACION")
+	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
 	private String materno;
@@ -42,46 +42,45 @@ public class Cliente implements Serializable {
 
 	private int status;
 
-	@Column(name="T_DOCUMENTO")
+	@Column(name = "T_DOCUMENTO")
 	private String tDocumento;
 
 	private String tlf1;
 
 	private String tlf2;
 
-	@Column(name="USUARIO_CREACION")
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	@Column(name="USUARIO_MODIFICACION")
+	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
-	//bi-directional many-to-one association to Compra
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to Compra
+	@OneToMany(mappedBy = "cliente")
 	private List<Compra> compras;
 
-	//bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to Contrato
+	@OneToMany(mappedBy = "cliente")
 	private List<Contrato> contratos;
 
-	//bi-directional many-to-one association to Separacion
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to Separacion
+	@OneToMany(mappedBy = "cliente")
 	private List<Separacion> separacions;
 
-	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to Venta
+	@OneToMany(mappedBy = "cliente")
 	private List<Venta> ventas;
-	
+
 	@Transient
 	private String nombreCompleto;
 
 	public Cliente() {
 	}
-	
+
 	@PostLoad
 	public void procesarCamposCalculados() {
 		nombreCompleto = paterno + " " + materno + " " + nombres;
 	}
-	
 
 	public int getId() {
 		return this.id;
@@ -311,13 +310,7 @@ public class Cliente implements Serializable {
 	public Venta removeVenta(Venta venta) {
 		getVentas().remove(venta);
 		venta.setCliente(null);
-
 		return venta;
-	}
-
-	@Override
-	public String toString() {
-		return paterno + " " + materno + " " + nombres;
 	}
 
 	public String getNombreCompleto() {
@@ -327,6 +320,10 @@ public class Cliente implements Serializable {
 	public void setNombreCompleto(String nombreCompleto) {
 		this.nombreCompleto = nombreCompleto;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return documento + " - " + nombreCompleto;
+	}
+
 }
