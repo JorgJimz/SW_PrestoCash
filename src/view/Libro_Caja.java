@@ -276,10 +276,10 @@ public class Libro_Caja extends JInternalFrame {
 						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
-
 					caja.setStatus(0);
 					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
 					caja.setFechaCierre(String.valueOf(LocalDate.now()));
+					caja.setHoraCierre(String.valueOf(LocalTime.now()));
 					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
 							.findFirst().orElse(Asistencia.DEFAULT);
 					a.setHoraSalida(String.valueOf(LocalTime.now()));
@@ -580,7 +580,7 @@ public class Libro_Caja extends JInternalFrame {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_caja_diaria.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
 					new JRBeanCollectionDataSource(arreglo_caja));
-			JasperViewer viewer = new JasperViewer(jasperPrint, true);
+			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();
 		} catch (Exception e) {
