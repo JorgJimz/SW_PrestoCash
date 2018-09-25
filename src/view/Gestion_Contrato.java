@@ -1343,6 +1343,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			Ingreso ingreso = new Ingreso();
 			ingreso.setLibroCaja(Principal.LIBRO_CAJA);
 			ingreso.setDescripcion(contrato.getFlag() + "-" + contrato.getNumero());
+			ingreso.setMoneda(lblTipoMoneda.getText());
 
 			int meses_renovar = CalcularRenovacion();
 
