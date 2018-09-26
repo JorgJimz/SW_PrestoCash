@@ -27,6 +27,8 @@ public class Egreso implements Serializable {
 
 	private String tipo;
 
+	private String moneda;
+
 	// bi-directional many-to-one association to LibroCaja
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "LIBRO_CAJA_ID")
@@ -73,6 +75,14 @@ public class Egreso implements Serializable {
 
 	public void setLibroCaja(LibroCaja libroCaja) {
 		this.libroCaja = libroCaja;
+	}
+
+	public String getMoneda() {
+		return moneda;
+	}
+
+	public void setMoneda(String moneda) {
+		this.moneda = moneda;
 	}
 
 }

@@ -102,7 +102,7 @@ public class Ingreso implements Serializable {
 	}
 
 	public void setMoneda(String moneda) {
-		this.moneda = (moneda.equalsIgnoreCase("SOLES")) ? "PEN" : "USD";
+		this.moneda = moneda;
 	}
 
 }

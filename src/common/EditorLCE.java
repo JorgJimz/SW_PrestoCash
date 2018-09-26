@@ -18,6 +18,7 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 
 	private static final int JCOMBOBOX = 0;
 	private static final int JTEXTFIELD = 1;
+	private static final int JCOMBOBOX_MONEDA = 2;
 
 	int f;
 
@@ -25,27 +26,34 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 
 	JTextField txt;
 	JComboBox<String> cbo;
+	JComboBox<String> cbo_moneda;
 
 	public EditorLCE() {
 		txt = new JTextField();
 		txt.setFont(new Font("Segoe UI", 1, 20));
-		cbo = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "ALQ - ALQUILER", "AGU - AGUA", "LUZ - LUZ",
-				"TLF - TELEFONO", "SRV - SERVICIO", "PLN - PLANILLA", "DEV - DEVOLUCION DE DINERO",
-				"ENV - DESCARGO DE CAJA", "AJS - AJUSTE", "OTG - OTROS GASTOS", "CAU - COMPRA ORO" }));
+		cbo = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "ALQUILER", "AGUA", "LUZ", "TELEFONO",
+				"SERVICIO", "PLANILLA", "DEVOLUCION", "DESCARGO CAJA", "AJUSTE", "OTROS GASTOS", "COMPRA ORO" }));
 		cbo.setFont(new Font("Segoe UI", 1, 20));
 
-		editores = new DefaultCellEditor[2];
+		cbo_moneda = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "SOLES", "DÓLARES" }));
+		cbo_moneda.setFont(new Font("Segoe UI", 1, 20));
+
+		editores = new DefaultCellEditor[3];
 		editores[JCOMBOBOX] = new DefaultCellEditor(cbo);
 		editores[JTEXTFIELD] = new DefaultCellEditor(txt);
+		editores[JCOMBOBOX_MONEDA] = new DefaultCellEditor(cbo_moneda);
 
 		editores[JCOMBOBOX].setClickCountToStart(2);
 		editores[JTEXTFIELD].setClickCountToStart(2);
+		editores[JCOMBOBOX_MONEDA].setClickCountToStart(2);
 	}
 
 	public Object getCellEditorValue() {
 		switch (f) {
 		case JCOMBOBOX:
 			return cbo.getSelectedItem();
+		case JCOMBOBOX_MONEDA:
+			return cbo_moneda.getSelectedItem();
 		default:
 			return txt.getText().toUpperCase();
 		}
@@ -55,6 +63,10 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 		if (column == 1) {
 			f = JCOMBOBOX;
 			return editores[JCOMBOBOX].getTableCellEditorComponent(table, value, isSelected, row, column);
+		}
+		if (column == 3) {
+			f = JCOMBOBOX_MONEDA;
+			return editores[JCOMBOBOX_MONEDA].getTableCellEditorComponent(table, value, isSelected, row, column);
 		} else if (column == 0 || column == 2) {
 			f = JTEXTFIELD;
 			return editores[JTEXTFIELD].getTableCellEditorComponent(table, value, isSelected, row, column);

@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
@@ -76,6 +77,7 @@ public class Utiles {
 					titledBorder.setTitleColor(new Color(200, 0, 0));
 					titledBorder.setBorder(new LineBorder(new Color(200, 0, 0), 2));
 					((JIconTextField) o).setIcon(new ImageIcon("img/alerta.png"));
+					((JIconTextField) o).setOrientation(SwingConstants.LEFT);
 					((JIconTextField) o).requestFocus();
 					pnl.repaint();
 				} else {

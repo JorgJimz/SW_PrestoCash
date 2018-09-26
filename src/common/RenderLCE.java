@@ -18,9 +18,10 @@ public class RenderLCE implements TableCellRenderer {
 		e.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		e.setText(value.toString());
 		
-		table.getColumn("DESCRIPCIÓN").setPreferredWidth(214);
-		table.getColumn("TIPO").setPreferredWidth(215);
-		table.getColumn("MONTO").setPreferredWidth(109);
+		table.getColumn("DESCRIPCIÓN").setPreferredWidth(210);
+		table.getColumn("TIPO").setPreferredWidth(180);
+		table.getColumn("MONTO").setPreferredWidth(110);
+		table.getColumn("MONEDA").setPreferredWidth(130);
 
 		if (isSelected) {
 			e.setBackground(Color.ORANGE);

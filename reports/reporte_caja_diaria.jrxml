@@ -65,14 +65,14 @@
 				<textElement>
 					<font size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA["APERTURA: " + $F{fechaApertura} + " " + $F{horaApertura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["APERTURA: " + $F{horaApertura}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="305" y="40" width="270" height="20" uuid="ab377563-bb02-4c40-a1b1-0a176541ad94"/>
 				<textElement>
 					<font size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA["CIERRE: " + $F{fechaCierre} + " " + $F{horaCierre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["CIERRE: " + $F{horaCierre}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="90" width="190" height="30" uuid="ae665465-9074-4def-9b1c-3c61ae19b2ce"/>
@@ -157,7 +157,7 @@
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{fechaApertura})).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="10" width="150" height="30" uuid="13a4d5f7-c982-4c87-8925-705301c62a3e"/>

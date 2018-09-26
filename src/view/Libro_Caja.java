@@ -36,6 +36,7 @@ import common.Constantes;
 import common.EditorLCE;
 import common.EditorLCI;
 import common.JEditableTable;
+import common.JIconTextField;
 import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
@@ -55,29 +56,33 @@ import net.sf.jasperreports.view.JasperViewer;
 @SuppressWarnings({ "serial", "deprecation" })
 public class Libro_Caja extends JInternalFrame {
 	private JPanel contenedor;
-	private JLabel lblAmanece;
-	private JLabel lblCierre;
+	private JIconTextField lblAmanece;
 	private JLabel jLabel9;
-	private JLabel jLabel8;
-	private JLabel jLabel7;
-	private JLabel lblTotalEgresos;
-	private JLabel lbltotalIngresos;
+	private JIconTextField lblTotalEgresos;
+	private JIconTextField lbltotalIngresos;
+	private JIconTextField lblCierre;
 	private JLabel jLabel6;
 	private JLabel jLabel5;
 	private JScrollPane spEgresos;
 	private JLabel jLabel2;
-	private JLabel lblTotalEgreso;
 	private JLabel lblTotalEmpenios;
-	private JLabel lblNeto;
-	private JLabel lblTotalGanacia;
+	private JIconTextField lblNeto;
+	private JIconTextField lblTotalGanacia;
+	private JIconTextField lblTotalGanaciaDolares;
 	private JEditableTable tbEgresos;
 	private JEditableTable tbIngresos;
 	private JScrollPane spIngresos;
-	private JLabel jLabel1;
-	private JLabel lblFecha;
 	private JXTitledSeparator jSeparator1;
 	private JButton btnCerrarCaja;
 	private JLabel jLabel3;
+	private JIconTextField lblTotalEgreso;
+	private JIconTextField lblTotalEgresoDolares;
+	private JIconTextField lblNetoDolares;
+	private JLabel jLabel1;
+	private JIconTextField lblCierreDolares;
+	private JIconTextField lblTotalEgresosDolares;
+	private JIconTextField lbltotalIngresosDolares;
+	private JIconTextField lblAmaneceDolares;
 	private JButton btnImprimir;
 	private JButton btnSalir;
 	private JButton btnGrabarEgreso;
@@ -95,14 +100,14 @@ public class Libro_Caja extends JInternalFrame {
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new java.awt.Dimension(1319, 854));
-		this.setBounds(0, 0, 1319, 854);
+		this.setPreferredSize(new java.awt.Dimension(1772, 907));
+		this.setBounds(0, 0, 1772, 907);
 		this.setClosable(false);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1317, 825);
+		contenedor.setBounds(0, 0, 1770, 877);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		btnBuscarCaja = new JButton(new ImageIcon("img/search.png"));
@@ -111,7 +116,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnBuscarCaja.setContentAreaFilled(false);
 		btnBuscarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		contenedor.add(btnBuscarCaja);
-		btnBuscarCaja.setBounds(1200, 9, 64, 64);
+		btnBuscarCaja.setBounds(1671, 5, 64, 66);
 		btnBuscarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -131,45 +136,46 @@ public class Libro_Caja extends JInternalFrame {
 
 		dpFecha = new JDateChooser();
 		contenedor.add(dpFecha);
-		dpFecha.setBounds(920, 26, 262, 38);
+		dpFecha.setBounds(1402, 21, 263, 38);
 		dpFecha.setDate(
 				Date.from(LocalDate.parse(caja.getFechaApertura()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		dpFecha.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
-		lblFecha = new JLabel(Constantes.formatoCaja.format(LocalDate.parse(caja.getFechaApertura())).toUpperCase());
-		contenedor.add(lblFecha);
-		lblFecha.setBounds(0, 0, 1306, 79);
-		lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 36));
-		lblFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblFecha.setBackground(new java.awt.Color(0, 128, 128));
-		lblFecha.setForeground(new java.awt.Color(255, 255, 255));
-		lblFecha.setOpaque(true);
-		lblFecha.setHorizontalAlignment(SwingConstants.LEFT);
-
-		jLabel1 = new JLabel();
-		contenedor.add(jLabel1);
-		jLabel1.setText("AMANECE (S/.)");
-		jLabel1.setBounds(12, 99, 186, 38);
-		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
-
-		lblAmanece = new JLabel(String.valueOf(caja.getAmanece()));
+		lblAmanece = new JIconTextField();
+		lblAmanece.setIcon(new ImageIcon("img/pen.png"));
+		lblAmanece.setText(String.valueOf(caja.getAmanece()));
 		contenedor.add(lblAmanece);
-		lblAmanece.setBounds(204, 99, 186, 38);
+		lblAmanece.setBounds(1323, 117, 186, 46);
 		lblAmanece.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblAmanece.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblAmanece.setOpaque(true);
-		lblAmanece.setBackground(new java.awt.Color(255, 255, 128));
-		lblAmanece.setForeground(new java.awt.Color(0, 0, 0));
-		lblAmanece.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAmanece.setBackground(new java.awt.Color(72, 133, 237));
+		lblAmanece.setForeground(new java.awt.Color(255, 255, 255));
+		lblAmanece.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAmanece.setEditable(false);
+		lblAmanece.setOrientation(SwingConstants.RIGHT);
+
+		lblAmaneceDolares = new JIconTextField();
+		lblAmaneceDolares.setText(String.valueOf(caja.getAmaneceDolares()));
+		lblAmaneceDolares.setIcon(new ImageIcon("img/usd.png"));
+		contenedor.add(lblAmaneceDolares);
+		lblAmaneceDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAmaneceDolares.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lblAmaneceDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblAmaneceDolares.setBackground(new java.awt.Color(72, 133, 237));
+		lblAmaneceDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblAmaneceDolares.setOpaque(true);
+		lblAmaneceDolares.setBounds(1556, 117, 186, 46);
+		lblAmaneceDolares.setEditable(false);
+		lblAmaneceDolares.setOrientation(SwingConstants.RIGHT);
 
 		spIngresos = new JScrollPane();
 		contenedor.add(spIngresos);
-		spIngresos.setBounds(12, 163, 710, 369);
+		spIngresos.setBounds(12, 66, 710, 670);
 		spIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spIngresos.setBackground(new java.awt.Color(255, 255, 255));
 
-		tbIngresos = /* new JTable() */new JEditableTable();
+		tbIngresos = new JEditableTable();
 		spIngresos.setViewportView(tbIngresos);
 		tbIngresos.setModel(Constantes.IngresoModel);
 		tbIngresos.setDefaultRenderer(Object.class, new RenderLCI());
@@ -194,7 +200,7 @@ public class Libro_Caja extends JInternalFrame {
 		});
 		spEgresos = new JScrollPane();
 		contenedor.add(spEgresos);
-		spEgresos.setBounds(739, 159, 555, 373);
+		spEgresos.setBounds(739, 66, 555, 670);
 		spEgresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spEgresos.setBackground(new java.awt.Color(255, 255, 255));
 		tbEgresos = new JEditableTable();
@@ -207,27 +213,35 @@ public class Libro_Caja extends JInternalFrame {
 		tbEgresos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbEgresos.setDefaultEditor(Object.class, new EditorLCE());
 
-		lblTotalGanacia = new JLabel(String.valueOf(caja.getTotalGanancia()));
+		lblTotalGanacia = new JIconTextField();
+		lblTotalGanacia.setText(String.valueOf(caja.getTotalGanancia()));
+		lblTotalGanacia.setIcon(new ImageIcon("img/pen.png"));
 		contenedor.add(lblTotalGanacia);
-		lblTotalGanacia.setBounds(370, 530, 130, 46);
+		lblTotalGanacia.setBounds(282, 735, 186, 46);
 		lblTotalGanacia.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalGanacia.setOpaque(true);
-		lblTotalGanacia.setForeground(new java.awt.Color(0, 0, 0));
-		lblTotalGanacia.setBackground(new java.awt.Color(170, 213, 255));
-		lblTotalGanacia.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTotalGanacia.setForeground(new java.awt.Color(255, 255, 255));
+		lblTotalGanacia.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalGanacia.setOrientation(SwingConstants.RIGHT);
+		lblTotalGanacia.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalGanacia.setEditable(false);
 
-		lblNeto = new JLabel(String.valueOf(caja.getTotalNeto()));
+		lblNeto = new JIconTextField();
+		lblNeto.setText(String.valueOf(caja.getTotalNeto()));
+		lblNeto.setIcon(new ImageIcon("img/pen.png"));
+		lblNeto.setOrientation(SwingConstants.RIGHT);
 		contenedor.add(lblNeto);
-		lblNeto.setBounds(600, 532, 122, 46);
+		lblNeto.setBounds(505, 735, 186, 46);
 		lblNeto.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblNeto.setOpaque(true);
-		lblNeto.setForeground(new java.awt.Color(0, 0, 0));
-		lblNeto.setBackground(new java.awt.Color(170, 213, 255));
-		lblNeto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNeto.setEditable(false);
+		lblNeto.setForeground(new java.awt.Color(255, 255, 255));
+		lblNeto.setBackground(new java.awt.Color(178, 80, 177));
+		lblNeto.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		lblTotalEmpenios = new JLabel(String.valueOf(caja.getTotalEmpenos()));
 		contenedor.add(lblTotalEmpenios);
-		lblTotalEmpenios.setBounds(964, 530, 118, 68);
+		lblTotalEmpenios.setBounds(873, 734, 118, 68);
 		lblTotalEmpenios.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblTotalEmpenios.setFont(new java.awt.Font("Segoe UI", 1, 60));
 		lblTotalEmpenios.setOpaque(true);
@@ -235,38 +249,42 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEmpenios.setBackground(new java.awt.Color(255, 255, 255));
 		lblTotalEmpenios.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblTotalEgreso = new JLabel(String.valueOf(caja.getTotalEgresos()));
+		lblTotalEgreso = new JIconTextField();
 		contenedor.add(lblTotalEgreso);
-		lblTotalEgreso.setBounds(1177, 530, 117, 46);
+		lblTotalEgreso.setIcon(new ImageIcon("img/pen.png"));
+		lblTotalEgreso.setText(String.valueOf(caja.getTotalEgresos()));
+		lblTotalEgreso.setBounds(1009, 735, 186, 46);
 		lblTotalEgreso.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalEgreso.setOpaque(true);
-		lblTotalEgreso.setForeground(new java.awt.Color(0, 0, 0));
-		lblTotalEgreso.setBackground(new java.awt.Color(170, 213, 255));
-		lblTotalEgreso.setHorizontalAlignment(SwingConstants.CENTER);
-
+		lblTotalEgreso.setForeground(new java.awt.Color(255, 255, 255));
+		lblTotalEgreso.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalEgreso.setOrientation(SwingConstants.RIGHT);
+		lblTotalEgreso.setEditable(false);
+		
 		jLabel2 = new JLabel();
 		contenedor.add(jLabel2);
 		jLabel2.setText("SUMA TOTAL");
-		jLabel2.setBounds(13, 532, 357, 44);
+		jLabel2.setBounds(14, 736, 246, 44);
 		jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		jLabel2.setForeground(new java.awt.Color(0, 128, 0));
 
 		jLabel3 = new JLabel();
 		contenedor.add(jLabel3);
 		jLabel3.setText("EMPEÑOS");
-		jLabel3.setBounds(842, 533, 122, 65);
+		jLabel3.setBounds(739, 737, 122, 65);
 		jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		jLabel3.setForeground(new java.awt.Color(0, 128, 0));
 
 		btnCerrarCaja = new JButton(new ImageIcon("img/cerrar_caja.png"));
 		contenedor.add(btnCerrarCaja);
-		btnCerrarCaja.setText("CERRAR CAJA");
+		btnCerrarCaja.setText("CERRAR");
 		btnCerrarCaja.setVisible((caja.getStatus() == 1) ? true : false);
 		btnCerrarCaja.setOpaque(false);
 		btnCerrarCaja.setBorderPainted(false);
 		btnCerrarCaja.setContentAreaFilled(false);
 		btnCerrarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCerrarCaja.setBounds(1028, 636, 266, 82);
+		btnCerrarCaja.setBounds(1328, 603, 198, 70);
 		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		btnCerrarCaja.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCerrarCaja.addActionListener(new ActionListener() {
@@ -292,77 +310,75 @@ public class Libro_Caja extends JInternalFrame {
 			}
 		});
 
-		jSeparator1 = new JXTitledSeparator("RESUMEN DE CAJA");
+		jSeparator1 = new JXTitledSeparator(
+				Constantes.formatoCaja.format(LocalDate.parse(caja.getFechaApertura())).toUpperCase());
 		contenedor.add(jSeparator1);
-		jSeparator1.setBounds(15, 598, 1259, 50);
-		jSeparator1.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		jSeparator1.setForeground(new java.awt.Color(128, 0, 0));
+		jSeparator1.setBounds(12, 9, 1387, 50);
+		jSeparator1.setFont(new java.awt.Font("Segoe UI", 1, 30));
+		jSeparator1.setForeground(new java.awt.Color(0, 0, 160));
 
 		jLabel5 = new JLabel();
 		contenedor.add(jLabel5);
-		jLabel5.setText("INGRESOS");
-		jLabel5.setBounds(70, 660, 129, 29);
-		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		jLabel5.setText("INGRESOS GLOBALES");
+		jLabel5.setBounds(1323, 183, 419, 29);
+		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		jLabel5.setForeground(new java.awt.Color(0, 128, 0));
 
 		jLabel6 = new JLabel();
 		contenedor.add(jLabel6);
-		jLabel6.setText("EGRESOS");
-		jLabel6.setBounds(414, 660, 129, 29);
-		jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		jLabel6.setText("EGRESOS GLOBALES");
+		jLabel6.setBounds(1323, 276, 419, 29);
+		jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		jLabel6.setForeground(new java.awt.Color(0, 128, 0));
 
-		lbltotalIngresos = new JLabel(String.valueOf(caja.getAmanece().add(caja.getTotalNeto())));
+		lbltotalIngresos = new JIconTextField();
+		lbltotalIngresos.setText(String.valueOf(caja.getAmanece().add(caja.getTotalNeto())));
+		lbltotalIngresos.setIcon(new ImageIcon("img/pen.png"));
+		lbltotalIngresos.setOrientation(SwingConstants.RIGHT);
 		contenedor.add(lbltotalIngresos);
-		lbltotalIngresos.setBounds(12, 706, 257, 81);
+		lbltotalIngresos.setBounds(1323, 218, 186, 46);
 		lbltotalIngresos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lbltotalIngresos.setOpaque(true);
-		lbltotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 50));
+		lbltotalIngresos.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lbltotalIngresos.setForeground(new java.awt.Color(255, 255, 255));
-		lbltotalIngresos.setBackground(new java.awt.Color(0, 128, 0));
-		lbltotalIngresos.setHorizontalAlignment(SwingConstants.CENTER);
+		lbltotalIngresos.setBackground(new java.awt.Color(60, 186, 84));
+		lbltotalIngresos.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbltotalIngresos.setEditable(false);
 
-		lblTotalEgresos = new JLabel(String.valueOf(caja.getTotalEgresos()));
+		lblTotalEgresos = new JIconTextField();
+		lblTotalEgresos.setText(String.valueOf(caja.getTotalEgresos()));
+		lblTotalEgresos.setIcon(new ImageIcon("img/pen.png"));
+		lblTotalEgresos.setOrientation(SwingConstants.RIGHT);
 		contenedor.add(lblTotalEgresos);
-		lblTotalEgresos.setBounds(343, 706, 257, 81);
+		lblTotalEgresos.setBounds(1323, 311, 186, 46);
 		lblTotalEgresos.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
 		lblTotalEgresos.setOpaque(true);
-		lblTotalEgresos.setFont(new java.awt.Font("Segoe UI", 1, 50));
+		lblTotalEgresos.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalEgresos.setForeground(new java.awt.Color(255, 255, 255));
-		lblTotalEgresos.setBackground(new java.awt.Color(255, 0, 0));
-		lblTotalEgresos.setHorizontalAlignment(SwingConstants.CENTER);
-
-		jLabel7 = new JLabel();
-		contenedor.add(jLabel7);
-		jLabel7.setText("-");
-		jLabel7.setBounds(289, 690, 40, 75);
-		jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 72));
-		jLabel7.setForeground(new java.awt.Color(128, 0, 0));
-		jLabel7.setVerticalTextPosition(SwingConstants.TOP);
-
-		jLabel8 = new JLabel();
-		contenedor.add(jLabel8);
-		jLabel8.setText("=");
-		jLabel8.setBounds(612, 706, 58, 75);
-		jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 72));
-		jLabel8.setForeground(new java.awt.Color(128, 0, 0));
+		lblTotalEgresos.setBackground(new java.awt.Color(219, 50, 54));
+		lblTotalEgresos.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalEgresos.setEditable(false);
 
 		jLabel9 = new JLabel();
 		contenedor.add(jLabel9);
-		jLabel9.setText("CIERRE");
-		jLabel9.setBounds(780, 665, 129, 29);
-		jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		jLabel9.setText("CIERRE GLOBAL");
+		jLabel9.setBounds(1323, 369, 419, 29);
+		jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		jLabel9.setForeground(new java.awt.Color(0, 128, 0));
 
-		lblCierre = new JLabel(String.valueOf(caja.getCierre()));
+		lblCierre = new JIconTextField();
+		lblCierre.setText(String.valueOf(caja.getCierre()));
+		lblCierre.setIcon(new ImageIcon("img/pen.png"));
+		lblCierre.setOrientation(SwingConstants.RIGHT);
 		contenedor.add(lblCierre);
-		lblCierre.setBounds(676, 706, 334, 81);
+		lblCierre.setBounds(1323, 404, 186, 46);
 		lblCierre.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
 		lblCierre.setOpaque(true);
-		lblCierre.setFont(new java.awt.Font("Segoe UI", 1, 72));
-		lblCierre.setForeground(new java.awt.Color(0, 0, 0));
-		lblCierre.setBackground(new java.awt.Color(255, 255, 128));
-		lblCierre.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCierre.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblCierre.setForeground(new java.awt.Color(255, 255, 255));
+		lblCierre.setBackground(new java.awt.Color(255, 215, 0));
+		lblCierre.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCierre.setEditable(false);
 
 		btnNuevoIngreso = new JButton(new ImageIcon("img/ingreso.png"));
 		contenedor.add(btnNuevoIngreso);
@@ -371,14 +387,14 @@ public class Libro_Caja extends JInternalFrame {
 		btnNuevoIngreso.setContentAreaFilled(false);
 		btnNuevoIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnNuevoIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnNuevoIngreso.setText("NUEVO INGRESO");
-		btnNuevoIngreso.setBounds(426, 88, 296, 70);
-		btnNuevoIngreso.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnNuevoIngreso.setText("INGRESO");
+		btnNuevoIngreso.setBounds(1549, 476, 198, 70);
+		btnNuevoIngreso.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNuevoIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (!btnGrabarEgreso.isVisible()) {
-					Constantes.IngresoModel.addRow(new Object[] { "", "", "0.00", "0.00", "0.00", "0.00" });
+					Constantes.IngresoModel.addRow(new Object[] { "", "", "0.00", "0.00", "0.00", "0.00", "" });
 					tbIngresos.setCellEditable(true);
 					tbIngresos.setModel(Constantes.IngresoModel);
 					btnNuevoIngreso.setVisible(false);
@@ -399,14 +415,14 @@ public class Libro_Caja extends JInternalFrame {
 		btnNuevoEgreso.setContentAreaFilled(false);
 		btnNuevoEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnNuevoEgreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnNuevoEgreso.setText("NUEVO EGRESO");
-		btnNuevoEgreso.setBounds(998, 85, 296, 70);
-		btnNuevoEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnNuevoEgreso.setText("EGRESO");
+		btnNuevoEgreso.setBounds(1328, 476, 198, 70);
+		btnNuevoEgreso.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNuevoEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!btnGrabarIngreso.isVisible()) {
-					Constantes.EgresoModel.addRow(new Object[] { "", "", "0.00" });
+					Constantes.EgresoModel.addRow(new Object[] { "", "", "0.00", "" });
 					tbEgresos.setCellEditable(true);
 					tbEgresos.setModel(Constantes.EgresoModel);
 					btnNuevoEgreso.setVisible(false);
@@ -423,14 +439,14 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarIngreso = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabarIngreso);
 		btnGrabarIngreso.setVisible(false);
-		btnGrabarIngreso.setText("GRABAR INGRESO");
+		btnGrabarIngreso.setText("GRABAR");
 		btnGrabarIngreso.setOpaque(false);
 		btnGrabarIngreso.setBorderPainted(false);
 		btnGrabarIngreso.setContentAreaFilled(false);
 		btnGrabarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabarIngreso.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		btnGrabarIngreso.setBounds(426, 88, 296, 64);
+		btnGrabarIngreso.setBounds(1549, 476, 198, 70);
 		btnGrabarIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -447,6 +463,8 @@ public class Libro_Caja extends JInternalFrame {
 							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 3))));
 					ingreso.setOtro(new BigDecimal(String.valueOf(
 							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 4))));
+					ingreso.setMoneda(String
+							.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 6)));
 					new LibroCajaController().RegistrarIngreso(ingreso);
 					tbIngresos.setCellEditable(false);
 					btnGrabarIngreso.setVisible(false);
@@ -468,8 +486,8 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		btnGrabarEgreso.setVisible(false);
-		btnGrabarEgreso.setText("GRABAR EGRESO");
-		btnGrabarEgreso.setBounds(964, 88, 313, 64);
+		btnGrabarEgreso.setText("GRABAR");
+		btnGrabarEgreso.setBounds(1328, 476, 198, 70);
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -482,6 +500,8 @@ public class Libro_Caja extends JInternalFrame {
 							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 1)));
 					egreso.setImporte(new BigDecimal(String
 							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2))));
+					egreso.setMoneda(String
+							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 3)));
 					new LibroCajaController().RegistrarEgreso(egreso);
 					tbEgresos.setCellEditable(false);
 					btnGrabarEgreso.setVisible(false);
@@ -502,19 +522,109 @@ public class Libro_Caja extends JInternalFrame {
 		btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnSalir.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnSalir.setText("SALIR");
-		btnSalir.setBounds(1028, 726, 266, 82);
+		btnSalir.setBounds(1549, 595, 198, 70);
 		btnSalir.setHorizontalAlignment(SwingConstants.LEFT);
 
 		btnImprimir = new JButton(new ImageIcon("img/printer.png"));
 		contenedor.add(btnImprimir);
-		btnImprimir.setText("IMPRIMIR CAJA");
+		btnImprimir.setText("IMPRIMIR");
 		btnImprimir.setVisible(!btnCerrarCaja.isVisible());
+		btnImprimir.setHorizontalAlignment(SwingConstants.LEFT);
 		btnImprimir.setOpaque(false);
 		btnImprimir.setBorderPainted(false);
 		btnImprimir.setContentAreaFilled(false);
 		btnImprimir.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnImprimir.setBounds(1028, 636, 266, 82);
+		btnImprimir.setBounds(1328, 603, 198, 70);
 		btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 18));
+
+		lbltotalIngresosDolares = new JIconTextField();
+		contenedor.add(lbltotalIngresosDolares);
+		lbltotalIngresosDolares.setOrientation(SwingConstants.RIGHT);
+		lbltotalIngresosDolares.setText(String.valueOf(caja.getAmaneceDolares().add(caja.getTotalNetoDolares())));
+		lbltotalIngresosDolares.setIcon(new ImageIcon("img/usd.png"));
+		lbltotalIngresosDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lbltotalIngresosDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbltotalIngresosDolares.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lbltotalIngresosDolares.setBackground(new java.awt.Color(60, 186, 84));
+		lbltotalIngresosDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lbltotalIngresosDolares.setOpaque(true);
+		lbltotalIngresosDolares.setBounds(1556, 218, 186, 46);
+		lbltotalIngresosDolares.setEditable(false);
+
+		lblTotalEgresosDolares = new JIconTextField();
+		contenedor.add(lblTotalEgresosDolares);
+		lblTotalEgresosDolares.setText(String.valueOf(caja.getTotalEgresosDolares()));
+		lblTotalEgresosDolares.setOrientation(SwingConstants.RIGHT);
+		lblTotalEgresosDolares.setIcon(new ImageIcon("img/usd.png"));
+		lblTotalEgresosDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblTotalEgresosDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalEgresosDolares.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
+		lblTotalEgresosDolares.setBackground(new java.awt.Color(219, 50, 54));
+		lblTotalEgresosDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblTotalEgresosDolares.setOpaque(true);
+		lblTotalEgresosDolares.setBounds(1556, 311, 186, 46);
+		lblTotalEgresosDolares.setEditable(false);
+
+		lblCierreDolares = new JIconTextField();
+		contenedor.add(lblCierreDolares);
+		lblCierreDolares.setText(String.valueOf(caja.getCierreDolares()));
+		lblCierreDolares.setOrientation(SwingConstants.RIGHT);
+		lblCierreDolares.setIcon(new ImageIcon("img/usd.png"));
+		lblCierreDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblCierreDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCierreDolares.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
+		lblCierreDolares.setBackground(new java.awt.Color(255, 215, 0));
+		lblCierreDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblCierreDolares.setOpaque(true);
+		lblCierreDolares.setBounds(1556, 404, 186, 46);
+		lblCierreDolares.setEditable(false);
+
+		jLabel1 = new JLabel();
+		contenedor.add(jLabel1);
+		jLabel1.setText("AMANECE GLOBAL");
+		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
+		jLabel1.setBounds(1323, 82, 419, 29);
+
+		lblTotalGanaciaDolares = new JIconTextField();
+		contenedor.add(lblTotalGanaciaDolares);
+		lblTotalGanaciaDolares.setText(String.valueOf(caja.getTotalGananciaDolares()));
+		lblTotalGanaciaDolares.setIcon(new ImageIcon("img/usd.png"));
+		lblTotalGanaciaDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalGanaciaDolares.setOrientation(SwingConstants.RIGHT);
+		lblTotalGanaciaDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblTotalGanaciaDolares.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalGanaciaDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblTotalGanaciaDolares.setOpaque(true);
+		lblTotalGanaciaDolares.setEditable(false);
+		lblTotalGanaciaDolares.setBounds(282, 803, 186, 46);
+
+		lblNetoDolares = new JIconTextField();
+		contenedor.add(lblNetoDolares);
+		lblNetoDolares.setIcon(new ImageIcon("img/usd.png"));
+		lblNetoDolares.setOrientation(SwingConstants.RIGHT);
+		lblNetoDolares.setText(String.valueOf(caja.getTotalNetoDolares()));
+		lblNetoDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNetoDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblNetoDolares.setBackground(new java.awt.Color(178, 80, 177));
+		lblNetoDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblNetoDolares.setOpaque(true);
+		lblNetoDolares.setEditable(false);
+		lblNetoDolares.setBounds(505, 803, 186, 46);
+
+		lblTotalEgresoDolares = new JIconTextField();
+		contenedor.add(lblTotalEgresoDolares);
+		lblTotalEgresoDolares.setIcon(new ImageIcon("img/usd.png"));
+		lblTotalEgresoDolares.setText(String.valueOf(caja.getTotalEgresosDolares()));
+		lblTotalEgresoDolares.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalEgresoDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblTotalEgresoDolares.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalEgresoDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblTotalEgresoDolares.setOpaque(true);
+		lblTotalEgresoDolares.setOrientation(SwingConstants.RIGHT);
+		lblTotalEgresoDolares.setBounds(1009, 803, 186, 46);
+		lblTotalEgresoDolares.setEditable(false);
+
 		btnImprimir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -550,20 +660,18 @@ public class Libro_Caja extends JInternalFrame {
 	public void CargarIngresos() {
 		Constantes.IngresoModel.setRowCount(0);
 		for (Ingreso i : caja.getIngresos()) {
-			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(),
-					i.getGanancia(), i.getOtro(), i.getCapital().add(i.getGanancia()).add(i.getOtro()) });
+			Constantes.IngresoModel
+					.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(), i.getGanancia(),
+							i.getOtro(), i.getCapital().add(i.getGanancia()).add(i.getOtro()), i.getMoneda() });
 		}
 		tbIngresos.setModel(Constantes.IngresoModel);
 	}
 
-	/*
-	 * double cambio = (rs.getString("tip_egr").equalsIgnoreCase("EMP.($)")) ?
-	 * obtenerCambio() : 1;
-	 */
 	public void CargarEgresos() {
 		Constantes.EgresoModel.setRowCount(0);
 		for (Egreso e : caja.getEgresos()) {
-			Constantes.EgresoModel.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte() });
+			Constantes.EgresoModel
+					.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte(), e.getMoneda() });
 		}
 		tbEgresos.setModel(Constantes.EgresoModel);
 	}

@@ -500,6 +500,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 						egreso.setDescripcion(contrato.getFlag() + "-" + contrato.getNumero());
 						egreso.setImporte(contrato.getCapital());
 						egreso.setTipo("EMP");
+						egreso.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
 						new ContratoController().GenerarContrato(contrato, egreso);
 						Utiles.LimpiarModelos();
 						Utiles.Mensaje("¡Contrato generado!", JOptionPane.INFORMATION_MESSAGE);

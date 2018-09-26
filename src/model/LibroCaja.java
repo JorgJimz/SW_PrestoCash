@@ -47,6 +47,12 @@ public class LibroCaja implements Serializable {
 
 	private int status;
 
+	@Column(name = "AMANECE_DOLARES")
+	private BigDecimal amaneceDolares;
+
+	@Column(name = "CIERRE_DOLARES")
+	private BigDecimal cierreDolares;
+
 	// bi-directional many-to-one association to Egreso
 	@OneToMany(mappedBy = "libroCaja", fetch = FetchType.EAGER)
 	private List<Egreso> egresos;
@@ -59,10 +65,19 @@ public class LibroCaja implements Serializable {
 	private BigDecimal totalGanancia;
 
 	@Transient
+	private BigDecimal totalGananciaDolares;
+
+	@Transient
 	private BigDecimal totalNeto;
 
 	@Transient
+	private BigDecimal totalNetoDolares;
+
+	@Transient
 	private BigDecimal totalEgresos;
+
+	@Transient
+	private BigDecimal totalEgresosDolares;
 
 	@Transient
 	private int totalEmpenos;
@@ -74,23 +89,41 @@ public class LibroCaja implements Serializable {
 	public void procesarCamposCalculados() {
 
 		totalGanancia = BigDecimal.ZERO;
+		totalGananciaDolares = BigDecimal.ZERO;
+
 		totalNeto = BigDecimal.ZERO;
+		totalNetoDolares = BigDecimal.ZERO;
+
 		totalEgresos = BigDecimal.ZERO;
+		totalEgresosDolares = BigDecimal.ZERO;
+
 		totalEmpenos = 0;
+
 		cierre = BigDecimal.ZERO;
+		cierreDolares = BigDecimal.ZERO;
 
 		for (Ingreso i : ingresos) {
-			totalGanancia = totalGanancia.add(i.getGanancia());
-			totalNeto = totalNeto.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
+			if (i.getMoneda().equalsIgnoreCase("SOLES")) {
+				totalGanancia = totalGanancia.add(i.getGanancia());
+				totalNeto = totalNeto.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
+			} else {
+				totalGananciaDolares = totalGananciaDolares.add(i.getGanancia());
+				totalNetoDolares = totalNetoDolares.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
+			}
 		}
 
 		for (Egreso e : egresos) {
-			totalEgresos = totalEgresos.add(e.getImporte());
+			if (e.getMoneda().equalsIgnoreCase("SOLES")) {
+				totalEgresos = totalEgresos.add(e.getImporte());
+			} else {
+				totalEgresosDolares = totalEgresosDolares.add(e.getImporte());
+			}
 			if (e.getTipo().contains("EMP"))
 				totalEmpenos++;
 		}
 
 		cierre = amanece.add(totalNeto).subtract(totalEgresos);
+		cierreDolares = amaneceDolares.add(totalNetoDolares).subtract(totalEgresosDolares);
 	}
 
 	public int getId() {
@@ -239,6 +272,46 @@ public class LibroCaja implements Serializable {
 
 	public JRDataSource getEgresosJasper() {
 		return new JRBeanCollectionDataSource(egresos);
+	}
+
+	public BigDecimal getAmaneceDolares() {
+		return amaneceDolares;
+	}
+
+	public void setAmaneceDolares(BigDecimal amaneceDolares) {
+		this.amaneceDolares = amaneceDolares;
+	}
+
+	public BigDecimal getCierreDolares() {
+		return cierreDolares;
+	}
+
+	public void setCierreDolares(BigDecimal cierreDolares) {
+		this.cierreDolares = cierreDolares;
+	}
+
+	public BigDecimal getTotalNetoDolares() {
+		return totalNetoDolares;
+	}
+
+	public void setTotalNetoDolares(BigDecimal totalNetoDolares) {
+		this.totalNetoDolares = totalNetoDolares;
+	}
+
+	public BigDecimal getTotalGananciaDolares() {
+		return totalGananciaDolares;
+	}
+
+	public void setTotalGananciaDolares(BigDecimal totalGananciaDolares) {
+		this.totalGananciaDolares = totalGananciaDolares;
+	}
+
+	public BigDecimal getTotalEgresosDolares() {
+		return totalEgresosDolares;
+	}
+
+	public void setTotalEgresosDolares(BigDecimal totalEgresosDolares) {
+		this.totalEgresosDolares = totalEgresosDolares;
 	}
 
 }

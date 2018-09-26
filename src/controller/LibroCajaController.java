@@ -46,6 +46,7 @@ public class LibroCajaController {
 			olc.setFechaApertura(String.valueOf(LocalDate.now()));
 			olc.setHoraApertura(String.valueOf(LocalTime.now()));
 			olc.setAmanece(ObtenerAmanece());
+			olc.setAmaneceDolares(ObtenerAmaneceDolares());
 			olc.setStatus(1);
 			em.persist(olc);
 			tx.commit();
@@ -69,6 +70,27 @@ public class LibroCajaController {
 			a = (BigDecimal) em
 					.createQuery(
 							"SELECT COALESCE(c.cierre,0) cierre FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
+					.setMaxResults(1).getSingleResult();
+		} catch (NoResultException e1) {
+			a = BigDecimal.ZERO;
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return a;
+	}
+	
+	public BigDecimal ObtenerAmaneceDolares() {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		BigDecimal a = new BigDecimal(0);
+		try {
+			a = (BigDecimal) em
+					.createQuery(
+							"SELECT COALESCE(c.cierreDolares,0) cierre FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
 		} catch (NoResultException e1) {
 			a = BigDecimal.ZERO;

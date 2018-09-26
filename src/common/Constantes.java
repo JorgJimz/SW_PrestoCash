@@ -73,7 +73,7 @@ public class Constantes {
 
 	public static ComboBoxModel TipoDocumentoModel = new DefaultComboBoxModel(new String[] { "DNI", "CEX", "PAS" });
 
-	public static ComboBoxModel MonedaModel = new DefaultComboBoxModel(new String[] { "SOLES", "DOLARES" });
+	public static ComboBoxModel MonedaModel = new DefaultComboBoxModel(new String[] { "SOLES", "DÓLARES" });
 
 	public static DefaultTableModel ContratoModel = new DefaultTableModel(null,
 			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN" }) {
@@ -123,9 +123,9 @@ public class Constantes {
 	};
 
 	public static DefaultTableModel IngresoModel = new DefaultTableModel(null,
-			new String[] { "DESCRIPCIÓN", "TIPO", "CAPITAL", "GANANCIA", "OTROS", "NETO" }) {
+			new String[] { "DESCRIPCIÓN", "TIPO", "CAPITAL", "GANANCIA", "OTROS", "NETO", "MONEDA" }) {
 		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class,
-				BigDecimal.class, BigDecimal.class, BigDecimal.class };
+				BigDecimal.class, BigDecimal.class, BigDecimal.class, String.class };
 
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
@@ -136,8 +136,8 @@ public class Constantes {
 		}
 	};
 	public static DefaultTableModel EgresoModel = new DefaultTableModel(null,
-			new String[] { "DESCRIPCIÓN", "TIPO", "MONTO" }) {
-		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class };
+			new String[] { "DESCRIPCIÓN", "TIPO", "MONTO", "MONEDA" }) {
+		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class, String.class };
 
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
@@ -181,7 +181,7 @@ public class Constantes {
 		}
 	};
 
-	public static DateTimeFormatter formatoCaja = DateTimeFormatter.ofPattern("  EEEE, dd MMMM yyyy");
+	public static DateTimeFormatter formatoCaja = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
 	public static DateTimeFormatter formatoLocal = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	public static DateTimeFormatter formatoSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM");
