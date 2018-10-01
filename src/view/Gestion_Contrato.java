@@ -14,8 +14,10 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -45,6 +47,7 @@ import common.ComboItem;
 import common.Constantes;
 import common.EditorC;
 import common.EditorIM;
+import common.JIconTextField;
 import common.JTranslucentPane;
 import common.RenderC;
 import common.RenderHC;
@@ -59,12 +62,19 @@ import model.Cargo;
 import model.Contrato;
 import model.DetalleCargo;
 import model.DetalleContrato;
+import model.EArticulo;
 import model.EContrato;
 import model.Ingreso;
 import model.Mora;
 import model.Pago;
 import model.Sede;
 import model.Seguimiento;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Gestion_Contrato extends JInternalFrame {
@@ -146,7 +156,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JLabel jLabel25;
 	private JLabel jLabel24;
 	private JScrollPane spDetalleCargo;
-	private JTextField txtTransportista;
+	private JIconTextField txtTransportista;
 	private JTable tbIntereses;
 	private JScrollPane spIntereses;
 	private JLabel lblTotalAPagar;
@@ -793,7 +803,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		cboAlmacen.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		cboAlmacen.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
-		txtTransportista = new JTextField();
+		txtTransportista = new JIconTextField();
 		pnlCargoContainer.add(txtTransportista);
 		txtTransportista.setBounds(188, 20, 483, 32);
 		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 20));
@@ -811,9 +821,10 @@ public class Gestion_Contrato extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (Utiles.Validar(pnlCargoContainer)) {
+					tbContrato.getCellEditor().stopCellEditing();					
 					Cargo cargo = new Cargo();
 					cargo.setFecha(String.valueOf(LocalDate.now()));
-					cargo.setTransportista(txtTransportista.getText());
+					cargo.setTransportista(txtTransportista.getText().toUpperCase());
 					cargo.setObs(txtObsCargo.getText());
 					cargo.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					cargo.setFechaCreacion(String.valueOf(LocalDate.now()));
@@ -822,19 +833,26 @@ public class Gestion_Contrato extends JInternalFrame {
 						if (estado == 1) {
 							DetalleCargo detalle_cargo = new DetalleCargo();
 							detalle_cargo.setContrato(contrato);
-							detalle_cargo.setArticulo(new Articulo(
-									Integer.parseInt(Constantes.DetalleContratoModel.getValueAt(i, 0).toString())));
-							detalle_cargo.setSede(new Sede(((ComboItem) cboAlmacen.getSelectedItem()).getId()));
+							Articulo articulo = new ArticuloController().ObtenerArticulo(
+									Integer.parseInt(Constantes.DetalleContratoModel.getValueAt(i, 0).toString()));
+							articulo.setEArticulo(new EArticulo(4, "CON CARGO"));
+							detalle_cargo.setArticulo(articulo);
+							Sede sede = new Sede();
+							sede.setId(((ComboItem) cboAlmacen.getSelectedItem()).getId());
+							sede.setDescripcion(((ComboItem) cboAlmacen.getSelectedItem()).getDescripcion());
+							detalle_cargo.setSede(sede);
 							detalle_cargo.setCargo(cargo);
 							cargo.addDetalleCargo(detalle_cargo);
 						}
 					}
-
 					if (cargo.getDetalleCargos().size() > 0) {
 						new ContratoController().GenerarCargo(cargo);
-						Utiles.Mensaje("Cargo registrado.", JOptionPane.INFORMATION_MESSAGE);
+						Utiles.Mensaje(
+								"Cargo registrado. Favor de colocar papel en la impresora para la impresión de la constancia.",
+								JOptionPane.INFORMATION_MESSAGE);
+						ImprimirCargo(cargo);
 					} else {
-						Utiles.Mensaje("Seleccione por lo menos 01(un) artículo.", JOptionPane.WARNING_MESSAGE);
+						Utiles.Mensaje("Seleccione por lo menos un (01) artículo.", JOptionPane.WARNING_MESSAGE);
 					}
 				} else {
 					Utiles.Mensaje("Completa el formulario.", JOptionPane.WARNING_MESSAGE);
@@ -867,6 +885,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		txtObsCargo = new JTextArea();
 		spDetalleCargo.setViewportView(txtObsCargo);
 		txtObsCargo.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtObsCargo.setForeground(Color.BLACK);
 
 		jLabel24 = new JLabel();
 		pnlCargoContainer.add(jLabel24);
@@ -1331,6 +1350,24 @@ public class Gestion_Contrato extends JInternalFrame {
 					}
 				}
 			}
+		}
+	}
+
+	public void ImprimirCargo(Cargo c) {
+		ArrayList<Cargo> arreglo_cargo = new ArrayList<Cargo>();
+		arreglo_cargo.add(c);
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("SEDE", Principal.SEDE.getDescripcion());
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/cargo.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
+					new JRBeanCollectionDataSource(arreglo_cargo));
+			// JasperPrintManager.printReport(jasperPrint, true);
+			JasperViewer viewer = new JasperViewer(jasperPrint, false);
+			viewer.setVisible(true);
+			viewer.toFront();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

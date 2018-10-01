@@ -18,18 +18,17 @@ import javax.swing.JOptionPane;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
+import model.Sede;
 
 public class LibroCajaController {
 
 	public Object AperturarCaja() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		Object o = null;
 		try {
-			Query q = em
-					.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
+			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
 			q.setParameter("f", String.valueOf(LocalDate.now()));
 			o = q.getSingleResult();
 			if (Objects.nonNull(o)) {
@@ -62,14 +61,12 @@ public class LibroCajaController {
 	}
 
 	public BigDecimal ObtenerAmanece() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		BigDecimal a = new BigDecimal(0);
 		try {
-			a = (BigDecimal) em
-					.createQuery(
-							"SELECT COALESCE(c.cierre,0) cierre FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
+			a = (BigDecimal) em.createQuery(
+					"SELECT COALESCE(c.cierre,0) cierre FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
 		} catch (NoResultException e1) {
 			a = BigDecimal.ZERO;
@@ -81,16 +78,14 @@ public class LibroCajaController {
 		}
 		return a;
 	}
-	
+
 	public BigDecimal ObtenerAmaneceDolares() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		BigDecimal a = new BigDecimal(0);
 		try {
-			a = (BigDecimal) em
-					.createQuery(
-							"SELECT COALESCE(c.cierreDolares,0) cierre FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
+			a = (BigDecimal) em.createQuery(
+					"SELECT COALESCE(c.cierreDolares,0) cierreDolares FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
 		} catch (NoResultException e1) {
 			a = BigDecimal.ZERO;
@@ -104,13 +99,11 @@ public class LibroCajaController {
 	}
 
 	public LibroCaja ObtenerLibroCaja(LocalDate fecha) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		LibroCaja lc = null;
 		try {
-			Query q = em
-					.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
+			Query q = em.createQuery("SELECT c FROM LibroCaja c WHERE c.fechaApertura = :f");
 			q.setParameter("f", String.valueOf(fecha));
 			lc = (LibroCaja) q.getSingleResult();
 		} catch (NoResultException e1) {
@@ -127,22 +120,20 @@ public class LibroCajaController {
 
 	public List<String> CerrarLibroCaja(LibroCaja c) {
 		List<String> msg = null;
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
 			em.merge(c);
 			tx.commit();
-			msg = Arrays
-					.asList("<b>CAJA CERRADA</b>. <br/> Imprimiendo el reporte de caja diaria. Favor de colocar papel en la impresora.",
-							String.valueOf(JOptionPane.WARNING_MESSAGE));
+			msg = Arrays.asList(
+					"<b>CAJA CERRADA</b>. <br/> Imprimiendo el reporte de caja diaria. Favor de colocar papel en la impresora.",
+					String.valueOf(JOptionPane.WARNING_MESSAGE));
 		} catch (Exception e1) {
 			tx.rollback();
 			e1.printStackTrace();
-			msg = Arrays.asList("Error: " + e1.getMessage(),
-					String.valueOf(JOptionPane.ERROR_MESSAGE));
+			msg = Arrays.asList("Error: " + e1.getMessage(), String.valueOf(JOptionPane.ERROR_MESSAGE));
 		} finally {
 			em.close();
 			emf.close();
@@ -151,8 +142,7 @@ public class LibroCajaController {
 	}
 
 	public Ingreso RegistrarIngreso(Ingreso i) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -170,8 +160,7 @@ public class LibroCajaController {
 	}
 
 	public Egreso RegistrarEgreso(Egreso e) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -186,5 +175,24 @@ public class LibroCajaController {
 			emf.close();
 		}
 		return e;
+	}
+
+	public Sede ObtenerSedePrincipal() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		Sede s = null;
+		try {
+			Query q = em.createQuery("SELECT s FROM Sede s WHERE s.principal = 'SI'");
+			s = (Sede) q.getSingleResult();
+		} catch (NoResultException e1) {
+			s = null;
+			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return s;
 	}
 }

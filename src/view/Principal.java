@@ -27,6 +27,7 @@ import maintenance.Mantenimiento_Usuarios;
 import model.Cliente;
 import model.Contrato;
 import model.LibroCaja;
+import model.Sede;
 import model.Usuario;
 import report.Estadistico_Mensual_Empenos;
 import report.Estadistico_Mensual_Ganancias;
@@ -86,6 +87,7 @@ public class Principal extends JFrame {
 	private JMenuItem mniRenovacionContrato;
 	public static Usuario LOGGED;
 	public static LibroCaja LIBRO_CAJA;
+	public static Sede SEDE;
 
 	public Principal(Usuario user) {
 		this.setVisible(true);
@@ -96,6 +98,7 @@ public class Principal extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
+		Principal.SEDE = new LibroCajaController().ObtenerSedePrincipal();
 		dskPrincipal = new JDesktopPane();/* {
 			ImageIcon icon = new ImageIcon("img/bkg.png");
 			Image image = icon.getImage();
@@ -532,7 +535,7 @@ public class Principal extends JFrame {
 			Utiles.Mensaje(String.valueOf(obj), JOptionPane.WARNING_MESSAGE);
 			Utiles.BloquearMenu(menuBarPrincipal);
 		} else {
-			LIBRO_CAJA = (LibroCaja) obj;
+			LIBRO_CAJA = (LibroCaja) obj;			
 			/*
 			 * Utiles.Mensaje("Favor de actualizar los contratos.",
 			 * JOptionPane.WARNING_MESSAGE); Actualizar_Contratos ac = new

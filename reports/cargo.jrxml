@@ -1,123 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cargo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1de26dec-a9c3-4867-bfd1-03c50eb23634">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="p" class="java.lang.String"/>
-	<field name="articulosDT" class="net.sf.jasperreports.engine.JRDataSource"/>
-	<field name="transportado_por" class="java.lang.String"/>
-	<field name="observacion" class="java.lang.String"/>
+	<parameter name="SEDE" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[fecha]]></fieldDescription>
+	</field>
+	<field name="obs" class="java.lang.String">
+		<fieldDescription><![CDATA[obs]]></fieldDescription>
+	</field>
+	<field name="transportista" class="java.lang.String">
+		<fieldDescription><![CDATA[transportista]]></fieldDescription>
+	</field>
+	<field name="detalleCargoJasper" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[detalleCargoJasper]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="80" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="383ef1cf-d591-43b4-823e-3111118fc6a2" x="0" y="0" width="297" height="49"/>
+				<reportElement x="0" y="0" width="180" height="49" uuid="383ef1cf-d591-43b4-823e-3111118fc6a2"/>
 				<textElement verticalAlignment="Middle">
 					<font size="36" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CARGO]]></text>
 			</staticText>
-			<staticText>
-				<reportElement uuid="190e0ac0-d12d-4bda-b5ea-9002fa76ed9b" x="0" y="47" width="68" height="30"/>
-				<textElement verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[FECHA:]]></text>
-			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement uuid="188e5b6f-3ac5-402c-9656-66931170e690" x="68" y="47" width="487" height="30"/>
+				<reportElement x="0" y="50" width="555" height="30" uuid="188e5b6f-3ac5-402c-9656-66931170e690"/>
 				<textElement verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA["FECHA " + new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3716ca7b-0a49-492f-945a-7f03d8ed9a2f" x="297" y="17" width="256" height="32"/>
+				<reportElement x="180" y="17" width="375" height="32" uuid="3716ca7b-0a49-492f-945a-7f03d8ed9a2f"/>
 				<textElement textAlignment="Right">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{p}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="8">
 			<line>
-				<reportElement uuid="38706ff4-f858-4f17-ac76-7c2dbf01c618" x="0" y="0" width="555" height="1"/>
+				<reportElement x="0" y="0" width="555" height="1" uuid="38706ff4-f858-4f17-ac76-7c2dbf01c618"/>
 			</line>
 		</band>
 	</columnHeader>
-	<detail>
-		<band height="85" splitType="Stretch">
-			<subreport>
-				<reportElement uuid="ac0d2e93-5874-4966-95ab-088cfcfbf7f2" x="0" y="0" width="555" height="83"/>
-				<dataSourceExpression><![CDATA[$F{articulosDT}]]></dataSourceExpression>
-				<subreportExpression><![CDATA["detalle_cargo.jasper"]]></subreportExpression>
-			</subreport>
-		</band>
-	</detail>
 	<summary>
-		<band height="111">
+		<band height="231">
 			<staticText>
-				<reportElement uuid="e3c371af-ee02-4e30-9544-07b029fad966" x="0" y="0" width="156" height="20"/>
-				<textElement>
-					<font fontName="SansSerif" size="13" isBold="true"/>
-				</textElement>
-				<text><![CDATA[TRANSPORTADO POR:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="b84cd457-7fa2-4588-ad15-03abc4261a3f" x="0" y="20" width="104" height="20"/>
-				<textElement>
-					<font fontName="SansSerif" size="13" isBold="true"/>
-				</textElement>
-				<text><![CDATA[OBSERVACIÓN:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="aa82395b-2982-4384-8b1b-936d3ab8a989" x="0" y="91" width="190" height="20"/>
+				<reportElement x="0" y="211" width="190" height="20" uuid="aa82395b-2982-4384-8b1b-936d3ab8a989"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ENTREGUÉ CONFORME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="31afde88-4ba2-4363-b872-954b0efe3e5a" x="190" y="91" width="173" height="20"/>
+				<reportElement x="190" y="211" width="173" height="20" uuid="31afde88-4ba2-4363-b872-954b0efe3e5a"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TRANSPORTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ffb0e14b-4d78-40fe-8430-6af82dd27989" x="363" y="91" width="190" height="20"/>
+				<reportElement x="363" y="211" width="190" height="20" uuid="ffb0e14b-4d78-40fe-8430-6af82dd27989"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RECIBÍ CONFORME]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="5d810d0c-e5d5-457e-912e-c5905c76150a" x="22" y="91" width="145" height="1"/>
+				<reportElement x="22" y="211" width="145" height="1" uuid="5d810d0c-e5d5-457e-912e-c5905c76150a"/>
 			</line>
 			<line>
-				<reportElement uuid="bdd7a464-5b10-4b00-99eb-f463845f112e" x="203" y="90" width="145" height="1"/>
+				<reportElement x="203" y="210" width="145" height="1" uuid="bdd7a464-5b10-4b00-99eb-f463845f112e"/>
 			</line>
 			<line>
-				<reportElement uuid="46df53e3-70b1-4b25-9306-2af619eb591b" x="382" y="89" width="145" height="1"/>
+				<reportElement x="382" y="209" width="145" height="1" uuid="46df53e3-70b1-4b25-9306-2af619eb591b"/>
 			</line>
 			<textField>
-				<reportElement uuid="09faf88e-4d1b-4fe6-94c0-7161f89fb630" x="103" y="20" width="452" height="20"/>
+				<reportElement x="0" y="140" width="555" height="20" uuid="09faf88e-4d1b-4fe6-94c0-7161f89fb630"/>
 				<textElement>
 					<font fontName="SansSerif" size="13" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["OBSERVACIÓN: " + $F{obs}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="a761f3f7-e01e-4c72-b68f-991604ea57fe" x="145" y="0" width="397" height="20"/>
+				<reportElement x="0" y="120" width="555" height="20" uuid="a761f3f7-e01e-4c72-b68f-991604ea57fe"/>
 				<textElement>
 					<font fontName="SansSerif" size="13" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{transportado_por}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["TRANSPORTADO POR: " + $F{transportista}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="110" uuid="ffe8948a-7c65-4605-a4cb-f4063cbc736c"/>
+				<dataSourceExpression><![CDATA[$F{detalleCargoJasper}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/detalle_cargo.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</summary>
 </jasperReport>

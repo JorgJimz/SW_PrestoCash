@@ -4,10 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * The persistent class for the sede database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Sede.findAll", query = "SELECT s FROM Sede s")
 public class Sede implements Serializable {
@@ -31,6 +27,8 @@ public class Sede implements Serializable {
 
 	@Column(name = "T_SEDE")
 	private String tSede;
+
+	private String principal;
 
 	// bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy = "sede")
@@ -146,9 +144,17 @@ public class Sede implements Serializable {
 
 		return prestamo;
 	}
-	
+
+	public String getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(String principal) {
+		this.principal = principal;
+	}
+
 	@Override
-	public String toString() {		
+	public String toString() {
 		return descripcion;
 	}
 

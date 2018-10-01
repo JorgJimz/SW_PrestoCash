@@ -96,7 +96,6 @@ public class Utiles {
 						innerTextArea.setOpaque(true);
 						innerTextArea.setBackground(Color.RED);
 						innerTextArea.setForeground(Color.WHITE);
-						innerTextArea.requestFocus();
 						val = false;
 					} else {
 						innerTextArea.setOpaque(false);

@@ -3,37 +3,39 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * The persistent class for the cargo database table.
  * 
  */
 @Entity
-@NamedQuery(name="Cargo.findAll", query="SELECT c FROM Cargo c")
+@NamedQuery(name = "Cargo.findAll", query = "SELECT c FROM Cargo c")
 public class Cargo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String fecha;
 
-	@Column(name="FECHA_CREACION")
+	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
 	private String obs;
 
 	private String transportista;
 
-	@Column(name="USUARIO_CREACION")
+	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
-	//bi-directional many-to-one association to DetalleCargo
-	@OneToMany(mappedBy="cargo")
+	// bi-directional many-to-one association to DetalleCargo
+	@OneToMany(mappedBy = "cargo", cascade = CascadeType.MERGE)
 	private List<DetalleCargo> detalleCargos;
 
 	public Cargo() {
@@ -108,6 +110,10 @@ public class Cargo implements Serializable {
 		detalleCargo.setCargo(null);
 
 		return detalleCargo;
+	}
+
+	public JRDataSource getDetalleCargoJasper() {
+		return new JRBeanCollectionDataSource(detalleCargos);
 	}
 
 }

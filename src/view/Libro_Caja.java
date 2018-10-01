@@ -32,6 +32,7 @@ import org.jdesktop.swingx.JXTitledSeparator;
 
 import com.toedter.calendar.JDateChooser;
 
+import common.ComboItem;
 import common.Constantes;
 import common.EditorLCE;
 import common.EditorLCI;
@@ -221,7 +222,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalGanacia.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalGanacia.setOpaque(true);
 		lblTotalGanacia.setForeground(new java.awt.Color(255, 255, 255));
-		lblTotalGanacia.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalGanacia.setBackground(new java.awt.Color(130,137,143));
 		lblTotalGanacia.setOrientation(SwingConstants.RIGHT);
 		lblTotalGanacia.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotalGanacia.setEditable(false);
@@ -236,7 +237,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblNeto.setOpaque(true);
 		lblNeto.setEditable(false);
 		lblNeto.setForeground(new java.awt.Color(255, 255, 255));
-		lblNeto.setBackground(new java.awt.Color(178, 80, 177));
+		lblNeto.setBackground(new java.awt.Color(130,137,143));
 		lblNeto.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		lblTotalEmpenios = new JLabel(String.valueOf(caja.getTotalEmpenos()));
@@ -257,7 +258,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEgreso.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblTotalEgreso.setOpaque(true);
 		lblTotalEgreso.setForeground(new java.awt.Color(255, 255, 255));
-		lblTotalEgreso.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalEgreso.setBackground(new java.awt.Color(130,137,143));
 		lblTotalEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotalEgreso.setOrientation(SwingConstants.RIGHT);
 		lblTotalEgreso.setEditable(false);
@@ -390,6 +391,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnNuevoIngreso.setText("INGRESO");
 		btnNuevoIngreso.setBounds(1549, 476, 198, 70);
 		btnNuevoIngreso.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNuevoIngreso.setEnabled(btnCerrarCaja.isVisible());
 		btnNuevoIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -417,6 +419,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnNuevoEgreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnNuevoEgreso.setText("EGRESO");
 		btnNuevoEgreso.setBounds(1328, 476, 198, 70);
+		btnNuevoEgreso.setEnabled(btnCerrarCaja.isVisible());
 		btnNuevoEgreso.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNuevoEgreso.addActionListener(new ActionListener() {
 			@Override
@@ -490,14 +493,14 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarEgreso.setBounds(1328, 476, 198, 70);
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {			
+				ComboItem c = (ComboItem)Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 1);				
 				if (Utiles.ValidarTabla(tbEgresos)) {
 					Egreso egreso = new Egreso();
 					egreso.setLibroCaja(Principal.LIBRO_CAJA);
 					egreso.setDescripcion(String
 							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 0)));
-					egreso.setTipo(String
-							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 1)));
+					egreso.setTipo(c.getDescripcion());
 					egreso.setImporte(new BigDecimal(String
 							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2))));
 					egreso.setMoneda(String
@@ -508,6 +511,9 @@ public class Libro_Caja extends JInternalFrame {
 					btnNuevoEgreso.setVisible(true);
 					btnCerrarCaja.setEnabled(true);
 					Utiles.Mensaje("Egreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+					if(c.getValor().equals("PRINTABLE")) {
+						
+					}
 				} else {
 					Utiles.Mensaje("Complete los datos", JOptionPane.WARNING_MESSAGE);
 				}
@@ -593,7 +599,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalGanaciaDolares.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotalGanaciaDolares.setOrientation(SwingConstants.RIGHT);
 		lblTotalGanaciaDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		lblTotalGanaciaDolares.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalGanaciaDolares.setBackground(new java.awt.Color(130,137,143));
 		lblTotalGanaciaDolares.setForeground(new java.awt.Color(255, 255, 255));
 		lblTotalGanaciaDolares.setOpaque(true);
 		lblTotalGanaciaDolares.setEditable(false);
@@ -606,7 +612,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblNetoDolares.setText(String.valueOf(caja.getTotalNetoDolares()));
 		lblNetoDolares.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNetoDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		lblNetoDolares.setBackground(new java.awt.Color(178, 80, 177));
+		lblNetoDolares.setBackground(new java.awt.Color(130,137,143));
 		lblNetoDolares.setForeground(new java.awt.Color(255, 255, 255));
 		lblNetoDolares.setOpaque(true);
 		lblNetoDolares.setEditable(false);
@@ -618,7 +624,7 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEgresoDolares.setText(String.valueOf(caja.getTotalEgresosDolares()));
 		lblTotalEgresoDolares.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotalEgresoDolares.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		lblTotalEgresoDolares.setBackground(new java.awt.Color(178, 80, 177));
+		lblTotalEgresoDolares.setBackground(new java.awt.Color(130,137,143));
 		lblTotalEgresoDolares.setForeground(new java.awt.Color(255, 255, 255));
 		lblTotalEgresoDolares.setOpaque(true);
 		lblTotalEgresoDolares.setOrientation(SwingConstants.RIGHT);
@@ -682,6 +688,7 @@ public class Libro_Caja extends JInternalFrame {
 
 	public void ImprimirCaja() {
 		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("SEDE", Principal.SEDE.getDescripcion());
 		ArrayList<LibroCaja> arreglo_caja = new ArrayList<LibroCaja>();
 		arreglo_caja.add(caja);
 		try {

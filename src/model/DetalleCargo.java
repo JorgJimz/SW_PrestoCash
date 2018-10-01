@@ -19,7 +19,7 @@ public class DetalleCargo implements Serializable {
 	private int id;
 
 	//bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Articulo articulo;
 
 	//bi-directional many-to-one association to Cargo

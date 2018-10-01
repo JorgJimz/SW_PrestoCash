@@ -95,7 +95,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 	private JButton btnMenos;
 	private JButton btnMas;
 	private JButton btnGrabar;
-
 	private JIconTextField txtModelo;
 	private JIconTextField txtDescripcion;
 	private JLabel lblNumeroContrato;

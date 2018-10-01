@@ -25,15 +25,18 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 	DefaultCellEditor[] editores;
 
 	JTextField txt;
-	JComboBox<String> cbo;
+	JComboBox<ComboItem> cbo;
 	JComboBox<String> cbo_moneda;
 
 	public EditorLCE() {
 		txt = new JTextField();
 		txt.setFont(new Font("Segoe UI", 1, 20));
-		cbo = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "ALQUILER", "AGUA", "LUZ", "TELEFONO",
-				"SERVICIO", "PLANILLA", "DEVOLUCION", "DESCARGO CAJA", "AJUSTE", "OTROS GASTOS", "COMPRA ORO" }));
-		cbo.setFont(new Font("Segoe UI", 1, 20));
+		cbo = new JComboBox<ComboItem>(new DefaultComboBoxModel(new ComboItem[] { new ComboItem(1, "ALQUILER", ""),
+				new ComboItem(2, "AGUA", ""), new ComboItem(3, "LUZ", ""), new ComboItem(4, "TELEFONO", ""),
+				new ComboItem(5, "SERVICIO", ""), new ComboItem(6, "PLANILLA", ""), new ComboItem(7, "DEVOLUCION", "PRINTABLE"),
+				new ComboItem(8, "DESCARGO", "PRINTABLE", "PATH_TO_REPORT_JASPER"), new ComboItem(9, "AJUSTE", "PRINTABLE"), new ComboItem(10, "OTROS GASTOS", ""),
+				new ComboItem(11, "COMPRA ORO", "PRINTABLE") }));		
+		cbo.setRenderer(new IconComboBoxRenderer());
 
 		cbo_moneda = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "SOLES", "DÓLARES" }));
 		cbo_moneda.setFont(new Font("Segoe UI", 1, 20));
