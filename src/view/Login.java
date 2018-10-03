@@ -46,13 +46,12 @@ public class Login extends JFrame {
 		this.setTitle("SISTEMA DE GESTION ADMINISTRATIVA Y PRENDATARIA PRESTOCASH");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(new java.awt.Color(255, 213, 170));
-
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 
 		txtUsuario = new JTextField();
 		getContentPane().add(txtUsuario);
 		txtUsuario.requestFocus();
-		txtUsuario.setBounds(24, 180, 304, 50);
+		txtUsuario.setBounds(24, 180, 304, 60);
 		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
 		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -70,7 +69,7 @@ public class Login extends JFrame {
 
 		txtPassword = new JPasswordField();
 		getContentPane().add(txtPassword);
-		txtPassword.setBounds(24, 240, 304, 50);
+		txtPassword.setBounds(24, 245, 304, 60);
 		txtPassword.setOpaque(false);
 		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
@@ -107,7 +106,7 @@ public class Login extends JFrame {
 		getContentPane().add(lblLogo);
 		lblLogo.setBounds(15, 12, 380, 152);
 
-		this.setSize(445, 337);
+		this.setSize(445, 350);
 		this.setLocationRelativeTo(null);
 
 		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
