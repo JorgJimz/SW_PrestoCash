@@ -58,46 +58,46 @@
 	<summary>
 		<band height="231">
 			<staticText>
-				<reportElement x="0" y="211" width="190" height="20" uuid="aa82395b-2982-4384-8b1b-936d3ab8a989"/>
+				<reportElement x="0" y="210" width="180" height="20" uuid="aa82395b-2982-4384-8b1b-936d3ab8a989"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="13" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ENTREGUÉ CONFORME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="211" width="173" height="20" uuid="31afde88-4ba2-4363-b872-954b0efe3e5a"/>
+				<reportElement x="200" y="210" width="160" height="20" uuid="31afde88-4ba2-4363-b872-954b0efe3e5a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="13" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TRANSPORTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="363" y="211" width="190" height="20" uuid="ffb0e14b-4d78-40fe-8430-6af82dd27989"/>
+				<reportElement x="380" y="210" width="174" height="20" uuid="ffb0e14b-4d78-40fe-8430-6af82dd27989"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="13" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RECIBÍ CONFORME]]></text>
 			</staticText>
-			<line>
-				<reportElement x="22" y="211" width="145" height="1" uuid="5d810d0c-e5d5-457e-912e-c5905c76150a"/>
-			</line>
-			<line>
-				<reportElement x="203" y="210" width="145" height="1" uuid="bdd7a464-5b10-4b00-99eb-f463845f112e"/>
-			</line>
-			<line>
-				<reportElement x="382" y="209" width="145" height="1" uuid="46df53e3-70b1-4b25-9306-2af619eb591b"/>
-			</line>
 			<textField>
 				<reportElement x="0" y="140" width="555" height="20" uuid="09faf88e-4d1b-4fe6-94c0-7161f89fb630"/>
 				<textElement>
-					<font fontName="SansSerif" size="13" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["OBSERVACIÓN: " + $F{obs}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="120" width="555" height="20" uuid="a761f3f7-e01e-4c72-b68f-991604ea57fe"/>
 				<textElement>
-					<font fontName="SansSerif" size="13" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["TRANSPORTADO POR: " + $F{transportista}]]></textFieldExpression>
 			</textField>

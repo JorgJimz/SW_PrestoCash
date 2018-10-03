@@ -99,7 +99,7 @@ public class Venta_Articulos extends JInternalFrame {
 		contenedor = new JLayeredPane();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1048, 690);
+		contenedor.setBounds(0, 0, 1048, 695);
 		contenedor.setOpaque(true);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
@@ -152,7 +152,7 @@ public class Venta_Articulos extends JInternalFrame {
 					totalFecha = totalFecha.add(articulo.getSeparacions().stream().map(Separacion::getImporte)
 							.reduce(BigDecimal.ZERO, BigDecimal::add));
 					txtTotalFecha.setText(String.valueOf(totalFecha));
-					spArticulos.setSize(spArticulos.getWidth(), 400);
+					spArticulos.setSize(spArticulos.getWidth(), 210);
 					pnlSeparacion.setVisible(true);
 					btnRematar.setEnabled(false);
 					btnSeparar.setEnabled(false);
@@ -167,7 +167,7 @@ public class Venta_Articulos extends JInternalFrame {
 		spArticulos = new JScrollPane();
 		contenedor.add(spArticulos);
 		contenedor.moveToBack(spArticulos);
-		spArticulos.setBounds(16, 157, 973, 500);
+		spArticulos.setBounds(16, 157, 974, 500);
 		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		spArticulos.setEnabled(false);
@@ -176,12 +176,12 @@ public class Venta_Articulos extends JInternalFrame {
 
 		tbArticulos = new JTable();
 		spArticulos.setViewportView(tbArticulos);
-		tbArticulos.setRowHeight(35);
+		tbArticulos.setRowHeight(25);
 		tbArticulos.setModel(Constantes.VitrinaModel);
 		tbArticulos.setRowSorter(filtro);
-		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.removeColumn(tbArticulos.getColumnModel().getColumn(8));
-		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbArticulos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -207,34 +207,34 @@ public class Venta_Articulos extends JInternalFrame {
 		jSeparator1 = new JXTitledSeparator("ARTÍCULOS EN VENTA");
 		contenedor.add(jSeparator1);
 		jSeparator1.setBounds(18, 108, 720, 39);
-		jSeparator1.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		jSeparator1.setFont(new java.awt.Font("Segoe UI",1,16));
 		jSeparator1.setForeground(new java.awt.Color(128, 0, 0));
 
 		jSeparator2 = new JXTitledSeparator("DATOS DEL COMPRADOR");
 		contenedor.add(jSeparator2);
 		jSeparator2.setBounds(18, 12, 994, 39);
-		jSeparator2.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		jSeparator2.setFont(new java.awt.Font("Segoe UI",1,16));
 		jSeparator2.setForeground(new java.awt.Color(128, 0, 0));
 
 		jLabel3 = new JLabel();
 		contenedor.add(jLabel3);
 		jLabel3.setText("# DOCUMENTO");
 		jLabel3.setBounds(18, 57, 167, 39);
-		jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		jLabel3.setFont(new java.awt.Font("Segoe UI",1,16));
 		jLabel3.setForeground(new java.awt.Color(0, 128, 0));
 
 		jLabel4 = new JLabel();
 		contenedor.add(jLabel4);
 		jLabel4.setText("CLIENTE");
 		jLabel4.setBounds(359, 57, 93, 39);
-		jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		jLabel4.setFont(new java.awt.Font("Segoe UI",1,16));
 		jLabel4.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblCliente = new JLabel();
 		contenedor.add(lblCliente);
 		lblCliente.setBounds(451, 57, 561, 39);
 		lblCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblCliente.setFont(new java.awt.Font("Segoe UI",1,16));
 		lblCliente.setBackground(new java.awt.Color(255, 255, 255));
 		lblCliente.setOpaque(true);
 
@@ -257,7 +257,7 @@ public class Venta_Articulos extends JInternalFrame {
 		});
 
 		txtDni.setEnabled(true);
-		txtDni.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtDni.setFont(new java.awt.Font("Segoe UI",1,16));
 
 		lblContratoAsociado = new JLabel();
 		contenedor.add(lblContratoAsociado);
@@ -279,7 +279,7 @@ public class Venta_Articulos extends JInternalFrame {
 		sfContrato.setBounds(744, 108, 268, 37);
 		sfContrato.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		sfContrato.setPrompt("BUSCAR POR CONTRATO");
-		sfContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		sfContrato.setFont(new java.awt.Font("Segoe UI",1,16));
 
 		lblDirCli = new JLabel();
 		contenedor.add(lblDirCli);
@@ -293,13 +293,13 @@ public class Venta_Articulos extends JInternalFrame {
 
 		pnlRemate = new JLayeredPane();
 		contenedor.add(pnlRemate);
-		pnlRemate.setBounds(12, 455, 977, 223);
+		pnlRemate.setBounds(16, 379, 996, 226);
 		pnlRemate.setLayout(null);
 		pnlRemate.setVisible(false);
 
 		pnlSeparacion = new JPanel();
 		contenedor.add(pnlSeparacion);
-		pnlSeparacion.setBounds(12, 557, 973, 121);
+		pnlSeparacion.setBounds(16, 379, 979, 122);
 		pnlSeparacion.setOpaque(false);
 		pnlSeparacion.setLayout(null);
 		pnlSeparacion.setVisible(false);
@@ -311,8 +311,8 @@ public class Venta_Articulos extends JInternalFrame {
 		btnCancelar.setBorderPainted(false);
 		btnCancelar.setContentAreaFilled(false);
 		btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnCancelar.setBounds(777, 133, 200, 70);
+		btnCancelar.setFont(new java.awt.Font("Segoe UI",1,14));
+		btnCancelar.setBounds(772, 118, 200, 70);
 		btnCancelar.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnCancelar.addActionListener(new ActionListener() {
 			@Override
@@ -329,9 +329,9 @@ public class Venta_Articulos extends JInternalFrame {
 
 		txtMonto = new JTextField();
 		pnlSeparacion.add(txtMonto);
-		txtMonto.setBounds(247, 63, 162, 39);
+		txtMonto.setBounds(175, 59, 162, 39);
 		txtMonto.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtMonto.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtMonto.setFont(new java.awt.Font("Segoe UI",1,18));
 		txtMonto.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -347,23 +347,23 @@ public class Venta_Articulos extends JInternalFrame {
 		pnlSeparacion.add(jLabel2);
 		jLabel2.setText("NUEVO IMPORTE");
 		jLabel2.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel2.setBounds(2, 63, 227, 39);
+		jLabel2.setFont(new java.awt.Font("Segoe UI",1,16));
+		jLabel2.setBounds(8, 60, 167, 39);
 
 		jLabel5 = new JLabel();
 		pnlSeparacion.add(jLabel5);
 		jLabel5.setText("TOTAL A LA FECHA");
 		jLabel5.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel5.setBounds(2, 12, 227, 39);
+		jLabel5.setFont(new java.awt.Font("Segoe UI",1,16));
+		jLabel5.setBounds(8, 9, 167, 39);
 
 		txtTotalFecha = new JTextField();
 		pnlSeparacion.add(txtTotalFecha);
-		txtTotalFecha.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtTotalFecha.setFont(new java.awt.Font("Segoe UI",1,18));
 		txtTotalFecha.setEnabled(true);
 		txtTotalFecha.setEnabled(false);
 		txtTotalFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTotalFecha.setBounds(247, 12, 162, 39);
+		txtTotalFecha.setBounds(175, 8, 162, 39);
 
 		btnFinSeparacion = new JButton(new ImageIcon("img/pagar_separacion.png"));
 		pnlSeparacion.add(btnFinSeparacion);
@@ -372,8 +372,8 @@ public class Venta_Articulos extends JInternalFrame {
 		btnFinSeparacion.setBorderPainted(false);
 		btnFinSeparacion.setContentAreaFilled(false);
 		btnFinSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnFinSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnFinSeparacion.setBounds(508, 20, 205, 70);
+		btnFinSeparacion.setFont(new java.awt.Font("Segoe UI",1,14));
+		btnFinSeparacion.setBounds(521, 12, 205, 70);
 		btnFinSeparacion.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnFinSeparacion.addActionListener(new ActionListener() {
 			@Override
@@ -431,8 +431,8 @@ public class Venta_Articulos extends JInternalFrame {
 		btnCancelarSeparacion.setBorderPainted(false);
 		btnCancelarSeparacion.setContentAreaFilled(false);
 		btnCancelarSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCancelarSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnCancelarSeparacion.setBounds(768, 20, 205, 70);
+		btnCancelarSeparacion.setFont(new java.awt.Font("Segoe UI",1,14));
+		btnCancelarSeparacion.setBounds(763, 8, 205, 70);
 		btnCancelarSeparacion.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnCancelarSeparacion.addActionListener(new ActionListener() {
 			@Override
@@ -449,13 +449,13 @@ public class Venta_Articulos extends JInternalFrame {
 
 		btnVender = new JButton(new ImageIcon("img/rematar.png"));
 		pnlRemate.add(btnVender);
-		btnVender.setText("VENDER");
+		btnVender.setText("VENDER ARTÍCULO");
 		btnVender.setOpaque(false);
 		btnVender.setBorderPainted(false);
 		btnVender.setContentAreaFilled(false);
 		btnVender.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnVender.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnVender.setBounds(777, 51, 200, 70);
+		btnVender.setFont(new java.awt.Font("Segoe UI",1,14));
+		btnVender.setBounds(773, 36, 200, 70);
 		btnVender.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnVender.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnVender.addActionListener(new ActionListener() {
@@ -505,18 +505,18 @@ public class Venta_Articulos extends JInternalFrame {
 		jLabel1 = new JLabel();
 		pnlRemate.add(jLabel1);
 		jLabel1.setText("OBSERVACIONES");
-		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel1.setBounds(0, 6, 167, 39);
+		jLabel1.setBounds(0, 6, 167, 30);
 
 		spObservaciones = new JScrollPane();
 		pnlRemate.add(spObservaciones);
-		spObservaciones.setBounds(0, 51, 765, 152);
+		spObservaciones.setBounds(0, 36, 766, 154);
 
 		txtObservaciones = new JTextArea();
 		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		spObservaciones.setViewportView(txtObservaciones);
-		txtObservaciones.setPreferredSize(new java.awt.Dimension(644, 131));
+		txtObservaciones.setPreferredSize(new java.awt.Dimension(763, 150));
 		spObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		sfContrato.addKeyListener(new KeyAdapter() {

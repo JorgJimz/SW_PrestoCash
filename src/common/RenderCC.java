@@ -24,7 +24,7 @@ public class RenderCC implements TableCellRenderer {
 
 		if (value instanceof Object) {
 			e.setText(value.toString());
-			e.setFont(new Font("Segoe UI", Font.BOLD, 20));			
+			e.setFont(new Font("Segoe UI", Font.BOLD, 16));			
 			if (value.toString().equalsIgnoreCase("ACTIVO")) {
 				e.setIcon(new ImageIcon("img/activo.png"));				
 				e.setForeground(new Color(0, 128, 0));

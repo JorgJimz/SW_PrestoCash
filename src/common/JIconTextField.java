@@ -40,9 +40,9 @@ public class JIconTextField extends JTextField {
 		super.paintComponent(g);
 		if (this.icon != null) {
 			if (orientation == SwingConstants.RIGHT) {
-				icon.paintIcon(this, g, this.getWidth() - 180, this.getHeight() / 4);
+				icon.paintIcon(this, g, this.getWidth() - 160, this.getHeight() / 4);
 			} else {
-				icon.paintIcon(this, g, this.getWidth() - 40, this.getHeight() / 3);
+				icon.paintIcon(this, g, this.getWidth() - 60, this.getHeight() / 3);
 			}
 		}
 	}

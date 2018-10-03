@@ -129,24 +129,24 @@ public class Principal extends JFrame {
 		mnMantenimiento = new JMenu();
 		menuBarPrincipal.add(mnMantenimiento);
 		mnMantenimiento.setText("MANTENIMIENTO");
-		mnMantenimiento.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		mnMantenimiento.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		mnMantenimiento.setForeground(new java.awt.Color(255, 255, 255));
 
 		mnTransacciones = new JMenu();
 		menuBarPrincipal.add(mnTransacciones);
 		mnTransacciones.setText("TRANSACCIONES");
-		mnTransacciones.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		mnTransacciones.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		mnTransacciones.setForeground(new java.awt.Color(255, 255, 255));
 
 		mnContrato = new JMenu();
 		mnTransacciones.add(mnContrato);
 		mnContrato.setText("CONTRATOS DE PRESTACIÓN");
-		mnContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mnContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
 
 		mnSeguimiento = new JMenu();
 		mnTransacciones.add(mnSeguimiento);
 		mnSeguimiento.setText("SEGUIMIENTO DE CONTRATOS");
-		mnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 16));
 
 		mnReportes = new JMenu();
 		mnReportes.setVisible(false);
@@ -163,7 +163,7 @@ public class Principal extends JFrame {
 		mniReporteAsistencia = new JMenuItem();
 		mnReportes.add(mniReporteAsistencia);
 		mniReporteAsistencia.setText("REPORTE DE ASISTENCIA");
-		mniReporteAsistencia.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniReporteAsistencia.setFont(new java.awt.Font("Segoe UI", 1, 18));
 
 		mniReporteVitrina = new JMenuItem();
 		mnReportes.add(mniReporteVitrina);
@@ -373,12 +373,12 @@ public class Principal extends JFrame {
 		mnLibroCaja = new JMenu();
 		mnTransacciones.add(mnLibroCaja);
 		mnLibroCaja.setText("LIBRO CAJA");
-		mnLibroCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mnLibroCaja.setFont(new java.awt.Font("Segoe UI", 1, 16));
 
 		mniContrato = new JMenuItem();
 		mnContrato.add(mniContrato);
 		mniContrato.setText("NUEVO");
-		mniContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniContrato.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -407,12 +407,12 @@ public class Principal extends JFrame {
 		mniRenovacionContrato = new JMenuItem();
 		mnContrato.add(mniRenovacionContrato);
 		mniRenovacionContrato.setText("GESTIONAR");
-		mniRenovacionContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniRenovacionContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
 
 		mniBuscar = new JMenuItem();
 		mnContrato.add(mniBuscar);
 		mniBuscar.setText("BUSCAR");
-		mniBuscar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniBuscar.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniBuscar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -446,12 +446,12 @@ public class Principal extends JFrame {
 		mniLibroCaja = new JMenuItem();
 		mnLibroCaja.add(mniLibroCaja);
 		mniLibroCaja.setText("CONSULTAR");
-		mniLibroCaja.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniLibroCaja.setFont(new java.awt.Font("Segoe UI", 1, 16));
 
 		mniVentas = new JMenuItem();
 		mnLibroCaja.add(mniVentas);
 		mniVentas.setText("VENDER");
-		mniVentas.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniVentas.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniVentas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -471,7 +471,7 @@ public class Principal extends JFrame {
 		mniActualizarContratos = new JMenuItem();
 		mnSeguimiento.add(mniActualizarContratos);
 		mniActualizarContratos.setText("ACTUALIZAR");
-		mniActualizarContratos.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniActualizarContratos.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniActualizarContratos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -483,12 +483,12 @@ public class Principal extends JFrame {
 		mniUsuario = new JMenuItem();
 		mnMantenimiento.add(mniUsuario);
 		mniUsuario.setText("USUARIOS");
-		mniUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16));
 
 		mniPrestamos = new JMenuItem();
 		mnMantenimiento.add(mniPrestamos);
 		mniPrestamos.setText("PRÉSTAMOS");
-		mniPrestamos.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniPrestamos.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniPrestamos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -501,7 +501,7 @@ public class Principal extends JFrame {
 		mniClientes = new JMenuItem();
 		mnMantenimiento.add(mniClientes);
 		mniClientes.setText("CLIENTES");
-		mniClientes.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniClientes.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniClientes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -513,7 +513,7 @@ public class Principal extends JFrame {
 		mniArticulos = new JMenuItem();
 		mnMantenimiento.add(mniArticulos);
 		mniArticulos.setText("ARTÍCULOS");
-		mniArticulos.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		mniArticulos.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		mniArticulos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

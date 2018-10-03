@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -79,7 +80,6 @@ import net.sf.jasperreports.view.JasperViewer;
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Gestion_Contrato extends JInternalFrame {
 	private JLabel lblEstado;
-	private JLabel jLabel4;
 	private JTabbedPane tpContrato;
 	private JTable tbContrato;
 	private JLabel lblTotalMora;
@@ -117,7 +117,6 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JRadioButton rbPagoMora;
 	private JRadioButton rbAbonarCapital;
 	private JLabel jLabel17;
-	private JLabel jLabel9;
 	private JLabel jLabel5;
 	private JLabel jLabel1;
 	private JLabel lblProrrateo;
@@ -125,7 +124,6 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JLabel lblInteresMensual;
 	private JLabel jLabel8;
 	private JLabel jLabel7;
-	private JLabel jLabel6;
 	private JPanel pnlArticulos;
 	private JPanel pnlMoras;
 	private JPanel pnlPagos;
@@ -134,16 +132,12 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JLabel lblRemate;
 	private JLabel lblVencimiento;
 	private JLabel lblInicio;
-	private JLabel jLabel3;
-	private JLabel jLabel2;
 	private JLabel lblNumeroContrato;
 	private JPanel contenedor;
 	private JRadioButton rbCancelarContrato;
 	private JRadioButton rbPagoInteresMora;
 	private ButtonGroup rbgOpcionPago;
 	private JRadioButton rbPagoInteres;
-	private JLabel jLabel20;
-	private JLabel lblP;
 	private JLabel lblTipoMoneda;
 	private JTable tbAbonos;
 	private JScrollPane spAbonos;
@@ -154,7 +148,6 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JButton btnGrabarCargo;
 	private JTextArea txtObsCargo;
 	private JLabel jLabel25;
-	private JLabel jLabel24;
 	private JScrollPane spDetalleCargo;
 	private JIconTextField txtTransportista;
 	private JTable tbIntereses;
@@ -214,12 +207,14 @@ public class Gestion_Contrato extends JInternalFrame {
 		this.setSize(897, 426);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new java.awt.Dimension(1277, 815));
-		this.setBounds(0, 0, 1277, 815);
+		this.setSize(new java.awt.Dimension(1300, 710));
+		this.setPreferredSize(new java.awt.Dimension(1276, 672));
+		this.setBounds(0, 0, 1276, 672);
+
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1275, 785);
+		contenedor.setBounds(0, 0, 1275, 647);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 		InteresModel.addTableModelListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent tme) {
@@ -256,88 +251,73 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		lblEstado = new JLabel(String.valueOf(contrato.getEContrato().getDescripcion()));
 		contenedor.add(lblEstado);
-		lblEstado.setBounds(320, 11, 232, 32);
+		lblEstado.setBounds(259, 11, 191, 32);
 		lblEstado.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblEstado.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblEstado.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		lblEstado.setOpaque(true);
 		lblEstado.setBackground(contrato.getEContrato().getBackground());
 		lblEstado.setForeground(contrato.getEContrato().getForeground());
 		lblEstado.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblNumeroContrato = new JLabel(String.valueOf(contrato.getNumero()));
+		lblNumeroContrato = new JLabel(contrato.getFlag() + "-" + String.valueOf(contrato.getNumero()));
 		contenedor.add(lblNumeroContrato);
-		lblNumeroContrato.setBounds(106, 14, 201, 67);
-		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 80));
+		lblNumeroContrato.setBounds(12, 11, 235, 70);
+		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 60));
 		lblNumeroContrato.setOpaque(true);
 		lblNumeroContrato.setForeground(new java.awt.Color(0, 0, 255));
-
-		jLabel2 = new JLabel();
-		contenedor.add(jLabel2);
-		jLabel2.setText("INICIO");
-		jLabel2.setBounds(564, 11, 81, 32);
-		jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel2.setForeground(new java.awt.Color(0, 128, 0));
-
-		jLabel3 = new JLabel();
-		contenedor.add(jLabel3);
-		jLabel3.setText("VENCE");
-		jLabel3.setBounds(793, 11, 81, 32);
-		jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel3.setForeground(new java.awt.Color(0, 128, 0));
-
-		jLabel4 = new JLabel();
-		contenedor.add(jLabel4);
-		jLabel4.setText("REMATE");
-		jLabel4.setBounds(1023, 11, 96, 32);
-		jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel4.setForeground(new java.awt.Color(0, 128, 0));
+		lblNumeroContrato.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblInicio = new JLabel(
 				Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaContrato())).toUpperCase());
 		contenedor.add(lblInicio);
-		lblInicio.setBounds(564, 49, 218, 32);
+		lblInicio.setBounds(462, 11, 185, 32);
 		lblInicio.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblInicio.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblInicio.setBackground(Color.WHITE);
 		lblInicio.setOpaque(true);
-		lblInicio.setForeground(new java.awt.Color(0, 64, 128));
+		lblInicio.setBackground(new java.awt.Color(240, 145, 4));
+		lblInicio.setForeground(new java.awt.Color(255, 255, 255));
+		lblInicio.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblVencimiento = new JLabel(
 				Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaVencimiento())).toUpperCase());
 		contenedor.add(lblVencimiento);
-		lblVencimiento.setBounds(793, 49, 218, 32);
+		lblVencimiento.setBounds(659, 11, 185, 32);
 		lblVencimiento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblVencimiento.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		lblVencimiento.setBackground(Color.WHITE);
+		lblVencimiento.setBackground(new java.awt.Color(200, 68, 4));
 		lblVencimiento.setOpaque(true);
-		lblVencimiento.setForeground(new java.awt.Color(0, 64, 128));
+		lblVencimiento.setForeground(new java.awt.Color(255, 255, 255));
+		lblVencimiento.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblRemate = new JLabel(
 				Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaRemate())).toUpperCase());
 		contenedor.add(lblRemate);
-		lblRemate.setBounds(1023, 49, 218, 32);
+		lblRemate.setBounds(856, 11, 185, 32);
 		lblRemate.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblRemate.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		lblRemate.setBackground(Color.WHITE);
+		lblRemate.setBackground(new java.awt.Color(255, 0, 0));
 		lblRemate.setOpaque(true);
-		lblRemate.setForeground(new java.awt.Color(0, 64, 128));
+		lblRemate.setForeground(new java.awt.Color(255, 255, 255));
+		lblRemate.setHorizontalAlignment(SwingConstants.CENTER);
 
 		tpContrato = new JTabbedPane();
 		contenedor.add(tpContrato);
-		tpContrato.setBounds(12, 184, 1229, 284);
-		tpContrato.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		tpContrato.setBounds(12, 110, 1226, 223);
+		tpContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		tpContrato.setForeground(new java.awt.Color(0, 0, 0));
 
 		pnlArticulos = new JPanel();
 		spArticulos = new JScrollPane();
-		spArticulos.setPreferredSize(new java.awt.Dimension(1202, 229));
-		pnlArticulos.setPreferredSize(new java.awt.Dimension(1224, 264));
+		spArticulos.setPreferredSize(new java.awt.Dimension(1200, 170));
+		pnlArticulos.setPreferredSize(new java.awt.Dimension(1224, 189));
 		tbContrato = new JTable();
 		tbContrato.setDefaultRenderer(Object.class, new RenderC());
 		tbContrato.setDefaultEditor(Object.class, new EditorC());
-		tbContrato.setRowHeight(30);
-		tbContrato.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbContrato.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbContrato.setRowHeight(25);
+		tbContrato.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbContrato.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContrato.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbContrato.setModel(Constantes.DetalleContratoModel);
 		spArticulos.setViewportView(tbContrato);
@@ -449,50 +429,34 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlOperacionContainer.setVisible(true);
 		contenedor.add(pnlOperacionContainer);
 		pnlOperacionContainer.setLayout(null);
-		pnlOperacionContainer.setBounds(558, 474, 683, 281);
+		pnlOperacionContainer.setBounds(555, 339, 683, 285);
 
 		pnlSucesos = new JTranslucentPane();
 		pnlSucesos.setAlpha(0.85f);
-		pnlSucesos.setBounds(0, 0, 683, 281);
+		pnlSucesos.setBounds(0, 0, 682, 277);
 		pnlSucesos.setBackground(new Color(0, 0, 0, 140));
 		pnlSucesos.setVisible(false);
 		pnlSucesos.setLayout(null);
 		pnlOperacionContainer.add(pnlSucesos);
 
-		edpMensajeSuceso = new JEditorPane("text/html", "");
-		edpMensajeSuceso.setOpaque(false);
-		edpMensajeSuceso.setEditable(false);
-		edpMensajeSuceso.setBackground(null);
-		pnlSucesos.add(edpMensajeSuceso);
-		edpMensajeSuceso.setBounds(0, 0, 683, 281);
-		edpMensajeSuceso.setFont(new java.awt.Font("Segoe UI", 1, 42));
-		edpMensajeSuceso.setForeground(Color.WHITE);
-
-		jLabel6 = new JLabel();
-		contenedor.add(jLabel6);
-		jLabel6.setText("CLIENTE");
-		jLabel6.setBounds(292, 87, 87, 35);
-		jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel6.setForeground(new java.awt.Color(0, 128, 0));
-
 		pnlCalculos = new JPanel();
 		contenedor.add(pnlCalculos);
 		pnlCalculos.setLayout(null);
 		pnlCalculos.setOpaque(false);
-		pnlCalculos.setBounds(0, 0, 1275, 785);
+		pnlCalculos.setBounds(0, 0, 1275, 628);
 
 		jLabel8 = new JLabel();
 		pnlCalculos.add(jLabel8);
 		jLabel8.setText("CAPITAL");
-		jLabel8.setBounds(12, 485, 131, 32);
-		jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel8.setBounds(12, 339, 131, 32);
+		jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel8.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblCapital = new JLabel(String.valueOf(contrato.getCapital()));
 		pnlCalculos.add(lblCapital);
-		lblCapital.setBounds(143, 485, 120, 32);
+		lblCapital.setBounds(125, 339, 120, 32);
 		lblCapital.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblCapital.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblCapital.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		lblCapital.setBackground(Color.WHITE);
 		lblCapital.setOpaque(true);
 		lblCapital.setForeground(new java.awt.Color(0, 64, 128));
@@ -500,65 +464,65 @@ public class Gestion_Contrato extends JInternalFrame {
 		jLabel10 = new JLabel();
 		pnlCalculos.add(jLabel10);
 		jLabel10.setText("¿MORA?");
-		jLabel10.setBounds(275, 485, 123, 32);
-		jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel10.setBounds(264, 339, 123, 32);
+		jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel10.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblMoraSiNo = new JLabel(contrato.getMoraRespuesta());
 		pnlCalculos.add(lblMoraSiNo);
-		lblMoraSiNo.setBounds(426, 485, 120, 32);
+		lblMoraSiNo.setBounds(426, 339, 120, 32);
 		lblMoraSiNo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblMoraSiNo.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblMoraSiNo.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		lblMoraSiNo.setBackground(Color.WHITE);
 		lblMoraSiNo.setOpaque(true);
 
 		jLabel7 = new JLabel();
 		pnlCalculos.add(jLabel7);
 		jLabel7.setText("% MENSUAL");
-		jLabel7.setBounds(12, 533, 131, 32);
-		jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel7.setBounds(12, 388, 131, 32);
+		jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel7.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblInteresMensual = new JLabel(String.valueOf(contrato.getInteresMensual()));
 		pnlCalculos.add(lblInteresMensual);
-		lblInteresMensual.setBounds(143, 532, 120, 32);
+		lblInteresMensual.setBounds(125, 388, 120, 32);
 		lblInteresMensual.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblInteresMensual.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblInteresMensual.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblInteresMensual.setBackground(Color.WHITE);
 		lblInteresMensual.setOpaque(true);
 		lblInteresMensual.setForeground(new java.awt.Color(0, 64, 128));
 
 		jLabel1 = new JLabel("% MORA");
 		pnlCalculos.add(jLabel1);
-		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel1.setBounds(275, 533, 123, 32);
+		jLabel1.setBounds(264, 388, 123, 32);
 
 		cboMora = new JLabel(
 				contrato.getMoraPorcentaje().multiply(new BigDecimal(100).setScale(0, RoundingMode.HALF_UP)) + "%");
 		pnlCalculos.add(cboMora);
-		cboMora.setBounds(426, 531, 120, 32);
+		cboMora.setBounds(426, 385, 120, 32);
 		cboMora.setOpaque(true);
 		cboMora.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		cboMora.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		cboMora.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		cboMora.setForeground(Color.WHITE);
 		cboMora.setBackground(Color.WHITE);
 		cboMora.setForeground(new java.awt.Color(0, 64, 128));
 
 		lblMoraActual = new JLabel(String.valueOf(contrato.getMoraActual()));
 		pnlCalculos.add(lblMoraActual);
-		lblMoraActual.setBounds(426, 577, 120, 32);
+		lblMoraActual.setBounds(426, 431, 120, 32);
 		lblMoraActual.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblMoraActual.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblMoraActual.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblMoraActual.setBackground(Color.WHITE);
 		lblMoraActual.setOpaque(true);
 		lblMoraActual.setForeground(new java.awt.Color(0, 64, 128));
 
 		jLabel13 = new JLabel();
 		pnlCalculos.add(jLabel13);
-		jLabel13.setText("M.ACTUAL");
-		jLabel13.setBounds(281, 577, 123, 32);
-		jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel13.setText("MORA ACTUAL");
+		jLabel13.setBounds(264, 437, 123, 32);
+		jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel13.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblInteresTotal = new JLabel(String.valueOf(contrato.getInteresMensual().multiply(contrato.getCuotas())));
@@ -566,45 +530,45 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblInteresTotal.setOpaque(true);
 		lblInteresTotal.setForeground(new java.awt.Color(0, 64, 128));
 		lblInteresTotal.setBackground(Color.WHITE);
-		lblInteresTotal.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblInteresTotal.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblInteresTotal.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblInteresTotal.setBounds(143, 580, 120, 32);
+		lblInteresTotal.setBounds(125, 437, 120, 32);
 
 		jLabel18 = new JLabel();
 		pnlCalculos.add(jLabel18);
 		jLabel18.setText("% TOTAL");
 		jLabel18.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel18.setBounds(12, 577, 131, 32);
+		jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel18.setBounds(12, 437, 131, 32);
 
 		jLabel11 = new JLabel();
 		pnlCalculos.add(jLabel11);
 		jLabel11.setText("DIAS EXTRA");
-		jLabel11.setBounds(12, 628, 131, 32);
-		jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel11.setBounds(12, 486, 131, 32);
+		jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel11.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblDiasExcedidos = new JLabel(String.valueOf(contrato.getDiasResiduo()));
 		pnlCalculos.add(lblDiasExcedidos);
-		lblDiasExcedidos.setBounds(143, 628, 120, 32);
+		lblDiasExcedidos.setBounds(125, 486, 120, 32);
 		lblDiasExcedidos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblDiasExcedidos.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblDiasExcedidos.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblDiasExcedidos.setBackground(Color.WHITE);
 		lblDiasExcedidos.setOpaque(true);
 		lblDiasExcedidos.setForeground(new java.awt.Color(0, 64, 128));
 
 		jLabel12 = new JLabel();
 		pnlCalculos.add(jLabel12);
-		jLabel12.setText("M.PASADA");
-		jLabel12.setBounds(281, 628, 123, 32);
-		jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel12.setText("MORA PASADA");
+		jLabel12.setBounds(264, 486, 123, 32);
+		jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel12.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblMoraAnterior = new JLabel("0.00");
 		pnlCalculos.add(lblMoraAnterior);
-		lblMoraAnterior.setBounds(426, 626, 120, 32);
+		lblMoraAnterior.setBounds(426, 480, 120, 32);
 		lblMoraAnterior.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblMoraAnterior.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblMoraAnterior.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblMoraAnterior.setBackground(Color.WHITE);
 		lblMoraAnterior.setOpaque(true);
 		lblMoraAnterior.setForeground(new java.awt.Color(0, 64, 128));
@@ -612,25 +576,25 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblTotalMora = new JLabel();
 		pnlCalculos.add(lblTotalMora);
 		lblTotalMora.setText("0.00");
-		lblTotalMora.setBounds(426, 670, 120, 32);
+		lblTotalMora.setBounds(426, 533, 120, 32);
 		lblTotalMora.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblTotalMora.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblTotalMora.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblTotalMora.setBackground(Color.WHITE);
 		lblTotalMora.setOpaque(true);
 		lblTotalMora.setForeground(new java.awt.Color(0, 64, 128));
 
 		jLabel15 = new JLabel();
 		pnlCalculos.add(jLabel15);
-		jLabel15.setText("M.TOTAL");
-		jLabel15.setBounds(281, 672, 123, 32);
-		jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel15.setText("MORA TOTAL");
+		jLabel15.setBounds(264, 535, 123, 32);
+		jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel15.setForeground(new java.awt.Color(0, 128, 0));
 
 		lblInteresDiario = new JLabel(String.valueOf(contrato.getInteresDiario()));
 		pnlCalculos.add(lblInteresDiario);
-		lblInteresDiario.setBounds(143, 676, 120, 32);
+		lblInteresDiario.setBounds(125, 535, 120, 32);
 		lblInteresDiario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblInteresDiario.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblInteresDiario.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblInteresDiario.setBackground(Color.WHITE);
 		lblInteresDiario.setOpaque(true);
 		lblInteresDiario.setForeground(new java.awt.Color(0, 64, 128));
@@ -638,57 +602,75 @@ public class Gestion_Contrato extends JInternalFrame {
 		jLabel16 = new JLabel();
 		pnlCalculos.add(jLabel16);
 		jLabel16.setText("% DIARIO");
-		jLabel16.setBounds(12, 672, 131, 32);
-		jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel16.setBounds(12, 535, 131, 32);
+		jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel16.setForeground(new java.awt.Color(0, 128, 0));
 
 		jLabel14 = new JLabel();
 		pnlCalculos.add(jLabel14);
 		jLabel14.setText("PRORRATEO");
-		jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel14.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel14.setBounds(12, 724, 131, 32);
+		jLabel14.setBounds(12, 584, 131, 32);
 
 		lblProrrateo = new JLabel(String.valueOf(contrato.getProrrateo()));
 		pnlCalculos.add(lblProrrateo);
-		lblProrrateo.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblProrrateo.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblProrrateo.setBackground(Color.WHITE);
 		lblProrrateo.setForeground(new java.awt.Color(0, 64, 128));
 		lblProrrateo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblProrrateo.setOpaque(true);
-		lblProrrateo.setBounds(143, 724, 120, 32);
+		lblProrrateo.setBounds(125, 584, 120, 32);
 
 		jLabel19 = new JLabel();
 		pnlCalculos.add(jLabel19);
-		jLabel19.setText("M.PRORRATEO");
+		jLabel19.setText("MORA PRORRATEO");
 		jLabel19.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel19.setBounds(281, 724, 139, 32);
+		jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel19.setBounds(264, 584, 156, 32);
 
 		lblMoraProrrateo = new JLabel(String.valueOf(contrato.getProrrateoMora()));
 		pnlCalculos.add(lblMoraProrrateo);
 		lblMoraProrrateo.setOpaque(true);
 		lblMoraProrrateo.setForeground(new java.awt.Color(0, 64, 128));
 		lblMoraProrrateo.setBackground(Color.WHITE);
-		lblMoraProrrateo.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblMoraProrrateo.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblMoraProrrateo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblMoraProrrateo.setBounds(426, 724, 120, 32);
+		lblMoraProrrateo.setBounds(426, 584, 120, 32);
+
+		lblTipoMoneda = new JLabel(contrato.getMoneda());
+		contenedor.add(lblTipoMoneda);
+		lblTipoMoneda.setBounds(1063, 50, 175, 32);
+		lblTipoMoneda.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		lblTipoMoneda.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblTipoMoneda.setForeground(new java.awt.Color(0, 255, 255));
+		lblTipoMoneda.setBackground(new java.awt.Color(0, 64, 128));
+		lblTipoMoneda.setOpaque(true);
+		lblTipoMoneda.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTipoMoneda.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		jLabel5 = new JLabel();
+		contenedor.add(jLabel5);
+		jLabel5.setText("MONEDA");
+		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel5.setForeground(new java.awt.Color(0, 128, 0));
+		jLabel5.setBounds(1064, 12, 87, 30);
 
 		lblMoraSiNo.setForeground(contrato.getMoraColor());
 
 		lblCliente = new JLabel(contrato.getCliente().getNombres() + " " + contrato.getCliente().getPaterno() + " "
 				+ contrato.getCliente().getMaterno());
 		contenedor.add(lblCliente);
-		lblCliente.setBounds(292, 122, 725, 32);
+		lblCliente.setBounds(659, 50, 382, 32);
 		lblCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		lblCliente.setBackground(Color.WHITE);
 		lblCliente.setOpaque(true);
 		lblCliente.setForeground(new java.awt.Color(0, 64, 128));
 
 		jSeparator1 = new JSeparator();
 		contenedor.add(jSeparator1);
-		jSeparator1.setBounds(12, 166, 1222, 10);
+		jSeparator1.setBounds(12, 94, 1226, 10);
 
 		txtAbono = new JTextField();
 		pnlOperacionContainer.add(txtAbono);
@@ -720,36 +702,9 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 		});
 
-		lblTipoMoneda = new JLabel(contrato.getMoneda());
-		contenedor.add(lblTipoMoneda);
-		lblTipoMoneda.setBounds(1029, 122, 212, 32);
-		lblTipoMoneda.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblTipoMoneda.setFont(new java.awt.Font("Segoe UI", 1, 24));
-		lblTipoMoneda.setForeground(new java.awt.Color(0, 255, 255));
-		lblTipoMoneda.setBackground(new java.awt.Color(0, 64, 128));
-		lblTipoMoneda.setOpaque(true);
-		lblTipoMoneda.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTipoMoneda.setHorizontalTextPosition(SwingConstants.CENTER);
-
-		lblP = new JLabel(contrato.getFlag());
-		contenedor.add(lblP);
-		lblP.setBounds(12, 13, 64, 69);
-		lblP.setFont(new java.awt.Font("Segoe UI", 1, 80));
-		lblP.setOpaque(true);
-		lblP.setHorizontalAlignment(SwingConstants.LEFT);
-		lblP.setForeground(new java.awt.Color(0, 0, 255));
-
-		jLabel20 = new JLabel();
-		contenedor.add(jLabel20);
-		jLabel20.setText("-");
-		jLabel20.setBounds(76, 14, 103, 67);
-		jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 72));
-		jLabel20.setVerticalAlignment(SwingConstants.CENTER);
-		jLabel20.setForeground(new java.awt.Color(0, 0, 255));
-
 		txtTipoPrestamo = new JTextField(contrato.getPrestamo().getDescripcion());
 		contenedor.add(txtTipoPrestamo);
-		txtTipoPrestamo.setBounds(320, 49, 232, 32);
+		txtTipoPrestamo.setBounds(259, 49, 191, 32);
 		txtTipoPrestamo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtTipoPrestamo.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		txtTipoPrestamo.setForeground(new java.awt.Color(0, 64, 128));
@@ -760,54 +715,52 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbgOpcionPago = new ButtonGroup();
 		rbgSeguimiento = new ButtonGroup();
 
-		jLabel5 = new JLabel();
-		contenedor.add(jLabel5);
-		jLabel5.setText("MONEDA");
-		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel5.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel5.setBounds(1029, 87, 87, 35);
-
-		jLabel9 = new JLabel();
-		contenedor.add(jLabel9);
-		jLabel9.setText("DOCUMENTO");
-		jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel9.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel9.setBounds(12, 87, 175, 35);
-
 		jLabel17 = new JLabel(contrato.getCliente().getDocumento());
 		contenedor.add(jLabel17);
-		jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 24));
+		jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel17.setBackground(Color.WHITE);
 		jLabel17.setForeground(new java.awt.Color(0, 64, 128));
 		jLabel17.setOpaque(true);
 		jLabel17.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		jLabel17.setBounds(12, 122, 268, 32);
+		jLabel17.setBounds(462, 50, 185, 32);
 
 		pnlSeguimientoContainer = new JPanel();
 		contenedor.add(pnlSeguimientoContainer);
-		pnlSeguimientoContainer.setBounds(558, 474, 683, 281);
+		pnlSeguimientoContainer.setBounds(555, 339, 683, 285);
 		pnlSeguimientoContainer.setLayout(null);
 		pnlSeguimientoContainer.setVisible(false);
 
 		pnlCargoContainer = new JPanel();
 		contenedor.add(pnlCargoContainer);
-		pnlCargoContainer.setBounds(558, 474, 683, 281);
+		pnlCargoContainer.setBounds(555, 339, 683, 285);
 		pnlCargoContainer.setLayout(null);
 		pnlCargoContainer.setOpaque(false);
 		pnlCargoContainer.setVisible(false);
 
+		edpMensajeSuceso = new JEditorPane("text/html", "");
+		pnlSucesos.add(edpMensajeSuceso);
+		edpMensajeSuceso.setOpaque(false);
+		edpMensajeSuceso.setEditable(false);
+		edpMensajeSuceso.setBackground(null);
+		edpMensajeSuceso.setBounds(371, 446, 172, 281);
+		edpMensajeSuceso.setFont(new java.awt.Font("Segoe UI", 1, 42));
+		edpMensajeSuceso.setForeground(Color.WHITE);
+
 		cboAlmacen = new JComboBox();
 		pnlCargoContainer.add(cboAlmacen);
 		new ArticuloController().ListarSedes("ALMACEN").forEach(ci -> cboAlmacen.addItem(ci));
-		cboAlmacen.setBounds(189, 63, 483, 32);
-		cboAlmacen.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		cboAlmacen.setBounds(316, 34, 331, 30);
+		cboAlmacen.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboAlmacen.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		txtTransportista = new JIconTextField();
 		pnlCargoContainer.add(txtTransportista);
-		txtTransportista.setBounds(188, 20, 483, 32);
-		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtTransportista.setBounds(12, 18, 297, 50);
+		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtTransportista.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		txtTransportista.setBorder(BorderFactory.createTitledBorder(null, "TRANSPORTISTA",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		btnGrabarCargo = new JButton(new ImageIcon("img/grabar.png"));
 		pnlCargoContainer.add(btnGrabarCargo);
@@ -816,12 +769,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnGrabarCargo.setToolTipText("Grabar Cargo");
 		btnGrabarCargo.setContentAreaFilled(false);
 		btnGrabarCargo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabarCargo.setBounds(602, 118, 70, 70);
+		btnGrabarCargo.setBounds(603, 97, 70, 70);
 		btnGrabarCargo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (Utiles.Validar(pnlCargoContainer)) {
-					tbContrato.getCellEditor().stopCellEditing();					
+					tbContrato.getCellEditor().stopCellEditing();
 					Cargo cargo = new Cargo();
 					cargo.setFecha(String.valueOf(LocalDate.now()));
 					cargo.setTransportista(txtTransportista.getText().toUpperCase());
@@ -830,7 +783,7 @@ public class Gestion_Contrato extends JInternalFrame {
 					cargo.setFechaCreacion(String.valueOf(LocalDate.now()));
 					for (int i = 0; i <= Constantes.DetalleContratoModel.getRowCount() - 1; i++) {
 						int estado = Integer.parseInt(Constantes.DetalleContratoModel.getValueAt(i, 6).toString());
-						if (estado == 1) {
+						if (estado == /* 1 */99) {
 							DetalleCargo detalle_cargo = new DetalleCargo();
 							detalle_cargo.setContrato(contrato);
 							Articulo articulo = new ArticuloController().ObtenerArticulo(
@@ -862,7 +815,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		btnRegresar2 = new JButton(new ImageIcon("img/regresar.png"));
 		pnlCargoContainer.add(btnRegresar2);
-		btnRegresar2.setBounds(602, 199, 70, 70);
+		btnRegresar2.setBounds(603, 162, 70, 70);
 		btnRegresar2.setOpaque(false);
 		btnRegresar2.setBorderPainted(false);
 		btnRegresar2.setToolTipText("Regresar");
@@ -879,7 +832,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		spDetalleCargo = new JScrollPane();
 		pnlCargoContainer.add(spDetalleCargo);
-		spDetalleCargo.setBounds(12, 108, 630, 173);
+		spDetalleCargo.setBounds(17, 80, 630, 183);
 		spDetalleCargo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		txtObsCargo = new JTextArea();
@@ -887,19 +840,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		txtObsCargo.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		txtObsCargo.setForeground(Color.BLACK);
 
-		jLabel24 = new JLabel();
-		pnlCargoContainer.add(jLabel24);
-		jLabel24.setText("TRANSPORTISTA");
-		jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		jLabel24.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel24.setBounds(12, 18, 176, 32);
-
 		jLabel25 = new JLabel();
 		pnlCargoContainer.add(jLabel25);
 		jLabel25.setText("DESTINO");
-		jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 12));
 		jLabel25.setForeground(new java.awt.Color(0, 128, 0));
-		jLabel25.setBounds(12, 64, 171, 32);
+		jLabel25.setBounds(316, 12, 91, 20);
 
 		btnGrabarSeguimiento = new JButton(new ImageIcon("img/grabar.png"));
 		pnlSeguimientoContainer.add(btnGrabarSeguimiento);
@@ -987,9 +933,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoInteres = new JRadioButton();
 		pnlOperacionContainer.add(rbPagoInteres);
 		rbPagoInteres.setText("SOLO INTERESES");
-		rbPagoInteres.setBounds(0, 59, 229, 32);
+		rbPagoInteres.setBounds(13, 44, 197, 30);
 		rbPagoInteres.setOpaque(false);
-		rbPagoInteres.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbPagoInteres.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbPagoInteres.setForeground(new java.awt.Color(128, 0, 128));
 		rbPagoInteres.setActionCommand("I");
 		rbPagoInteres.addActionListener(new ActionListener() {
@@ -1005,8 +951,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlOperacionContainer.add(rbPagoInteresMora);
 		rbPagoInteresMora.setOpaque(false);
 		rbPagoInteresMora.setText("INTERÉS + MORA");
-		rbPagoInteresMora.setBounds(0, 106, 229, 32);
-		rbPagoInteresMora.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbPagoInteresMora.setBounds(14, 92, 197, 30);
+		rbPagoInteresMora.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbPagoInteresMora.setForeground(new java.awt.Color(128, 0, 128));
 		rbPagoInteresMora.setActionCommand("IM");
 		rbPagoInteresMora.addActionListener(new ActionListener() {
@@ -1024,9 +970,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoMora.setOpaque(false);
 		rbPagoMora.setText("SOLO MORAS");
 		rbPagoMora.setActionCommand("M");
-		rbPagoMora.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbPagoMora.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbPagoMora.setForeground(new java.awt.Color(128, 0, 128));
-		rbPagoMora.setBounds(0, 154, 229, 32);
+		rbPagoMora.setBounds(12, 140, 197, 30);
 		rbPagoMora.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contrato.setOperacion("PAGAR SÓLO MORA");
@@ -1041,9 +987,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbAbonarCapital.setText("ABONAR AL CAPITAL");
 		rbAbonarCapital.setOpaque(false);
 		rbAbonarCapital.setActionCommand("ABN");
-		rbAbonarCapital.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbAbonarCapital.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbAbonarCapital.setForeground(new java.awt.Color(128, 0, 128));
-		rbAbonarCapital.setBounds(0, 201, 229, 32);
+		rbAbonarCapital.setBounds(12, 188, 197, 30);
 		rbAbonarCapital.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
@@ -1075,8 +1021,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlOperacionContainer.add(rbCancelarContrato);
 		rbCancelarContrato.setText("CANCELAR TODO");
 		rbCancelarContrato.setOpaque(false);
-		rbCancelarContrato.setBounds(0, 249, 229, 32);
-		rbCancelarContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbCancelarContrato.setBounds(13, 236, 197, 30);
+		rbCancelarContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbCancelarContrato.setForeground(new java.awt.Color(128, 0, 128));
 		rbCancelarContrato.setActionCommand("PAG");
 		rbCancelarContrato.addItemListener(new ItemListener() {
@@ -1125,10 +1071,10 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnSeguimiento.setBorderPainted(false);
 		btnSeguimiento.setContentAreaFilled(false);
 		btnSeguimiento.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnSeguimiento.setText("SEGUIMIENTO");
-		btnSeguimiento.setBounds(222, 201, 218, 75);
+		btnSeguimiento.setText("NUEVA LLAMADA");
+		btnSeguimiento.setBounds(222, 191, 218, 75);
 		btnSeguimiento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		btnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		btnSeguimiento.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSeguimiento.addActionListener(new ActionListener() {
 			@Override
@@ -1142,15 +1088,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlOperacionContainer.add(jLabel21);
 		jLabel21.setText("TOTAL A PAGAR");
 		jLabel21.setForeground(new java.awt.Color(0, 128, 255));
-		jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel21.setBounds(222, 12, 461, 35);
-
-		jLabel22 = new JLabel();
-		pnlOperacionContainer.add(jLabel22);
-		jLabel22.setText("OPERACIÓN");
-		jLabel22.setForeground(new java.awt.Color(0, 128, 255));
-		jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel22.setBounds(0, 9, 222, 40);
+		jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel21.setBounds(222, 10, 329, 30);
 
 		btnPagar = new JButton(new ImageIcon("img/pagar.png"));
 		pnlOperacionContainer.add(btnPagar);
@@ -1177,14 +1116,22 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		btnCargo = new JButton(new ImageIcon("img/cargo.png"));
 		pnlOperacionContainer.add(btnCargo, JLayeredPane.DEFAULT_LAYER);
-		btnCargo.setText("CARGO");
-		btnCargo.setBounds(452, 201, 218, 75);
+		btnCargo.setText("NUEVO CARGO");
+		btnCargo.setBounds(452, 191, 218, 75);
 		btnCargo.setOpaque(false);
 		btnCargo.setBorderPainted(false);
 		btnCargo.setContentAreaFilled(false);
 		btnCargo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCargo.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnCargo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		btnCargo.setHorizontalAlignment(SwingConstants.LEFT);
+
+		jLabel22 = new JLabel();
+		pnlOperacionContainer.add(jLabel22, JLayeredPane.DEFAULT_LAYER);
+		jLabel22.setText("OPERACIÓN");
+		jLabel22.setForeground(new java.awt.Color(0, 128, 255));
+		jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel22.setBounds(16, 10, 194, 30);
+
 		btnCargo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1242,7 +1189,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
 			Constantes.DetalleContratoModel.addRow(new Object[] { dc.getArticulo().getId(),
 					dc.getArticulo().getDescripcion(), dc.getArticulo().getMarca(), dc.getArticulo().getModelo(),
-					dc.getArticulo().getObs(), dc.getTasacion().setScale(2, RoundingMode.HALF_UP), 0 });
+					dc.getArticulo().getObs(), dc.getTasacion().setScale(2, RoundingMode.HALF_UP),
+					dc.getArticulo().getEArticulo().getId() });
 		}
 	}
 

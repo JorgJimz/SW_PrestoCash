@@ -17,7 +17,7 @@ public class RenderLCE implements TableCellRenderer {
 
 		JLabel e = new JLabel();
 		e.setOpaque(true);
-		e.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		e.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		e.setText(value.toString());
 
 		table.getColumn("DESCRIPCIÓN").setPreferredWidth(210);

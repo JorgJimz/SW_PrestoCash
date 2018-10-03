@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,45 +49,54 @@ public class Actualizar_Contratos extends JInternalFrame {
 		this.setLayout(null);
 		this.setSize(1287, 800);
 		this.setClosable(true);
+		this.setPreferredSize(new java.awt.Dimension(1282, 597));
+		this.setBounds(0, 0, 1282, 597);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1271, 800);
+		contenedor.setBounds(0, 0, 1280, 572);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		jScrollPane1 = new JScrollPane();
 		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(12, 41, 1226, 615);
+		jScrollPane1.setBounds(12, 21, 1226, 452);
 		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		tbContratos = new JTable();
 		jScrollPane1.setViewportView(tbContratos);
 		tbContratos.setModel(Constantes.ActualizacionModel);
 		tbContratos.setDefaultRenderer(Object.class, new RenderCC());
-		tbContratos.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tbContratos.setRowHeight(35);
-		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbContratos.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbContratos.setRowHeight(25);
+		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContratos.getTableHeader().setForeground(new Color(181, 0, 0));
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(Constantes.ActualizacionModel);
 		tbContratos.setRowSorter(sorter);
-		btnActualizar = new JButton(new ImageIcon("img/update_contratos.png"));
+		btnActualizar = new JButton(new ImageIcon("img/actualizar_contratos.png"));
 		contenedor.add(btnActualizar);
 		btnActualizar.setText("ACTUALIZAR CONTRATOS");
-		btnActualizar.setBounds(12, 673, 728, 71);
+		btnActualizar.setBounds(12, 479, 282, 64);
 		btnActualizar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		btnActualizar.setBackground(new java.awt.Color(192, 192, 192));
+		btnActualizar.setOpaque(false);
+		btnActualizar.setBorderPainted(false);
+		btnActualizar.setContentAreaFilled(false);
+		btnActualizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnActualizar.setHorizontalAlignment(SwingConstants.LEFT);
+
 		dobar = new JProgressBar();
 		contenedor.add(dobar);
-		dobar.setBounds(752, 673, 486, 71);
+		dobar.setBounds(300, 479, 938, 31);
 		dobar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		lblTotalContrato = new JLabel("TOTAL: " + l.stream().count() + " CONTRATOS VIGENTES.");
 		contenedor.add(lblTotalContrato);
-		lblTotalContrato.setBounds(752, 6, 486, 27);
+		lblTotalContrato.setBounds(300, 516, 938, 27);
 		lblTotalContrato.setForeground(new java.awt.Color(0, 128, 0));
-		lblTotalContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		lblTotalContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		lblTotalContrato.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		btnActualizar.addActionListener(new ActionListener() {

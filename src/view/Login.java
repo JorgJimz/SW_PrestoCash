@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import common.Constantes;
 import common.MyFocusTraversalPolicy;
@@ -36,8 +38,6 @@ public class Login extends JFrame {
 	private JButton btnIngreso;
 	private JPasswordField txtPassword;
 	private JLabel lblLogo;
-	private JLabel imgKey;
-	private JLabel imgUser;
 	Vector<Component> order = new Vector<Component>(3);
 
 	public Login() {
@@ -52,11 +52,14 @@ public class Login extends JFrame {
 		txtUsuario = new JTextField();
 		getContentPane().add(txtUsuario);
 		txtUsuario.requestFocus();
-		txtUsuario.setBounds(100, 299, 383, 64);
-		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtUsuario.setBounds(24, 180, 304, 50);
+		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
 		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		txtUsuario.setBorder(BorderFactory.createTitledBorder(null, "USUARIO", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 		order.add(txtUsuario);
 		txtUsuario.addActionListener(new ActionListener() {
 			@Override
@@ -67,11 +70,14 @@ public class Login extends JFrame {
 
 		txtPassword = new JPasswordField();
 		getContentPane().add(txtPassword);
-		txtPassword.setBounds(100, 379, 383, 64);
-		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtPassword.setBounds(24, 240, 304, 50);
+		txtPassword.setOpaque(false);
+		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
-		txtPassword.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPassword.setBorder(BorderFactory.createTitledBorder(null, "CONTRASEÑA", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 		order.add(txtPassword);
 		txtPassword.addActionListener(new ActionListener() {
 			@Override
@@ -80,13 +86,13 @@ public class Login extends JFrame {
 			}
 		});
 
-		btnIngreso = new JButton(new ImageIcon("img/signin.png"));
+		btnIngreso = new JButton(new ImageIcon("img/singin.png"));
 		getContentPane().add(btnIngreso);
 		btnIngreso.setOpaque(false);
 		btnIngreso.setBorderPainted(false);
 		btnIngreso.setContentAreaFilled(false);
 		btnIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnIngreso.setBounds(495, 299, 144, 144);
+		btnIngreso.setBounds(340, 210, 64, 64);
 		btnIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		order.add(btnIngreso);
 		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -99,19 +105,9 @@ public class Login extends JFrame {
 
 		lblLogo = new JLabel(new ImageIcon("img/logo.png"));
 		getContentPane().add(lblLogo);
-		lblLogo.setBounds(24, 12, 615, 261);
+		lblLogo.setBounds(15, 12, 380, 152);
 
-		imgUser = new JLabel(new ImageIcon("img/user.png"));
-		getContentPane().add(imgUser);
-		imgUser.setOpaque(false);
-		imgUser.setBounds(24, 299, 64, 64);
-
-		imgKey = new JLabel(new ImageIcon("img/key.png"));
-		getContentPane().add(imgKey);
-		imgKey.setOpaque(false);
-		imgKey.setBounds(24, 379, 64, 64);
-
-		this.setSize(680, 510);
+		this.setSize(445, 337);
 		this.setLocationRelativeTo(null);
 
 		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));

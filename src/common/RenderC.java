@@ -16,7 +16,7 @@ public class RenderC implements TableCellRenderer {
 		JLabel e = new JLabel();
 		JCheckBox chk = new JCheckBox();
 		e.setOpaque(true);
-		chk.setOpaque(true);		
+		chk.setOpaque(true);
 
 		if (isSelected) {
 			e.setBackground(Color.ORANGE);
@@ -24,7 +24,7 @@ public class RenderC implements TableCellRenderer {
 		}
 
 		if (column == 6) {
-			if ((Integer) value == 1) {
+			if ((Integer) value == 4 || (Integer) value == 99) {
 				chk.setSelected(true);
 				return chk;
 			} else {
@@ -33,7 +33,7 @@ public class RenderC implements TableCellRenderer {
 			}
 		} else {
 			e.setText(value.toString());
-			e.setFont(new java.awt.Font("Segoe UI", 1, 20));
+			e.setFont(new java.awt.Font("Segoe UI", 1, 16));
 			return e;
 		}
 
