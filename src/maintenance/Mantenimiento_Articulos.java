@@ -31,6 +31,19 @@ import model.Articulo;
 import model.EArticulo;
 import view.Principal;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings("serial")
 public class Mantenimiento_Articulos extends JInternalFrame {
 
@@ -60,18 +73,18 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		this.setSize(520, 528);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new java.awt.Dimension(1369, 971));
-		this.setBounds(0, 0, 1369, 971);
+		this.setPreferredSize(new java.awt.Dimension(1369, 721));
+		this.setBounds(0, 0, 1369, 721);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1368, 946);
+		contenedor.setBounds(0, 0, 1368, 696);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		txtDescripcion = new JTextField();
 		contenedor.add(txtDescripcion);
-		txtDescripcion.setBounds(14, 12, 427, 60);
+		txtDescripcion.setBounds(14, 12, 286, 50);
 		txtDescripcion.setBorder(BorderFactory.createTitledBorder(null, "DESCRIPCIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
@@ -80,7 +93,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtMarca = new JTextField();
 		contenedor.add(txtMarca);
-		txtMarca.setBounds(448, 12, 247, 60);
+		txtMarca.setBounds(317, 12, 223, 50);
 		txtMarca.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtMarca.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtMarca.setForeground(new java.awt.Color(0, 64, 128));
@@ -90,7 +103,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtModelo = new JTextField();
 		contenedor.add(txtModelo);
-		txtModelo.setBounds(701, 12, 271, 60);
+		txtModelo.setBounds(552, 12, 223, 50);
 		txtModelo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtModelo.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtModelo.setForeground(new java.awt.Color(0, 64, 128));
@@ -100,7 +113,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtObs = new JTextField();
 		contenedor.add(txtObs);
-		txtObs.setBounds(12, 78, 1213, 60);
+		txtObs.setBounds(12, 78, 528, 50);
 		txtObs.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtObs.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtObs.setForeground(new java.awt.Color(0, 64, 128));
@@ -115,7 +128,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnGrabar.setBounds(882, 144, 70, 64);
+		btnGrabar.setBounds(1023, 68, 70, 64);
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnGrabar.addActionListener(new ActionListener() {
@@ -153,7 +166,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		btnActualizar = new JButton(new ImageIcon("img/edit.png"));
 		contenedor.add(btnActualizar);
-		btnActualizar.setBounds(964, 144, 70, 64);
+		btnActualizar.setBounds(1142, 68, 70, 64);
 		btnActualizar.setEnabled(false);
 		btnActualizar.setOpaque(false);
 		btnActualizar.setBorderPainted(false);
@@ -199,7 +212,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		btnEliminar = new JButton(new ImageIcon("img/eliminar.png"));
 		contenedor.add(btnEliminar);
 		btnEliminar.setEnabled(false);
-		btnEliminar.setBounds(1046, 144, 70, 64);
+		btnEliminar.setBounds(1264, 68, 70, 64);
 		btnEliminar.setOpaque(false);
 		btnEliminar.setBorderPainted(false);
 		btnEliminar.setContentAreaFilled(false);
@@ -219,7 +232,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		jScrollPane1 = new JScrollPane();
 		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(12, 216, 1322, 513);
+		jScrollPane1.setBounds(12, 144, 1322, 522);
 		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -259,7 +272,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtPrecioVenta = new JTextField();
 		contenedor.add(txtPrecioVenta);
-		txtPrecioVenta.setBounds(12, 145, 192, 60);
+		txtPrecioVenta.setBounds(552, 78, 145, 50);
 		txtPrecioVenta.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtPrecioVenta.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtPrecioVenta.setForeground(new java.awt.Color(0, 64, 128));
@@ -269,7 +282,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtCapital = new JTextField();
 		contenedor.add(txtCapital);
-		txtCapital.setBounds(678, 144, 192, 60);
+		txtCapital.setBounds(866, 78, 145, 50);
 		txtCapital.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtCapital.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtCapital.setForeground(new java.awt.Color(0, 64, 128));
@@ -279,7 +292,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtContratoAsociado = new JTextField();
 		contenedor.add(txtContratoAsociado);
-		txtContratoAsociado.setBounds(504, 144, 162, 50);
+		txtContratoAsociado.setBounds(1142, 12, 192, 50);
 		txtContratoAsociado.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtContratoAsociado.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtContratoAsociado.setForeground(new java.awt.Color(0, 64, 128));
@@ -289,7 +302,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtP = new JTextField();
 		contenedor.add(txtP);
-		txtP.setBounds(426, 144, 66, 60);
+		txtP.setBounds(1022, 12, 108, 50);
 		txtP.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtP.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtP.setForeground(new java.awt.Color(0, 64, 128));
@@ -302,7 +315,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		txtSerie.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtSerie.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtSerie.setForeground(new java.awt.Color(0, 64, 128));
-		txtSerie.setBounds(978, 12, 247, 60);
+		txtSerie.setBounds(787, 12, 223, 50);
 		txtSerie.setBorder(BorderFactory.createTitledBorder(null, "SERIE",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
@@ -312,7 +325,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		txtPrecioInterno.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtPrecioInterno.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtPrecioInterno.setForeground(new java.awt.Color(0, 64, 128));
-		txtPrecioInterno.setBounds(222, 144, 192, 60);
+		txtPrecioInterno.setBounds(709, 78, 145, 50);
 		txtPrecioInterno.setBorder(BorderFactory.createTitledBorder(null, "PRECIO INTERNO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));

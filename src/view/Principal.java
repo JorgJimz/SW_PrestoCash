@@ -29,22 +29,6 @@ import model.Contrato;
 import model.LibroCaja;
 import model.Sede;
 import model.Usuario;
-import report.Estadistico_Mensual_Empenos;
-import report.Estadistico_Mensual_Ganancias;
-import report.Reporte_Asistencia;
-import report.Reporte_Comision;
-import report.Reporte_Comision_Oro;
-import report.Reporte_Compra_Oro;
-import report.Reporte_Contratos_Auto_Vigente;
-import report.Reporte_Contratos_Casa_Vigente;
-import report.Reporte_Contratos_X_Tipo;
-import report.Reporte_Fundicion;
-import report.Reporte_Inventario;
-import report.Reporte_Mensual_Contratos;
-import report.Reporte_Remates;
-import report.Reporte_Superintendencia;
-import report.Reporte_Ventas;
-import report.Reporte_Vitrina;
 
 @SuppressWarnings({ "serial" })
 public class Principal extends JFrame {
@@ -99,19 +83,16 @@ public class Principal extends JFrame {
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
 		Principal.SEDE = new LibroCajaController().ObtenerSedePrincipal();
-		dskPrincipal = new JDesktopPane();/* {
-			ImageIcon icon = new ImageIcon("img/bkg.png");
-			Image image = icon.getImage();
-			Image newimage = image.getScaledInstance(739, 533, Image.SCALE_SMOOTH);
-
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(newimage, 0, 0, this);
-			}
-		};*/
+		dskPrincipal = new JDesktopPane();/*
+											 * { ImageIcon icon = new ImageIcon("img/bkg.png"); Image image =
+											 * icon.getImage(); Image newimage = image.getScaledInstance(739, 533,
+											 * Image.SCALE_SMOOTH);
+											 * 
+											 * @Override protected void paintComponent(Graphics g) {
+											 * super.paintComponent(g); g.drawImage(newimage, 0, 0, this); } };
+											 */
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
-		//dskPrincipal.setBounds(0, 0, 704, 377);
+		// dskPrincipal.setBounds(0, 0, 704, 377);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -174,39 +155,6 @@ public class Principal extends JFrame {
 		mnReportes.add(mniReporteVentas);
 		mniReporteVentas.setText("REPORTE DE VENTAS MENSUAL");
 		mniReporteVentas.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteVentas.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Ventas ventas = new Reporte_Ventas();
-				dskPrincipal.add(ventas);
-			}
-		});
-
-		mniReporteVitrina.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Vitrina vitrina = new Reporte_Vitrina();
-				dskPrincipal.add(vitrina);
-				/* mostrarReporteVitrina(); */
-			}
-		});
-
-		mniReporteAsistencia.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Asistencia reporte_asistencia = new Reporte_Asistencia();
-				dskPrincipal.add(reporte_asistencia);
-
-			}
-		});
-		mniReporteRemates.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Remates reporte_remates = new Reporte_Remates();
-				dskPrincipal.add(reporte_remates);
-
-			}
-		});
 
 		mniReporteSeparacion = new JMenuItem();
 		mniReporteSeparacion.setText("REPORTE DE SEPARACIONES");
@@ -221,13 +169,6 @@ public class Principal extends JFrame {
 		mniReporteContratoXTipo = new JMenuItem();
 		mniReporteContratoXTipo.setText("REPORTE CONTRATOS X TIPO");
 		mniReporteContratoXTipo.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteContratoXTipo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Contratos_X_Tipo cxt = new Reporte_Contratos_X_Tipo();
-				dskPrincipal.add(cxt);
-			}
-		});
 
 		mniReporteComision = new JMenuItem();
 		mniReporteComision.setText("REPORTE COMISION MENSUAL");
@@ -239,80 +180,31 @@ public class Principal extends JFrame {
 		mniEmpeniosMensuales = new JMenuItem();
 		mniEmpeniosMensuales.setText("REPORTE MENSUAL DE EMPEÑOS");
 		mniEmpeniosMensuales.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniEmpeniosMensuales.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Mensual_Contratos reporte_mensual = new Reporte_Mensual_Contratos();
-				dskPrincipal.add(reporte_mensual);
-			}
-		});
 
 		mniReporteInventario = new JMenuItem();
 		mniReporteInventario.setText("REPORTE INVENTARIO");
 		mniReporteInventario.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteInventario.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Inventario inventario = new Reporte_Inventario();
-				dskPrincipal.add(inventario);
-			}
-		});
 
 		mniReporteFundicion = new JMenuItem();
 		mniReporteFundicion.setText("REPORTE FUNDICIÓN DE ORO");
 		mniReporteFundicion.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteFundicion.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Fundicion fundicion = new Reporte_Fundicion();
-				dskPrincipal.add(fundicion);
-			}
-		});
 
 		mniReporteComisionOro = new JMenuItem();
 		mniReporteComisionOro.setText("REPORTE COMISION MENSUAL (ORO)");
 		mniReporteComisionOro.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteComisionOro.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Reporte_Comision_Oro co = new Reporte_Comision_Oro();
-				dskPrincipal.add(co);
-
-			}
-		});
 
 		mniReporteCompraOro = new JMenuItem();
 		mniReporteCompraOro.setText("REPORTE MENSUAL COMPRA DE ORO");
 		mniReporteCompraOro.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteCompraOro.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Compra_Oro compra = new Reporte_Compra_Oro();
-				dskPrincipal.add(compra);
-			}
-		});
+
 		mniEstadisticoMensualEmpenos = new JMenuItem();
 		mniEstadisticoMensualEmpenos.setText("GRAFICO MENSUAL DE EMPEÑOS");
 		mniEstadisticoMensualEmpenos.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniEstadisticoMensualEmpenos.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Estadistico_Mensual_Empenos mensual_empenos = new Estadistico_Mensual_Empenos();
-				dskPrincipal.add(mensual_empenos);
-			}
-		});
 
 		mnireporteSuper = new JMenuItem();
 		mnReportes.add(mnireporteSuper);
 		mnireporteSuper.setText("REPORTE CONTRATOS ANUAL");
 		mnireporteSuper.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mnireporteSuper.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Superintendencia reporte_super = new Reporte_Superintendencia();
-				dskPrincipal.add(reporte_super);
-			}
-		});
 
 		mnEstadistico = new JMenu();
 		mnEstadistico.setText("GRAFICOS ESTADISTICOS");
@@ -323,13 +215,6 @@ public class Principal extends JFrame {
 		mnEstadistico.add(mniReporteEstadisticoGanancia);
 		mniReporteEstadisticoGanancia.setText("GRAFICO MENSUAL DE GANANCIAS");
 		mniReporteEstadisticoGanancia.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteEstadisticoGanancia.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Estadistico_Mensual_Ganancias emg = new Estadistico_Mensual_Ganancias();
-				dskPrincipal.add(emg);
-			}
-		});
 
 		mnReportes.add(mniEmpeniosMensuales);
 		mnReportes.add(mniReporteInventario);
@@ -342,33 +227,11 @@ public class Principal extends JFrame {
 		mnReportes.add(mniReporteAutoVigente);
 		mniReporteAutoVigente.setText("REPORTE AUTO VIVO");
 		mniReporteAutoVigente.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniReporteAutoVigente.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Contratos_Auto_Vigente vivo = new Reporte_Contratos_Auto_Vigente();
-				dskPrincipal.add(vivo);
-			}
-		});
 
 		mniCasaViva = new JMenuItem();
 		mnReportes.add(mniCasaViva);
 		mniCasaViva.setText("REPORTE CASA VIVO");
 		mniCasaViva.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		mniCasaViva.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Reporte_Contratos_Casa_Vigente casa = new Reporte_Contratos_Casa_Vigente();
-				dskPrincipal.add(casa);
-			}
-		});
-
-		mniReporteComision.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Reporte_Comision comision = new Reporte_Comision();
-				dskPrincipal.add(comision);
-			}
-		});
 
 		mnLibroCaja = new JMenu();
 		mnTransacciones.add(mnLibroCaja);
@@ -463,8 +326,7 @@ public class Principal extends JFrame {
 		mniLibroCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dskPrincipal.add(
-						new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(LocalDate.now())));
+				dskPrincipal.add(new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(LocalDate.now())));
 			}
 		});
 
@@ -535,7 +397,7 @@ public class Principal extends JFrame {
 			Utiles.Mensaje(String.valueOf(obj), JOptionPane.WARNING_MESSAGE);
 			Utiles.BloquearMenu(menuBarPrincipal);
 		} else {
-			LIBRO_CAJA = (LibroCaja) obj;			
+			LIBRO_CAJA = (LibroCaja) obj;
 			/*
 			 * Utiles.Mensaje("Favor de actualizar los contratos.",
 			 * JOptionPane.WARNING_MESSAGE); Actualizar_Contratos ac = new
