@@ -90,9 +90,9 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="302" splitType="Stretch">
+		<band height="230" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="3" width="792" height="291" uuid="f84298bf-b203-4213-92fd-0cc344fc732b"/>
+				<reportElement x="0" y="3" width="792" height="227" uuid="f84298bf-b203-4213-92fd-0cc344fc732b"/>
 				<dataSourceExpression><![CDATA[$F{detalleContratoJasper}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/detalle_contrato.jasper"]]></subreportExpression>
 			</subreport>

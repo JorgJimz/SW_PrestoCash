@@ -33,6 +33,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -146,6 +148,38 @@ public class Contrato_Prestacion extends JInternalFrame {
 		this.setSize(new java.awt.Dimension(1300, 710));
 		this.setPreferredSize(new java.awt.Dimension(1229, 710));
 		this.setBounds(0, 0, 1229, 710);
+		this.setClosable(true);
+		this.addInternalFrameListener(new InternalFrameListener() {
+
+			@Override
+			public void internalFrameOpened(InternalFrameEvent e) {
+			}
+
+			@Override
+			public void internalFrameIconified(InternalFrameEvent e) {
+			}
+
+			@Override
+			public void internalFrameDeiconified(InternalFrameEvent e) {
+			}
+
+			@Override
+			public void internalFrameDeactivated(InternalFrameEvent e) {
+			}
+
+			@Override
+			public void internalFrameClosing(InternalFrameEvent e) {
+				ConfirmarCerrar();
+			}
+
+			@Override
+			public void internalFrameClosed(InternalFrameEvent e) {
+			}
+
+			@Override
+			public void internalFrameActivated(InternalFrameEvent e) {
+			}
+		});
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
@@ -477,7 +511,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 14));
-		btnGrabar.setBounds(965, 272, 228, 64);		
+		btnGrabar.setBounds(965, 272, 228, 64);
 		btnGrabar.setBackground(new java.awt.Color(128, 255, 255));
 		btnGrabar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnGrabar.addActionListener(new ActionListener() {
@@ -595,7 +629,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial = new JButton(new ImageIcon("img/historial.png"));
 		contenedor.add(btnHistorial);
 		btnHistorial.setEnabled(false);
-		btnHistorial.setText(" HISTORIAL PRENDAS");
+		btnHistorial.setText("HISTORIAL PRENDAS");
 		btnHistorial.setBorderPainted(false);
 		btnHistorial.setContentAreaFilled(false);
 		btnHistorial.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -629,7 +663,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Color(0, 128, 0)));
 
 		tbArticulos = new JTable();
-		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbArticulos.setModel(Constantes.ArticuloModel);
@@ -670,7 +704,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		spArticulo = new JScrollPane();
 		contenedor.add(spArticulo);
-		spArticulo.setBounds(12, 471, 1198, 223);
+		spArticulo.setBounds(12, 347, 1164, 229);
 		spArticulo.setVisible(false);
 		spArticulo.setBackground(new java.awt.Color(255, 255, 255));
 		spArticulo.setViewportView(tbArticulos);
@@ -683,39 +717,36 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnRegresar.setContentAreaFilled(false);
 		btnRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnRegresar.setBounds(960, 312, 295, 64);
-		btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnRegresar.setBounds(960, 312, 295, 64);
-		btnRegresar.setText(" REGRESAR");
+		btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnRegresar.setBounds(881, 582, 295, 64);
+		btnRegresar.setText("REGRESAR A CONTRATO");
 		btnRegresar.setHorizontalAlignment(SwingConstants.LEFT);
-		{
-			jSeparator1 = new JSeparator();
-			contenedor.add(jSeparator1);
-			jSeparator1.setBounds(12, 178, 941, 9);
-		}
-		{
-			jLabel1 = new JLabel();
-			contenedor.add(jLabel1);
-			jLabel1.setText("FECHA CONTRATO");
-			jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16));
-			jLabel1.setForeground(new java.awt.Color(0, 128, 0));
-			jLabel1.setBounds(462, 38, 160, 29);
-		}
-		{
-			jLabel3 = new JLabel();
-			contenedor.add(jLabel3);
-			jLabel3.setText("FEC. VENCIMIENTO");
-			jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16));
-			jLabel3.setForeground(new java.awt.Color(0, 128, 0));
-			jLabel3.setBounds(628, 38, 160, 29);
-		}
-		{
-			jLabel4 = new JLabel();
-			contenedor.add(jLabel4);
-			jLabel4.setText("FECHA REMATE");
-			jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16));
-			jLabel4.setForeground(new java.awt.Color(0, 128, 0));
-			jLabel4.setBounds(794, 38, 160, 29);
-		}
+
+		jSeparator1 = new JSeparator();
+		contenedor.add(jSeparator1);
+		jSeparator1.setBounds(12, 178, 941, 9);
+
+		jLabel1 = new JLabel();
+		contenedor.add(jLabel1);
+		jLabel1.setText("FECHA CONTRATO");
+		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
+		jLabel1.setBounds(462, 38, 160, 29);
+
+		jLabel3 = new JLabel();
+		contenedor.add(jLabel3);
+		jLabel3.setText("FEC. VENCIMIENTO");
+		jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel3.setForeground(new java.awt.Color(0, 128, 0));
+		jLabel3.setBounds(628, 38, 160, 29);
+
+		jLabel4 = new JLabel();
+		contenedor.add(jLabel4);
+		jLabel4.setText("FECHA REMATE");
+		jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel4.setForeground(new java.awt.Color(0, 128, 0));
+		jLabel4.setBounds(794, 38, 160, 29);
+
 		btnRegresar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
