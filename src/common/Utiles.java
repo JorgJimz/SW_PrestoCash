@@ -2,6 +2,8 @@ package common;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -63,6 +65,14 @@ public class Utiles {
 			}
 		}
 		return true;
+	}
+	
+	public static BigDecimal redondearCentimos(BigDecimal param) {
+		BigDecimal Tick = new BigDecimal("0.10");
+		BigDecimal formattedNumber = param.divide(Tick, 9, RoundingMode.HALF_EVEN);
+		formattedNumber = formattedNumber.setScale(0, RoundingMode.HALF_UP).multiply(Tick);
+		System.out.println("Original: " + param + "- Converted: " + formattedNumber);
+		return formattedNumber;
 	}
 
 	public static boolean Validar(Container pnl) {

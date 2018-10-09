@@ -24,6 +24,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
 import common.Constantes;
+import common.Utiles;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -236,6 +237,12 @@ public class Contrato implements Serializable {
 					moraColor = new Color(0, 128, 0);
 				}
 			}
+			
+			
+			interesDiario = Utiles.redondearCentimos(interesDiario);
+			prorrateo = Utiles.redondearCentimos(prorrateo);
+			prorrateoMora = Utiles.redondearCentimos(prorrateoMora);
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

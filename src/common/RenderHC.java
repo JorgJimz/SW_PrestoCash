@@ -24,11 +24,11 @@ public class RenderHC implements TableCellRenderer {
 
 		if (String.valueOf(table.getValueAt(row, 4)).equals("CANCELADO")) {
 			e.setText(value.toString());
-			e.setFont(new Font("Segoe UI", Font.BOLD, 20));
+			e.setFont(new Font("Segoe UI", Font.BOLD, 16));
 			e.setForeground(Color.RED);
 		} else if (value instanceof Object) {
 			e.setText(value.toString());
-			e.setFont(new Font("Segoe UI", Font.BOLD, 20));
+			e.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		}
 		return e;
 

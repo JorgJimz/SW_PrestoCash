@@ -331,12 +331,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbIntereses = new JTable();
 		tbIntereses.setDefaultRenderer(Object.class, new RenderIM());
 		tbIntereses.setDefaultEditor(Object.class, new EditorIM());
-		tbIntereses.setRowHeight(30);
-		tbIntereses.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbIntereses.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbIntereses.setRowHeight(25);
+		tbIntereses.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbIntereses.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbIntereses.setModel(InteresModel);
 		tbIntereses.getTableHeader().setForeground(new Color(181, 0, 0));
-		spIntereses.setPreferredSize(new java.awt.Dimension(1199, 225));
+		spIntereses.setPreferredSize(new java.awt.Dimension(1200, 170));
 		spIntereses.setViewportView(tbIntereses);
 		pnlInteres.add(spIntereses);
 		tpContrato.addTab("INTERESES", null, pnlInteres, null);
@@ -344,12 +344,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlPagos = new JPanel();
 		spPagos = new JScrollPane();
 		tbPagos = new JTable();
-		tbPagos.setRowHeight(30);
-		tbPagos.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbPagos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbPagos.setRowHeight(25);
+		tbPagos.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbPagos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbPagos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbPagos.setModel(Constantes.PagoModel);
-		spPagos.setPreferredSize(new java.awt.Dimension(1206, 226));
+		spPagos.setPreferredSize(new java.awt.Dimension(1200, 170));
 		spPagos.setViewportView(tbPagos);
 		pnlPagos.add(spPagos);
 		tpContrato.addTab("PAGOS", null, pnlPagos, null);
@@ -361,11 +361,11 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbMoras.setModel(MoraModel);
 		tbMoras.setDefaultRenderer(Object.class, new RenderIM());
 		tbMoras.setDefaultEditor(Object.class, new EditorIM());
-		tbMoras.setRowHeight(30);
+		tbMoras.setRowHeight(25);
 		tbMoras.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbMoras.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbMoras.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbMoras.getTableHeader().setForeground(new Color(181, 0, 0));
-		spMoras.setPreferredSize(new java.awt.Dimension(1200, 229));
+		spMoras.setPreferredSize(new java.awt.Dimension(1200, 170));
 		spMoras.setViewportView(tbMoras);
 		pnlMoras.add(spMoras);
 		tpContrato.addTab("MORAS", null, pnlMoras, null);
@@ -374,11 +374,11 @@ public class Gestion_Contrato extends JInternalFrame {
 		spAbonos = new JScrollPane();
 		tbAbonos = new JTable();
 		tbAbonos.setModel(Constantes.AbonoModel);
-		tbAbonos.setRowHeight(30);
+		tbAbonos.setRowHeight(25);
 		tbAbonos.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbAbonos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbAbonos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbAbonos.getTableHeader().setForeground(new Color(181, 0, 0));
-		spAbonos.setPreferredSize(new java.awt.Dimension(1204, 229));
+		spAbonos.setPreferredSize(new java.awt.Dimension(1200, 170));
 		spAbonos.setViewportView(tbAbonos);
 		pnlAbonos.add(spAbonos);
 		tpContrato.addTab("ABONOS", null, pnlAbonos, null);
@@ -387,9 +387,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		spCargos = new JScrollPane();
 		tbCargos = new JTable();
 		tbCargos.setModel(Constantes.CargoModel);
-		tbCargos.setRowHeight(30);
+		tbCargos.setRowHeight(25);
 		tbCargos.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbCargos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbCargos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbCargos.getTableHeader().setForeground(new Color(181, 0, 0));
 		spCargos.setPreferredSize(new java.awt.Dimension(1204, 229));
 		spCargos.setViewportView(tbCargos);
@@ -401,9 +401,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbSeguimiento = new JTable();
 		tbSeguimiento.setModel(Constantes.SeguimientoModel);
 		tbSeguimiento.setDefaultRenderer(Object.class, new RenderIO());
-		tbSeguimiento.setRowHeight(36);
+		tbSeguimiento.setRowHeight(25);
 		tbSeguimiento.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbSeguimiento.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbSeguimiento.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbSeguimiento.getTableHeader().setForeground(new Color(181, 0, 0));
 		spSeguimiento.setPreferredSize(new java.awt.Dimension(1204, 229));
 		spSeguimiento.setViewportView(tbSeguimiento);
@@ -412,13 +412,13 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		pnlHistorial = new JPanel();
 		spHistorial = new JScrollPane();
-		spHistorial.setPreferredSize(new java.awt.Dimension(1202, 229));
+		spHistorial.setPreferredSize(new java.awt.Dimension(1200, 170));
 		pnlHistorial.setPreferredSize(new java.awt.Dimension(1224, 264));
 		tbHistorial = new JTable();
 		tbHistorial.setDefaultRenderer(Object.class, new RenderHC());
-		tbHistorial.setRowHeight(30);
+		tbHistorial.setRowHeight(25);
 		tbHistorial.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tbHistorial.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbHistorial.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbHistorial.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbHistorial.setModel(Constantes.HistorialModel);
 		spHistorial.setViewportView(tbHistorial);
@@ -456,7 +456,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlCalculos.add(lblCapital);
 		lblCapital.setBounds(125, 339, 120, 32);
 		lblCapital.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblCapital.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		lblCapital.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblCapital.setBackground(Color.WHITE);
 		lblCapital.setOpaque(true);
 		lblCapital.setForeground(new java.awt.Color(0, 64, 128));
@@ -472,7 +472,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlCalculos.add(lblMoraSiNo);
 		lblMoraSiNo.setBounds(426, 339, 120, 32);
 		lblMoraSiNo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblMoraSiNo.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		lblMoraSiNo.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblMoraSiNo.setBackground(Color.WHITE);
 		lblMoraSiNo.setOpaque(true);
 
@@ -663,10 +663,11 @@ public class Gestion_Contrato extends JInternalFrame {
 		contenedor.add(lblCliente);
 		lblCliente.setBounds(659, 50, 382, 32);
 		lblCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblCliente.setBackground(Color.WHITE);
 		lblCliente.setOpaque(true);
 		lblCliente.setForeground(new java.awt.Color(0, 64, 128));
+		lblCliente.setHorizontalAlignment(SwingConstants.CENTER);
 
 		jSeparator1 = new JSeparator();
 		contenedor.add(jSeparator1);
@@ -717,12 +718,13 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		jLabel17 = new JLabel(contrato.getCliente().getDocumento());
 		contenedor.add(jLabel17);
-		jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		jLabel17.setBackground(Color.WHITE);
 		jLabel17.setForeground(new java.awt.Color(0, 64, 128));
 		jLabel17.setOpaque(true);
 		jLabel17.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		jLabel17.setBounds(462, 50, 185, 32);
+		jLabel17.setHorizontalAlignment(SwingConstants.CENTER);
 
 		pnlSeguimientoContainer = new JPanel();
 		contenedor.add(pnlSeguimientoContainer);
@@ -742,7 +744,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		edpMensajeSuceso.setOpaque(false);
 		edpMensajeSuceso.setEditable(false);
 		edpMensajeSuceso.setBackground(null);
-		edpMensajeSuceso.setBounds(371, 446, 172, 281);
+		edpMensajeSuceso.setBounds(0, 0, 682, 277);
 		edpMensajeSuceso.setFont(new java.awt.Font("Segoe UI", 1, 42));
 		edpMensajeSuceso.setForeground(Color.WHITE);
 
@@ -1145,7 +1147,6 @@ public class Gestion_Contrato extends JInternalFrame {
 		if (contrato.getEContrato().getId() == 6) {
 			ActivarPerspectivaCancelado(contrato);
 		}
-
 	}
 
 	public void CargarInformacionContrato() {

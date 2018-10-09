@@ -96,7 +96,7 @@ public class Principal extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int n = JOptionPane.showConfirmDialog(null, "<html><h2>¿Desea salir de la aplicación?</h2></html>",
+				int n = JOptionPane.showConfirmDialog(null, "<html><h3>¿Desea salir de la aplicación?</h3></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (n == JOptionPane.YES_OPTION) {
 					System.exit(0);

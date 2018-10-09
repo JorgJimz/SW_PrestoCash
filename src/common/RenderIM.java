@@ -27,7 +27,7 @@ public class RenderIM implements TableCellRenderer {
 		if (value instanceof Integer) {
 			if (column == 0) {
 				e.setText(value.toString());
-				e.setFont(new java.awt.Font("Segoe UI", 1, 20));
+				e.setFont(new java.awt.Font("Segoe UI", 1, 16));
 				return e;
 			}
 			if ((Integer) value == 1) {
@@ -41,19 +41,19 @@ public class RenderIM implements TableCellRenderer {
 
 		if (value instanceof BigDecimal) {
 			e.setText(value.toString());
-			e.setFont(new java.awt.Font("Segoe UI", 1, 20));
+			e.setFont(new java.awt.Font("Segoe UI", 1, 16));
 			return e;
 		}
 
 		if (value instanceof Double) {
 			e.setText(value.toString());
-			e.setFont(new java.awt.Font("Segoe UI", 1, 20));
+			e.setFont(new java.awt.Font("Segoe UI", 1, 16));
 			return e;
 		}
 
 		if (value instanceof String) {
 			e.setText(value.toString());
-			e.setFont(new java.awt.Font("Segoe UI", 1, 20));
+			e.setFont(new java.awt.Font("Segoe UI", 1, 16));
 			return e;
 		}
 
