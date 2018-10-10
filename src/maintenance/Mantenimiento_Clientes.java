@@ -23,13 +23,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import common.Constantes;
-import common.MyFocusTraversalPolicy;
+import common.JIconTextField;
 import common.RenderMC;
 import common.Utiles;
 import controller.ClienteController;
@@ -39,36 +39,25 @@ import view.Principal;
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Mantenimiento_Clientes extends JInternalFrame {
 
-	private JLabel jLabel1;
-	private JTextField txtNombre;
-	private JLabel jLabel5;
 	private JScrollPane jScrollPane1;
 	private JButton btnEliminar;
 	private JButton btnEditar;
 	private JButton btnGrabar;
-	private JLabel jLabel6;
-	private JTextField txtEmail;
-	private JLabel jLabel14;
-	private JTextField txtDireccion;
-	private JLabel jLabel13;
-	private JTextField txtMaterno;
-	private JTextField txtPaterno;
-	private JTextField txtObs;
-	private JLabel jLabel11;
+	private JIconTextField txtEmail;
+	private JIconTextField txtDireccion;
+	private JIconTextField txtMaterno;
+	private JIconTextField txtPaterno;
+	private JIconTextField txtObs;
+	private JIconTextField txtNombre;
+	private JIconTextField txtTlf2;
+	private JIconTextField txtTlf1;
+	private JIconTextField txtDni;
 	private JComboBox cboCategoriaCliente;
-	private JLabel jLabel10;
 	private JComboBox cboDistrito;
-	private JLabel jLabel4;
-	private JTextField txtTlf2;
-	private JTextField txtTlf1;
-	private JLabel jLabel3;
 	private JComboBox cboTipoDocumento;
-	private JLabel jLabel2;
 	private JXTable tbClientes;
-	private JLabel lblIdUbigeo;
-	private JTextField txtDni;
+	private JLabel lblIdUbigeo;	
 	private JLabel txtId;
-	private JLabel jLabel17;
 	private JPanel contenedor;
 	private JInternalFrame internal = null;
 	Vector<Component> order = new Vector<Component>(11);
@@ -80,80 +69,55 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(800, 470);
 		this.setTitle("MANTENIMIENTO DE CLIENTES");
-		this.setPreferredSize(new java.awt.Dimension(1258, 842));
-		this.setBounds(0, 0, 1258, 842);
+		this.setPreferredSize(new java.awt.Dimension(1258, 726));
+		this.setBounds(0, 0, 1258, 726);
 		internal = this;
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1256, 812);
+		contenedor.setBounds(0, 0, 1256, 701);
 		contenedor.setBackground(new java.awt.Color(255, 184, 113));
 
-		jLabel1 = new JLabel();
-		contenedor.add(jLabel1);
-		jLabel1.setText("TIPO Y NÚMERO DOCUMENTO");
-		jLabel1.setBounds(15, 24, 388, 32);
-		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel1.setForeground(new java.awt.Color(0, 128, 0));
-
-		txtNombre = new JTextField();
+		txtNombre = new JIconTextField();
 		contenedor.add(txtNombre);
-		txtNombre.setBounds(957, 62, 260, 32);
-		txtNombre.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtNombre.setBounds(957, 12, 260, 50);		
+		txtNombre.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtNombre.setBorder(BorderFactory.createTitledBorder(null, "NOMBRES",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
-		txtPaterno = new JTextField();
+		txtPaterno = new JIconTextField();
 		contenedor.add(txtPaterno);
-		txtPaterno.setBounds(409, 62, 271, 32);
-		txtPaterno.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtPaterno.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtPaterno.setBounds(409, 12, 271, 50);		
+		txtPaterno.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtPaterno.setBorder(BorderFactory.createTitledBorder(null, "APELLIDO PATERNO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
-		txtMaterno = new JTextField();
+		txtMaterno = new JIconTextField();
 		contenedor.add(txtMaterno);
-		txtMaterno.setBounds(686, 62, 265, 32);
-		txtMaterno.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtMaterno.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtMaterno.setBounds(686, 12, 265, 50);
+		txtMaterno.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtMaterno.setBorder(BorderFactory.createTitledBorder(null, "APELLIDO MATERNO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
-		jLabel5 = new JLabel();
-		contenedor.add(jLabel5);
-		jLabel5.setText("TELÉFONO 1:");
-		jLabel5.setBounds(15, 106, 252, 32);
-		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel5.setForeground(new java.awt.Color(0, 128, 0));
-
-		jLabel6 = new JLabel();
-		contenedor.add(jLabel6);
-		jLabel6.setText("TELÉFONO 2");
-		jLabel6.setBounds(288, 106, 192, 32);
-		jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel6.setForeground(new java.awt.Color(0, 128, 0));
-
-		jLabel13 = new JLabel();
-		contenedor.add(jLabel13);
-		jLabel13.setText("DIRECCIÓN");
-		jLabel13.setBounds(15, 182, 654, 32);
-		jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel13.setForeground(new java.awt.Color(0, 128, 0));
-
-		txtDireccion = new JTextField();
+		txtDireccion = new JIconTextField();
 		contenedor.add(txtDireccion);
-		txtDireccion.setBounds(15, 220, 931, 32);
-		txtDireccion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtDireccion.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtDireccion.setBounds(16, 136, 931, 50);		
+		txtDireccion.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtDireccion.setBorder(BorderFactory.createTitledBorder(null, "DIRECCIÓN",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
-		jLabel14 = new JLabel();
-		contenedor.add(jLabel14);
-		jLabel14.setText("E-MAIL");
-		jLabel14.setBounds(563, 106, 117, 32);
-		jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel14.setForeground(new java.awt.Color(0, 128, 0));
-
-		txtEmail = new JTextField();
+		txtEmail = new JIconTextField();
 		contenedor.add(txtEmail);
-		txtEmail.setBounds(557, 144, 660, 32);
-		txtEmail.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtEmail.setBounds(558, 74, 659, 50);		
+		txtEmail.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtEmail.setBorder(BorderFactory.createTitledBorder(null, "E-MAIL",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		btnGrabar = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabar);
@@ -162,7 +126,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnGrabar.setBounds(958, 273, 64, 64);
+		btnGrabar.setBounds(959, 193, 64, 64);
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 28));
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.addActionListener(new ActionListener() {
@@ -207,7 +171,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		btnEditar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnEditar.setEnabled(false);
-		btnEditar.setBounds(1055, 273, 64, 64);
+		btnEditar.setBounds(1056, 193, 64, 64);
 		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 28));
 		btnEditar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEditar.addActionListener(new ActionListener() {
@@ -249,7 +213,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnEliminar.setEnabled(false);
-		btnEliminar.setBounds(1153, 273, 64, 64);
+		btnEliminar.setBounds(1154, 193, 64, 64);
 		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 28));
 		btnEliminar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEliminar.addActionListener(new ActionListener() {
@@ -287,23 +251,18 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 			}
 		});
 
-		jLabel17 = new JLabel();
-		contenedor.add(jLabel17);
-		jLabel17.setText("NOMBRE");
-		jLabel17.setBounds(963, 24, 254, 32);
-		jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel17.setForeground(new java.awt.Color(0, 128, 0));
-
 		txtId = new JLabel();
 		contenedor.add(txtId);
 		txtId.setBounds(172, 24, 254, 32);
 		txtId.setVisible(false);
 
-		txtDni = new JTextField();
+		txtDni = new JIconTextField();
 		contenedor.add(txtDni);
-		txtDni.setBounds(178, 62, 225, 32);
-		txtDni.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtDni.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtDni.setBounds(178, 12, 225, 50);
+		txtDni.setBorder(BorderFactory.createTitledBorder(null, "D.N.I.",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtDni.setFont(new java.awt.Font("Segoe UI",1,16));
 		txtDni.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
 				Cliente c = new ClienteController().BuscarCliente(txtDni.getText());
@@ -327,7 +286,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 						txtDni.setEnabled(false);
 						btnEditar.setEnabled(true);
 						btnGrabar.setEnabled(false);
-						btnGrabar.setIcon(new ImageIcon("img/grabarContrato.png"));
+						btnGrabar.setIcon(new ImageIcon("img/acciones.png"));
 						btnGrabar.setToolTipText("GENERAR CONTRATO");
 					} else {
 						txtDni.setText("");
@@ -342,94 +301,77 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		lblIdUbigeo.setBounds(592, 320, 61, 25);
 		lblIdUbigeo.setVisible(false);
 
-		jLabel2 = new JLabel();
-		contenedor.add(jLabel2);
-		jLabel2.setText("A.PATERNO");
-		jLabel2.setBounds(426, 24, 254, 32);
-		jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel2.setForeground(new java.awt.Color(0, 128, 0));
-
-		jLabel3 = new JLabel();
-		contenedor.add(jLabel3);
-		jLabel3.setText("A.MATERNO");
-		jLabel3.setBounds(692, 24, 253, 32);
-		jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel3.setForeground(new java.awt.Color(0, 128, 0));
-
-		txtTlf1 = new JTextField();
+		txtTlf1 = new JIconTextField();
 		contenedor.add(txtTlf1);
-		txtTlf1.setBounds(15, 144, 267, 32);
+		txtTlf1.setBounds(16, 74, 267, 50);
 		txtTlf1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTlf1.setFont(new java.awt.Font("Segoe UI", 1, 22));
-
-		txtTlf2 = new JTextField();
+		txtTlf1.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtTlf1.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 1",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		
+		txtTlf2 = new JIconTextField();
 		contenedor.add(txtTlf2);
-		txtTlf2.setBounds(288, 144, 263, 32);
+		txtTlf2.setBounds(289, 74, 263, 50);
 		txtTlf2.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTlf2.setFont(new java.awt.Font("Segoe UI", 1, 22));
-
-		jLabel4 = new JLabel();
-		contenedor.add(jLabel4);
-		jLabel4.setText("DISTRITO");
-		jLabel4.setBounds(963, 182, 129, 32);
-		jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel4.setForeground(new java.awt.Color(0, 128, 0));
+		txtTlf2.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtTlf2.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 2",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		cboDistrito = new JComboBox();
 		contenedor.add(cboDistrito);
-		cboDistrito.setEditable(true);
 		cboDistrito.setModel(Constantes.DistritoModel);
-		cboDistrito.setBounds(958, 221, 259, 32);
-		cboDistrito.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		cboDistrito.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		cboDistrito.setBounds(959, 137, 259, 50);
+		cboDistrito.setForeground(new java.awt.Color(0, 64, 128));
+		cboDistrito.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		cboDistrito.setBorder(BorderFactory.createTitledBorder(null, "DISTRITO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 		AutoCompleteDecorator.decorate(cboDistrito);
 
 		jScrollPane1 = new JScrollPane();
 		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(12, 349, 1205, 435);
+		jScrollPane1.setBounds(12, 260, 1205, 402);
 		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-
-		jLabel10 = new JLabel();
-		contenedor.add(jLabel10);
-		jLabel10.setText("CATEGORIA");
-		jLabel10.setBounds(15, 267, 257, 32);
-		jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel10.setForeground(new java.awt.Color(0, 128, 0));
 
 		cboCategoriaCliente = new JComboBox();
 		contenedor.add(cboCategoriaCliente);
 		cboCategoriaCliente.setModel(Constantes.CategoriaModel);
-		cboCategoriaCliente.setBounds(12, 305, 160, 32);
+		cboCategoriaCliente.setBounds(17, 198, 160, 50);
+		cboCategoriaCliente.setForeground(new java.awt.Color(0, 64, 128));
 		cboCategoriaCliente.setBackground(new java.awt.Color(255, 255, 255));
 		cboCategoriaCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		cboCategoriaCliente.setFont(new java.awt.Font("Segoe UI", 1, 20));
-
-		jLabel11 = new JLabel();
-		contenedor.add(jLabel11);
-		jLabel11.setText("DETALLE");
-		jLabel11.setBounds(184, 267, 128, 32);
-		jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		jLabel11.setForeground(new java.awt.Color(0, 128, 0));
-
-		txtObs = new JTextField();
+		cboCategoriaCliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		cboCategoriaCliente.setBorder(BorderFactory.createTitledBorder(null, "CATEGORIZACIÓN",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		
+		txtObs = new JIconTextField();
 		contenedor.add(txtObs);
-		txtObs.setBounds(184, 305, 762, 32);
+		txtObs.setBounds(189, 198, 758, 50);
 		txtObs.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtObs.setFont(new java.awt.Font("Segoe UI", 1, 22));
-
+		txtObs.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtObs.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIÓN",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		
 		cboTipoDocumento = new JComboBox();
 		contenedor.add(cboTipoDocumento);
 		cboTipoDocumento.setModel(Constantes.TipoDocumentoModel);
 		cboTipoDocumento.setBackground(new java.awt.Color(255, 255, 255));
-		cboTipoDocumento.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		cboTipoDocumento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		cboTipoDocumento.setBounds(15, 62, 157, 32);
-
+		cboTipoDocumento.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		cboTipoDocumento.setBounds(15, 12, 157, 50);
+		cboTipoDocumento.setForeground(new java.awt.Color(0, 64, 128));
+		cboTipoDocumento.setBorder(BorderFactory.createTitledBorder(null, "TIPO DOCUMENTO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		
 		tbClientes = new JXTable();
 		tbClientes.setRowHeight(25);
-		tbClientes.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tbClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbClientes.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbClientes.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbClientes.setModel(Constantes.ClienteModel);
 		tbClientes.setColumnControlVisible(true);
@@ -455,7 +397,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
 						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
 						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
-						btnGrabar.setIcon(new ImageIcon("img/grabarContrato.png"));
+						btnGrabar.setIcon(new ImageIcon("img/acciones.png"));
 						btnGrabar.setToolTipText("GENERAR CONTRATO");
 						btnGrabar.setEnabled(true);
 						btnEditar.setEnabled(true);
@@ -483,7 +425,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 			}
 		});
 
-		order.add(cboTipoDocumento);
+		/*order.add(cboTipoDocumento);
 		order.add(txtDni);
 		order.add(txtPaterno);
 		order.add(txtMaterno);
@@ -496,7 +438,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		order.add(cboCategoriaCliente);
 		order.add(txtObs);
 
-		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
+		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));*/
 
 		ListarClientes();
 	}

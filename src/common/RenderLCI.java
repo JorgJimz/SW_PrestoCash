@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 public class RenderLCI implements TableCellRenderer {
@@ -22,13 +20,6 @@ public class RenderLCI implements TableCellRenderer {
 
 		if (isSelected) {
 			e.setBackground(Color.ORANGE);
-		}
-
-		if (column == 6 && isSelected == false) {
-			e.setText("");
-			e.setBackground(new Color(130, 137, 143));
-			e.setHorizontalTextPosition(SwingConstants.CENTER);
-			e.setIcon((value.toString().equals("SOLES")) ? new ImageIcon("img/pen.png") : new ImageIcon("img/usd.png"));
 		}
 
 		if (column == 3 && isSelected == false || column == 5 && isSelected == false) {

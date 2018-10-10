@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -64,6 +65,19 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Contrato_Prestacion extends JInternalFrame {
 	private JLabel jLabel2;
@@ -140,7 +154,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación", JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
+						JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					dispose();
 				}
@@ -163,10 +178,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		lblNumeroContrato = new JLabel("#-####");
 		contenedor.add(lblNumeroContrato);
-		lblNumeroContrato.setBounds(200, 49, 170, 58);
-		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 58));
+		lblNumeroContrato.setBounds(200, 54, 170, 46);
+		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 48));
 		lblNumeroContrato.setForeground(new java.awt.Color(0, 0, 255));
-		lblNumeroContrato.setVerticalAlignment(SwingConstants.TOP);
 
 		cboTipoPrestamo = new JComboBox();
 		contenedor.add(cboTipoPrestamo);
@@ -195,9 +209,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		lblInteres = new JLabel("00.00%");
 		contenedor.add(lblInteres);
 		lblInteres.setBounds(200, 132, 96, 30);
-		lblInteres.setFont(new java.awt.Font("Segoe UI", 1, 30));
+		lblInteres.setFont(new java.awt.Font("Segoe UI", 1, 26));
 		lblInteres.setForeground(new java.awt.Color(0, 128, 0));
-		lblInteres.setVerticalAlignment(SwingConstants.TOP);
 
 		lblFechaContrato = new JLabel(
 				Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaContrato())).toUpperCase());
@@ -343,7 +356,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.setOpaque(false);
 		btnEditarCliente.setBorderPainted(false);
 		btnEditarCliente.setText("ACTUALIZAR CLIENTE");
-		btnEditarCliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		btnEditarCliente.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnEditarCliente.setContentAreaFilled(false);
 		btnEditarCliente.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEditarCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -478,7 +491,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnGrabar.setBorderPainted(false);
-		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.setBounds(972, 274, 239, 64);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -502,9 +515,11 @@ public class Contrato_Prestacion extends JInternalFrame {
 							dc.setTasacion(dc.getTasacion());
 							contrato.getDetalleContratos().add(dc);
 						}
+						String articulos = detalle.stream().map(a -> a.getArticulo().getDescripcion())
+								.collect(Collectors.joining(", "));
 						Egreso egreso = new Egreso();
 						egreso.setLibroCaja(Principal.LIBRO_CAJA);
-						egreso.setDescripcion(contrato.getFlag() + "-" + contrato.getNumero());
+						egreso.setDescripcion(contrato.getFlag() + "-" + contrato.getNumero() + " [" + articulos + "]");
 						egreso.setImporte(contrato.getCapital());
 						egreso.setTipo("EMP");
 						egreso.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
@@ -605,7 +620,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial.setContentAreaFilled(false);
 		btnHistorial.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnHistorial.setBounds(972, 204, 239, 64);
-		btnHistorial.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		btnHistorial.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnHistorial.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnHistorial.setHorizontalAlignment(SwingConstants.LEFT);
 		btnHistorial.addActionListener(new ActionListener() {

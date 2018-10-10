@@ -28,7 +28,7 @@ public class ArticuloController {
 			em.merge(a);
 			tx.commit();
 		} catch (Exception e1) {
-			// tx.rollback();
+			tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -42,7 +42,7 @@ public class ArticuloController {
 		EntityManager em = emf.createEntityManager();
 		List<Articulo> l = null;
 		try {
-			l = em.createQuery("SELECT a FROM Articulo a", Articulo.class).getResultList();
+			l = em.createQuery("SELECT a FROM Articulo a ORDER BY a.id DESC", Articulo.class).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
