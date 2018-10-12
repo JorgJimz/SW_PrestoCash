@@ -1,10 +1,17 @@
 package model;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
@@ -34,7 +41,7 @@ public class Usuario implements Serializable {
 
 	private String paterno;
 
-	private String perfil;
+	private String documento;
 
 	private String status;
 
@@ -43,6 +50,10 @@ public class Usuario implements Serializable {
 
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
+
+	// bi-directional many-to-one association to Perfil
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Perfil perfil;
 
 	// bi-directional many-to-one association to Asistencia
 	@OneToMany(mappedBy = "usuario")
@@ -128,11 +139,11 @@ public class Usuario implements Serializable {
 		this.paterno = paterno;
 	}
 
-	public String getPerfil() {
+	public Perfil getPerfil() {
 		return this.perfil;
 	}
 
-	public void setPerfil(String perfil) {
+	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
 
@@ -180,6 +191,14 @@ public class Usuario implements Serializable {
 		asistencia.setUsuario(null);
 
 		return asistencia;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
 
 }

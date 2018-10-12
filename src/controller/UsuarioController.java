@@ -7,9 +7,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
+import common.ComboItem;
 import model.Asistencia;
+import model.Perfil;
 import model.Usuario;
 
 public class UsuarioController {
@@ -74,7 +77,7 @@ public class UsuarioController {
 			model.setRowCount(0);
 			for (Usuario u : l) {
 				model.addRow(new Object[] { u.getId(), u.getLogin(), u.getPaterno(), u.getMaterno(), u.getNombres(),
-						u.getPassword(), u.getPerfil(), u.getHoraIngreso(), u.getStatus() });
+						u.getPassword(), u.getPerfil().getDescripcion(), u.getHoraIngreso(), u.getStatus() });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,5 +106,27 @@ public class UsuarioController {
 			emf.close();
 		}
 		return msg;
+	}
+
+	public DefaultComboBoxModel<ComboItem> CargarPerfiles() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		DefaultComboBoxModel<ComboItem> cbm = null;
+		try {
+			cbm = new DefaultComboBoxModel<ComboItem>(
+					em.createNamedQuery("Perfil.findAll", Perfil.class).getResultList().stream().map(p -> {
+						ComboItem ci = new ComboItem();
+						ci.setId(p.getId());
+						ci.setDescripcion(p.getDescripcion());
+						return ci;
+					}).toArray(ComboItem[]::new));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return cbm;
 	}
 }

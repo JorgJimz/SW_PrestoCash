@@ -66,9 +66,6 @@ public class Constantes {
 	public static ComboBoxModel CategoriaModel = new DefaultComboBoxModel(
 			new String[] { "BUENO", "MOROSO", "PROBLEMATICO" });
 
-	public static ComboBoxModel TipoUsuarioModel = new DefaultComboBoxModel(
-			new String[] { "USUARIO", "ADMINISTRADOR" });
-
 	public static ComboBoxModel TipoMoraModel = new DefaultComboBoxModel(new String[] { "%", "M" });
 
 	public static ComboBoxModel TipoDocumentoModel = new DefaultComboBoxModel(new String[] { "DNI", "CEX", "PAS" });

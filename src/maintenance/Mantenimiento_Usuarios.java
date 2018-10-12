@@ -22,26 +22,15 @@ import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXTable;
 
+import common.ComboItem;
 import common.Constantes;
 import common.RenderMC;
 import common.Utiles;
 import controller.UsuarioController;
+import model.Perfil;
 import model.Usuario;
 import view.Principal;
 
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Mantenimiento_Usuarios extends JInternalFrame {
 	private JTextField txtNombre;
@@ -139,7 +128,7 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 					usuario.setPaterno(txtPaterno.getText().toUpperCase());
 					usuario.setMaterno(txtMaterno.getText().toUpperCase());
 					usuario.setHoraIngreso(txtHoraIngreso.getText());
-					usuario.setPerfil(String.valueOf(cboTipoUsuario.getSelectedItem()));
+					usuario.setPerfil(new Perfil(((ComboItem) cboTipoUsuario.getSelectedItem()).getId()));
 					usuario.setStatus("1");
 					usuario.setFechaCreacion(String.valueOf(LocalDate.now()));
 					usuario.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -157,7 +146,7 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 		contenedor.add(spUsuario);
 		spUsuario.setBounds(29, 176, 1244, 365);
 		spUsuario.setBackground(new java.awt.Color(255, 255, 255));
-		spUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
+		spUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		btnEditar = new JButton(new ImageIcon("img/edit.png"));
 		contenedor.add(btnEditar);
@@ -181,7 +170,7 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 					usuario.setPaterno(txtPaterno.getText().toUpperCase());
 					usuario.setMaterno(txtMaterno.getText().toUpperCase());
 					usuario.setHoraIngreso(txtHoraIngreso.getText());
-					usuario.setPerfil(String.valueOf(cboTipoUsuario.getSelectedItem()));
+					usuario.setPerfil(new Perfil(((ComboItem) cboTipoUsuario.getSelectedItem()).getId()));
 					usuario.setStatus("1");
 					usuario.setFechaCreacion(String.valueOf(LocalDate.now()));
 					usuario.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -218,7 +207,7 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 					usuario.setPaterno(txtPaterno.getText().toUpperCase());
 					usuario.setMaterno(txtMaterno.getText().toUpperCase());
 					usuario.setHoraIngreso(txtHoraIngreso.getText());
-					usuario.setPerfil(String.valueOf(cboTipoUsuario.getSelectedItem()));
+					usuario.setPerfil(new Perfil(((ComboItem) cboTipoUsuario.getSelectedItem()).getId()));
 					usuario.setStatus("0");
 					usuario.setFechaCreacion(String.valueOf(LocalDate.now()));
 					usuario.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -236,8 +225,8 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 
 		cboTipoUsuario = new JComboBox();
 		contenedor.add(cboTipoUsuario);
-		cboTipoUsuario.setModel(Constantes.TipoUsuarioModel);
 		cboTipoUsuario.setBounds(1009, 12, 264, 66);
+		cboTipoUsuario.setModel(new UsuarioController().CargarPerfiles());
 		cboTipoUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		cboTipoUsuario.setOpaque(false);
 		cboTipoUsuario.setBorder(BorderFactory.createTitledBorder(null, "PERFIL", TitledBorder.DEFAULT_JUSTIFICATION,
@@ -261,8 +250,8 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 		tbUsuarios = new JXTable();
 		spUsuario.setViewportView(tbUsuarios);
 		tbUsuarios.setRowHeight(35);
-		tbUsuarios.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tbUsuarios.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbUsuarios.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbUsuarios.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbUsuarios.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbUsuarios.setDefaultRenderer(Object.class, new RenderMC());
 		tbUsuarios.setModel(Constantes.UsuarioModel);

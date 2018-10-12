@@ -28,9 +28,12 @@
 		<class>model.TipoCambio</class>
 		<class>model.Usuario</class>
 		<class>model.Venta</class>
+		<class>model.Aplicacion</class>
+		<class>model.Perfil</class>
+		<class>model.PerfilAplicacion</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/db_prestocash?serverTimezone=UTC&amp;verifyServerCertificate=false&amp;autoReconnect=true&amp;useSSL=false" />
+				value="jdbc:mysql://localhost:3306/db_prestocash?serverTimezone=UTC&amp;useSSL=false" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="mysql" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />

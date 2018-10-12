@@ -62,7 +62,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 	private JInternalFrame internal = null;
 	Vector<Component> order = new Vector<Component>(11);
 
-	public Mantenimiento_Clientes(String documento) {
+	public Mantenimiento_Clientes(/*String documento*/) {
 		this.setVisible(true);
 		this.setClosable(true);
 		this.setLayout(null);

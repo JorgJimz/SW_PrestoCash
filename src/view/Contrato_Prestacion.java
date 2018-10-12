@@ -65,19 +65,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Contrato_Prestacion extends JInternalFrame {
 	private JLabel jLabel2;
@@ -363,7 +350,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEditarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(txtDni.getText());
+				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(/*txtDni.getText()*/);
 				Principal.dskPrincipal.add(mc);
 			}
 		});
@@ -627,11 +614,21 @@ public class Contrato_Prestacion extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (new ArticuloController().ObtenerHistorial(Constantes.ArticuloModel, cliente.getId())
 						.getRowCount() != 0) {
-					btnHistorial.setEnabled(false);
+					/*btnHistorial.setEnabled(false);
 					btnRegresar.setVisible(true);
 					spContrato.setVisible(false);
 					spArticulo.setVisible(true);
-					tbArticulos.setModel(Constantes.ArticuloModel);
+					tbArticulos.setModel(Constantes.ArticuloModel);*/
+					try {
+						Class ma = Class.forName("maintenance.Mantenimiento_Articulos");	
+						
+						
+						Principal.dskPrincipal.add((Component)ma.newInstance());
+					}catch(Exception bg) {
+						
+					}
+					
+					
 				} else {
 					Utiles.Mensaje("Sin historial.", JOptionPane.INFORMATION_MESSAGE);
 				}
