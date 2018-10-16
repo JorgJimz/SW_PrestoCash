@@ -30,6 +30,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import common.Constantes;
 import common.JIconTextField;
+import common.MyFocusTraversalPolicy;
 import common.RenderMC;
 import common.Utiles;
 import controller.ClienteController;
@@ -56,13 +57,17 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 	private JComboBox cboDistrito;
 	private JComboBox cboTipoDocumento;
 	private JXTable tbClientes;
-	private JLabel lblIdUbigeo;	
+	private JLabel lblIdUbigeo;
 	private JLabel txtId;
 	private JPanel contenedor;
 	private JInternalFrame internal = null;
 	Vector<Component> order = new Vector<Component>(11);
 
-	public Mantenimiento_Clientes(/*String documento*/) {
+	public Mantenimiento_Clientes() {
+		this("");
+	}
+
+	public Mantenimiento_Clientes(String documento) {
 		this.setVisible(true);
 		this.setClosable(true);
 		this.setLayout(null);
@@ -81,16 +86,16 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 
 		txtNombre = new JIconTextField();
 		contenedor.add(txtNombre);
-		txtNombre.setBounds(957, 12, 260, 50);		
-		txtNombre.setFont(new java.awt.Font("Segoe UI",1,16));
-		txtNombre.setBorder(BorderFactory.createTitledBorder(null, "NOMBRES",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtNombre.setBounds(957, 12, 260, 50);
+		txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtNombre.setBorder(BorderFactory.createTitledBorder(null, "NOMBRES", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 
 		txtPaterno = new JIconTextField();
 		contenedor.add(txtPaterno);
-		txtPaterno.setBounds(409, 12, 271, 50);		
-		txtPaterno.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtPaterno.setBounds(409, 12, 271, 50);
+		txtPaterno.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPaterno.setBorder(BorderFactory.createTitledBorder(null, "APELLIDO PATERNO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
@@ -98,26 +103,26 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		txtMaterno = new JIconTextField();
 		contenedor.add(txtMaterno);
 		txtMaterno.setBounds(686, 12, 265, 50);
-		txtMaterno.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtMaterno.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtMaterno.setBorder(BorderFactory.createTitledBorder(null, "APELLIDO MATERNO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtDireccion = new JIconTextField();
 		contenedor.add(txtDireccion);
-		txtDireccion.setBounds(16, 136, 931, 50);		
-		txtDireccion.setFont(new java.awt.Font("Segoe UI",1,16));
-		txtDireccion.setBorder(BorderFactory.createTitledBorder(null, "DIRECCIÓN",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtDireccion.setBounds(16, 136, 931, 50);
+		txtDireccion.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtDireccion.setBorder(BorderFactory.createTitledBorder(null, "DIRECCIÓN", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 
 		txtEmail = new JIconTextField();
 		contenedor.add(txtEmail);
-		txtEmail.setBounds(558, 74, 659, 50);		
-		txtEmail.setFont(new java.awt.Font("Segoe UI",1,16));
-		txtEmail.setBorder(BorderFactory.createTitledBorder(null, "E-MAIL",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtEmail.setBounds(558, 74, 659, 50);
+		txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtEmail.setBorder(BorderFactory.createTitledBorder(null, "E-MAIL", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 
 		btnGrabar = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabar);
@@ -194,7 +199,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				c.setStatus(1);
 				c.setFechaModificacion(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 				c.setUsuarioModificacion(Principal.LOGGED.getLogin());
-				new ClienteController().ActualizarCliente(c);				
+				new ClienteController().ActualizarCliente(c);
 				btnGrabar.setIcon(new ImageIcon("img/grabar.png"));
 				btnGrabar.setToolTipText("REGISTRAR CLIENTE");
 				btnGrabar.setEnabled(true);
@@ -257,12 +262,13 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		txtId.setVisible(false);
 
 		txtDni = new JIconTextField();
+		txtDni.setText(documento);
 		contenedor.add(txtDni);
 		txtDni.setBounds(178, 12, 225, 50);
-		txtDni.setBorder(BorderFactory.createTitledBorder(null, "D.N.I.",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-		txtDni.setFont(new java.awt.Font("Segoe UI",1,16));
+		txtDni.setBorder(BorderFactory.createTitledBorder(null, "D.N.I.", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+		txtDni.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtDni.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
 				Cliente c = new ClienteController().BuscarCliente(txtDni.getText());
@@ -305,19 +311,19 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		contenedor.add(txtTlf1);
 		txtTlf1.setBounds(16, 74, 267, 50);
 		txtTlf1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTlf1.setFont(new java.awt.Font("Segoe UI",1,16));
-		txtTlf1.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 1",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-		
+		txtTlf1.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtTlf1.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 1", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+
 		txtTlf2 = new JIconTextField();
 		contenedor.add(txtTlf2);
 		txtTlf2.setBounds(289, 74, 263, 50);
 		txtTlf2.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTlf2.setFont(new java.awt.Font("Segoe UI",1,16));
-		txtTlf2.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 2",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtTlf2.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtTlf2.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 2", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 
 		cboDistrito = new JComboBox();
 		contenedor.add(cboDistrito);
@@ -325,9 +331,9 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		cboDistrito.setBounds(959, 137, 259, 50);
 		cboDistrito.setForeground(new java.awt.Color(0, 64, 128));
 		cboDistrito.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		cboDistrito.setBorder(BorderFactory.createTitledBorder(null, "DISTRITO",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		cboDistrito.setBorder(BorderFactory.createTitledBorder(null, "DISTRITO", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
 		AutoCompleteDecorator.decorate(cboDistrito);
 
 		jScrollPane1 = new JScrollPane();
@@ -347,16 +353,16 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		cboCategoriaCliente.setBorder(BorderFactory.createTitledBorder(null, "CATEGORIZACIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-		
+
 		txtObs = new JIconTextField();
 		contenedor.add(txtObs);
 		txtObs.setBounds(189, 198, 758, 50);
 		txtObs.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtObs.setFont(new java.awt.Font("Segoe UI",1,16));
-		txtObs.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIÓN",
-				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-		
+		txtObs.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtObs.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIÓN", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+
 		cboTipoDocumento = new JComboBox();
 		contenedor.add(cboTipoDocumento);
 		cboTipoDocumento.setModel(Constantes.TipoDocumentoModel);
@@ -367,7 +373,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		cboTipoDocumento.setBorder(BorderFactory.createTitledBorder(null, "TIPO DOCUMENTO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-		
+
 		tbClientes = new JXTable();
 		tbClientes.setRowHeight(25);
 		tbClientes.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -382,10 +388,11 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					int fila = tbClientes.getSelectedRow();
-					if(Integer.parseInt(String.valueOf(tbClientes.getModel().getValueAt(fila, 12))) == 1) {
-						Utiles.Limpiar(contenedor);				
+					if (Integer.parseInt(String.valueOf(tbClientes.getModel().getValueAt(fila, 12))) == 1) {
+						Utiles.Limpiar(contenedor);
 						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
-						cboTipoDocumento.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
+						cboTipoDocumento
+								.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
 						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
 						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
 						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
@@ -402,9 +409,10 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 						btnGrabar.setEnabled(true);
 						btnEditar.setEnabled(true);
 						btnEliminar.setEnabled(true);
-					}else {
+					} else {
 						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
-						cboTipoDocumento.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
+						cboTipoDocumento
+								.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
 						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
 						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
 						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
@@ -417,15 +425,15 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
 						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
 						btnGrabar.setEnabled(false);
-						btnEditar.setEnabled(true);						
+						btnEditar.setEnabled(true);
 						Utiles.Mensaje("Cliente inactivo. Actualizar status.", JOptionPane.WARNING_MESSAGE);
 					}
-					
+
 				}
 			}
 		});
 
-		/*order.add(cboTipoDocumento);
+		order.add(cboTipoDocumento);
 		order.add(txtDni);
 		order.add(txtPaterno);
 		order.add(txtMaterno);
@@ -438,7 +446,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		order.add(cboCategoriaCliente);
 		order.add(txtObs);
 
-		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));*/
+		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
 
 		ListarClientes();
 	}

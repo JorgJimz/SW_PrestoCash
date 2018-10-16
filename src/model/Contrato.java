@@ -7,7 +7,9 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -71,40 +73,31 @@ public class Contrato implements Serializable {
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
-	// bi-directional many-to-one association to Abono
 	@OneToMany(mappedBy = "contrato")
 	private List<Abono> abonos;
 
-	// bi-directional many-to-one association to Cliente
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
-	// bi-directional many-to-one association to EContrato
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "E_CONTRATO_ID")
 	private EContrato EContrato;
 
-	// bi-directional many-to-one association to Prestamo
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Prestamo prestamo;
 
-	// bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy = "contrato")
 	private List<DetalleCargo> detalleCargos;
 
-	// bi-directional many-to-one association to DetalleContrato
 	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
 	private List<DetalleContrato> detalleContratos;
 
-	// bi-directional many-to-one association to Mora
 	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
 	private List<Mora> moras;
 
-	// bi-directional many-to-one association to Pago
 	@OneToMany(mappedBy = "contrato")
 	private List<Pago> pagos;
 
-	// bi-directional many-to-one association to Seguimiento
 	@OneToMany(mappedBy = "contrato")
 	private List<Seguimiento> seguimientos;
 
@@ -163,17 +156,33 @@ public class Contrato implements Serializable {
 	@PostLoad
 	public void procesarCamposCalculados() {
 		try {
-			interesDiario = interesMensual.divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP);
+			interesDiario = Utiles
+					.redondearCentimos(interesMensual.divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP));
 			LocalDate hoy = LocalDate.now();
 			LocalDate vencimiento = LocalDate.parse(fechaVencimiento);
 			diaFinal = BigDecimal.valueOf(vencimiento.lengthOfMonth());
-
 			long diff = ChronoUnit.DAYS.between(vencimiento, hoy);
-
-			diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal.valueOf(diff);
-			cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
-			diasResiduo = diasExcedidos.remainder(diaFinal);
-			prorrateo = interesDiario.multiply(diasResiduo);
+			if (diff <= 0) {
+				Pago p = pagos.stream().sorted(Comparator.comparing(Pago::getFechaVencimiento).reversed()).findFirst()
+						.orElse(Pago.DEFAULT);
+				if (Objects.isNull(p)) {
+					diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal.valueOf(diff);
+					cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
+					diasResiduo = diasExcedidos.remainder(diaFinal);
+					prorrateo = interesDiario.multiply(diasResiduo);
+				} else {
+					diasExcedidos = new BigDecimal(
+							ChronoUnit.DAYS.between(LocalDate.parse(p.getFechaVencimiento()), LocalDate.now()));
+					cuotas = BigDecimal.ZERO;
+					diasResiduo = diasExcedidos;
+					prorrateo = interesDiario.multiply(diasResiduo);
+				}
+			} else {
+				diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal.valueOf(diff);
+				cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
+				diasResiduo = diasExcedidos.remainder(diaFinal);
+				prorrateo = interesDiario.multiply(diasResiduo);
+			}
 
 			if (prestamo.getTMora().equals("%")) {
 				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
@@ -210,40 +219,54 @@ public class Contrato implements Serializable {
 					moraColor = new Color(0, 128, 0);
 				}
 			} else {
+				// Cuando es Mora SOLES
 				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES;
+					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() == 0) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES;
+					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES.multiply(new BigDecimal(2)).setScale(2, RoundingMode.HALF_UP);
+					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() >= 2) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES.multiply(cuotas).setScale(2, RoundingMode.HALF_UP);
+					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
 				} else {
 					moraRespuesta = "NO";
 					moraActual = BigDecimal.ZERO;
+					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_CERO;
 					moraColor = new Color(0, 128, 0);
 				}
 			}
-			
-			
-			interesDiario = Utiles.redondearCentimos(interesDiario);
-			prorrateo = Utiles.redondearCentimos(prorrateo);
-			prorrateoMora = Utiles.redondearCentimos(prorrateoMora);
-			
 
+			prorrateo = Utiles.redondearCentimos(prorrateo);
+			moraActual = Utiles.redondearCentimos(moraActual);
+			prorrateoMora = Utiles.redondearCentimos(prorrateoMora);
+			/**
+			 * interesDiario = interesMensual.divide(BigDecimal.valueOf(30),
+			 * 2,RoundingMode.HALF_UP); LocalDate hoy = LocalDate.now(); LocalDate
+			 * vencimiento = LocalDate.parse(fechaVencimiento); diaFinal =
+			 * BigDecimal.valueOf(vencimiento.lengthOfMonth()); long diff =
+			 * ChronoUnit.DAYS.between(vencimiento, hoy); diasExcedidos = (diff < 0) ?
+			 * BigDecimal.ZERO : BigDecimal.valueOf(diff); cuotas =
+			 * BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
+			 * diasResiduo = diasExcedidos.remainder(diaFinal); prorrateo =
+			 * interesDiario.multiply(diasResiduo);
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -648,5 +671,5 @@ public class Contrato implements Serializable {
 	public JRDataSource getDetalleContratoJasper() {
 		return new JRBeanCollectionDataSource(detalleContratos);
 	}
-	
+
 }

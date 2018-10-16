@@ -24,8 +24,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import common.Utiles;
+import controller.ContratoController;
 import controller.LibroCajaController;
 import model.Aplicacion;
+import model.Contrato;
 import model.LibroCaja;
 import model.PerfilAplicacion;
 import model.Sede;
@@ -43,7 +45,6 @@ public class Principal extends JFrame {
 	public static Sede SEDE;
 
 	public Principal(Usuario user) {
-
 		this.setVisible(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -53,15 +54,10 @@ public class Principal extends JFrame {
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
 		Principal.SEDE = new LibroCajaController().ObtenerSedePrincipal();
-		dskPrincipal = new JDesktopPane();/*
-											 * { ImageIcon icon = new ImageIcon("img/bkg.png"); Image image =
-											 * icon.getImage(); Image newimage = image.getScaledInstance(739, 533,
-											 * Image.SCALE_SMOOTH);
-											 * 
-											 * @Override protected void paintComponent(Graphics g) {
-											 * super.paintComponent(g); g.drawImage(newimage, 0, 0, this); } };
-											 */
+		dskPrincipal = new JDesktopPane();
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
+		menuBarPrincipal = new JMenuBar();
+		setJMenuBar(menuBarPrincipal);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -73,10 +69,13 @@ public class Principal extends JFrame {
 			}
 		});
 
-		menuBarPrincipal = new JMenuBar();
-		setJMenuBar(menuBarPrincipal);
+		CargarMenuAplicaciones();
+		ActualizacionAutomatica();
+		AperturarCaja();
+	}
 
-		Map<Integer, List<PerfilAplicacion>> apps = user.getPerfil().getPerfilAplicacions().stream()
+	public void CargarMenuAplicaciones() {
+		Map<Integer, List<PerfilAplicacion>> apps = Principal.LOGGED.getPerfil().getPerfilAplicacions().stream()
 				.collect(Collectors.groupingBy(e -> e.getAplicacion().getOrden()));
 		List<JComponent> c = new ArrayList<JComponent>();
 		for (int i = 1; i <= apps.size(); i++) {
@@ -85,7 +84,7 @@ public class Principal extends JFrame {
 				Component o = c.stream().filter(k -> k.getName().equalsIgnoreCase(padre)).findAny().orElse(null);
 				if (Objects.nonNull(o)) {
 					String app = apps.get(i).get(j).getAplicacion().getDescripcion();
-					if (user.getPerfil().getPerfilAplicacions().stream()
+					if (Principal.LOGGED.getPerfil().getPerfilAplicacions().stream()
 							.anyMatch(p -> p.getAplicacion().getPadre().equals(app))) {
 						JMenu mn = new JMenu(apps.get(i).get(j).getAplicacion().getDescripcion());
 						mn.setName(apps.get(i).get(j).getAplicacion().getDescripcion());
@@ -103,8 +102,10 @@ public class Principal extends JFrame {
 								try {
 									JInternalFrame iFrame = (JInternalFrame) Class.forName(x.getUrl()).newInstance();
 									Principal.dskPrincipal.add(iFrame);
+									iFrame.moveToFront();
 								} catch (Exception ex) {
 									ex.printStackTrace();
+									Utiles.Mensaje("Sin aplicación asociada.", JOptionPane.ERROR_MESSAGE);
 								}
 							}
 						});
@@ -120,62 +121,23 @@ public class Principal extends JFrame {
 				}
 			}
 		}
+	}
 
-		/*
-		 * mniContrato = new JMenuItem(); mnContrato.add(mniContrato);
-		 * mniContrato.setText("NUEVO"); mniContrato.setFont(new
-		 * java.awt.Font("Segoe UI", 1, 16)); mniContrato.addActionListener(new
-		 * ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) { try { String
-		 * docCliente = JOptionPane.showInputDialog(null,
-		 * "<html><h2>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h2></html>"
-		 * , ""); if (Objects.nonNull(docCliente)) { Cliente c = new
-		 * ClienteController().BuscarCliente(docCliente);
-		 * 
-		 * if (Objects.isNull(c)) { Utiles.Mensaje(
-		 * "No existe ningún Cliente registrado con tal número de documento, regístrelo primero."
-		 * , JOptionPane.WARNING_MESSAGE); dskPrincipal.add(new
-		 * Mantenimiento_Clientes(docCliente)); } else { dskPrincipal.add(new
-		 * Contrato_Prestacion(c)); } } } catch (Exception e) { e.printStackTrace(); } }
-		 * });
-		 */
+	public void ActualizacionAutomatica() {
+		List<Contrato> l = new ContratoController().ListarContratosVigentes();
+		for (Contrato c : l) {
+			Utiles.DetectarEstado(c);
+		}
+		new ContratoController().ActualizarContratos(l);
+	}
 
-		/*
-		 * mniRenovacionContrato.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) { try { String c =
-		 * JOptionPane.showInputDialog(null,
-		 * "<html><h2>Ingrese número del Contrato a renovar ...</h2></html>"); if
-		 * (Objects.nonNull(c)) { String flag = String.valueOf(c.split("-")[0]); int
-		 * numero = Integer.parseInt(String.valueOf(c.split("-")[1])); Contrato contrato
-		 * = new ContratoController().CargarContrato(flag.toUpperCase(), numero); if
-		 * (Objects.nonNull(contrato)) { dskPrincipal.add(new
-		 * Gestion_Contrato(contrato)); } else {
-		 * Utiles.Mensaje("Contrato no existe. Verifique.",
-		 * JOptionPane.WARNING_MESSAGE); } } } catch (Exception e) {
-		 * e.printStackTrace(); } } });
-		 */
-
-		/*
-		 * mniPrestamos.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) {
-		 * Mantenimiento_Prestamos mp = new Mantenimiento_Prestamos();
-		 * dskPrincipal.add(mp); mp.moveToFront(); } });
-		 */
-
+	public void AperturarCaja() {
 		Object obj = new LibroCajaController().AperturarCaja();
 		if (obj instanceof String) {
 			Utiles.Mensaje(String.valueOf(obj), JOptionPane.WARNING_MESSAGE);
 			Utiles.BloquearMenu(menuBarPrincipal);
 		} else {
 			LIBRO_CAJA = (LibroCaja) obj;
-			/*
-			 * Utiles.Mensaje("Favor de actualizar los contratos.",
-			 * JOptionPane.WARNING_MESSAGE); Actualizar_Contratos ac = new
-			 * Actualizar_Contratos(); dskPrincipal.add(ac);
-			 */
 		}
 	}
 

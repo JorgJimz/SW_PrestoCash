@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ import com.toedter.calendar.JDateChooser;
 
 import controller.ClienteController;
 import model.Cliente;
+import model.Contrato;
+import model.DetalleContrato;
+import model.EContrato;
 import view.Contrato_Prestacion;
 import view.Principal;
 import view.Venta_Articulos;
@@ -66,12 +70,11 @@ public class Utiles {
 		}
 		return true;
 	}
-	
+
 	public static BigDecimal redondearCentimos(BigDecimal param) {
 		BigDecimal Tick = new BigDecimal("0.10");
 		BigDecimal formattedNumber = param.divide(Tick, 9, RoundingMode.HALF_EVEN);
 		formattedNumber = formattedNumber.setScale(0, RoundingMode.HALF_UP).multiply(Tick);
-		System.out.println("Original: " + param + "- Converted: " + formattedNumber);
 		return formattedNumber;
 	}
 
@@ -186,5 +189,44 @@ public class Utiles {
 			myar[i] = Integer.parseInt(args[i]);
 		}
 		return myar;
+	}
+
+	public static void DetectarEstado(Contrato c) {
+		try {
+			LocalDate hoy = LocalDate.now();
+			LocalDate gcPre = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).minusDays(5);
+			LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).plusDays(15);
+			LocalDate gcRem = LocalDate.parse(c.getFechaRemate());
+
+			if (hoy.isAfter(gcPost)) {
+				c.setEContrato(new EContrato(13, "VITRINA (SP)"));
+				for (DetalleContrato dc : c.getDetalleContratos()) {
+					dc.getArticulo().getEArticulo().setId(5);
+					dc.getArticulo().setContrato(c.getFlag() + "-" + c.getNumero());
+					dc.getArticulo().setCapitalContrato(c.getCapital());
+					dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
+					dc.getArticulo().setUsuarioModificacion("AUTO UPD");
+				}
+			}
+
+			else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost) || hoy.isEqual(gcPost)) {
+				c.setEContrato(new EContrato(7, "POST"));
+			}
+
+			else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre) && hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
+				c.setEContrato(new EContrato(4, "PRE"));
+			}
+
+			else if (hoy.isAfter(LocalDate.parse(c.getFechaVencimiento()))
+					&& !hoy.isEqual(LocalDate.parse(c.getFechaVencimiento()))) {
+				c.setEContrato(new EContrato(2, "VENCIDO"));
+			}
+
+			else {
+				c.setEContrato(new EContrato(1, "ACTIVO"));
+			}
+		} catch (Exception e) {
+			System.out.println(c.getNumero());
+		}
 	}
 }

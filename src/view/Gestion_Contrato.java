@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -199,6 +200,25 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JPanel pnlAbonos;
 	private JTranslucentPane pnlSucesos;
 	private JTextField txtTipoPrestamo;
+
+	public Gestion_Contrato() {
+		try {
+			String c = JOptionPane.showInputDialog(null,
+					"<html><h3>Ingrese número del Contrato a renovar ...</h3></html>");
+			if (Objects.nonNull(c)) {
+				String flag = String.valueOf(c.split("-")[0]);
+				int numero = Integer.parseInt(String.valueOf(c.split("-")[1]));
+				Contrato contrato = new ContratoController().CargarContrato(flag.toUpperCase(), numero);
+				if (Objects.nonNull(contrato)) {
+					Principal.dskPrincipal.add(new Gestion_Contrato(contrato));
+				} else {
+					Utiles.Mensaje("Contrato no existe. Verifique.", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Gestion_Contrato(Contrato c) throws ParseException {
 		contrato = c;
@@ -943,6 +963,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoInteres.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contrato.setOperacion("PAGAR SÓLO INTERESES");
+				if (contrato.getCuotas().compareTo(BigDecimal.ZERO) == 0) {
+					contrato.setInteresTotal(contrato.getInteresMensual());
+				}
 				lblTotalAPagar.setText(String.valueOf(contrato.getInteresTotal()));
 				btnPagar.setEnabled(true);
 			}
@@ -960,6 +983,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoInteresMora.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contrato.setOperacion("PAGAR INTERESES + MORA");
+				if (contrato.getCuotas().compareTo(BigDecimal.ZERO) == 0) {
+					contrato.setInteresTotal(contrato.getInteresMensual());
+				}
 				BigDecimal total = contrato.getInteresTotal().add(contrato.getMoraTotal());
 				lblTotalAPagar.setText(String.valueOf(total));
 				btnPagar.setEnabled(true);
@@ -1365,7 +1391,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				contrato.setFechaVencimiento(String.valueOf(nuevo_vencimiento));
 				contrato.setFechaRemate(String.valueOf(nuevo_remate));
 
-				Actualizar_Contratos.DetectarEstado(contrato);
+				Utiles.DetectarEstado(contrato);
 
 				Utiles.Mensaje("Próximo Vencimiento : " + Constantes.formatoLocal.format(nuevo_vencimiento),
 						JOptionPane.INFORMATION_MESSAGE);
@@ -1416,7 +1442,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				contrato.setFechaVencimiento(String.valueOf(nuevo_vencimiento));
 				contrato.setFechaRemate(String.valueOf(nuevo_remate));
 
-				Actualizar_Contratos.DetectarEstado(contrato);
+				Utiles.DetectarEstado(contrato);
 
 				Utiles.Mensaje("Próximo Vencimiento : " + Constantes.formatoLocal.format(nuevo_vencimiento),
 						JOptionPane.INFORMATION_MESSAGE);

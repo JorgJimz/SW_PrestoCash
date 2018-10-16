@@ -99,6 +99,10 @@ public class Venta_Articulos extends JInternalFrame {
 	private boolean MOUSECLICKED;
 	private BigDecimal totalFecha = BigDecimal.ZERO;
 
+	public Venta_Articulos() {
+		this("");
+	}
+
 	public Venta_Articulos(String documento) {
 		iFrame = this;
 		MOUSECLICKED = true;
@@ -112,7 +116,8 @@ public class Venta_Articulos extends JInternalFrame {
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación", JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
+						JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					dispose();
 				}
@@ -314,7 +319,7 @@ public class Venta_Articulos extends JInternalFrame {
 					iFrame.setSize(1370, 720);
 					pnlRegistro.setVisible(true);
 				} else {
-					iFrame.setSize(1025,720);
+					iFrame.setSize(1025, 720);
 					pnlRegistro.setVisible(false);
 				}
 			}

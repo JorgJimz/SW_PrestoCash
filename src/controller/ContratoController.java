@@ -51,7 +51,7 @@ public class ContratoController {
 			}
 			tx.commit();
 		} catch (Exception e1) {
-			// tx.rollback();
+			tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -138,7 +138,7 @@ public class ContratoController {
 		EntityManager em = emf.createEntityManager();
 		List<Contrato> l = null;
 		try {
-			l = em.createQuery("SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)", Contrato.class)
+			l = em.createQuery("SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12) AND c.numero = 8987", Contrato.class)
 					.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

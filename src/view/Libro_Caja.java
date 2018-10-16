@@ -94,6 +94,10 @@ public class Libro_Caja extends JInternalFrame {
 	private JDateChooser dpFecha;
 
 	LibroCaja caja;
+	
+	public Libro_Caja() {		
+		Principal.dskPrincipal.add(new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(LocalDate.now())));	
+	}
 
 	public Libro_Caja(LibroCaja c) {
 		caja = c;
@@ -140,7 +144,7 @@ public class Libro_Caja extends JInternalFrame {
 		dpFecha.setBounds(978, 19, 263, 38);
 		dpFecha.setDate(
 				Date.from(LocalDate.parse(caja.getFechaApertura()).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		dpFecha.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		dpFecha.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		dpFecha.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0,0,0)));
 
 		lblAmanece = new JIconTextField();

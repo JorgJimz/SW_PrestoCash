@@ -52,50 +52,50 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(520, 241);
 		this.setClosable(true);
-		this.setPreferredSize(new java.awt.Dimension(1221, 382));
-		this.setBounds(0, 0, 1221, 382);
+		this.setPreferredSize(new java.awt.Dimension(1238, 399));
+		this.setBounds(0, 0, 1238, 399);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1219, 353);
+		contenedor.setBounds(0, 0, 1236, 374);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		txtTipo = new JTextField();
 		contenedor.add(txtTipo);
-		txtTipo.setBounds(20, 90, 213, 66);
-		txtTipo.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtTipo.setBounds(297, 12, 202, 64);
+		txtTipo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtTipo.setOpaque(false);
 		txtTipo.setBorder(BorderFactory.createTitledBorder(null, "TIPO", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
 		txtDescripcion = new JTextField();
 		contenedor.add(txtDescripcion);
-		txtDescripcion.setBounds(20, 12, 432, 66);
-		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtDescripcion.setBounds(12, 12, 279, 64);
+		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtDescripcion.setOpaque(false);
 		txtDescripcion.setBorder(BorderFactory.createTitledBorder(null, "DESCRIPCIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtInteres = new JTextField();
 		contenedor.add(txtInteres);
-		txtInteres.setBounds(20, 168, 213, 66);
-		txtInteres.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtInteres.setBounds(505, 12, 145, 64);
+		txtInteres.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtInteres.setOpaque(false);
 		txtInteres.setBorder(BorderFactory.createTitledBorder(null, "INTERÉS (%)", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
 		cboTipoMora = new JComboBox();
 		contenedor.add(cboTipoMora);
-		cboTipoMora.setBounds(239, 168, 213, 66);
+		cboTipoMora.setBounds(656, 12, 123, 64);
 		cboTipoMora.setModel(Constantes.TipoMoraModel);
-		cboTipoMora.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		cboTipoMora.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboTipoMora.setOpaque(false);
 		cboTipoMora.setBorder(BorderFactory.createTitledBorder(null, "TIPO MORA", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 		cboTipoMora.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -105,8 +105,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		btnGrabar.setToolTipText("REGISTRAR PRÉSTAMO");
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnGrabar.setBounds(72, 252, 64, 64);	
+		btnGrabar.setBounds(989, 12, 64, 64);	
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 26));
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.addActionListener(new ActionListener() {
@@ -140,7 +139,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnEditar.setBounds(202, 252, 64, 64);
+		btnEditar.setBounds(1066, 12, 64, 64);
 		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 26));
 		btnEditar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEditar.setEnabled(false);
@@ -175,7 +174,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		btnEliminar.setContentAreaFilled(false);
 		btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnEliminar.setBounds(333, 252, 64, 64);
+		btnEliminar.setBounds(1143, 12, 64, 64);
 		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 26));
 		btnEliminar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEliminar.setEnabled(false);
@@ -185,31 +184,29 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 
 			}
 		});
-
-		spPrestamo = new JScrollPane();
-		contenedor.add(spPrestamo);
-		spPrestamo.setBounds(464, 12, 710, 304);
-		spPrestamo.setBackground(new java.awt.Color(255, 255, 255));
-		spPrestamo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-
 		cboSede = new JComboBox();
 		contenedor.add(cboSede);
 		new ArticuloController().CargarSedes("CASA").forEach(s -> cboSede.addItem(s));
-		cboSede.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		cboSede.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboSede.setBorder(BorderFactory.createTitledBorder(null, "SEDE", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 		cboSede.setOpaque(false);
-		cboSede.setBounds(239, 90, 213, 66);
+		cboSede.setBounds(785, 12, 198, 64);
 		cboSede.setBackground(new java.awt.Color(255, 255, 255));
+		
+		spPrestamo = new JScrollPane();
+		contenedor.add(spPrestamo);
+		spPrestamo.setBounds(12, 82, 971, 263);
+		spPrestamo.setBackground(new java.awt.Color(255, 255, 255));
+		spPrestamo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		tbPrestamos = new JXTable();
-		tbPrestamos.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tbPrestamos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbPrestamos.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbPrestamos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbPrestamos.getTableHeader().setForeground(new Color(181, 0, 0));
-		tbPrestamos.setRowHeight(35);
-		spPrestamo.setViewportView(tbPrestamos);
-		tbPrestamos.setPreferredSize(new java.awt.Dimension(1133, 271));
+		tbPrestamos.setRowHeight(25);
+		spPrestamo.setViewportView(tbPrestamos);		
 		tbPrestamos.setModel(Constantes.PrestamoModel);
 		tbPrestamos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {

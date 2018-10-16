@@ -27,6 +27,20 @@ public class Constantes {
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
 
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
+	
+	public static DefaultTableModel MultiCargoModel = new DefaultTableModel(null,
+			new String[] { "NÚMERO CONTRATO", "ARTÍCULO", "DESTINO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if (colIndex == 2) {
+				return true;
+			}
+			return false;
+		}
+	};
+	
+	public static DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null, new String[]
+			  { "ID1", "CONTRATO", "ID2", "DESCRIPCIÓN", "ESTADO" }) { public
+			  boolean isCellEditable(int rowIndex, int colIndex) { return false; } };
 
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {
@@ -214,4 +228,5 @@ public class Constantes {
 			return (p instanceof JLabel && ((JLabel) p).getBackground() == Color.WHITE) ? true : false;
 		}
 	};
+
 }

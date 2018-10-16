@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import common.Constantes;
 import common.JFilterComboBox;
@@ -32,7 +33,6 @@ import model.Cliente;
 public class Historial extends JInternalFrame {
 
 	private JPanel contenedor;
-	private JLabel jLabel2;
 	private JButton btnBuscarContratos;
 	private JLabel lblConteo;
 	private JButton btnConsultar;
@@ -46,22 +46,15 @@ public class Historial extends JInternalFrame {
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setSize(1223, 471);
-		this.setPreferredSize(new java.awt.Dimension(1223, 793));
-		this.setBounds(0, 0, 1223, 793);
+		this.setPreferredSize(new java.awt.Dimension(1223, 721));
+		this.setBounds(0, 0, 1223, 721);
 		this.setClosable(true);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1221, 764);
+		contenedor.setBounds(0, 0, 1221, 697);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
-
-		jLabel2 = new JLabel();
-		contenedor.add(jLabel2);
-		jLabel2.setText("CLIENTE:");
-		jLabel2.setBounds(12, 26, 104, 41);
-		jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 22));
-		jLabel2.setForeground(new java.awt.Color(0, 128, 0));
 
 		btnConsultar = new JButton(new ImageIcon("img/binoculares.png"));
 		contenedor.add(btnConsultar);
@@ -89,26 +82,27 @@ public class Historial extends JInternalFrame {
 
 		jScrollPane1 = new JScrollPane();
 		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(12, 94, 1176, 588);
+		jScrollPane1.setBounds(12, 90, 1176, 574);
 		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
 		tbContratos = new JTable();
 		jScrollPane1.setViewportView(tbContratos);
-		tbContratos.setRowHeight(35);
+		tbContratos.setRowHeight(25);
 		tbContratos.setDefaultRenderer(Object.class, new RenderHC());
-		tbContratos.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbContratos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContratos.setModel(Constantes.HistorialModel);
-		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContratos.getTableHeader().setForeground(new Color(181, 0, 0));
 
 		cboCliente = new JFilterComboBox(new ClienteController().FiltrarClientes());
 		contenedor.add(cboCliente);
-		cboCliente.setBounds(128, 26, 893, 40);
-		cboCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		cboCliente.setBackground(new java.awt.Color(255, 255, 255));
-		cboCliente.setOpaque(true);
-		cboCliente.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		cboCliente.setBounds(12, 18, 1008, 60);
+		cboCliente.setBorder(BorderFactory.createTitledBorder(null, "DATOS DEL CLIENTE", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+		cboCliente.setBackground(new java.awt.Color(255, 255, 255));		
+		cboCliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboCliente.setForeground(new java.awt.Color(0, 64, 128));
 		cboCliente.requestFocus();
 		cboCliente.addKeyListener(new KeyAdapter() {

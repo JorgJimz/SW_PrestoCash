@@ -31,6 +31,19 @@ import model.Perfil;
 import model.Usuario;
 import view.Principal;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Mantenimiento_Usuarios extends JInternalFrame {
 	private JTextField txtNombre;
@@ -67,47 +80,47 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 		txtLogin = new JTextField();
 		contenedor.add(txtLogin);
 		txtLogin.setBounds(24, 15, 316, 66);
-		txtLogin.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtLogin.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtLogin.setOpaque(false);
 		txtLogin.setBorder(BorderFactory.createTitledBorder(null, "USUARIO", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
 		txtNombre = new JTextField();
 		contenedor.add(txtNombre);
 		txtNombre.setBounds(684, 93, 316, 66);
-		txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtNombre.setOpaque(false);
 		txtNombre.setBorder(BorderFactory.createTitledBorder(null, "NOMBRES", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
 		txtPaterno = new JTextField();
 		contenedor.add(txtPaterno);
 		txtPaterno.setBounds(26, 93, 316, 66);
-		txtPaterno.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtPaterno.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPaterno.setOpaque(false);
 		txtPaterno.setBorder(BorderFactory.createTitledBorder(null, "APELLIDO PATERNO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtPsw = new JTextField();
 		contenedor.add(txtPsw);
 		txtPsw.setBounds(353, 15, 316, 66);
-		txtPsw.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtPsw.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPsw.setOpaque(false);
 		txtPsw.setBorder(BorderFactory.createTitledBorder(null, "CONTRASEÑA", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
 		txtMaterno = new JTextField();
 		contenedor.add(txtMaterno);
 		txtMaterno.setBounds(354, 93, 316, 66);
-		txtMaterno.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		txtMaterno.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtMaterno.setOpaque(false);
 		txtMaterno.setBorder(BorderFactory.createTitledBorder(null, "APELLIDO MATERNO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		btnGrabar = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabar);
@@ -115,8 +128,7 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 		btnGrabar.setToolTipText("REGISTRAR USUARIO");
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnGrabar.setBounds(1009, 90, 64, 64);
+		btnGrabar.setBounds(1011, 90, 64, 64);
 		btnGrabar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -227,10 +239,10 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 		contenedor.add(cboTipoUsuario);
 		cboTipoUsuario.setBounds(1009, 12, 264, 66);
 		cboTipoUsuario.setModel(new UsuarioController().CargarPerfiles());
-		cboTipoUsuario.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		cboTipoUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboTipoUsuario.setOpaque(false);
 		cboTipoUsuario.setBorder(BorderFactory.createTitledBorder(null, "PERFIL", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 16),
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
 		txtHoraIngreso = new JTextField();
@@ -240,7 +252,7 @@ public class Mantenimiento_Usuarios extends JInternalFrame {
 		txtHoraIngreso.setOpaque(false);
 		txtHoraIngreso.setBorder(BorderFactory.createTitledBorder(null, "HORA INGRESO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Segoe UI", Font.BOLD, 16), new java.awt.Color(0, 128, 0)));
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		lblId = new JTextField();
 		contenedor.add(lblId);

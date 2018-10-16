@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -47,6 +48,7 @@ import common.JIconTextField;
 import common.MyFocusTraversalPolicy;
 import common.Utiles;
 import controller.ArticuloController;
+import controller.ClienteController;
 import controller.ContratoController;
 import controller.PrestamoController;
 import maintenance.Mantenimiento_Clientes;
@@ -120,6 +122,27 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 	private JScrollPane spArticulo;
 	private JTable tbArticulos;
+
+	public Contrato_Prestacion() {
+		try {
+			String docCliente = JOptionPane.showInputDialog(null,
+					"<html><h3>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h3></html>",
+					"");
+			if (Objects.nonNull(docCliente)) {
+				Cliente c = new ClienteController().BuscarCliente(docCliente);
+				if (Objects.isNull(c)) {
+					Utiles.Mensaje(
+							"No existe ningún Cliente registrado con tal número de documento, regístrelo primero.",
+							JOptionPane.WARNING_MESSAGE);
+					Principal.dskPrincipal.add(new Mantenimiento_Clientes(docCliente));
+				} else {
+					Principal.dskPrincipal.add(new Contrato_Prestacion(c));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Contrato_Prestacion(Cliente c) throws SQLException {
 		Utiles.LimpiarModelos();
@@ -350,7 +373,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEditarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(/*txtDni.getText()*/);
+				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(/* txtDni.getText() */);
 				Principal.dskPrincipal.add(mc);
 			}
 		});
@@ -614,21 +637,11 @@ public class Contrato_Prestacion extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (new ArticuloController().ObtenerHistorial(Constantes.ArticuloModel, cliente.getId())
 						.getRowCount() != 0) {
-					/*btnHistorial.setEnabled(false);
+					btnHistorial.setEnabled(false);
 					btnRegresar.setVisible(true);
 					spContrato.setVisible(false);
 					spArticulo.setVisible(true);
-					tbArticulos.setModel(Constantes.ArticuloModel);*/
-					try {
-						Class ma = Class.forName("maintenance.Mantenimiento_Articulos");	
-						
-						
-						Principal.dskPrincipal.add((Component)ma.newInstance());
-					}catch(Exception bg) {
-						
-					}
-					
-					
+					tbArticulos.setModel(Constantes.ArticuloModel);
 				} else {
 					Utiles.Mensaje("Sin historial.", JOptionPane.INFORMATION_MESSAGE);
 				}
