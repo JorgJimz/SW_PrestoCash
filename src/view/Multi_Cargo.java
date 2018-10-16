@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +14,10 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -35,10 +38,21 @@ import model.DetalleCargo;
 import model.DetalleContrato;
 import model.Sede;
 
+/**
+ * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
+ * Builder, which is free for non-commercial use. If Jigloo is being used
+ * commercially (ie, by a corporation, company or business for any purpose
+ * whatever) then you should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details. Use of Jigloo implies
+ * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
+ * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
+ * ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 @SuppressWarnings("serial")
 public class Multi_Cargo extends JInternalFrame {
 	private JPanel contenedor;
 	private JTextField txtNumeroContrato;
+	private JButton btnBuscar;
 	private JScrollPane spArticulos;
 	private JTable tbArticulos;
 	private JScrollPane spCargo;
@@ -86,7 +100,7 @@ public class Multi_Cargo extends JInternalFrame {
 
 		spArticulos = new JScrollPane();
 		contenedor.add(spArticulos);
-		spArticulos.setBounds(20, 70, 1107, 240);
+		spArticulos.setBounds(20, 86, 1107, 224);
 		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		tbArticulos = new JTable();
 		tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
@@ -114,7 +128,7 @@ public class Multi_Cargo extends JInternalFrame {
 					DetalleCargo dcc = new DetalleCargo();
 					dcc.setId(new Random().nextInt(100));
 					dcc.setContrato(cAsociado);
-					dcc.setArticulo(aa);					
+					dcc.setArticulo(aa);
 					Sede ss = new Sede();
 					ss.setDescripcion("SELECCIONAR DESTINO");
 					dcc.setSede(ss);
@@ -161,15 +175,21 @@ public class Multi_Cargo extends JInternalFrame {
 		tbCargo.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-					/*
-					 * int fila = tbCargo.getSelectedRow(); int codigo =
-					 * Integer.parseInt(tbCargo.getValueAt(fila, 1).toString()); for (int i = 0; i <
-					 * c.getDetalle_cargo().size(); i++) { Cargo.Detalle_Cargo articulo_cargo =
-					 * c.getDetalle_cargo().get(i); if (articulo_cargo.getCodigo_articulo() ==
-					 * codigo) { c.getDetalle_cargo().remove(i); break; } }
-					 */
+					int opc = JOptionPane.showConfirmDialog(null,
+							"<html><h3>¿Está seguro de retirar el artículo seleccionado del Cargo?</h3></html>",
+							"Confirmación", JOptionPane.YES_NO_OPTION);
+					if (opc == JOptionPane.YES_OPTION) {
+						int fila = tbCargo.getSelectedRow();
+						int SelectedId = Integer.parseInt(Constantes.MultiCargoModel.getValueAt(fila, 0).toString());
+						for (DetalleCargo dc : detalle) {
+							if (dc.getId() == SelectedId) {
+								detalle.remove(dc);
+								break;
+							}
+						}
+						ListarCargo();
+					}
 				}
-				// listarArticulosCargo();
 			}
 		});
 
@@ -182,14 +202,14 @@ public class Multi_Cargo extends JInternalFrame {
 		btnGrabar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * c.setCodigo_cargo(Integer.parseInt(lblNumeroCargo.getText()));
-				 * c.setFecha_cargo(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-				 * c.setTotal_piezas(modeloCargo.getRowCount());
-				 * c.setTransportado_por(txtTransportado.getText().toUpperCase());
-				 * c.setObservacion(txtObservaciones.getText().toUpperCase()); grabarCargo(c);
-				 * grabarDetalleCargo(); imprimirCargo();
-				 */
+				/*c.setCodigo_cargo(Integer.parseInt(lblNumeroCargo.getText()));
+				c.setFecha_cargo(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				c.setTotal_piezas(modeloCargo.getRowCount());
+				c.setTransportado_por(txtTransportado.getText().toUpperCase());
+				c.setObservacion(txtObservaciones.getText().toUpperCase());
+				grabarCargo(c);
+				grabarDetalleCargo();
+				imprimirCargo();*/
 			}
 		});
 
@@ -210,6 +230,20 @@ public class Multi_Cargo extends JInternalFrame {
 		txtObservaciones.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIONES",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+
+		btnBuscar = new JButton(new ImageIcon("img/buscar_historial.png"));
+		contenedor.add(btnBuscar);
+		btnBuscar.setBounds(372, 11, 64, 64);
+		btnBuscar.setOpaque(false);
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ObtenerDetalleContrato(txtNumeroContrato.getText());
+			}
+		});
 
 	}
 

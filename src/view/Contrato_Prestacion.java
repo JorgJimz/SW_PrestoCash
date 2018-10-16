@@ -257,7 +257,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		btnMas = new JButton(new ImageIcon("img/mas.png"));
 		contenedor.add(btnMas);
-		btnMas.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnMas.setOpaque(false);
 		btnMas.setBorderPainted(false);
 		btnMas.setContentAreaFilled(false);

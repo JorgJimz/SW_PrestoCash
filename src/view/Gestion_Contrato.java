@@ -57,6 +57,7 @@ import common.RenderIM;
 import common.RenderIO;
 import common.Utiles;
 import controller.ArticuloController;
+import controller.CargoController;
 import controller.ContratoController;
 import model.Abono;
 import model.Articulo;
@@ -821,7 +822,7 @@ public class Gestion_Contrato extends JInternalFrame {
 						}
 					}
 					if (cargo.getDetalleCargos().size() > 0) {
-						new ContratoController().GenerarCargo(cargo);
+						new CargoController().GenerarCargo(cargo);
 						Utiles.Mensaje(
 								"Cargo registrado. Favor de colocar papel en la impresora para la impresión de la constancia.",
 								JOptionPane.INFORMATION_MESSAGE);
