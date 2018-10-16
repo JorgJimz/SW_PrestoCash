@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import common.ComboItem;
 import common.Constantes;
 import common.EditorDS;
 import controller.ContratoController;
@@ -31,6 +33,7 @@ import model.Cargo;
 import model.Contrato;
 import model.DetalleCargo;
 import model.DetalleContrato;
+import model.Sede;
 
 @SuppressWarnings("serial")
 public class Multi_Cargo extends JInternalFrame {
@@ -109,8 +112,12 @@ public class Multi_Cargo extends JInternalFrame {
 					Articulo aa = new Articulo(articuloId);
 					aa.setDescripcion(descripcion);
 					DetalleCargo dcc = new DetalleCargo();
+					dcc.setId(new Random().nextInt(100));
 					dcc.setContrato(cAsociado);
-					dcc.setArticulo(aa);
+					dcc.setArticulo(aa);					
+					Sede ss = new Sede();
+					ss.setDescripcion("SELECCIONAR DESTINO");
+					dcc.setSede(ss);
 					detalle.add(dcc);
 					ListarCargo();
 				}
@@ -138,15 +145,16 @@ public class Multi_Cargo extends JInternalFrame {
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
-					/*
-					 * int fila = tbCargo.getSelectedRow(); int contrato =
-					 * Integer.parseInt(modeloCargo.getValueAt(fila, 0).toString()); int articulo =
-					 * Integer.parseInt(modeloCargo.getValueAt(fila, 1).toString()); for
-					 * (Detalle_Cargo dc : c.getDetalle_cargo()) { if (dc.getCodigo_contrato() ==
-					 * contrato && dc.getCodigo_articulo() == articulo) {
-					 * dc.setDestino(modeloCargo.getValueAt(fila, 3).toString()); } }
-					 */
-
+					int fila = tbCargo.getSelectedRow();
+					int SelectedId = Integer.parseInt(Constantes.MultiCargoModel.getValueAt(fila, 0).toString());
+					for (DetalleCargo dc : detalle) {
+						if (dc.getId() == SelectedId) {
+							Sede s = new Sede(((ComboItem) Constantes.MultiCargoModel.getValueAt(fila, 3)).getId());
+							s.setDescripcion(
+									((ComboItem) Constantes.MultiCargoModel.getValueAt(fila, 3)).getDescripcion());
+							dc.setSede(s);
+						}
+					}
 				}
 			}
 		});
@@ -208,8 +216,8 @@ public class Multi_Cargo extends JInternalFrame {
 	public void ListarCargo() {
 		Constantes.MultiCargoModel.setRowCount(0);
 		for (DetalleCargo dc : detalle) {
-			Constantes.MultiCargoModel
-					.addRow(new Object[] { dc.getContrato().getId(), dc.getArticulo().getDescripcion(), "DESTINO" });
+			Constantes.MultiCargoModel.addRow(new Object[] { dc.getId(), dc.getContrato().getId(),
+					dc.getArticulo().getDescripcion(), dc.getSede().getDescripcion() });
 		}
 		tbCargo.setModel(Constantes.MultiCargoModel);
 	}

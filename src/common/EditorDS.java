@@ -26,7 +26,7 @@ public class EditorDS extends AbstractCellEditor implements TableCellEditor {
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		if (column == 2) {
+		if (column == 3) {
 			return cbo;
 		}
 		return null;
