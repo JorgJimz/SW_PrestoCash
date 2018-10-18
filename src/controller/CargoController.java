@@ -18,7 +18,7 @@ public class CargoController {
 			em.merge(c);
 			tx.commit();
 		} catch (Exception e1) {
-			tx.rollback();
+			//tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();

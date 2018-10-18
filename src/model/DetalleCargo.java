@@ -3,11 +3,6 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the detalle_cargo database table.
- * 
- */
 @Entity
 @Table(name="detalle_cargo")
 @NamedQuery(name="DetalleCargo.findAll", query="SELECT d FROM DetalleCargo d")

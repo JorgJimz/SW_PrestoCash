@@ -9,10 +9,6 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The persistent class for the cargo database table.
- * 
- */
 @Entity
 @NamedQuery(name = "Cargo.findAll", query = "SELECT c FROM Cargo c")
 public class Cargo implements Serializable {

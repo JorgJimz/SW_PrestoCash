@@ -9,7 +9,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -24,30 +26,34 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import common.ComboItem;
 import common.Constantes;
 import common.EditorDS;
+import common.RenderCA;
+import common.RenderDS;
+import common.Utiles;
+import controller.ArticuloController;
+import controller.CargoController;
 import controller.ContratoController;
 import model.Articulo;
 import model.Cargo;
 import model.Contrato;
 import model.DetalleCargo;
 import model.DetalleContrato;
+import model.EArticulo;
 import model.Sede;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings("serial")
 public class Multi_Cargo extends JInternalFrame {
 	private JPanel contenedor;
@@ -57,7 +63,7 @@ public class Multi_Cargo extends JInternalFrame {
 	private JTable tbArticulos;
 	private JScrollPane spCargo;
 	private JTextField txtObservaciones;
-	private JTextField txtTransportado;
+	private JTextField txtTransportista;
 	private JButton btnGrabar;
 	private JTable tbCargo;
 	private JSeparator jSeparator1;
@@ -73,22 +79,32 @@ public class Multi_Cargo extends JInternalFrame {
 		this.setSize(1177, 700);
 		this.setTitle("GENERAR CARGO");
 		this.setClosable(true);
-		this.setPreferredSize(new java.awt.Dimension(1177, 714));
-		this.setBounds(0, 0, 1177, 714);
+		this.setPreferredSize(new java.awt.Dimension(839, 669));
+		this.setBounds(0, 0, 839, 669);
+		this.addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameClosing(InternalFrameEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
+						JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					dispose();
+				}
+			}
+		});
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1161, 689);
+		contenedor.setBounds(0, 0, 838, 645);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		txtNumeroContrato = new JTextField();
 		contenedor.add(txtNumeroContrato);
-		txtNumeroContrato.setBounds(20, 12, 340, 50);
+		txtNumeroContrato.setBounds(20, 14, 340, 60);
 		txtNumeroContrato.setBorder(BorderFactory.createTitledBorder(null, "NÚMERO DE CONTRATO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-		txtNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		txtNumeroContrato.setForeground(new java.awt.Color(0, 64, 128));
 		txtNumeroContrato.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
@@ -100,10 +116,13 @@ public class Multi_Cargo extends JInternalFrame {
 
 		spArticulos = new JScrollPane();
 		contenedor.add(spArticulos);
-		spArticulos.setBounds(20, 86, 1107, 224);
+		spArticulos.setBounds(20, 86, 790, 220);
 		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		tbArticulos = new JTable();
 		tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
+		tbArticulos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tbArticulos.setDefaultRenderer(Object.class, new RenderCA());
 		spArticulos.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(25);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -118,21 +137,23 @@ public class Multi_Cargo extends JInternalFrame {
 					String flagNumero = Constantes.ArticulosMultiCargoModel.getValueAt(fila, 1).toString();
 					int articuloId = Integer
 							.parseInt(Constantes.ArticulosMultiCargoModel.getValueAt(fila, 2).toString());
-					String descripcion = Constantes.ArticulosMultiCargoModel.getValueAt(fila, 3).toString();
 					Contrato cAsociado = new Contrato();
 					cAsociado.setId(contratoId);
 					cAsociado.setFlag(flagNumero.split("-")[0]);
 					cAsociado.setNumero(Integer.parseInt(flagNumero.split("-")[1]));
-					Articulo aa = new Articulo(articuloId);
-					aa.setDescripcion(descripcion);
+					Articulo aAsociado = new ArticuloController().ObtenerArticulo(articuloId);
+					aAsociado.setEArticulo(new EArticulo(4));
 					DetalleCargo dcc = new DetalleCargo();
 					dcc.setId(new Random().nextInt(100));
 					dcc.setContrato(cAsociado);
-					dcc.setArticulo(aa);
+					dcc.setArticulo(aAsociado);
+					dcc.setCargo(cargo);
 					Sede ss = new Sede();
-					ss.setDescripcion("SELECCIONAR DESTINO");
+					ss.setDescripcion("SELECCIONAR");
 					dcc.setSede(ss);
 					detalle.add(dcc);
+					txtNumeroContrato.setText("");
+					txtNumeroContrato.requestFocus();
 					ListarCargo();
 				}
 			}
@@ -140,12 +161,13 @@ public class Multi_Cargo extends JInternalFrame {
 
 		jSeparator1 = new JSeparator();
 		contenedor.add(jSeparator1);
-		jSeparator1.setBounds(20, 316, 707, 10);
+		jSeparator1.setBounds(20, 316, 790, 10);
 
 		spCargo = new JScrollPane();
 		contenedor.add(spCargo);
-		spCargo.setBounds(20, 332, 1108, 330);
+		spCargo.setBounds(20, 332, 790, 220);
 		spCargo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		spCargo.setBackground(new java.awt.Color(255, 255, 255));
 
 		tbCargo = new JTable();
 		spCargo.setViewportView(tbCargo);
@@ -153,6 +175,8 @@ public class Multi_Cargo extends JInternalFrame {
 		tbCargo.setDefaultEditor(Object.class, new EditorDS());
 		tbCargo.setRowHeight(25);
 		tbCargo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbCargo.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tbCargo.setDefaultRenderer(Object.class, new RenderDS());
 		tbCargo.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbCargo.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbCargo.getModel().addTableModelListener(new TableModelListener() {
@@ -193,38 +217,49 @@ public class Multi_Cargo extends JInternalFrame {
 			}
 		});
 
-		btnGrabar = new JButton();
+		btnGrabar = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabar);
-		btnGrabar.setText("PROCESAR");
-		btnGrabar.setBounds(800, 775, 327, 86);
+		btnGrabar.setOpaque(false);
+		btnGrabar.setBorderPainted(false);
+		btnGrabar.setContentAreaFilled(false);
+		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGrabar.setBounds(746, 564, 64, 64);
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*c.setCodigo_cargo(Integer.parseInt(lblNumeroCargo.getText()));
-				c.setFecha_cargo(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-				c.setTotal_piezas(modeloCargo.getRowCount());
-				c.setTransportado_por(txtTransportado.getText().toUpperCase());
-				c.setObservacion(txtObservaciones.getText().toUpperCase());
-				grabarCargo(c);
-				grabarDetalleCargo();
-				imprimirCargo();*/
+				if (detalle.size() > 0) {
+					cargo.setFecha(String.valueOf(LocalDate.now()));
+					cargo.setTransportista(txtTransportista.getText().toUpperCase());
+					cargo.setObs(txtObservaciones.getText().toUpperCase());
+					cargo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+					cargo.setFechaCreacion(String.valueOf(LocalDate.now()));
+					cargo.setDetalleCargos(detalle);
+					new CargoController().GenerarCargo(cargo);
+					Utiles.Mensaje(
+							"<html><h3>Cargo registrado. Favor de colocar papel en la impresora para la impresión de la constancia.</h3></html>",
+							JOptionPane.INFORMATION_MESSAGE);
+					ImprimirCargo();
+				} else {
+					Utiles.Mensaje("Agregue como mínimo un artículo al Cargo.", JOptionPane.WARNING_MESSAGE);
+				}
+
 			}
 		});
 
-		txtTransportado = new JTextField();
-		contenedor.add(txtTransportado);
-		txtTransportado.setBounds(264, 775, 522, 35);
-		txtTransportado.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTransportado.setFont(new java.awt.Font("Segoe UI", 1, 22));
-		txtTransportado.setBorder(BorderFactory.createTitledBorder(null, "TRANSPORTADO POR",
+		txtTransportista = new JTextField();
+		contenedor.add(txtTransportista);
+		txtTransportista.setBounds(20, 564, 311, 50);
+		txtTransportista.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtTransportista.setBorder(BorderFactory.createTitledBorder(null, "TRANSPORTADO POR",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtObservaciones = new JTextField();
 		contenedor.add(txtObservaciones);
-		txtObservaciones.setBounds(265, 822, 523, 35);
+		txtObservaciones.setBounds(337, 564, 397, 50);
 		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 22));
 		txtObservaciones.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIONES",
@@ -233,7 +268,7 @@ public class Multi_Cargo extends JInternalFrame {
 
 		btnBuscar = new JButton(new ImageIcon("img/buscar_historial.png"));
 		contenedor.add(btnBuscar);
-		btnBuscar.setBounds(372, 11, 64, 64);
+		btnBuscar.setBounds(372, 11, 65, 65);
 		btnBuscar.setOpaque(false);
 		btnBuscar.setBorderPainted(false);
 		btnBuscar.setContentAreaFilled(false);
@@ -250,65 +285,43 @@ public class Multi_Cargo extends JInternalFrame {
 	public void ListarCargo() {
 		Constantes.MultiCargoModel.setRowCount(0);
 		for (DetalleCargo dc : detalle) {
-			Constantes.MultiCargoModel.addRow(new Object[] { dc.getId(), dc.getContrato().getId(),
-					dc.getArticulo().getDescripcion(), dc.getSede().getDescripcion() });
+			Constantes.MultiCargoModel
+					.addRow(new Object[] { dc.getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
+							dc.getArticulo().getDescripcion(), dc.getSede().getDescripcion() });
 		}
 		tbCargo.setModel(Constantes.MultiCargoModel);
 	}
 
 	public void ObtenerDetalleContrato(String contrato) {
-		Contrato cn = new ContratoController().CargarContrato(contrato.split("-")[0],
-				Integer.parseInt(contrato.split("-")[1]));
-		Constantes.ArticulosMultiCargoModel.setRowCount(0);
-		for (DetalleContrato dc : cn.getDetalleContratos()) {
-			Constantes.ArticulosMultiCargoModel
-					.addRow(new Object[] {
-							dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
-							dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " "
-									+ dc.getArticulo().getMarca() + " " + dc.getArticulo().getModelo(),
-							dc.getArticulo().getEArticulo().getDescripcion() });
+		if (!contrato.isEmpty()) {
+			Contrato cn = new ContratoController().CargarContrato(contrato.split("-")[0],
+					Integer.parseInt(contrato.split("-")[1]));
+			Constantes.ArticulosMultiCargoModel.setRowCount(0);
+			for (DetalleContrato dc : cn.getDetalleContratos()) {
+				Constantes.ArticulosMultiCargoModel.addRow(new Object[] {
+						dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
+						dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " " + dc.getArticulo().getMarca()
+								+ " " + dc.getArticulo().getModelo(),
+						dc.getArticulo().getEArticulo().getDescripcion() });
+			}
+			tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
+		} else {
+			Utiles.Mensaje("Ingrese Número de Contrato", JOptionPane.INFORMATION_MESSAGE);
 		}
-		tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
 	}
 
-	/*
-	 * public void grabarCargo(Cargo c) { Connection con =
-	 * MySQLConexion.getConexion(); try { String sql =
-	 * "INSERT INTO tb_cargo VALUES(?,?,?,?,?)"; PreparedStatement pst =
-	 * con.prepareStatement(sql); pst.setInt(1, c.getCodigo_cargo());
-	 * pst.setString(2, c.getFecha_cargo()); pst.setInt(3, c.getTotal_piezas());
-	 * pst.setString(4, c.getTransportado_por()); pst.setString(5,
-	 * c.getObservacion()); pst.executeUpdate(); JOptionPane.showMessageDialog(null,
-	 * "SE GENERÓ CARGO"); } catch (Exception e) { e.printStackTrace(); } finally {
-	 * try { con.close(); } catch (SQLException e) { e.printStackTrace(); } } }
-	 * 
-	 * public void grabarDetalleCargo() { Connection con =
-	 * MySQLConexion.getConexion(); try { for (Detalle_Cargo dc :
-	 * c.getDetalle_cargo()) { String sql =
-	 * "INSERT INTO tb_detalle_cargo VALUES(?,?,?,?)"; PreparedStatement pst =
-	 * con.prepareStatement(sql); pst.setInt(1, dc.getCodigo_cargo()); pst.setInt(2,
-	 * dc.getCodigo_articulo()); pst.setInt(3, dc.getCodigo_contrato());
-	 * pst.setString(4, dc.getDestino()); pst.executeUpdate(); }
-	 * JOptionPane.showMessageDialog(null, "SE GENERÓ DETALLE"); } catch (Exception
-	 * e) { e.printStackTrace(); } finally { try { con.close(); } catch
-	 * (SQLException e) { e.printStackTrace(); } } }
-	 */
-
-	/*
-	 * public void imprimirCargo() { ArrayList<Cargo> arreglo_cargo = new
-	 * ArrayList<Cargo>(); arreglo_cargo.add(c); HashMap<String, Object> params =
-	 * new HashMap<String, Object>(); params.put("p", Constantes.NOMBRE_SUCURSAL);
-	 * try { JasperReport reporte = (JasperReport)
-	 * JRLoader.loadObject("cargo.jasper"); JasperPrint jasperPrint =
-	 * JasperFillManager.fillReport(reporte, params, new
-	 * JRBeanCollectionDataSource(arreglo_cargo));
-	 * JasperPrintManager.printReport(jasperPrint, true); } catch (Exception e) {
-	 * Auditoria a = new Auditoria( "Error de tipo: " + e.getClass() +
-	 * " en Contrato_Prestacion - imprimirContrato()", " Motivo: " + e.getCause() +
-	 * " Detalle: " + e.getMessage(), new
-	 * SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-	 * a.registrarAuditoria(); } }
-	 * 
-	 * public void cerrar() { this.dispose(); }
-	 */
+	public void ImprimirCargo() {
+		ArrayList<Cargo> arreglo_cargo = new ArrayList<Cargo>();
+		arreglo_cargo.add(cargo);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("SEDE", Principal.SEDE.getDescripcion());
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/cargo.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
+					new JRBeanCollectionDataSource(arreglo_cargo));
+			JasperPrintManager.printReport(jasperPrint, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

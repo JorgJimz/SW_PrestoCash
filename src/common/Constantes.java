@@ -29,7 +29,7 @@ public class Constantes {
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
 	
 	public static DefaultTableModel MultiCargoModel = new DefaultTableModel(null,
-			new String[] { "CÓDIGO", "NÚMERO CONTRATO", "ARTÍCULO", "DESTINO" }) {
+			new String[] { "ID", "CONTRATO", "ARTÍCULO", "DESTINO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			if (colIndex == 3) {
 				return true;
@@ -39,7 +39,7 @@ public class Constantes {
 	};
 	
 	public static DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null, new String[]
-			  { "ID1", "CONTRATO", "ID2", "ARTÍCULO", "ESTADO" }) { public
+			  { "CID", "CONTRATO", "AID", "ARTÍCULO", "ESTADO" }) { public
 			  boolean isCellEditable(int rowIndex, int colIndex) { return false; } };
 
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,

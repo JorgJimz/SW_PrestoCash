@@ -18,13 +18,16 @@
 	<field name="cargo" class="model.Cargo">
 		<fieldDescription><![CDATA[cargo]]></fieldDescription>
 	</field>
+	<field name="contrato" class="model.Contrato">
+		<fieldDescription><![CDATA[contrato]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="20">
+		<band height="41">
 			<staticText>
-				<reportElement x="0" y="0" width="322" height="20" uuid="76ce1e03-6fb5-43a6-9f87-91ad0c9dd419"/>
+				<reportElement x="80" y="0" width="270" height="20" uuid="76ce1e03-6fb5-43a6-9f87-91ad0c9dd419"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -37,7 +40,7 @@
 				<text><![CDATA[ARTICULO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="322" y="0" width="135" height="20" uuid="24eb2c03-4a65-4b55-b454-afe23d5dc054"/>
+				<reportElement x="350" y="0" width="120" height="20" uuid="24eb2c03-4a65-4b55-b454-afe23d5dc054"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -50,7 +53,7 @@
 				<text><![CDATA[DESTINO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="457" y="0" width="98" height="20" uuid="6ab303eb-9e14-4543-93bc-ed5c40f238fa"/>
+				<reportElement x="470" y="0" width="85" height="20" uuid="6ab303eb-9e14-4543-93bc-ed5c40f238fa"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -62,12 +65,19 @@
 				</textElement>
 				<text><![CDATA[ESTADO]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="30" uuid="5d2fc933-b054-467c-95e1-0e5651a24191"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="23" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="322" height="23" uuid="9ba7baed-f289-4cb4-a66e-a729cb1641b8"/>
+				<reportElement x="80" y="0" width="270" height="23" uuid="9ba7baed-f289-4cb4-a66e-a729cb1641b8"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -80,7 +90,7 @@
 				<textFieldExpression><![CDATA[$F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="322" y="0" width="135" height="23" uuid="a16040ae-6f5f-4557-8942-07dfadbf7743"/>
+				<reportElement x="350" y="0" width="120" height="23" uuid="a16040ae-6f5f-4557-8942-07dfadbf7743"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -93,7 +103,7 @@
 				<textFieldExpression><![CDATA[$F{sede}.getDescripcion()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="457" y="0" width="98" height="23" uuid="7d0809a2-bf22-44d3-93e7-9ff7aa8b2d55"/>
+				<reportElement x="470" y="0" width="85" height="23" uuid="7d0809a2-bf22-44d3-93e7-9ff7aa8b2d55"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -104,6 +114,19 @@
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{articulo}.getEArticulo().getDescripcion()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="68" height="23" uuid="c224a96f-c913-4bed-8d07-89ed068fe362"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contrato}.getFlag() + "-" + $F{contrato}.getNumero()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

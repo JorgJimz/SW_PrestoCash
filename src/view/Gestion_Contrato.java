@@ -806,7 +806,7 @@ public class Gestion_Contrato extends JInternalFrame {
 					cargo.setFechaCreacion(String.valueOf(LocalDate.now()));
 					for (int i = 0; i <= Constantes.DetalleContratoModel.getRowCount() - 1; i++) {
 						int estado = Integer.parseInt(Constantes.DetalleContratoModel.getValueAt(i, 6).toString());
-						if (estado == /* 1 */99) {
+						if (estado == 99) {
 							DetalleCargo detalle_cargo = new DetalleCargo();
 							detalle_cargo.setContrato(contrato);
 							Articulo articulo = new ArticuloController().ObtenerArticulo(

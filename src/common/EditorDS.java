@@ -16,6 +16,8 @@ public class EditorDS extends AbstractCellEditor implements TableCellEditor {
 
 	public EditorDS() {
 		cbo = new JComboBox<ComboItem>();
+		cbo.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		cbo.setForeground(new java.awt.Color(0, 64, 128));
 		new ArticuloController().ListarSedes("CASA").forEach(ci -> cbo.addItem(ci));
 	}
 

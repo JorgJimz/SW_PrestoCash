@@ -37,7 +37,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["FECHA " + new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA["FECHA: " + new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date()).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="17" width="375" height="32" uuid="3716ca7b-0a49-492f-945a-7f03d8ed9a2f"/>
