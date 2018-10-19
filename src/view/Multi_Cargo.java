@@ -54,6 +54,19 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings("serial")
 public class Multi_Cargo extends JInternalFrame {
 	private JPanel contenedor;
@@ -78,15 +91,16 @@ public class Multi_Cargo extends JInternalFrame {
 		this.setLayout(null);
 		this.setSize(1177, 700);
 		this.setTitle("GENERAR CARGO");
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setClosable(true);
-		this.setPreferredSize(new java.awt.Dimension(839, 669));
-		this.setBounds(0, 0, 839, 669);
+		this.setPreferredSize(new java.awt.Dimension(839, 686));
+		this.setBounds(0, 0, 839, 686);
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
 				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
 						JOptionPane.YES_NO_OPTION);
-				if (option == JOptionPane.YES_OPTION) {
+				if (option == JOptionPane.YES_OPTION) {					
 					dispose();
 				}
 			}
@@ -95,7 +109,7 @@ public class Multi_Cargo extends JInternalFrame {
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 838, 645);
+		contenedor.setBounds(0, 0, 838, 661);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		txtNumeroContrato = new JTextField();
@@ -108,7 +122,7 @@ public class Multi_Cargo extends JInternalFrame {
 		txtNumeroContrato.setForeground(new java.awt.Color(0, 64, 128));
 		txtNumeroContrato.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {					
 					ObtenerDetalleContrato(txtNumeroContrato.getText());
 				}
 			}
@@ -172,6 +186,7 @@ public class Multi_Cargo extends JInternalFrame {
 		tbCargo = new JTable();
 		spCargo.setViewportView(tbCargo);
 		tbCargo.setModel(Constantes.MultiCargoModel);
+		tbCargo.putClientProperty("terminateEditOnFocusLost", true);
 		tbCargo.setDefaultEditor(Object.class, new EditorDS());
 		tbCargo.setRowHeight(25);
 		tbCargo.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -250,18 +265,18 @@ public class Multi_Cargo extends JInternalFrame {
 
 		txtTransportista = new JTextField();
 		contenedor.add(txtTransportista);
-		txtTransportista.setBounds(20, 564, 311, 50);
+		txtTransportista.setBounds(20, 564, 260, 60);
 		txtTransportista.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtTransportista.setBorder(BorderFactory.createTitledBorder(null, "TRANSPORTADO POR",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtObservaciones = new JTextField();
 		contenedor.add(txtObservaciones);
-		txtObservaciones.setBounds(337, 564, 397, 50);
+		txtObservaciones.setBounds(292, 564, 442, 60);
 		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtObservaciones.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIONES",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
