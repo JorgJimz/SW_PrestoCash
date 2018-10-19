@@ -10,7 +10,7 @@ public class NumberToLetter {
     private final String[] CENTENAS = {"", "ciento ", "doscientos ", "trecientos ", "cuatrocientos ", "quinientos ", "seiscientos ",
         "setecientos ", "ochocientos ", "novecientos "};
 
-    public String convertir(String numero, boolean mayusculas) {
+    public String convertir(String numero, boolean mayusculas, String moneda) {
         String literal = "";
         String parte_decimal;    
         numero = numero.replace(".", ",");
@@ -20,7 +20,7 @@ public class NumberToLetter {
         }
         if (Pattern.matches("\\d{1,9},\\d{1,2}", numero)) {
             String Num[] = numero.split(",");            
-            parte_decimal = "y " + Num[1] + "/100 Nuevos Soles.";
+            parte_decimal = "y " + Num[1] + "/100 " + moneda;
             if (Integer.parseInt(Num[0]) == 0) {
                 literal = "cero ";
             } else if (Integer.parseInt(Num[0]) > 999999) {

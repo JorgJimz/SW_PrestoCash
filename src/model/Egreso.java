@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQuery(name = "Egreso.findAll", query = "SELECT e FROM Egreso e")
@@ -28,6 +29,12 @@ public class Egreso implements Serializable {
 	private String tipo;
 
 	private String moneda;
+
+	@Transient
+	private String importeTexto;
+
+	@Transient
+	private String comprobante;
 
 	// bi-directional many-to-one association to LibroCaja
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -83,6 +90,22 @@ public class Egreso implements Serializable {
 
 	public void setMoneda(String moneda) {
 		this.moneda = moneda;
+	}
+
+	public String getImporteTexto() {
+		return importeTexto;
+	}
+
+	public void setImporteTexto(String importeTexto) {
+		this.importeTexto = importeTexto;
+	}
+
+	public String getComprobante() {
+		return comprobante;
+	}
+
+	public void setComprobante(String comprobante) {
+		this.comprobante = comprobante;
 	}
 
 }

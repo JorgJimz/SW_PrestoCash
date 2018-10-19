@@ -559,12 +559,14 @@ public class Venta_Articulos extends JInternalFrame {
 						ingreso.setCapital(articulo.getCapitalContrato());
 						ingreso.setGanancia(articulo.getPrecioVenta().subtract(articulo.getCapitalContrato()));
 						ingreso.setOtro(separacion.getImporte());
+						ingreso.setMoneda("SOLES");
 					} else {
 						articulo.setEArticulo(new EArticulo(2));
 						ingreso.setTipo("SEP");
 						ingreso.setCapital(BigDecimal.ZERO);
 						ingreso.setGanancia(BigDecimal.ZERO);
 						ingreso.setOtro(separacion.getImporte());
+						ingreso.setMoneda("SOLES");
 					}
 
 					separacion.setArticulo(articulo);
@@ -644,6 +646,7 @@ public class Venta_Articulos extends JInternalFrame {
 					ingreso.setCapital(capital);
 					ingreso.setGanancia(precio_venta.subtract(capital));
 					ingreso.setOtro(BigDecimal.ZERO);
+					ingreso.setMoneda("SOLES");
 
 					new VentaController().GenerarVenta(venta, ingreso);
 
