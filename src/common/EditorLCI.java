@@ -30,12 +30,12 @@ public class EditorLCI extends AbstractCellEditor implements TableCellEditor {
 
 	public EditorLCI() {
 		txt = new JTextField();
-		txt.setFont(new Font("Segoe UI", 1, 20));
+		txt.setFont(new Font("Segoe UI", 1, 16));
 		cbo = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "INGRESO MANUAL", "ABONO CAJA" }));
-		cbo.setFont(new Font("Segoe UI", 1, 20));
+		cbo.setFont(new Font("Segoe UI", 1, 16));
 
 		cbo_moneda = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "SOLES", "DÓLARES" }));
-		cbo_moneda.setFont(new Font("Segoe UI", 1, 20));
+		cbo_moneda.setFont(new Font("Segoe UI", 1, 16));
 
 		editores = new DefaultCellEditor[3];
 		editores[JCOMBOBOX] = new DefaultCellEditor(cbo);

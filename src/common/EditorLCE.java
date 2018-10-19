@@ -30,7 +30,7 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 
 	public EditorLCE() {
 		txt = new JTextField();
-		txt.setFont(new Font("Segoe UI", 1, 20));
+		txt.setFont(new Font("Segoe UI", 1, 16));
 		cbo = new JComboBox<ComboItem>(new DefaultComboBoxModel(new ComboItem[] { new ComboItem(1, "ALQUILER", ""),
 				new ComboItem(2, "AGUA", ""), new ComboItem(3, "LUZ", ""), new ComboItem(4, "TELEFONO", ""),
 				new ComboItem(5, "SERVICIO", ""), new ComboItem(6, "PLANILLA", ""), new ComboItem(7, "DEVOLUCION", "PRINTABLE"),

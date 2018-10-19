@@ -167,7 +167,7 @@ public class ContratoController {
 					f++;
 				}
 				String articulos = c.getDetalleContratos().stream().map(a -> a.getArticulo().getDescripcion())
-						.collect(Collectors.joining(", "));
+						.collect(Collectors.joining(", ")).replaceFirst(",(?=[^,]+$)", " Y");
 				Constantes.HistorialModel.addRow(new Object[] { c.getFlag() + "-" + c.getNumero(), c.getFechaContrato(),
 						c.getFechaVencimiento(), c.getFechaRemate(), c.getEContrato().getDescripcion(), articulos,
 						c.getPrestamo().getDescripcion(), c.getCapital() });

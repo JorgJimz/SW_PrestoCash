@@ -447,14 +447,14 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarIngreso = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabarIngreso);
 		btnGrabarIngreso.setVisible(false);
-		btnGrabarIngreso.setText("GRABAR");
+		btnGrabarIngreso.setText("GRABAR INGRESO");
 		btnGrabarIngreso.setOpaque(false);
 		btnGrabarIngreso.setBorderPainted(false);
 		btnGrabarIngreso.setContentAreaFilled(false);
 		btnGrabarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabarIngreso.setHorizontalAlignment(SwingConstants.RIGHT);
-		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		btnGrabarIngreso.setBounds(763, 527, 263, 70);
+		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnGrabarIngreso.setBounds(763, 535, 263, 70);
 		btnGrabarIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -492,10 +492,10 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarEgreso.setContentAreaFilled(false);
 		btnGrabarEgreso.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnGrabarEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnGrabarEgreso.setVisible(false);
-		btnGrabarEgreso.setText("GRABAR");
-		btnGrabarEgreso.setBounds(1048, 527, 263, 70);
+		btnGrabarEgreso.setText("GRABAR EGRESO");
+		btnGrabarEgreso.setBounds(1048, 534, 263, 70);
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {			
