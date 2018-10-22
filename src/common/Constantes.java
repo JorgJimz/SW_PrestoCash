@@ -27,7 +27,14 @@ public class Constantes {
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
 
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
-	
+
+	public static DefaultTableModel HistorialSeparacionModel = new DefaultTableModel(null,
+			new String[] { "FECHA", "IMPORTE", "CLIENTE" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
 	public static DefaultTableModel MultiCargoModel = new DefaultTableModel(null,
 			new String[] { "ID", "CONTRATO", "ARTÍCULO", "DESTINO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -37,10 +44,13 @@ public class Constantes {
 			return false;
 		}
 	};
-	
-	public static DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null, new String[]
-			  { "CID", "CONTRATO", "AID", "ARTÍCULO", "ESTADO" }) { public
-			  boolean isCellEditable(int rowIndex, int colIndex) { return false; } };
+
+	public static DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null,
+			new String[] { "CID", "CONTRATO", "AID", "ARTÍCULO", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
 
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {

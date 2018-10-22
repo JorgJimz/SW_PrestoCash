@@ -1192,8 +1192,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		Pago cancelacion = k.getPagos().stream().filter(Constantes.predicadoPago).findFirst().orElse(Pago.DEFAULT);
 		BigDecimal montoCancelacion = cancelacion.getCapital().add(cancelacion.getInteres()).add(cancelacion.getMora());
 		edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>CANCELADO</h1>" + "<h3>DÍA: "
-				+ cancelacion.getFechaPago() + " </h3>" + "<h3>IMPORTE: " + montoCancelacion + "</h3>" + "</center>"
-				+ "</html>");
+				+ Constantes.formatoLocal.format(LocalDate.parse(cancelacion.getFechaPago())) + " </h3>"
+				+ "<h3>IMPORTE: " + montoCancelacion + "</h3>" + "</center>" + "</html>");
 		tpContrato.setEnabledAt(1, false);
 		tpContrato.setEnabledAt(3, false);
 		tpContrato.setDisabledIconAt(1, new ImageIcon("img/deshabilitar.png"));
