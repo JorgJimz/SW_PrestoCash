@@ -382,8 +382,8 @@ public class Libro_Caja extends JInternalFrame {
 		lblCierre.setBounds(577, 578, 168, 40);
 		lblCierre.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
 		lblCierre.setOpaque(true);
-		lblCierre.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		lblCierre.setForeground(new java.awt.Color(255, 255, 255));
+		lblCierre.setFont(new java.awt.Font("Segoe UI", 1, 32));
+		lblCierre.setForeground(new java.awt.Color(0, 0, 0));
 		lblCierre.setBackground(new java.awt.Color(218, 165, 32));
 		lblCierre.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCierre.setEditable(false);
@@ -608,11 +608,11 @@ public class Libro_Caja extends JInternalFrame {
 		lblCierreDolares.setText(String.valueOf(caja.getCierreDolares()));
 		lblCierreDolares.setOrientation(SwingConstants.RIGHT);
 		lblCierreDolares.setIcon(new ImageIcon("img/usd.png"));
-		lblCierreDolares.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		lblCierreDolares.setFont(new java.awt.Font("Segoe UI", 1, 32));
 		lblCierreDolares.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCierreDolares.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, false));
 		lblCierreDolares.setBackground(new java.awt.Color(218, 165, 32));
-		lblCierreDolares.setForeground(new java.awt.Color(255, 255, 255));
+		lblCierreDolares.setForeground(new java.awt.Color(0, 0, 0));
 		lblCierreDolares.setOpaque(true);
 		lblCierreDolares.setBounds(577, 630, 168, 40);
 		lblCierreDolares.setEditable(false);

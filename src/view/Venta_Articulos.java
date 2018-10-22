@@ -49,19 +49,6 @@ import model.Ingreso;
 import model.Separacion;
 import model.Venta;
 
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 @SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 public class Venta_Articulos extends JInternalFrame {
 
@@ -224,7 +211,6 @@ public class Venta_Articulos extends JInternalFrame {
 		tbArticulos.removeColumn(tbArticulos.getColumnModel().getColumn(8));
 		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
-		tbArticulos.setPreferredSize(new java.awt.Dimension(967, 347));
 		tbArticulos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (MOUSECLICKED) {
@@ -314,7 +300,7 @@ public class Venta_Articulos extends JInternalFrame {
 		contenedor.add(pnlRemate);
 		pnlRemate.setBounds(16, 379, 996, 226);
 		pnlRemate.setLayout(null);
-		pnlRemate.setVisible(true);
+		pnlRemate.setVisible(false);
 
 		pnlSeparacion = new JPanel();
 		contenedor.add(pnlSeparacion);
@@ -728,7 +714,7 @@ public class Venta_Articulos extends JInternalFrame {
 		Constantes.HistorialSeparacionModel.setRowCount(0);
 		for (Separacion s : ls) {
 			Constantes.HistorialSeparacionModel
-					.addRow(new Object[] { Constantes.formatoLocal.format(LocalDate.parse(s.getFecha())),
+					.addRow(new Object[] { Constantes.formatoLocal.format(LocalDate.parse(s.getFecha())).toUpperCase(),
 							s.getImporte(), s.getCliente().getNombreCompleto() });
 			totalFecha = totalFecha.add(s.getImporte());
 		}

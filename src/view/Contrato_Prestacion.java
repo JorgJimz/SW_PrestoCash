@@ -791,8 +791,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 			detalle_contrato.setArticuloJasper(
 					articulo.getDescripcion() + " " + articulo.getMarca() + " " + articulo.getModelo());
 			detalle_contrato.setObservacionArticuloJasper(articulo.getObs() + " " + txtEn.getText());
-			detalle_contrato.setCantidad(Integer.parseInt(txtCantidad.getText()));
-			detalle_contrato.setTasacion(new BigDecimal(txtTasacion.getText()));
+			detalle_contrato.setCantidad(Integer.parseInt(txtCantidad.getText().trim()));
+			detalle_contrato.setTasacion(new BigDecimal(txtTasacion.getText().trim()));
 
 			detalle.add(detalle_contrato);
 		} catch (NumberFormatException e) {
@@ -803,13 +803,17 @@ public class Contrato_Prestacion extends JInternalFrame {
 	}
 
 	public void QuitarDetalle() {
-		int fila = tbContratos.getSelectedRow();
-		int codigo = Integer.parseInt(String.valueOf(tbContratos.getValueAt(fila, 0)));
-		for (DetalleContrato dc : detalle) {
-			if (dc.getId() == codigo) {
-				detalle.remove(dc);
-				break;
+		try {
+			int fila = tbContratos.getSelectedRow();
+			int codigo = Integer.parseInt(String.valueOf(tbContratos.getValueAt(fila, 0)));
+			for (DetalleContrato dc : detalle) {
+				if (dc.getId() == codigo) {
+					detalle.remove(dc);
+					break;
+				}
 			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			Utiles.Mensaje("Seleccione un artículo para retirar de la lista.", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -826,8 +830,12 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		BigDecimal porcentajeInteres = prestamo.getInteres().divide(new BigDecimal(100));
 
-		BigDecimal interes = (capital.multiply(porcentajeInteres).compareTo(BigDecimal.TEN) <= 0) ? BigDecimal.TEN
+		BigDecimal interesMinimo = prestamo.getDescripcion().contains("ELECTRO") ? BigDecimal.TEN : new BigDecimal(5);
+
+		BigDecimal interes = (capital.multiply(porcentajeInteres).compareTo(interesMinimo) <= 0)
+				? interesMinimo.setScale(2, RoundingMode.HALF_UP)
 				: capital.multiply(porcentajeInteres).setScale(2, RoundingMode.HALF_UP);
+
 		BigDecimal total = capital.add(interes);
 
 		tbContratos.setRowHeight(30);
