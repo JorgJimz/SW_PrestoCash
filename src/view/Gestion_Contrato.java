@@ -1539,7 +1539,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 			if (proceed) {
 				new ContratoController().GestionarContrato(contrato, ingreso);
-				btnPagar.setEnabled(false);
+				dispose();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
