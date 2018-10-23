@@ -31,6 +31,9 @@ public class Mora implements Serializable {
 
 	private int status;
 
+	@Column(name = "FECHA_PAGO")
+	private String fechaPago;
+
 	// bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
@@ -84,6 +87,14 @@ public class Mora implements Serializable {
 
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
+	}
+
+	public String getFechaPago() {
+		return fechaPago;
+	}
+
+	public void setFechaPago(String fechaPago) {
+		this.fechaPago = fechaPago;
 	}
 
 }
