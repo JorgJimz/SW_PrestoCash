@@ -99,6 +99,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JComboBox cboAlmacen;
 	private JButton btnCargo;
 	private JLabel lblId3;
+	private JRadioButton rbAnularContrato;
 	private JLabel lblPorcentajeInteres;
 	private JLabel jLabel2;
 	private JLabel lblId2;
@@ -235,7 +236,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1275, 696);
+		contenedor.setBounds(0, 0, 1298, 685);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 		InteresModel.addTableModelListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent tme) {
@@ -450,11 +451,11 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlOperacionContainer.setVisible(true);
 		contenedor.add(pnlOperacionContainer);
 		pnlOperacionContainer.setLayout(null);
-		pnlOperacionContainer.setBounds(555, 339, 683, 285);
+		pnlOperacionContainer.setBounds(555, 339, 683, 330);
 
 		pnlSucesos = new JTranslucentPane();
 		pnlSucesos.setAlpha(0.85f);
-		pnlSucesos.setBounds(0, 0, 682, 277);
+		pnlSucesos.setBounds(0, 0, 682, 330);
 		pnlSucesos.setBackground(new Color(0, 0, 0, 140));
 		pnlSucesos.setVisible(false);
 		pnlSucesos.setLayout(null);
@@ -464,7 +465,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		contenedor.add(pnlCalculos);
 		pnlCalculos.setLayout(null);
 		pnlCalculos.setOpaque(false);
-		pnlCalculos.setBounds(0, 0, 1275, 685);
+		pnlCalculos.setBounds(0, 0, 1298, 685);
 
 		jLabel8 = new JLabel();
 		pnlCalculos.add(jLabel8);
@@ -786,7 +787,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		edpMensajeSuceso.setOpaque(false);
 		edpMensajeSuceso.setEditable(false);
 		edpMensajeSuceso.setBackground(null);
-		edpMensajeSuceso.setBounds(0, 0, 682, 277);
+		edpMensajeSuceso.setBounds(0, 0, 682, 330);
 		edpMensajeSuceso.setFont(new java.awt.Font("Segoe UI", 1, 42));
 		edpMensajeSuceso.setForeground(Color.WHITE);
 
@@ -1101,6 +1102,23 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 		});
 		rbgOpcionPago.add(rbCancelarContrato);
+		
+		rbAnularContrato = new JRadioButton();
+		pnlOperacionContainer.add(rbAnularContrato, JLayeredPane.DEFAULT_LAYER);
+		rbAnularContrato.setText("ANULAR CONTRATO");
+		rbAnularContrato.setOpaque(false);
+		rbAnularContrato.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		rbAnularContrato.setForeground(new java.awt.Color(128, 0, 128));
+		rbAnularContrato.setBounds(12, 282, 197, 30);
+		rbAnularContrato.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				contrato.setOperacion("ANULAR CONTRATO");				
+			}
+		});
+		
+		rbAnularContrato.setActionCommand("AN");
+		rbgOpcionPago.add(rbAnularContrato);
 
 		lblTotalAPagar = new JLabel();
 		pnlOperacionContainer.add(lblTotalAPagar);
@@ -1174,14 +1192,6 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnCargo.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCargo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		btnCargo.setHorizontalAlignment(SwingConstants.LEFT);
-
-		lblId2 = new JLabel();
-		pnlOperacionContainer.add(lblId2, JLayeredPane.DEFAULT_LAYER);
-		lblId2.setText("OPERACIÓN");
-		lblId2.setForeground(new java.awt.Color(0, 128, 255));
-		lblId2.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		lblId2.setBounds(16, 10, 194, 30);
-
 		btnCargo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1190,6 +1200,13 @@ public class Gestion_Contrato extends JInternalFrame {
 				pnlCargoContainer.setVisible(true);
 			}
 		});
+
+		lblId2 = new JLabel();
+		pnlOperacionContainer.add(lblId2, JLayeredPane.DEFAULT_LAYER);
+		lblId2.setText("OPERACIÓN");
+		lblId2.setForeground(new java.awt.Color(0, 128, 255));
+		lblId2.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		lblId2.setBounds(16, 10, 194, 30);
 
 		CargarInformacionContrato();
 		if (contrato.getEContrato().getId() == 6) {
@@ -1540,6 +1557,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			if (proceed) {
 				new ContratoController().GestionarContrato(contrato, ingreso);
 				btnPagar.setEnabled(false);
+				Utiles.Bloquear(pnlOperacionContainer);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
