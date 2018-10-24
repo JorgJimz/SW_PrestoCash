@@ -314,9 +314,11 @@
 		</band>
 	</lastPageFooter>
 	<summary>
-		<band height="78">
+		<band height="65">
 			<subreport>
-				<reportElement x="295" y="5" width="280" height="72" uuid="a33f012c-9711-4ba3-8798-4336179ee143"/>
+				<reportElement x="295" y="5" width="277" height="60" uuid="a33f012c-9711-4ba3-8798-4336179ee143">
+					<printWhenExpression><![CDATA[$F{egresosJasper}.next()]]></printWhenExpression>
+				</reportElement>
 				<subreportParameter name="totalEmpenos_master">
 					<subreportParameterExpression><![CDATA[$F{totalEmpenos}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -324,13 +326,75 @@
 				<subreportExpression><![CDATA["reports/subreporte_egresos.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="5" width="290" height="73" uuid="4659b692-3bfc-49ff-b18a-762b02af288d"/>
+				<reportElement x="0" y="5" width="290" height="60" uuid="4659b692-3bfc-49ff-b18a-762b02af288d">
+					<printWhenExpression><![CDATA[$F{ingresosJasper}.next()]]></printWhenExpression>
+				</reportElement>
 				<subreportParameter name="totalGanancia_master">
 					<subreportParameterExpression><![CDATA[$F{totalGanancia}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[$F{ingresosJasper}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/subreporte_ingresos.jasper"]]></subreportExpression>
 			</subreport>
+			<staticText>
+				<reportElement x="0" y="35" width="340" height="30" uuid="32eccffc-b331-47f7-9fe6-9783d05772df">
+					<printWhenExpression><![CDATA[($F{totalNeto}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIN INFORMACIÓN PARA MOSTRAR.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="5" width="340" height="30" uuid="65e0f08f-2bd1-410d-ba5b-dd9f6eb02732">
+					<printWhenExpression><![CDATA[($F{totalNeto}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INGRESOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="5" width="230" height="30" uuid="12c47f83-0dce-4af6-a466-e7eb3714d25f">
+					<printWhenExpression><![CDATA[($F{totalEgresos}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EGRESOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="35" width="230" height="30" uuid="adbff4fa-74fa-48a4-bee0-ef1c1952ceca">
+					<printWhenExpression><![CDATA[($F{totalEgresos}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIN INFORMACIÓN PARA MOSTRAR.]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>

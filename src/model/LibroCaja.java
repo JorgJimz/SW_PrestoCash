@@ -118,7 +118,7 @@ public class LibroCaja implements Serializable {
 			} else {
 				totalEgresosDolares = totalEgresosDolares.add(e.getImporte());
 			}
-			if (e.getTipo().contains("EMP"))
+			if (e.getTipo().equalsIgnoreCase("EMP"))
 				totalEmpenos++;
 		}
 

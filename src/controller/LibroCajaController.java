@@ -165,7 +165,7 @@ public class LibroCajaController {
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
-			em.persist(e);
+			em.merge(e);
 			tx.commit();
 		} catch (Exception e1) {
 			tx.rollback();

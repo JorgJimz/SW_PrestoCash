@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" language="groovy" pageWidth="832" pageHeight="643" columnWidth="792" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="468fd768-b0ea-40c5-94a7-f11712e77333">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" language="groovy" pageWidth="566" pageHeight="425" orientation="Landscape" columnWidth="526" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="468fd768-b0ea-40c5-94a7-f11712e77333">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="direccion_cliente" class="java.lang.String"/>
 	<parameter name="telefonos_cliente" class="java.lang.String"/>
 	<parameter name="nombre_cliente" class="java.lang.String"/>
@@ -39,49 +48,49 @@
 	<pageHeader>
 		<band height="152" splitType="Stretch">
 			<textField>
-				<reportElement x="60" y="102" width="514" height="25" uuid="07e6786d-85e0-4594-a846-2dccff563343"/>
+				<reportElement x="0" y="80" width="520" height="25" uuid="07e6786d-85e0-4594-a846-2dccff563343"/>
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clienteJasper}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="84" y="127" width="269" height="25" uuid="69062859-bb09-499d-ad73-3134ef84cced"/>
+				<reportElement x="0" y="105" width="269" height="25" uuid="69062859-bb09-499d-ad73-3134ef84cced"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccion_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="126" width="194" height="25" uuid="f8b324f6-bd59-466d-992f-02390a8ef637"/>
+				<reportElement x="336" y="105" width="184" height="25" uuid="f8b324f6-bd59-466d-992f-02390a8ef637"/>
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{telefonos_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="219" y="42" width="175" height="30" uuid="21981fab-a8c5-4c3f-a61b-6cdb16084bc8"/>
+				<reportElement x="65" y="30" width="175" height="30" uuid="21981fab-a8c5-4c3f-a61b-6cdb16084bc8"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_contrato}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="361" y="42" width="188" height="30" uuid="5ccddcb9-17eb-4397-baf3-b81582996db5"/>
+				<reportElement x="287" y="30" width="188" height="30" uuid="5ccddcb9-17eb-4397-baf3-b81582996db5"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_vencimiento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="792" height="20" uuid="5884b4ae-de91-48ec-b1a9-c1e1070449a9"/>
+				<reportElement x="0" y="0" width="520" height="20" uuid="5884b4ae-de91-48ec-b1a9-c1e1070449a9"/>
 				<textElement textAlignment="Left" rotation="None">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[EXIGA SU PRECINTO DE SEGURIDAD "PRESTOCASH LA NUEVA ALTERNATIVA EN CREDITOS PRENDARIOS".]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="317" y="42" width="47" height="49" uuid="1bcf9e80-a16b-4ca9-86b0-0cde24afa3a9"/>
+				<reportElement x="240" y="23" width="47" height="49" uuid="1bcf9e80-a16b-4ca9-86b0-0cde24afa3a9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
@@ -92,36 +101,30 @@
 	<detail>
 		<band height="230" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="3" width="792" height="227" uuid="f84298bf-b203-4213-92fd-0cc344fc732b"/>
+				<reportElement x="0" y="0" width="520" height="230" uuid="f84298bf-b203-4213-92fd-0cc344fc732b"/>
 				<dataSourceExpression><![CDATA[$F{detalleContratoJasper}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/detalle_contrato.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
 	<summary>
-		<band height="131">
+		<band height="130">
 			<textField pattern="###0.00">
-				<reportElement x="267" y="38" width="171" height="25" uuid="edb89c9f-b2f3-46e7-a709-fe81a93bbf0f"/>
+				<reportElement x="180" y="25" width="171" height="25" uuid="edb89c9f-b2f3-46e7-a709-fe81a93bbf0f"/>
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{interesMensual}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="25" width="792" height="38" uuid="d0626986-ce7a-4f22-9242-4020e245f73e"/>
-				<textElement>
-					<font size="8" isBold="true"/>
-				</textElement>
-			</staticText>
 			<textField pattern="###0.00">
-				<reportElement x="483" y="-8" width="170" height="25" uuid="763ae212-9159-4e0e-9591-c5aa43f850de"/>
+				<reportElement x="350" y="0" width="170" height="25" uuid="763ae212-9159-4e0e-9591-c5aa43f850de"/>
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{capital}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="63" width="792" height="30" uuid="10e23155-4639-456f-9814-e00dcd7049f4"/>
+				<reportElement x="0" y="70" width="520" height="60" uuid="10e23155-4639-456f-9814-e00dcd7049f4"/>
 				<text><![CDATA[PASADO EL MES LA EMPRESA NO SE RESPONSABILIZA POR CUALQUIER DESPERFECTO YA QUE QUE POR LA HUMEDAD, EL NO USO U OTROS FACTORES, TIENDEN A DAÑARSE Y/O SULFATARSE]]></text>
 			</staticText>
 		</band>

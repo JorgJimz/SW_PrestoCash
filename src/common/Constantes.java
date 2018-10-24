@@ -16,7 +16,9 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Articulo;
 import model.Asistencia;
+import model.Egreso;
 import model.Pago;
+import view.Principal;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class Constantes {
@@ -223,6 +225,11 @@ public class Constantes {
 
 	public static Predicate<Articulo> predicadoArticulo(String contrato) {
 		return p -> p.getContrato().contains(contrato);
+	};
+
+	public static Predicate<Egreso> predicadoAnularEgreso(String contrato) {
+		return e -> e.getDescripcion().startsWith(contrato) && e.getTipo().equalsIgnoreCase("EMP")
+				&& e.getLibroCaja().getId() == Principal.LIBRO_CAJA.getId();
 	};
 
 	public static Predicate<Pago> predicadoPago = new Predicate<Pago>() {

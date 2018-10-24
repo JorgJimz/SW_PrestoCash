@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.search.SearchFactory;
 
 import common.Constantes;
 import common.JIconTextField;
@@ -61,6 +62,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 	private JLabel txtId;
 	private JPanel contenedor;
 	private JInternalFrame internal = null;
+	private JButton btnBuscar;
 	Vector<Component> order = new Vector<Component>(11);
 
 	public Mantenimiento_Clientes() {
@@ -74,19 +76,19 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(800, 470);
 		this.setTitle("MANTENIMIENTO DE CLIENTES");
-		this.setPreferredSize(new java.awt.Dimension(1258, 726));
-		this.setBounds(0, 0, 1258, 726);
+		this.setPreferredSize(new java.awt.Dimension(1269, 726));
+		this.setBounds(0, 0, 1269, 726);
 		internal = this;
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1256, 701);
+		contenedor.setBounds(0, 0, 1267, 701);
 		contenedor.setBackground(new java.awt.Color(255, 184, 113));
 
 		txtNombre = new JIconTextField();
 		contenedor.add(txtNombre);
-		txtNombre.setBounds(957, 12, 260, 50);
+		txtNombre.setBounds(957, 12, 276, 50);
 		txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtNombre.setBorder(BorderFactory.createTitledBorder(null, "NOMBRES", TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
@@ -118,11 +120,76 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 
 		txtEmail = new JIconTextField();
 		contenedor.add(txtEmail);
-		txtEmail.setBounds(558, 74, 659, 50);
+		txtEmail.setBounds(558, 74, 675, 50);
 		txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtEmail.setBorder(BorderFactory.createTitledBorder(null, "E-MAIL", TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
+
+		jScrollPane1 = new JScrollPane();
+		contenedor.add(jScrollPane1);
+		jScrollPane1.setBounds(12, 260, 1221, 402);
+		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+
+		tbClientes = new JXTable();
+		tbClientes.setRowHeight(25);
+		tbClientes.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
+		tbClientes.getTableHeader().setForeground(new Color(181, 0, 0));
+		tbClientes.setModel(Constantes.ClienteModel);
+		tbClientes.setColumnControlVisible(true);
+		tbClientes.setSearchable(null);
+		tbClientes.setDefaultRenderer(Object.class, new RenderMC());
+		jScrollPane1.setViewportView(tbClientes);
+		tbClientes.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int fila = tbClientes.getSelectedRow();
+					if (Integer.parseInt(String.valueOf(tbClientes.getModel().getValueAt(fila, 12))) == 1) {
+						Utiles.Limpiar(contenedor);
+						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
+						cboTipoDocumento
+								.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
+						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
+						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
+						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
+						txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
+						txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
+						txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
+						txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
+						txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
+						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
+						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
+						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
+						btnGrabar.setIcon(new ImageIcon("img/acciones.png"));
+						btnGrabar.setToolTipText("GENERAR CONTRATO");
+						btnGrabar.setEnabled(true);
+						btnEditar.setEnabled(true);
+						btnEliminar.setEnabled(true);
+					} else {
+						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
+						cboTipoDocumento
+								.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
+						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
+						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
+						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
+						txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
+						txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
+						txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
+						txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
+						txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
+						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
+						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
+						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
+						btnGrabar.setEnabled(false);
+						btnEditar.setEnabled(true);
+						Utiles.Mensaje("Cliente inactivo. Actualizar status.", JOptionPane.WARNING_MESSAGE);
+					}
+
+				}
+			}
+		});
 
 		btnGrabar = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabar);
@@ -131,7 +198,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		btnGrabar.setContentAreaFilled(false);
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		btnGrabar.setBounds(959, 193, 64, 64);
+		btnGrabar.setBounds(1029, 193, 64, 64);
 		btnGrabar.setFont(new java.awt.Font("Segoe UI", 1, 28));
 		btnGrabar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnGrabar.addActionListener(new ActionListener() {
@@ -176,7 +243,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		btnEditar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnEditar.setEnabled(false);
-		btnEditar.setBounds(1056, 193, 64, 64);
+		btnEditar.setBounds(1099, 193, 64, 64);
 		btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 28));
 		btnEditar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEditar.addActionListener(new ActionListener() {
@@ -218,7 +285,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		btnEliminar.setEnabled(false);
-		btnEliminar.setBounds(1154, 193, 64, 64);
+		btnEliminar.setBounds(1169, 193, 64, 64);
 		btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 28));
 		btnEliminar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEliminar.addActionListener(new ActionListener() {
@@ -253,6 +320,23 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
+			}
+		});
+
+		btnBuscar = new JButton();
+		contenedor.add(btnBuscar);
+		btnBuscar.setIcon(new ImageIcon("img/find.png"));
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 28));
+		btnBuscar.setToolTipText("REGISTRAR CLIENTE");
+		btnBuscar.setBounds(959, 193, 64, 64);
+		btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SearchFactory.getInstance().showFindDialog(tbClientes, tbClientes.getSearchable());
 			}
 		});
 
@@ -328,19 +412,13 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		cboDistrito = new JComboBox();
 		contenedor.add(cboDistrito);
 		cboDistrito.setModel(Constantes.DistritoModel);
-		cboDistrito.setBounds(959, 137, 259, 50);
+		cboDistrito.setBounds(959, 137, 274, 50);
 		cboDistrito.setForeground(new java.awt.Color(0, 64, 128));
 		cboDistrito.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboDistrito.setBorder(BorderFactory.createTitledBorder(null, "DISTRITO", TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 		AutoCompleteDecorator.decorate(cboDistrito);
-
-		jScrollPane1 = new JScrollPane();
-		contenedor.add(jScrollPane1);
-		jScrollPane1.setBounds(12, 260, 1205, 402);
-		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-		jScrollPane1.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		cboCategoriaCliente = new JComboBox();
 		contenedor.add(cboCategoriaCliente);
@@ -356,7 +434,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 
 		txtObs = new JIconTextField();
 		contenedor.add(txtObs);
-		txtObs.setBounds(189, 198, 758, 50);
+		txtObs.setBounds(215, 198, 732, 50);
 		txtObs.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtObs.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtObs.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIÓN", TitledBorder.DEFAULT_JUSTIFICATION,
@@ -373,65 +451,6 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		cboTipoDocumento.setBorder(BorderFactory.createTitledBorder(null, "TIPO DOCUMENTO",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
-
-		tbClientes = new JXTable();
-		tbClientes.setRowHeight(25);
-		tbClientes.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		tbClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
-		tbClientes.getTableHeader().setForeground(new Color(181, 0, 0));
-		tbClientes.setModel(Constantes.ClienteModel);
-		tbClientes.setColumnControlVisible(true);
-		tbClientes.setSearchable(null);
-		tbClientes.setDefaultRenderer(Object.class, new RenderMC());
-		jScrollPane1.setViewportView(tbClientes);
-		tbClientes.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					int fila = tbClientes.getSelectedRow();
-					if (Integer.parseInt(String.valueOf(tbClientes.getModel().getValueAt(fila, 12))) == 1) {
-						Utiles.Limpiar(contenedor);
-						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
-						cboTipoDocumento
-								.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
-						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
-						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
-						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
-						txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
-						txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
-						txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
-						txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
-						txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
-						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
-						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
-						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
-						btnGrabar.setIcon(new ImageIcon("img/acciones.png"));
-						btnGrabar.setToolTipText("GENERAR CONTRATO");
-						btnGrabar.setEnabled(true);
-						btnEditar.setEnabled(true);
-						btnEliminar.setEnabled(true);
-					} else {
-						txtId.setText(tbClientes.getValueAt(fila, 0).toString());
-						cboTipoDocumento
-								.setSelectedItem(tbClientes.getValueAt(fila, 1).toString().split("-")[0].trim());
-						txtDni.setText(tbClientes.getValueAt(fila, 1).toString().split("-")[1].trim());
-						txtNombre.setText(tbClientes.getValueAt(fila, 2).toString());
-						txtPaterno.setText(tbClientes.getValueAt(fila, 3).toString());
-						txtMaterno.setText(tbClientes.getValueAt(fila, 4).toString());
-						txtEmail.setText(tbClientes.getValueAt(fila, 5).toString());
-						txtTlf1.setText(tbClientes.getValueAt(fila, 6).toString());
-						txtTlf2.setText(tbClientes.getValueAt(fila, 7).toString());
-						txtDireccion.setText(tbClientes.getValueAt(fila, 8).toString());
-						cboDistrito.setSelectedItem(tbClientes.getValueAt(fila, 9).toString());
-						cboCategoriaCliente.setSelectedItem(tbClientes.getValueAt(fila, 10).toString());
-						txtObs.setText(tbClientes.getValueAt(fila, 11).toString());
-						btnGrabar.setEnabled(false);
-						btnEditar.setEnabled(true);
-						Utiles.Mensaje("Cliente inactivo. Actualizar status.", JOptionPane.WARNING_MESSAGE);
-					}
-
-				}
-			}
-		});
 
 		order.add(cboTipoDocumento);
 		order.add(txtDni);

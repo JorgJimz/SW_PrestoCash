@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_contrato" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="333d988f-aacb-4255-aacc-f8a0b41c23f7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_contrato" language="groovy" pageWidth="566" pageHeight="283" orientation="Landscape" columnWidth="566" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="333d988f-aacb-4255-aacc-f8a0b41c23f7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="30"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -23,30 +32,30 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="98" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<textField>
-				<reportElement key="" x="20" y="0" width="100" height="30" uuid="12cc608b-c72e-4303-9f8b-686eca9f9b5e"/>
+				<reportElement key="" x="20" y="0" width="40" height="30" uuid="12cc608b-c72e-4303-9f8b-686eca9f9b5e"/>
 				<textElement>
 					<font size="15"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="600" y="0" width="100" height="30" uuid="bbef54be-c5a9-4935-9bab-d2ed07c70ee2"/>
+				<reportElement x="466" y="0" width="100" height="30" uuid="bbef54be-c5a9-4935-9bab-d2ed07c70ee2"/>
 				<textElement>
 					<font size="15"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tasacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="60" y="0" width="540" height="30" uuid="195d6aad-d43f-4a76-808c-7413795cbb93"/>
+				<reportElement x="60" y="0" width="406" height="30" uuid="195d6aad-d43f-4a76-808c-7413795cbb93"/>
 				<textElement>
 					<font size="15"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{articuloJasper}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="20" y="30" width="680" height="30" uuid="8af2c43d-208d-49c3-89b3-3aca80161862"/>
+				<reportElement x="20" y="30" width="546" height="30" uuid="8af2c43d-208d-49c3-89b3-3aca80161862"/>
 				<textElement>
 					<font size="15"/>
 				</textElement>

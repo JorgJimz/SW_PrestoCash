@@ -35,6 +35,7 @@ import javax.swing.event.InternalFrameEvent;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.search.SearchFactory;
 
 import common.Constantes;
 import common.JIconTextField;
@@ -49,6 +50,16 @@ import model.Ingreso;
 import model.Separacion;
 import model.Venta;
 
+/**
+ * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
+ * Builder, which is free for non-commercial use. If Jigloo is being used
+ * commercially (ie, by a corporation, company or business for any purpose
+ * whatever) then you should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details. Use of Jigloo implies
+ * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
+ * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
+ * ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 @SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 public class Venta_Articulos extends JInternalFrame {
 
@@ -56,6 +67,7 @@ public class Venta_Articulos extends JInternalFrame {
 	private JXTable tbArticulos;
 	private JLabel lblCapital;
 	private JTable tbHistorialSeparacion;
+	private JButton btnBuscar;
 	private JLabel txtPrecioVenta;
 	private JScrollPane spHistorialSeparacion;
 	private JLabel lblTelefono;
@@ -143,7 +155,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnRematar.setBorderPainted(false);
 		btnRematar.setContentAreaFilled(false);
 		btnRematar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnRematar.setBounds(846, 48, 64, 64);
+		btnRematar.setBounds(846, 51, 64, 64);
 		btnRematar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -171,7 +183,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnSeparar.setBorderPainted(false);
 		btnSeparar.setContentAreaFilled(false);
 		btnSeparar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnSeparar.setBounds(771, 48, 64, 64);
+		btnSeparar.setBounds(771, 50, 64, 64);
 		btnSeparar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -246,7 +258,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 		lblCliente = new JLabel();
 		contenedor.add(lblCliente);
-		lblCliente.setBounds(250, 51, 509, 50);
+		lblCliente.setBounds(250, 51, 434, 50);
 		lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		lblCliente.setBackground(new java.awt.Color(255, 255, 255));
 		lblCliente.setBorder(BorderFactory.createTitledBorder(null, "NOMBRE COMPLETO DEL CLIENTE",
@@ -311,7 +323,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 		btnRegistrarCliente = new JButton(new ImageIcon("img/add_user.png"));
 		contenedor.add(btnRegistrarCliente, JLayeredPane.DEFAULT_LAYER);
-		btnRegistrarCliente.setBounds(921, 48, 64, 64);
+		btnRegistrarCliente.setBounds(921, 50, 64, 64);
 		btnRegistrarCliente.setToolTipText("NUEVO CLIENTE");
 		btnRegistrarCliente.setOpaque(false);
 		btnRegistrarCliente.setBorderPainted(false);
@@ -336,6 +348,22 @@ public class Venta_Articulos extends JInternalFrame {
 		pnlRegistro.setOpaque(false);
 		pnlRegistro.setLayout(null);
 		pnlRegistro.setVisible(false);
+
+		btnBuscar = new JButton();
+		contenedor.add(btnBuscar, JLayeredPane.DEFAULT_LAYER);
+		btnBuscar.setIcon(new ImageIcon("img/find.png"));
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setToolTipText("SEPARACIÓN");
+		btnBuscar.setOpaque(false);
+		btnBuscar.setBounds(696, 50, 64, 64);
+		btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SearchFactory.getInstance().showFindDialog(tbArticulos, tbArticulos.getSearchable());
+			}
+		});
 
 		txtDniCliente = new JIconTextField();
 		pnlRegistro.add(txtDniCliente);
