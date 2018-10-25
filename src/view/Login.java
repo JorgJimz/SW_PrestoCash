@@ -3,11 +3,13 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -18,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -27,8 +30,10 @@ import javax.swing.border.TitledBorder;
 import common.Constantes;
 import common.MyFocusTraversalPolicy;
 import common.Utiles;
+import controller.ContratoController;
 import controller.UsuarioController;
 import model.Asistencia;
+import model.Contrato;
 import model.Usuario;
 
 @SuppressWarnings({ "deprecation", "serial" })
@@ -38,52 +43,20 @@ public class Login extends JFrame {
 	private JButton btnIngreso;
 	private JPasswordField txtPassword;
 	private JLabel lblLogo;
+	private JLabel jLabel1;
+	private JProgressBar pbActualizacion;
+
+	Thread hilo;
 	Vector<Component> order = new Vector<Component>(3);
 
 	public Login() {
 		this.setVisible(true);
 		this.setLayout(null);
+		this.setSize(415, 320);
 		this.setTitle("SISTEMA DE GESTION ADMINISTRATIVA Y PRENDATARIA PRESTOCASH");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(new java.awt.Color(255, 213, 170));
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
-
-		txtUsuario = new JTextField();
-		getContentPane().add(txtUsuario);
-		txtUsuario.requestFocus();
-		txtUsuario.setBounds(24, 180, 304, 60);
-		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
-		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		txtUsuario.setBorder(BorderFactory.createTitledBorder(null, "USUARIO", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
-				new java.awt.Color(0, 128, 0)));
-		order.add(txtUsuario);
-		txtUsuario.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				IniciarSesion();
-			}
-		});
-
-		txtPassword = new JPasswordField();
-		getContentPane().add(txtPassword);
-		txtPassword.setBounds(24, 245, 304, 60);
-		txtPassword.setOpaque(false);
-		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
-		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPassword.setBorder(BorderFactory.createTitledBorder(null, "CONTRASEÑA", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
-				new java.awt.Color(0, 128, 0)));
-		order.add(txtPassword);
-		txtPassword.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				IniciarSesion();
-			}
-		});
 
 		btnIngreso = new JButton(new ImageIcon("img/singin.png"));
 		getContentPane().add(btnIngreso);
@@ -91,14 +64,66 @@ public class Login extends JFrame {
 		btnIngreso.setBorderPainted(false);
 		btnIngreso.setContentAreaFilled(false);
 		btnIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnIngreso.setBounds(340, 210, 64, 64);
+		btnIngreso.setBounds(325, 192, 70, 70);
 		btnIngreso.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		order.add(btnIngreso);
 		btnIngreso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				IniciarSesion();
+				Runnable miRunnable = new Runnable() {
+					public void run() {
+						ActualizacionAutomatica();
+					}
+				};
+				hilo = new Thread(miRunnable);
+				hilo.start();
+			}
+		});
+
+		txtUsuario = new JTextField();
+		getContentPane().add(txtUsuario);
+		txtUsuario.requestFocus();
+		txtUsuario.setBounds(12, 176, 307, 45);
+		txtUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtUsuario.setForeground(new java.awt.Color(128, 0, 0));
+		txtUsuario.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		txtUsuario.setBorder(BorderFactory.createTitledBorder(null, "USUARIO", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+
+		txtUsuario.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Runnable miRunnable = new Runnable() {
+					public void run() {
+						ActualizacionAutomatica();
+					}
+				};
+				hilo = new Thread(miRunnable);
+				hilo.start();
+			}
+		});
+
+		txtPassword = new JPasswordField();
+		getContentPane().add(txtPassword);
+		txtPassword.setBounds(12, 227, 307, 45);
+		txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		txtPassword.setForeground(new java.awt.Color(128, 0, 0));
+		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPassword.setBorder(BorderFactory.createTitledBorder(null, "CONTRASEÑA", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+		txtPassword.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Runnable miRunnable = new Runnable() {
+					public void run() {
+						ActualizacionAutomatica();
+					}
+				};
+				hilo = new Thread(miRunnable);
+				hilo.start();
 			}
 		});
 
@@ -106,15 +131,27 @@ public class Login extends JFrame {
 		getContentPane().add(lblLogo);
 		lblLogo.setBounds(15, 12, 380, 152);
 
-		this.setSize(445, 350);
+		pbActualizacion = new JProgressBar();
+		getContentPane().add(pbActualizacion);
+		pbActualizacion.setBounds(15, 278, 380, 20);
+		pbActualizacion.setVisible(false);
+
+		jLabel1 = new JLabel();
+		getContentPane().add(jLabel1);
+		jLabel1.setText("ACTUALIZANDO CONTRATOS, POR FAVOR, ESPERE UN MOMENTO...");
+		jLabel1.setBounds(12, 304, 385, 16);
+		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12));
+		jLabel1.setForeground(new java.awt.Color(255, 0, 0));
+		jLabel1.setVisible(false);
+
 		this.setLocationRelativeTo(null);
+
+		order.add(txtUsuario);
+		order.add(txtPassword);
+		order.add(btnIngreso);
 
 		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
 
-	}
-
-	public void Cerrar() {
-		this.dispose();
 	}
 
 	public void IniciarSesion() {
@@ -131,8 +168,14 @@ public class Login extends JFrame {
 				a.setUsuario(u);
 				Utiles.Mensaje(new UsuarioController().MarcarAsistencia(a), JOptionPane.INFORMATION_MESSAGE);
 			}
-			new Principal(u);
-			Cerrar();
+			pbActualizacion.setIndeterminate(false);
+			EventQueue.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					new Principal(u);
+				}
+			});
+			dispose();
 		} else {
 			JOptionPane.showMessageDialog(null, " Acceso Denegado. Comuníquese con el Administrador del Sistema.");
 		}
@@ -150,8 +193,17 @@ public class Login extends JFrame {
 		}
 	}
 
-	public void mensaje(String s) {
-		JOptionPane.showMessageDialog(null, s);
+	public void ActualizacionAutomatica() {
+		this.setSize(415, 360);
+		pbActualizacion.setVisible(true);
+		jLabel1.setVisible(true);
+		pbActualizacion.setIndeterminate(true);
+		List<Contrato> l = new ContratoController().ListarContratosVigentes();
+		for (Contrato c : l) {
+			Utiles.DetectarEstado(c);
+		}
+		new ContratoController().ActualizarContratos(l);
+		IniciarSesion();
 	}
 
 }

@@ -24,10 +24,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import common.Utiles;
-import controller.ContratoController;
 import controller.LibroCajaController;
 import model.Aplicacion;
-import model.Contrato;
 import model.LibroCaja;
 import model.PerfilAplicacion;
 import model.Sede;
@@ -69,8 +67,7 @@ public class Principal extends JFrame {
 			}
 		});
 
-		CargarMenuAplicaciones();
-		ActualizacionAutomatica();
+		CargarMenuAplicaciones();		
 		AperturarCaja();
 	}
 
@@ -121,15 +118,7 @@ public class Principal extends JFrame {
 				}
 			}
 		}
-	}
-
-	public void ActualizacionAutomatica() {
-		List<Contrato> l = new ContratoController().ListarContratosVigentes();
-		for (Contrato c : l) {
-			Utiles.DetectarEstado(c);
-		}
-		new ContratoController().ActualizarContratos(l);
-	}
+	}	
 
 	public void AperturarCaja() {
 		Object obj = new LibroCajaController().AperturarCaja();
