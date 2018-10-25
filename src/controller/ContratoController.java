@@ -113,6 +113,24 @@ public class ContratoController {
 		}
 		return c;
 	}
+	
+	public Contrato ActualizarContrato(Contrato c) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.merge(c);
+			tx.commit();
+		} catch (Exception e1) {
+			tx.rollback();
+			e1.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return c;
+	}
 
 	public Seguimiento GrabarSeguimiento(Seguimiento s) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");

@@ -1217,8 +1217,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblId2.setBounds(16, 10, 194, 30);
 
 		CargarInformacionContrato();
-		if (contrato.getEContrato().getId() == 6) {
-			ActivarPerspectivaCancelado(contrato);
+		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD).contains(contrato.getEContrato().getId())) {
+			ActivarPerspectivaInactivo(contrato);
 		}
 	}
 
@@ -1233,13 +1233,73 @@ public class Gestion_Contrato extends JInternalFrame {
 		CargarHistorial();
 	}
 
-	public void ActivarPerspectivaCancelado(Contrato k) {
+	public void ActivarPerspectivaInactivo(Contrato k) {
 		pnlSucesos.setVisible(true);
-		Pago cancelacion = k.getPagos().stream().filter(Constantes.predicadoPago).findFirst().orElse(Pago.DEFAULT);
-		BigDecimal montoCancelacion = cancelacion.getCapital().add(cancelacion.getInteres()).add(cancelacion.getMora());
-		edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>CANCELADO</h1>" + "<h3>DÍA: "
-				+ Constantes.formatoLocal.format(LocalDate.parse(cancelacion.getFechaPago())) + " </h3>"
-				+ "<h3>IMPORTE: " + montoCancelacion + "</h3>" + "</center>" + "</html>");
+		switch (k.getEContrato().getId()) {
+		case 6:
+			// CANCELADO
+			Pago cancelacion = k.getPagos().stream().filter(Constantes.predicadoPago).findFirst().orElse(Pago.DEFAULT);
+			BigDecimal montoCancelacion = cancelacion.getCapital().add(cancelacion.getInteres())
+					.add(cancelacion.getMora());
+			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>CANCELADO</h1>" + "<h3>DÍA: "
+					+ Constantes.formatoLocal.format(LocalDate.parse(cancelacion.getFechaPago())).toUpperCase()
+					+ " </h3>" + "<h3>IMPORTE: " + montoCancelacion + "</h3>" + "</center>" + "</html>");
+			break;
+		case 9:
+			// VITRINA
+			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>EN VITRINA</h1>" + "<h3>DÍA: "
+					+ /*
+						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
+						 * ))).toUpperCase() +
+						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */ "</h3>" + "</center>"
+					+ "</html>");
+			break;
+		case 10:
+			// SEPARADO
+			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>SEPARADO</h1>" + "<h3>DÍA: "
+					+ /*
+						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
+						 * ))).toUpperCase() +
+						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */ "</h3>" + "</center>"
+					+ "</html>");
+			break;
+		case 11:
+			// REMATADO
+			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>REMATADO</h1>" + "<h3>DÍA: "
+					+ /*
+						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
+						 * ))).toUpperCase() +
+						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */"</h3>" + "</center>"
+					+ "</html>");
+			break;
+		case 12:
+			// USO OFICINA
+			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>ANULADO</h1>" + "<h3>DÍA: "
+					+ /*
+						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
+						 * ))).toUpperCase() +
+						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */"</h3>" + "</center>"
+					+ "</html>");
+			break;
+		case 13:
+			// VITRINA (SP)
+			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>PARA VITRINA (SP)</h1>"
+					+ "<h3>DÍA: " + /*
+									 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
+									 * ))).toUpperCase() +
+									 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */ "</h3>"
+					+ "</center>" + "</html>");
+			break;
+		default:
+			edpMensajeSuceso
+					.setText("<html>" + "<center>" + "<h1 style='color:red'>ANULADO</h1>" + "<h3>DÍA: "
+							+ Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion()))
+									.toUpperCase()
+							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
+							+ "</html>");
+			break;
+		}
+
 		tpContrato.setEnabledAt(1, false);
 		tpContrato.setEnabledAt(3, false);
 		tpContrato.setDisabledIconAt(1, new ImageIcon("img/deshabilitar.png"));
@@ -1438,9 +1498,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 				contrato.setFechaVencimiento(String.valueOf(nuevo_vencimiento));
 				contrato.setFechaRemate(String.valueOf(nuevo_remate));
-
 				Utiles.DetectarEstado(contrato);
-
 				Utiles.Mensaje("Próximo Vencimiento : " + Constantes.formatoLocal.format(nuevo_vencimiento),
 						JOptionPane.INFORMATION_MESSAGE);
 
@@ -1523,10 +1581,12 @@ public class Gestion_Contrato extends JInternalFrame {
 				break;
 			case "AN":
 				contrato.setEContrato(new EContrato(14));
+				contrato.setUsuarioModificacion(Principal.LOGGED.getLogin());
+				contrato.setFechaModificacion(String.valueOf(LocalDate.now()));
 				Utiles.Mensaje("Contrato Anulado.", JOptionPane.INFORMATION_MESSAGE);
 				Egreso e = Principal.LIBRO_CAJA.getEgresos().stream()
 						.filter(Constantes.predicadoAnularEgreso(contrato.getFlag() + "-" + contrato.getNumero()))
-						.findFirst().orElse(null);
+						.findFirst().orElse(Egreso.DEFAULT);
 				if (Objects.nonNull(e)) {
 					e.setDescripcion(contrato.getFlag() + "-" + contrato.getNumero() + " [ANULADO]");
 					e.setTipo("EMP(A)");
@@ -1534,7 +1594,8 @@ public class Gestion_Contrato extends JInternalFrame {
 					new LibroCajaController().RegistrarEgreso(e);
 					Utiles.Mensaje("Se revirtió el egreso en la caja.", JOptionPane.INFORMATION_MESSAGE);
 				}
-				proceed = true;
+				new ContratoController().ActualizarContrato(contrato);
+				dispose();
 				break;
 			default:
 				pago.setDescripcion("CANCELACIÓN");

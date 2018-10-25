@@ -29,6 +29,7 @@ public class Constantes {
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
 
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
+	public static final Integer[] ESTADOS_INACTIVIDAD = new Integer[] { 6, 9, 10, 11, 12, 13, 14 };
 
 	public static DefaultTableModel HistorialSeparacionModel = new DefaultTableModel(null,
 			new String[] { "FECHA", "IMPORTE", "CLIENTE" }) {

@@ -148,7 +148,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		Utiles.LimpiarModelos();
 
 		cliente = c;
-		prestamo = new Prestamo();
+		// prestamo = new Prestamo();
 		contrato = new Contrato();
 		contrato.setFechaContrato(String.valueOf(LocalDate.now()));
 		contrato.setFechaVencimiento(String.valueOf(LocalDate.now().plusMonths(1)));
@@ -205,6 +205,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				btnHistorial.setEnabled(true);
 				ComboItem k = (ComboItem) cboTipoPrestamo.getSelectedItem();
+				prestamo = new Prestamo();
 				prestamo.setId(k.getId());
 				prestamo.setDescripcion(k.getDescripcion());
 				prestamo.setInteres(new BigDecimal(String.valueOf(k.getValor())));
@@ -266,13 +267,17 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnMas.setHorizontalAlignment(SwingConstants.LEFT);
 		btnMas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Utiles.Validar(contenedor)) {
-					AgregarDetalle();
-					ListarDetalle();
-					Utiles.Limpiar(contenedor);
-					spContrato.setVisible(true);
-					spArticulo.setVisible(false);
-					txtCantidad.requestFocus();
+				if (Objects.nonNull(prestamo)) {
+					if (Utiles.Validar(contenedor)) {
+						AgregarDetalle();
+						ListarDetalle();
+						Utiles.Limpiar(contenedor);
+						spContrato.setVisible(true);
+						spArticulo.setVisible(false);
+						txtCantidad.requestFocus();
+					}
+				} else {
+					Utiles.Mensaje("Seleccione el tipo de préstamo.", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -471,13 +476,17 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtTasacion.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (Utiles.Validar(contenedor)) {
-						AgregarDetalle();
-						ListarDetalle();
-						Utiles.Limpiar(contenedor);
-						spContrato.setVisible(true);
-						spArticulo.setVisible(false);
-						txtCantidad.requestFocus();
+					if (Objects.nonNull(prestamo)) {
+						if (Utiles.Validar(contenedor)) {
+							AgregarDetalle();
+							ListarDetalle();
+							Utiles.Limpiar(contenedor);
+							spContrato.setVisible(true);
+							spArticulo.setVisible(false);
+							txtCantidad.requestFocus();
+						}
+					} else {
+						Utiles.Mensaje("Seleccione el tipo de préstamo.", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}

@@ -17,6 +17,8 @@ import javax.persistence.Transient;
 @NamedQuery(name = "Egreso.findAll", query = "SELECT e FROM Egreso e")
 public class Egreso implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final Egreso DEFAULT = null;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
