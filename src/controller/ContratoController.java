@@ -156,7 +156,7 @@ public class ContratoController {
 		List<Contrato> l = null;
 		try {
 			l = em.createQuery(
-					"SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12) AND c.numero = 8987",
+					"SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)",
 					Contrato.class).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

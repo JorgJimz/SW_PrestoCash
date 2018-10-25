@@ -283,7 +283,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblEstado.setForeground(contrato.getEContrato().getForeground());
 		lblEstado.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblNumeroContrato = new JLabel(contrato.getFlag() + "-" + String.valueOf(contrato.getNumero()));
+		lblNumeroContrato = new JLabel(contrato.getFlag() + "-" + String.format("%04d", contrato.getNumero()));
 		contenedor.add(lblNumeroContrato);
 		lblNumeroContrato.setBounds(12, 11, 235, 70);
 		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 60));
@@ -508,8 +508,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		cboMora.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		cboMora.setFont(new java.awt.Font("Segoe UI", 1, 60));
 		cboMora.setForeground(Color.WHITE);
-		cboMora.setBackground(Color.WHITE);
-		cboMora.setForeground(new java.awt.Color(0, 64, 128));
+		cboMora.setBackground(new java.awt.Color(128, 0, 128));
+		cboMora.setForeground(new java.awt.Color(255, 255, 128));
 		cboMora.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblMoraActual = new JLabel(String.valueOf(contrato.getMoraActual()));
@@ -673,7 +673,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblPorcentajeInteres.setOpaque(true);
 		lblPorcentajeInteres.setBounds(125, 385, 120, 32);
 
-		lblId = new JLabel(String.valueOf(contrato.getId()));
+		lblId = new JLabel(String.format("%010d", contrato.getId()));
 		contenedor.add(lblId);
 		lblId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblId.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));

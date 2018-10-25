@@ -155,7 +155,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnRematar.setBorderPainted(false);
 		btnRematar.setContentAreaFilled(false);
 		btnRematar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnRematar.setBounds(846, 51, 64, 64);
+		btnRematar.setBounds(840, 46, 70, 70);
 		btnRematar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -166,6 +166,7 @@ public class Venta_Articulos extends JInternalFrame {
 					pnlRemate.setVisible(true);
 					btnRematar.setEnabled(false);
 					btnSeparar.setEnabled(false);
+					btnBuscar.setEnabled(false);
 					btnRegistrarCliente.setEnabled(false);
 					tbArticulos.setEnabled(false);
 					MOUSECLICKED = false;
@@ -183,7 +184,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnSeparar.setBorderPainted(false);
 		btnSeparar.setContentAreaFilled(false);
 		btnSeparar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnSeparar.setBounds(771, 50, 64, 64);
+		btnSeparar.setBounds(765, 46, 70, 70);
 		btnSeparar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -197,6 +198,7 @@ public class Venta_Articulos extends JInternalFrame {
 					pnlSeparacion.setVisible(true);
 					btnRematar.setEnabled(false);
 					btnSeparar.setEnabled(false);
+					btnBuscar.setEnabled(false);
 					btnRegistrarCliente.setEnabled(false);
 					tbArticulos.setEnabled(false);
 					ListarHistorial(articulo.getSeparacions());
@@ -233,6 +235,7 @@ public class Venta_Articulos extends JInternalFrame {
 					} else {
 						btnRematar.setEnabled(true);
 						btnSeparar.setEnabled(true);
+						btnBuscar.setEnabled(true);
 					}
 				}
 			}
@@ -323,7 +326,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 		btnRegistrarCliente = new JButton(new ImageIcon("img/add_user.png"));
 		contenedor.add(btnRegistrarCliente, JLayeredPane.DEFAULT_LAYER);
-		btnRegistrarCliente.setBounds(921, 50, 64, 64);
+		btnRegistrarCliente.setBounds(915, 46, 70, 70);
 		btnRegistrarCliente.setToolTipText("NUEVO CLIENTE");
 		btnRegistrarCliente.setOpaque(false);
 		btnRegistrarCliente.setBorderPainted(false);
@@ -356,7 +359,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnBuscar.setContentAreaFilled(false);
 		btnBuscar.setToolTipText("SEPARACIÓN");
 		btnBuscar.setOpaque(false);
-		btnBuscar.setBounds(696, 50, 64, 64);
+		btnBuscar.setBounds(690, 46, 70, 70);
 		btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnBuscar.addActionListener(new ActionListener() {
 			@Override
@@ -514,6 +517,8 @@ public class Venta_Articulos extends JInternalFrame {
 				tbArticulos.setEnabled(true);
 				btnRematar.setEnabled(true);
 				btnSeparar.setEnabled(true);
+				btnBuscar.setEnabled(true);
+				btnRegistrarCliente.setEnabled(true);
 				pnlRemate.setVisible(false);
 				MOUSECLICKED = true;
 			}
@@ -571,6 +576,7 @@ public class Venta_Articulos extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (Utiles.Validar(pnlSeparacion)) {
+					int nSep = tbHistorialSeparacion.getRowCount() + 1;
 					Separacion separacion = new Separacion();
 					separacion.setFecha(String.valueOf(LocalDate.now()));
 					separacion.setPrecioVenta(articulo.getPrecioVenta());
@@ -588,14 +594,14 @@ public class Venta_Articulos extends JInternalFrame {
 
 					if (diff.compareTo(BigDecimal.ZERO) == 0) {
 						articulo.setEArticulo(new EArticulo(3));
-						ingreso.setTipo("SEP(R)");
+						ingreso.setTipo("SEP #" + nSep + " (R)");
 						ingreso.setCapital(articulo.getCapitalContrato());
 						ingreso.setGanancia(articulo.getPrecioVenta().subtract(articulo.getCapitalContrato()));
 						ingreso.setOtro(separacion.getImporte());
 						ingreso.setMoneda("SOLES");
 					} else {
 						articulo.setEArticulo(new EArticulo(2));
-						ingreso.setTipo("SEP");
+						ingreso.setTipo("SEP #" + nSep);
 						ingreso.setCapital(BigDecimal.ZERO);
 						ingreso.setGanancia(BigDecimal.ZERO);
 						ingreso.setOtro(separacion.getImporte());
@@ -611,6 +617,8 @@ public class Venta_Articulos extends JInternalFrame {
 					tbArticulos.setEnabled(true);
 					btnRematar.setEnabled(true);
 					btnSeparar.setEnabled(true);
+					btnBuscar.setEnabled(true);
+					btnRegistrarCliente.setEnabled(true);
 					spArticulos.setSize(spArticulos.getWidth(), 500);
 					new ArticuloController().CargarVitrina();
 					Utiles.Mensaje("Separación realizada satisfactoriamente", JOptionPane.INFORMATION_MESSAGE);
@@ -628,6 +636,20 @@ public class Venta_Articulos extends JInternalFrame {
 		btnCancelarSeparacion.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCancelarSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnCancelarSeparacion.setBounds(0, 292, 205, 70);
+		btnCancelarSeparacion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Utiles.Limpiar(pnlSeparacion);
+				spArticulos.setSize(spArticulos.getWidth(), 500);
+				tbArticulos.setEnabled(true);
+				btnRematar.setEnabled(true);
+				btnSeparar.setEnabled(true);
+				btnBuscar.setEnabled(true);
+				btnRegistrarCliente.setEnabled(true);
+				pnlSeparacion.setVisible(false);
+				MOUSECLICKED = true;
+			}
+		});
 
 		spHistorialSeparacion = new JScrollPane();
 		pnlSeparacion.add(spHistorialSeparacion);
@@ -649,19 +671,6 @@ public class Venta_Articulos extends JInternalFrame {
 		tbHistorialSeparacion.setRowHeight(25);
 		tbHistorialSeparacion.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbHistorialSeparacion.setModel(Constantes.HistorialSeparacionModel);
-
-		btnCancelarSeparacion.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Utiles.Limpiar(pnlSeparacion);
-				spArticulos.setSize(spArticulos.getWidth(), 500);
-				tbArticulos.setEnabled(true);
-				btnRematar.setEnabled(true);
-				btnSeparar.setEnabled(true);
-				pnlSeparacion.setVisible(false);
-				MOUSECLICKED = true;
-			}
-		});
 
 		btnVender = new JButton(new ImageIcon("img/rematar.png"));
 		pnlRemate.add(btnVender);
@@ -710,6 +719,8 @@ public class Venta_Articulos extends JInternalFrame {
 					tbArticulos.setEnabled(true);
 					btnRematar.setEnabled(true);
 					btnSeparar.setEnabled(true);
+					btnBuscar.setEnabled(true);
+					btnRegistrarCliente.setEnabled(true);
 					new ArticuloController().CargarVitrina();
 
 					Utiles.Mensaje("Venta realizada satisfactoriamente", JOptionPane.INFORMATION_MESSAGE);

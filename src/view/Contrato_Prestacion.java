@@ -262,7 +262,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnMas.setBorderPainted(false);
 		btnMas.setContentAreaFilled(false);
 		btnMas.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnMas.setBounds(12, 582, 64, 64);
+		btnMas.setBounds(12, 582, 70, 70);
 		btnMas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnMas.setHorizontalAlignment(SwingConstants.LEFT);
 		btnMas.addActionListener(new ActionListener() {
@@ -284,7 +284,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		btnMenos = new JButton(new ImageIcon("img/menos.png"));
 		contenedor.add(btnMenos);
-		btnMenos.setBounds(89, 582, 64, 64);
+		btnMenos.setBounds(89, 582, 70, 70);
 		btnMenos.setOpaque(false);
 		btnMenos.setBorderPainted(false);
 		btnMenos.setContentAreaFilled(false);
@@ -300,7 +300,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		btnLimpiar = new JButton(new ImageIcon("img/limpiar.png"));
 		contenedor.add(btnLimpiar);
-		btnLimpiar.setBounds(167, 582, 64, 64);
+		btnLimpiar.setBounds(167, 582, 70, 70);
 		btnLimpiar.setOpaque(false);
 		btnLimpiar.setBorderPainted(false);
 		btnLimpiar.setContentAreaFilled(false);
