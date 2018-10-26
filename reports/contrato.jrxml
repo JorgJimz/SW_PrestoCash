@@ -46,37 +46,37 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="130" splitType="Stretch">
+		<band height="143" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="80" width="520" height="25" uuid="07e6786d-85e0-4594-a846-2dccff563343"/>
+				<reportElement x="1" y="70" width="520" height="25" uuid="07e6786d-85e0-4594-a846-2dccff563343"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clienteJasper}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="105" width="269" height="25" uuid="69062859-bb09-499d-ad73-3134ef84cced"/>
+				<reportElement x="1" y="95" width="335" height="25" uuid="69062859-bb09-499d-ad73-3134ef84cced"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccion_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="336" y="105" width="184" height="25" uuid="f8b324f6-bd59-466d-992f-02390a8ef637"/>
+				<reportElement x="336" y="95" width="184" height="25" uuid="f8b324f6-bd59-466d-992f-02390a8ef637"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{telefonos_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="65" y="30" width="175" height="30" uuid="21981fab-a8c5-4c3f-a61b-6cdb16084bc8"/>
+				<reportElement x="114" y="30" width="175" height="30" uuid="21981fab-a8c5-4c3f-a61b-6cdb16084bc8"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_contrato}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="287" y="30" width="188" height="30" uuid="5ccddcb9-17eb-4397-baf3-b81582996db5"/>
+				<reportElement x="336" y="30" width="188" height="30" uuid="5ccddcb9-17eb-4397-baf3-b81582996db5"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
@@ -90,7 +90,7 @@
 				<text><![CDATA[EXIGA SU PRECINTO DE SEGURIDAD "PRESTOCASH LA NUEVA ALTERNATIVA EN CREDITOS PRENDARIOS".]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="23" width="47" height="49" uuid="1bcf9e80-a16b-4ca9-86b0-0cde24afa3a9"/>
+				<reportElement x="289" y="20" width="47" height="49" uuid="1bcf9e80-a16b-4ca9-86b0-0cde24afa3a9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
@@ -108,7 +108,7 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="110">
+		<band height="80">
 			<textField pattern="###0.00">
 				<reportElement x="180" y="25" width="171" height="25" uuid="edb89c9f-b2f3-46e7-a709-fe81a93bbf0f"/>
 				<textElement>
@@ -117,14 +117,14 @@
 				<textFieldExpression><![CDATA[$F{interesMensual}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00">
-				<reportElement x="350" y="0" width="170" height="25" uuid="763ae212-9159-4e0e-9591-c5aa43f850de"/>
+				<reportElement x="380" y="0" width="170" height="25" uuid="763ae212-9159-4e0e-9591-c5aa43f850de"/>
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{capital}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="3" y="50" width="520" height="60" uuid="10e23155-4639-456f-9814-e00dcd7049f4"/>
+				<reportElement x="3" y="50" width="520" height="30" uuid="10e23155-4639-456f-9814-e00dcd7049f4"/>
 				<text><![CDATA[PASADO EL MES LA EMPRESA NO SE RESPONSABILIZA POR CUALQUIER DESPERFECTO YA QUE QUE POR LA HUMEDAD, EL NO USO U OTROS FACTORES, TIENDEN A DAÑARSE Y/O SULFATARSE]]></text>
 			</staticText>
 		</band>
