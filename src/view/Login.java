@@ -48,6 +48,7 @@ public class Login extends JFrame {
 
 	Thread hilo;
 	Vector<Component> order = new Vector<Component>(3);
+	Usuario u;
 
 	public Login() {
 		this.setVisible(true);
@@ -70,13 +71,16 @@ public class Login extends JFrame {
 		btnIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Runnable miRunnable = new Runnable() {
-					public void run() {
-						ActualizacionAutomatica();
-					}
-				};
-				hilo = new Thread(miRunnable);
-				hilo.start();
+				u = IniciarSesion();
+				if (Objects.nonNull(u)) {
+					Runnable miRunnable = new Runnable() {
+						public void run() {
+							ActualizacionAutomatica();
+						}
+					};
+					hilo = new Thread(miRunnable);
+					hilo.start();
+				}
 			}
 		});
 
@@ -95,13 +99,16 @@ public class Login extends JFrame {
 		txtUsuario.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Runnable miRunnable = new Runnable() {
-					public void run() {
-						ActualizacionAutomatica();
-					}
-				};
-				hilo = new Thread(miRunnable);
-				hilo.start();
+				u = IniciarSesion();
+				if (Objects.nonNull(u)) {
+					Runnable miRunnable = new Runnable() {
+						public void run() {
+							ActualizacionAutomatica();
+						}
+					};
+					hilo = new Thread(miRunnable);
+					hilo.start();
+				}
 			}
 		});
 
@@ -117,13 +124,16 @@ public class Login extends JFrame {
 		txtPassword.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Runnable miRunnable = new Runnable() {
-					public void run() {
-						ActualizacionAutomatica();
-					}
-				};
-				hilo = new Thread(miRunnable);
-				hilo.start();
+				u = IniciarSesion();
+				if (Objects.nonNull(u)) {
+					Runnable miRunnable = new Runnable() {
+						public void run() {
+							ActualizacionAutomatica();
+						}
+					};
+					hilo = new Thread(miRunnable);
+					hilo.start();
+				}
 			}
 		});
 
@@ -138,7 +148,7 @@ public class Login extends JFrame {
 
 		jLabel1 = new JLabel();
 		getContentPane().add(jLabel1);
-		jLabel1.setText("ACTUALIZANDO CONTRATOS, POR FAVOR, ESPERE UN MOMENTO...");
+		jLabel1.setText("ACCESO CONCEDIDO, ACTUALIZANDO CONTRATOS, ESPERE POR FAVOR ...");
 		jLabel1.setBounds(12, 304, 385, 16);
 		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12));
 		jLabel1.setForeground(new java.awt.Color(255, 0, 0));
@@ -154,31 +164,35 @@ public class Login extends JFrame {
 
 	}
 
-	public void IniciarSesion() {
-		Usuario u = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
-		if (Objects.nonNull(u)) {
-			Asistencia ga = u.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
+	public Usuario IniciarSesion() {
+		Usuario user = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
+		if (Objects.nonNull(user)) {
+			Asistencia ga = user.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
 					.orElse(Asistencia.DEFAULT);
 			if (Objects.isNull(ga)) {
 				Asistencia a = new Asistencia();
 				a.setFecha(String.valueOf(LocalDate.now()));
-				a.setHoraContrato(u.getHoraIngreso());
+				a.setHoraContrato(user.getHoraIngreso());
 				a.setHoraIngreso(String.valueOf(LocalTime.now()));
 				a.setObs("");
-				a.setUsuario(u);
+				a.setUsuario(user);
 				Utiles.Mensaje(new UsuarioController().MarcarAsistencia(a), JOptionPane.INFORMATION_MESSAGE);
 			}
-			pbActualizacion.setIndeterminate(false);
-			EventQueue.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					new Principal(u);
-				}
-			});
-			dispose();
 		} else {
-			JOptionPane.showMessageDialog(null, " Acceso Denegado. Comuníquese con el Administrador del Sistema.");
+			Utiles.Mensaje("Usuario y/ Contraseña incorrecto(s)", JOptionPane.WARNING_MESSAGE);
 		}
+		return user;
+	}
+
+	public void DesplegarSistema() {
+		pbActualizacion.setIndeterminate(false);
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new Principal(u);
+			}
+		});
+		dispose();
 	}
 
 	public static void main(String[] args) {
@@ -203,7 +217,7 @@ public class Login extends JFrame {
 			Utiles.DetectarEstado(c);
 		}
 		new ContratoController().ActualizarContratos(l);
-		IniciarSesion();
+		DesplegarSistema();
 	}
 
 }

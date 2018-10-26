@@ -675,16 +675,21 @@ public class Libro_Caja extends JInternalFrame {
 
 	}
 
-	/*
-	 * if (rs.getString("tip_ing").equalsIgnoreCase("S-REM.")) { neto =
-	 * rs.getDouble("oto_ing"); }
-	 */
 	public void CargarIngresos() {
 		Constantes.IngresoModel.setRowCount(0);
+
+		BigDecimal Neto = BigDecimal.ZERO;
 		for (Ingreso i : caja.getIngresos()) {
-			Constantes.IngresoModel
-					.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(), i.getGanancia(),
-							i.getOtro(), i.getCapital().add(i.getGanancia()).add(i.getOtro()), i.getMoneda() });
+
+			Neto = Neto.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
+
+			if (i.getTipo().startsWith("SEP") && i.getTipo().endsWith("(R)")) {
+				Neto = i.getOtro();
+			}
+
+			Constantes.IngresoModel.addRow(
+					new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(), i.getGanancia(), i.getOtro(),
+							Neto/* i.getCapital().add(i.getGanancia()).add(i.getOtro()) */, i.getMoneda() });
 		}
 		tbIngresos.setModel(Constantes.IngresoModel);
 	}

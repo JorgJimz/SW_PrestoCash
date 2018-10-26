@@ -105,7 +105,11 @@ public class LibroCaja implements Serializable {
 		for (Ingreso i : ingresos) {
 			if (i.getMoneda().equalsIgnoreCase("SOLES")) {
 				totalGanancia = totalGanancia.add(i.getGanancia());
-				totalNeto = totalNeto.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
+
+				BigDecimal SepR = (i.getTipo().startsWith("SEP") && i.getTipo().endsWith("(R)")) ? i.getOtro()
+						: i.getCapital().add(i.getGanancia()).add(i.getOtro());
+
+				totalNeto = totalNeto.add(SepR);
 			} else {
 				totalGananciaDolares = totalGananciaDolares.add(i.getGanancia());
 				totalNetoDolares = totalNetoDolares.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
