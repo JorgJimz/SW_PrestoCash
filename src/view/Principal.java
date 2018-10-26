@@ -46,12 +46,12 @@ public class Principal extends JFrame {
 		this.setVisible(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setResizable(false);
-		this.setTitle("USUARIO ACTUAL: " + user.getNombres() + " " + user.getPaterno());
+		this.setResizable(false);		
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
 		Principal.SEDE = new LibroCajaController().ObtenerSedePrincipal();
+		this.setTitle("USUARIO: " + user.getNombres() + " " + user.getPaterno() + " - PRESTOCASH " + Principal.SEDE.getDescripcion());
 		dskPrincipal = new JDesktopPane();
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
 		menuBarPrincipal = new JMenuBar();
