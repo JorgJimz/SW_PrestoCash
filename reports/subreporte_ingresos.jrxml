@@ -228,7 +228,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{capital}.add($F{ganancia}).add($F{otro})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[IF( $F{tipo}.startsWith( "SEP" ) && $F{tipo}.endsWith( "(R)" ),$F{otro},$F{capital}.add($F{ganancia}).add($F{otro}))]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="300" y="0" width="40" height="20" uuid="d25e6a5d-76a4-44a6-bfd9-50aee5bcde06"/>

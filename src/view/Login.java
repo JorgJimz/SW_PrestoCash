@@ -148,7 +148,7 @@ public class Login extends JFrame {
 
 		jLabel1 = new JLabel();
 		getContentPane().add(jLabel1);
-		jLabel1.setText("ACCESO CONCEDIDO, ACTUALIZANDO CONTRATOS, ESPERE POR FAVOR ...");
+		jLabel1.setText("ACTUALIZANDO CONTRATOS, POR FAVOR, ESPERE UN MOMENTO ...");
 		jLabel1.setBounds(12, 304, 385, 16);
 		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12));
 		jLabel1.setForeground(new java.awt.Color(255, 0, 0));

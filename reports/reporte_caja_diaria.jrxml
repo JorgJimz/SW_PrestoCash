@@ -15,6 +15,8 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="SEDE" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ALL_INGRESOS" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<parameter name="ALL_EGRESOS" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -144,18 +146,25 @@
 				<textFieldExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="295" y="30" width="280" height="20" uuid="c28bea6a-d51d-41d8-bfbd-82ec00bd7953"/>
+				<reportElement x="295" y="48" width="280" height="20" uuid="c28bea6a-d51d-41d8-bfbd-82ec00bd7953"/>
 				<textElement>
 					<font size="13" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["APERTURA: " + $F{horaApertura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="295" y="52" width="280" height="20" uuid="ab377563-bb02-4c40-a1b1-0a176541ad94"/>
+				<reportElement x="295" y="70" width="280" height="20" uuid="ab377563-bb02-4c40-a1b1-0a176541ad94"/>
 				<textElement>
 					<font size="13" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CIERRE: " + $F{horaCierre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="25" width="280" height="20" uuid="0156b40f-5ef0-443e-9ea1-029a96d0944a"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA: " + new SimpleDateFormat("dd MMMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{fechaApertura})).toUpperCase()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -322,7 +331,7 @@
 				<subreportParameter name="totalEmpenos_master">
 					<subreportParameterExpression><![CDATA[$F{totalEmpenos}]]></subreportParameterExpression>
 				</subreportParameter>
-				<dataSourceExpression><![CDATA[$F{egresosJasper}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$P{ALL_EGRESOS}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/subreporte_egresos.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
@@ -332,7 +341,7 @@
 				<subreportParameter name="totalGanancia_master">
 					<subreportParameterExpression><![CDATA[$F{totalGanancia}]]></subreportParameterExpression>
 				</subreportParameter>
-				<dataSourceExpression><![CDATA[$F{ingresosJasper}]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[$P{ALL_INGRESOS}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/subreporte_ingresos.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>

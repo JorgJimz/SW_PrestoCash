@@ -745,7 +745,7 @@ public class Gestion_Contrato extends JInternalFrame {
 							? interesMinimo.setScale(2, RoundingMode.HALF_UP)
 							: neoInteres;
 
-					lblInteresMensual.setText(String.valueOf(interes));
+					lblInteresMensual.setText(String.valueOf(Utiles.redondearCentimos(interes)));
 				} else {
 					lblCapital.setText(String.valueOf(contrato.getCapital()));
 					lblInteresMensual.setText(String.valueOf(contrato.getInteresMensual()));

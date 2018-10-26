@@ -677,19 +677,13 @@ public class Libro_Caja extends JInternalFrame {
 
 	public void CargarIngresos() {
 		Constantes.IngresoModel.setRowCount(0);
-
-		BigDecimal Neto = BigDecimal.ZERO;
 		for (Ingreso i : caja.getIngresos()) {
-
-			Neto = Neto.add(i.getCapital()).add(i.getGanancia()).add(i.getOtro());
-
+			BigDecimal Neto = i.getCapital().add(i.getGanancia()).add(i.getOtro());
 			if (i.getTipo().startsWith("SEP") && i.getTipo().endsWith("(R)")) {
 				Neto = i.getOtro();
 			}
-
-			Constantes.IngresoModel.addRow(
-					new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(), i.getGanancia(), i.getOtro(),
-							Neto/* i.getCapital().add(i.getGanancia()).add(i.getOtro()) */, i.getMoneda() });
+			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(),
+					i.getGanancia(), i.getOtro(), Neto, i.getMoneda() });
 		}
 		tbIngresos.setModel(Constantes.IngresoModel);
 	}
@@ -723,14 +717,16 @@ public class Libro_Caja extends JInternalFrame {
 	}
 
 	public void ImprimirCaja() {
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("SEDE", Principal.SEDE.getDescripcion());
 		ArrayList<LibroCaja> arreglo_caja = new ArrayList<LibroCaja>();
 		arreglo_caja.add(caja);
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(arreglo_caja);
+		parametros.put("SEDE", Principal.SEDE.getDescripcion());
+		parametros.put("ALL_INGRESOS", caja.getIngresosJasper());
+		parametros.put("ALL_EGRESOS", caja.getEgresosJasper());
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_caja_diaria.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
-					new JRBeanCollectionDataSource(arreglo_caja));
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, data);
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();
