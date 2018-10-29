@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import common.Logger;
 import model.Ingreso;
 import model.Separacion;
 import model.Venta;
@@ -21,6 +22,7 @@ public class VentaController {
 			em.persist(i);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -41,6 +43,7 @@ public class VentaController {
 			em.persist(i);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {

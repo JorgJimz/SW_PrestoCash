@@ -15,6 +15,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
+import common.Logger;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
@@ -51,6 +52,7 @@ public class LibroCajaController {
 			tx.commit();
 			o = olc;
 		} catch (Exception e2) {
+			Logger.RegistrarIncidencia(e2);
 			tx.rollback();
 			e2.printStackTrace();
 		} finally {
@@ -71,6 +73,7 @@ public class LibroCajaController {
 		} catch (NoResultException e1) {
 			a = BigDecimal.ZERO;
 		} catch (Exception e2) {
+			Logger.RegistrarIncidencia(e2);
 			e2.printStackTrace();
 		} finally {
 			em.close();
@@ -87,9 +90,10 @@ public class LibroCajaController {
 			a = (BigDecimal) em.createQuery(
 					"SELECT COALESCE(c.cierreDolares,0) cierreDolares FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
-		} catch (NoResultException e1) {
+		} catch (NoResultException e1) {			
 			a = BigDecimal.ZERO;
 		} catch (Exception e2) {
+			Logger.RegistrarIncidencia(e2);
 			e2.printStackTrace();
 		} finally {
 			em.close();
@@ -110,6 +114,7 @@ public class LibroCajaController {
 			lc = null;
 			e1.printStackTrace();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -131,6 +136,7 @@ public class LibroCajaController {
 					"<b>CAJA CERRADA</b>. <br/> Imprimiendo el reporte de caja diaria. Favor de colocar papel en la impresora.",
 					String.valueOf(JOptionPane.WARNING_MESSAGE));
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 			msg = Arrays.asList("Error: " + e1.getMessage(), String.valueOf(JOptionPane.ERROR_MESSAGE));
@@ -150,6 +156,7 @@ public class LibroCajaController {
 			em.persist(i);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -168,6 +175,7 @@ public class LibroCajaController {
 			em.merge(e);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -188,6 +196,7 @@ public class LibroCajaController {
 			s = null;
 			e1.printStackTrace();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();

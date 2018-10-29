@@ -23,6 +23,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import common.Logger;
 import common.Utiles;
 import controller.LibroCajaController;
 import model.Aplicacion;
@@ -72,51 +73,56 @@ public class Principal extends JFrame {
 	}
 
 	public void CargarMenuAplicaciones() {
-		Map<Integer, List<PerfilAplicacion>> apps = Principal.LOGGED.getPerfil().getPerfilAplicacions().stream()
-				.collect(Collectors.groupingBy(e -> e.getAplicacion().getOrden()));
-		List<JComponent> c = new ArrayList<JComponent>();
-		for (int i = 1; i <= apps.size(); i++) {
-			for (int j = 0; j < apps.get(i).size(); j++) {
-				String padre = apps.get(i).get(j).getAplicacion().getPadre();
-				Component o = c.stream().filter(k -> k.getName().equalsIgnoreCase(padre)).findAny().orElse(null);
-				if (Objects.nonNull(o)) {
-					String app = apps.get(i).get(j).getAplicacion().getDescripcion();
-					if (Principal.LOGGED.getPerfil().getPerfilAplicacions().stream()
-							.anyMatch(p -> p.getAplicacion().getPadre().equals(app))) {
+		try {
+			Map<Integer, List<PerfilAplicacion>> apps = Principal.LOGGED.getPerfil().getPerfilAplicacions().stream()
+					.collect(Collectors.groupingBy(e -> e.getAplicacion().getOrden()));
+			List<JComponent> c = new ArrayList<JComponent>();
+			for (int i = 1; i <= apps.size(); i++) {
+				for (int j = 0; j < apps.get(i).size(); j++) {
+					String padre = apps.get(i).get(j).getAplicacion().getPadre();
+					Component o = c.stream().filter(k -> k.getName().equalsIgnoreCase(padre)).findAny().orElse(null);
+					if (Objects.nonNull(o)) {
+						String app = apps.get(i).get(j).getAplicacion().getDescripcion();
+						if (Principal.LOGGED.getPerfil().getPerfilAplicacions().stream()
+								.anyMatch(p -> p.getAplicacion().getPadre().equals(app))) {
+							JMenu mn = new JMenu(apps.get(i).get(j).getAplicacion().getDescripcion());
+							mn.setName(apps.get(i).get(j).getAplicacion().getDescripcion());
+							mn.setFont(new Font("Segoe UI", 1, 16));
+							((JMenu) o).add(mn);
+							c.add(mn);
+						} else {
+							Aplicacion x = apps.get(i).get(j).getAplicacion();
+							JMenuItem mn = new JMenuItem(x.getDescripcion());
+							mn.setName(x.getDescripcion());
+							mn.setFont(new Font("Segoe UI", 1, 16));
+							mn.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									try {
+										JInternalFrame iFrame = (JInternalFrame) Class.forName(x.getUrl()).newInstance();
+										Principal.dskPrincipal.add(iFrame);
+										iFrame.moveToFront();
+									} catch (Exception ex) {
+										ex.printStackTrace();
+										Utiles.Mensaje("Sin aplicación asociada.", JOptionPane.ERROR_MESSAGE);
+									}
+								}
+							});
+							((JMenu) o).add(mn);
+							c.add(mn);
+						}
+					} else {
 						JMenu mn = new JMenu(apps.get(i).get(j).getAplicacion().getDescripcion());
 						mn.setName(apps.get(i).get(j).getAplicacion().getDescripcion());
 						mn.setFont(new Font("Segoe UI", 1, 16));
-						((JMenu) o).add(mn);
-						c.add(mn);
-					} else {
-						Aplicacion x = apps.get(i).get(j).getAplicacion();
-						JMenuItem mn = new JMenuItem(x.getDescripcion());
-						mn.setName(x.getDescripcion());
-						mn.setFont(new Font("Segoe UI", 1, 16));
-						mn.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent arg0) {
-								try {
-									JInternalFrame iFrame = (JInternalFrame) Class.forName(x.getUrl()).newInstance();
-									Principal.dskPrincipal.add(iFrame);
-									iFrame.moveToFront();
-								} catch (Exception ex) {
-									ex.printStackTrace();
-									Utiles.Mensaje("Sin aplicación asociada.", JOptionPane.ERROR_MESSAGE);
-								}
-							}
-						});
-						((JMenu) o).add(mn);
+						menuBarPrincipal.add(mn);
 						c.add(mn);
 					}
-				} else {
-					JMenu mn = new JMenu(apps.get(i).get(j).getAplicacion().getDescripcion());
-					mn.setName(apps.get(i).get(j).getAplicacion().getDescripcion());
-					mn.setFont(new Font("Segoe UI", 1, 16));
-					menuBarPrincipal.add(mn);
-					c.add(mn);
 				}
 			}
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
 		}
 	}	
 

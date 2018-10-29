@@ -8,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import common.ComboItem;
+import common.Logger;
 import model.Prestamo;
 
 public class PrestamoController {
@@ -20,6 +21,7 @@ public class PrestamoController {
 			em.persist(p);
 			em.getTransaction().commit();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			em.getTransaction().rollback();
 			e.printStackTrace();
 		} finally {
@@ -37,6 +39,7 @@ public class PrestamoController {
 			em.merge(p);
 			em.getTransaction().commit();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			em.getTransaction().rollback();
 			e.printStackTrace();
 		} finally {
@@ -52,6 +55,7 @@ public class PrestamoController {
 		try {
 			l = em.createNamedQuery("Prestamo.findAll", Prestamo.class).getResultList();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -74,6 +78,7 @@ public class PrestamoController {
 				return ci;
 			}).collect(Collectors.toList());
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();

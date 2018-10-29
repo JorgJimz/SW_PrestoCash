@@ -38,6 +38,7 @@ import common.EditorLCE;
 import common.EditorLCI;
 import common.JEditableTable;
 import common.JIconTextField;
+import common.Logger;
 import common.NumberToLetter;
 import common.RenderLCE;
 import common.RenderLCI;
@@ -712,6 +713,7 @@ public class Libro_Caja extends JInternalFrame {
 					new JRBeanCollectionDataSource(arreglo_egreso));
 			JasperPrintManager.printReport(jasperPrint, true);
 		} catch (Exception ex) {
+			Logger.RegistrarIncidencia(ex);
 			ex.printStackTrace();
 		}
 	}
@@ -731,6 +733,7 @@ public class Libro_Caja extends JInternalFrame {
 			viewer.show();
 			viewer.toFront();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
 	}

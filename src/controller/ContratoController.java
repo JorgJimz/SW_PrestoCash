@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import common.Constantes;
+import common.Logger;
 import model.Contrato;
 import model.Egreso;
 import model.Ingreso;
@@ -30,6 +31,7 @@ public class ContratoController {
 			em.persist(e);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -50,6 +52,7 @@ public class ContratoController {
 			}
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -70,6 +73,7 @@ public class ContratoController {
 		} catch (NoResultException e1) {
 			c = null;
 		} catch (Exception e2) {
+			Logger.RegistrarIncidencia(e2);
 			e2.printStackTrace();
 		} finally {
 			em.close();
@@ -87,6 +91,7 @@ public class ContratoController {
 			q.setParameter("f", flag);
 			a = (Long) q.getSingleResult();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -105,6 +110,7 @@ public class ContratoController {
 			em.persist(i);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -123,6 +129,7 @@ public class ContratoController {
 			em.merge(c);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -141,6 +148,7 @@ public class ContratoController {
 			em.persist(s);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
 			e1.printStackTrace();
 		} finally {
@@ -159,6 +167,7 @@ public class ContratoController {
 					"SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)",
 					Contrato.class).getResultList();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -191,6 +200,7 @@ public class ContratoController {
 						c.getPrestamo().getDescripcion(), c.getCapital() });
 			}
 		} catch (Exception ex) {
+			Logger.RegistrarIncidencia(ex);
 			ex.printStackTrace();
 		} finally {
 			em.close();

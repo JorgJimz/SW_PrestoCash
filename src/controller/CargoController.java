@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import common.Logger;
 import model.Cargo;
 
 public class CargoController {
@@ -18,7 +19,8 @@ public class CargoController {
 			em.merge(c);
 			tx.commit();
 		} catch (Exception e1) {
-			//tx.rollback();
+			Logger.RegistrarIncidencia(e1);
+			tx.rollback();
 			e1.printStackTrace();
 		} finally {
 			em.close();

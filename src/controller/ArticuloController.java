@@ -15,6 +15,7 @@ import model.Sede;
 
 import common.ComboItem;
 import common.Constantes;
+import common.Logger;
 
 @SuppressWarnings("unchecked")
 public class ArticuloController {
@@ -28,8 +29,9 @@ public class ArticuloController {
 			em.merge(a);
 			tx.commit();
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
-			e1.printStackTrace();
+			e1.printStackTrace();			
 		} finally {
 			em.close();
 			emf.close();
@@ -44,6 +46,7 @@ public class ArticuloController {
 		try {
 			l = em.createQuery("SELECT a FROM Articulo a ORDER BY a.id DESC", Articulo.class).getResultList();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
 		return l;
@@ -63,6 +66,7 @@ public class ArticuloController {
 						new Object[] { a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(), a.getObs(), "200" });
 			}
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -85,6 +89,7 @@ public class ArticuloController {
 								a.getObs(), a.getCapitalContrato(), a.getPrecioVenta(), a.getEArticulo().getId() });
 			}
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -99,6 +104,7 @@ public class ArticuloController {
 		try {
 			articulo = em.find(Articulo.class, id);
 		} catch (Exception e1) {
+			Logger.RegistrarIncidencia(e1);
 			e1.printStackTrace();
 		} finally {
 			em.close();
@@ -115,6 +121,7 @@ public class ArticuloController {
 			l = em.createQuery("SELECT s FROM Sede s WHERE s.tSede = :s", Sede.class).setParameter("s", tipo)
 					.getResultList();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
 		return l;
@@ -133,6 +140,7 @@ public class ArticuloController {
 						return ci;
 					}).collect(Collectors.toList());
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
 		return l;

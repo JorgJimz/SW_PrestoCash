@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.table.DefaultTableModel;
 
+import common.Logger;
 import model.Cliente;
 
 @SuppressWarnings("unchecked")
@@ -24,6 +25,7 @@ public class ClienteController {
 			em.getTransaction().commit();
 
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			em.getTransaction().rollback();
 			e.printStackTrace();
 		} finally {
@@ -41,6 +43,7 @@ public class ClienteController {
 			em.merge(c);
 			em.getTransaction().commit();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			em.getTransaction().rollback();
 			e.printStackTrace();
 		} finally {
@@ -60,6 +63,7 @@ public class ClienteController {
 				model.add(c);
 			}
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
 		return model;
@@ -78,6 +82,7 @@ public class ClienteController {
 						c.getDistrito() });
 			}
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
 		return model;
@@ -94,6 +99,7 @@ public class ClienteController {
 		} catch (NoResultException e1) {
 			c = null;
 		} catch (Exception e2) {
+			Logger.RegistrarIncidencia(e2);
 			e2.printStackTrace();
 		} finally {
 			em.close();
@@ -114,6 +120,7 @@ public class ClienteController {
 						c.getDistrito(), c.getCategoriaId(), c.getObs(), c.getStatus() });
 			}
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();

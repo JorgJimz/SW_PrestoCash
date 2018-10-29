@@ -11,6 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 import common.ComboItem;
+import common.Logger;
 import model.Asistencia;
 import model.Perfil;
 import model.Usuario;
@@ -26,6 +27,7 @@ public class UsuarioController {
 			em.getTransaction().commit();
 
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			em.getTransaction().rollback();
 			e.printStackTrace();
 		} finally {
@@ -43,6 +45,7 @@ public class UsuarioController {
 			em.merge(u);
 			em.getTransaction().commit();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			em.getTransaction().rollback();
 			e.printStackTrace();
 		} finally {
@@ -61,6 +64,7 @@ public class UsuarioController {
 			q.setParameter("p", x.getPassword());
 			u = (Usuario) q.getSingleResult();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -80,6 +84,7 @@ public class UsuarioController {
 						u.getPassword(), u.getPerfil().getDescripcion(), u.getHoraIngreso(), u.getStatus() });
 			}
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
@@ -99,6 +104,7 @@ public class UsuarioController {
 			msg = "Se grabó asistencia.";
 			tx.commit();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 			tx.rollback();
 		} finally {
@@ -122,6 +128,7 @@ public class UsuarioController {
 					}).toArray(ComboItem[]::new));
 
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		} finally {
 			em.close();
