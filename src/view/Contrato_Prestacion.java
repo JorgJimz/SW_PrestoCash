@@ -871,5 +871,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		dispose();
 	}
 }
