@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -87,7 +88,7 @@ public class Multi_Cargo extends JInternalFrame {
 			public void internalFrameClosing(InternalFrameEvent e) {
 				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
 						JOptionPane.YES_NO_OPTION);
-				if (option == JOptionPane.YES_OPTION) {					
+				if (option == JOptionPane.YES_OPTION) {
 					dispose();
 				}
 			}
@@ -109,7 +110,7 @@ public class Multi_Cargo extends JInternalFrame {
 		txtNumeroContrato.setForeground(new java.awt.Color(0, 64, 128));
 		txtNumeroContrato.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {					
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					ObtenerDetalleContrato(txtNumeroContrato.getText());
 				}
 			}
@@ -143,7 +144,7 @@ public class Multi_Cargo extends JInternalFrame {
 					cAsociado.setFlag(flagNumero.split("-")[0]);
 					cAsociado.setNumero(Integer.parseInt(flagNumero.split("-")[1]));
 					Articulo aAsociado = new ArticuloController().ObtenerArticulo(articuloId);
-					aAsociado.setEArticulo(new EArticulo(4));
+					aAsociado.setEArticulo(new EArticulo(4,"CON CARGO"));
 					DetalleCargo dcc = new DetalleCargo();
 					dcc.setId(new Random().nextInt(100));
 					dcc.setContrato(cAsociado);
@@ -240,9 +241,10 @@ public class Multi_Cargo extends JInternalFrame {
 					cargo.setDetalleCargos(detalle);
 					new CargoController().GenerarCargo(cargo);
 					Utiles.Mensaje(
-							"<html><h3>Cargo registrado. Favor de colocar papel en la impresora para la impresión de la constancia.</h3></html>",
+							"Cargo registrado. Favor de colocar papel en la impresora para la impresión de la constancia.",
 							JOptionPane.INFORMATION_MESSAGE);
 					ImprimirCargo();
+					dispose();
 				} else {
 					Utiles.Mensaje("Agregue como mínimo un artículo al Cargo.", JOptionPane.WARNING_MESSAGE);
 				}
@@ -298,15 +300,21 @@ public class Multi_Cargo extends JInternalFrame {
 		if (!contrato.isEmpty()) {
 			Contrato cn = new ContratoController().CargarContrato(contrato.split("-")[0],
 					Integer.parseInt(contrato.split("-")[1]));
-			Constantes.ArticulosMultiCargoModel.setRowCount(0);
-			for (DetalleContrato dc : cn.getDetalleContratos()) {
-				Constantes.ArticulosMultiCargoModel.addRow(new Object[] {
-						dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
-						dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " " + dc.getArticulo().getMarca()
-								+ " " + dc.getArticulo().getModelo(),
-						dc.getArticulo().getEArticulo().getDescripcion() });
+			if (Objects.nonNull(cn)) {
+				Constantes.ArticulosMultiCargoModel.setRowCount(0);
+				for (DetalleContrato dc : cn.getDetalleContratos()) {
+					Constantes.ArticulosMultiCargoModel.addRow(new Object[] {
+							dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
+							dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " "
+									+ dc.getArticulo().getMarca() + " " + dc.getArticulo().getModelo(),
+							dc.getArticulo().getEArticulo().getDescripcion() });
+				}
+				tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
+			} else {
+				Utiles.Mensaje(String.format("El contrato %s no existe. Por favor, verificar.", contrato),
+						JOptionPane.INFORMATION_MESSAGE);
 			}
-			tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
+
 		} else {
 			Utiles.Mensaje("Ingrese Número de Contrato", JOptionPane.INFORMATION_MESSAGE);
 		}
