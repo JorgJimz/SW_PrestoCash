@@ -61,7 +61,7 @@
 		<fieldDescription><![CDATA[totalNetoDolares]]></fieldDescription>
 	</field>
 	<background>
-		<band/>
+		<band height="27"/>
 	</background>
 	<pageHeader>
 		<band height="90">
@@ -317,7 +317,7 @@
 	<summary>
 		<band height="65">
 			<subreport>
-				<reportElement x="355" y="0" width="277" height="60" uuid="a33f012c-9711-4ba3-8798-4336179ee143">
+				<reportElement x="370" y="0" width="252" height="60" uuid="a33f012c-9711-4ba3-8798-4336179ee143">
 					<printWhenExpression><![CDATA[$F{egresosJasper}.next()]]></printWhenExpression>
 				</reportElement>
 				<subreportParameter name="totalEmpenos_master">
@@ -327,7 +327,7 @@
 				<subreportExpression><![CDATA["reports/subreporte_egresos.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="60" y="0" width="290" height="60" uuid="4659b692-3bfc-49ff-b18a-762b02af288d">
+				<reportElement x="40" y="0" width="260" height="60" uuid="4659b692-3bfc-49ff-b18a-762b02af288d">
 					<printWhenExpression><![CDATA[$F{ingresosJasper}.next()]]></printWhenExpression>
 				</reportElement>
 				<subreportParameter name="totalGanancia_master">
@@ -337,7 +337,7 @@
 				<subreportExpression><![CDATA["reports/subreporte_ingresos.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="60" y="30" width="340" height="30" uuid="32eccffc-b331-47f7-9fe6-9783d05772df">
+				<reportElement x="40" y="30" width="260" height="30" uuid="32eccffc-b331-47f7-9fe6-9783d05772df">
 					<printWhenExpression><![CDATA[($F{totalNeto}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -352,7 +352,7 @@
 				<text><![CDATA[SIN INFORMACIÓN PARA MOSTRAR.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="0" width="340" height="30" uuid="65e0f08f-2bd1-410d-ba5b-dd9f6eb02732">
+				<reportElement x="40" y="0" width="260" height="30" uuid="65e0f08f-2bd1-410d-ba5b-dd9f6eb02732">
 					<printWhenExpression><![CDATA[($F{totalNeto}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -367,7 +367,7 @@
 				<text><![CDATA[INGRESOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="0" width="230" height="30" uuid="12c47f83-0dce-4af6-a466-e7eb3714d25f">
+				<reportElement x="370" y="0" width="252" height="30" uuid="12c47f83-0dce-4af6-a466-e7eb3714d25f">
 					<printWhenExpression><![CDATA[($F{totalEgresos}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -382,7 +382,7 @@
 				<text><![CDATA[EGRESOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="30" width="230" height="30" uuid="adbff4fa-74fa-48a4-bee0-ef1c1952ceca">
+				<reportElement x="370" y="30" width="252" height="30" uuid="adbff4fa-74fa-48a4-bee0-ef1c1952ceca">
 					<printWhenExpression><![CDATA[($F{totalEgresos}.compareTo( BigDecimal.ZERO ) == 0)? true:false]]></printWhenExpression>
 				</reportElement>
 				<box>
