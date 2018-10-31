@@ -8,20 +8,25 @@ import java.time.LocalDateTime;
 
 public class Logger {
 
-	public static void RegistrarIncidencia(Exception x) {
+	public static void RegistrarIncidencia(Exception e) {
 		try {
-			File f = new File(System.getProperty("user.dir").concat("\\logs\\") + LocalDate.now() + ".txt");
+			String nombreDirectorio = System.getProperty("user.dir").concat("\\logs\\");
+			File directorio = new File(nombreDirectorio);
+			if (!directorio.exists()) {
+				directorio.mkdir();
+			}
+			File f = new File(nombreDirectorio + LocalDate.now() + ".txt");
 			FileWriter fw = new FileWriter(f, true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("FECHA-HORA: " + LocalDateTime.now());
-			bw.write("VISTA/CONTROLADOR/METODO: " + x.getCause().getMessage());
-			bw.write("HEADER: " + x.getLocalizedMessage());
-			bw.write("CONTENT: " + x.getMessage());
+			bw.write("LOCALIZACIÓN: " + e.getStackTrace()[2].getMethodName());
+			bw.write("EXCEPCIÓN: " + e.getClass().getName());
+			bw.write("DETALLE: " + e.getMessage());
 			bw.newLine();
 			bw.flush();
 			bw.close();
-		} catch (Exception e) {
-			System.out.println(e);
+		} catch (Exception ex) {
+			System.out.println(ex);
 		}
 	}
 
