@@ -173,6 +173,9 @@ public class Contrato implements Serializable {
 				} else {
 					diasExcedidos = new BigDecimal(
 							ChronoUnit.DAYS.between(LocalDate.parse(p.getFechaVencimiento()), LocalDate.now()));
+
+					diasExcedidos = (diasExcedidos.compareTo(BigDecimal.ZERO) == -1) ? BigDecimal.ZERO : diasExcedidos;
+
 					cuotas = BigDecimal.ZERO;
 					diasResiduo = diasExcedidos;
 					prorrateo = interesDiario.multiply(diasResiduo);
@@ -256,17 +259,6 @@ public class Contrato implements Serializable {
 			prorrateo = Utiles.redondearCentimos(prorrateo);
 			moraActual = Utiles.redondearCentimos(moraActual);
 			prorrateoMora = Utiles.redondearCentimos(prorrateoMora);
-			/**
-			 * interesDiario = interesMensual.divide(BigDecimal.valueOf(30),
-			 * 2,RoundingMode.HALF_UP); LocalDate hoy = LocalDate.now(); LocalDate
-			 * vencimiento = LocalDate.parse(fechaVencimiento); diaFinal =
-			 * BigDecimal.valueOf(vencimiento.lengthOfMonth()); long diff =
-			 * ChronoUnit.DAYS.between(vencimiento, hoy); diasExcedidos = (diff < 0) ?
-			 * BigDecimal.ZERO : BigDecimal.valueOf(diff); cuotas =
-			 * BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
-			 * diasResiduo = diasExcedidos.remainder(diaFinal); prorrateo =
-			 * interesDiario.multiply(diasResiduo);
-			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

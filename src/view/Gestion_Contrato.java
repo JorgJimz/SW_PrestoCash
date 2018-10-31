@@ -76,6 +76,7 @@ import model.Sede;
 import model.Seguimiento;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -101,6 +102,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JComboBox cboAlmacen;
 	private JButton btnCargo;
 	private JLabel lblId3;
+	private JButton btnReimpresion;
 	private JRadioButton rbAnularContrato;
 	private JLabel lblPorcentajeInteres;
 	private JLabel jLabel2;
@@ -722,7 +724,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlOperacionContainer.add(txtAbono);
 		pnlOperacionContainer.moveToBack(txtAbono);
 		txtAbono.setVisible(false);
-		txtAbono.setBounds(222, 57, 330, 128);
+		txtAbono.setBounds(222, 30, 330, 128);
 		txtAbono.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtAbono.setForeground(new java.awt.Color(255, 0, 0));
 		txtAbono.setFont(new java.awt.Font("Segoe UI", 1, 72));
@@ -1131,7 +1133,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblTotalAPagar = new JLabel();
 		pnlOperacionContainer.add(lblTotalAPagar);
 		pnlOperacionContainer.moveToBack(lblTotalAPagar);
-		lblTotalAPagar.setBounds(222, 57, 330, 128);
+		lblTotalAPagar.setBounds(222, 30, 330, 128);
 		lblTotalAPagar.setFont(new java.awt.Font("Segoe UI", 1, 72));
 		lblTotalAPagar.setVerticalTextPosition(SwingConstants.TOP);
 		lblTotalAPagar.setForeground(new java.awt.Color(255, 0, 0));
@@ -1148,9 +1150,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnSeguimiento.setContentAreaFilled(false);
 		btnSeguimiento.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnSeguimiento.setText("NUEVA LLAMADA");
-		btnSeguimiento.setBounds(222, 191, 218, 75);
-		btnSeguimiento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		btnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		btnSeguimiento.setBounds(222, 170, 218, 70);
+		btnSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnSeguimiento.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSeguimiento.addActionListener(new ActionListener() {
 			@Override
@@ -1165,11 +1166,11 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblId1.setText("TOTAL A PAGAR");
 		lblId1.setForeground(new java.awt.Color(0, 128, 255));
 		lblId1.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		lblId1.setBounds(222, 10, 329, 30);
+		lblId1.setBounds(222, 0, 329, 30);
 
 		btnPagar = new JButton(new ImageIcon("img/pagar.png"));
 		pnlOperacionContainer.add(btnPagar);
-		btnPagar.setBounds(551, 57, 128, 128);
+		btnPagar.setBounds(551, 30, 128, 128);
 		btnPagar.setEnabled(false);
 		btnPagar.setOpaque(false);
 		btnPagar.setToolTipText("Pagar importe");
@@ -1193,12 +1194,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnCargo = new JButton(new ImageIcon("img/cargo.png"));
 		pnlOperacionContainer.add(btnCargo, JLayeredPane.DEFAULT_LAYER);
 		btnCargo.setText("NUEVO CARGO");
-		btnCargo.setBounds(452, 191, 218, 75);
+		btnCargo.setBounds(445, 170, 218, 70);
 		btnCargo.setOpaque(false);
 		btnCargo.setBorderPainted(false);
 		btnCargo.setContentAreaFilled(false);
 		btnCargo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCargo.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		btnCargo.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnCargo.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCargo.addActionListener(new ActionListener() {
 			@Override
@@ -1215,6 +1216,23 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblId2.setForeground(new java.awt.Color(0, 128, 255));
 		lblId2.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		lblId2.setBounds(16, 10, 194, 30);
+
+		btnReimpresion = new JButton(new ImageIcon("img/printer.png"));
+		pnlOperacionContainer.add(btnReimpresion, JLayeredPane.DEFAULT_LAYER);
+		btnReimpresion.setText("IMPRIMIR CONTRATO");
+		btnReimpresion.setBounds(221, 245, 250, 70);
+		btnReimpresion.setOpaque(false);
+		btnReimpresion.setBorderPainted(false);
+		btnReimpresion.setContentAreaFilled(false);
+		btnReimpresion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnReimpresion.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnReimpresion.setHorizontalAlignment(SwingConstants.LEFT);
+		btnReimpresion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ImprimirFormato();
+			}
+		});
 
 		CargarInformacionContrato();
 		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD).contains(contrato.getEContrato().getId())) {
@@ -1395,6 +1413,11 @@ public class Gestion_Contrato extends JInternalFrame {
 			lblMoraAnterior.setText(String.valueOf(mora_anterior));
 			lblTotalMora.setText(String.valueOf(contrato.getMoraTotal()));
 
+			rbPagoInteresMora.setEnabled((contrato.getMoraActual().compareTo(BigDecimal.ZERO) == 0
+					&& contrato.getMoraAnterior().compareTo(BigDecimal.ZERO) == 0) ? false : true);
+			rbPagoMora.setEnabled((contrato.getMoraActual().compareTo(BigDecimal.ZERO) == 0
+					&& contrato.getMoraAnterior().compareTo(BigDecimal.ZERO) == 0) ? false : true);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1411,7 +1434,8 @@ public class Gestion_Contrato extends JInternalFrame {
 	}
 
 	public int CalcularRenovacion() {
-		int meses = 0;
+		// int meses = 0;
+		int meses = 1;
 		for (int i = 0; i <= InteresModel.getRowCount() - 1; i++) {
 			int estado = Integer.parseInt(InteresModel.getValueAt(i, 2).toString());
 			if (estado == 1) {
@@ -1623,6 +1647,26 @@ public class Gestion_Contrato extends JInternalFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void ImprimirFormato() {
+		contrato.setClienteJasper(contrato.getCliente().getNombreCompleto());
+		ArrayList<Contrato> arreglo_contrato = new ArrayList<Contrato>();
+		arreglo_contrato.add(contrato);
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("direccion_cliente", contrato.getCliente().getDireccion());
+		parametros.put("telefonos_cliente", contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2());
+		parametros.put("fecha_contrato", lblInicio.getText());
+		parametros.put("fecha_vencimiento", lblVencimiento.getText());
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/contrato.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
+					new JRBeanCollectionDataSource(arreglo_contrato));
+			JasperPrintManager.printReport(jasperPrint, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		dispose();
 	}
 
 }

@@ -20,6 +20,9 @@
 	<field name="articuloJasper" class="java.lang.String">
 		<fieldDescription><![CDATA[articuloJasper]]></fieldDescription>
 	</field>
+	<field name="articulo" class="model.Articulo">
+		<fieldDescription><![CDATA[articulo]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -33,18 +36,18 @@
 				<textFieldExpression><![CDATA[$F{tasacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="20" y="0" width="424" height="20" uuid="195d6aad-d43f-4a76-808c-7413795cbb93"/>
+				<reportElement x="20" y="0" width="444" height="20" uuid="195d6aad-d43f-4a76-808c-7413795cbb93"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cantidad} + " " + $F{articuloJasper}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cantidad} + " " + $F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="20" y="20" width="546" height="20" uuid="8af2c43d-208d-49c3-89b3-3aca80161862"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{observacionArticuloJasper}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{articulo}.getObs()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
