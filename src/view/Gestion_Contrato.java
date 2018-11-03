@@ -1434,8 +1434,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	}
 
 	public int CalcularRenovacion() {
-		// int meses = 0;
-		int meses = 1;
+		int meses = 0;
 		for (int i = 0; i <= InteresModel.getRowCount() - 1; i++) {
 			int estado = Integer.parseInt(InteresModel.getValueAt(i, 2).toString());
 			if (estado == 1) {
@@ -1496,7 +1495,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 			switch (rbgOpcionPago.getSelection().getActionCommand()) {
 			case "I":
-				pago.setDescripcion(meses_renovar + "%");
+				pago.setDescripcion((meses_renovar == 0) ? "1%" : meses_renovar + "%");
 				pago.setCapital(BigDecimal.ZERO);
 				pago.setInteres(contrato.getInteresTotal());
 				pago.setMora(BigDecimal.ZERO);
@@ -1550,7 +1549,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 				break;
 			case "IM":
-				pago.setDescripcion(meses_renovar + "% + MORA");
+				pago.setDescripcion((meses_renovar == 0) ? "1% + M" : meses_renovar + "% + M");
 				pago.setCapital(BigDecimal.ZERO);
 				pago.setInteres(contrato.getInteresTotal());
 				pago.setMora(contrato.getMoraTotal());
@@ -1561,7 +1560,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				ingreso.setCapital(BigDecimal.ZERO);
 				ingreso.setGanancia(contrato.getInteresTotal().add(contrato.getMoraTotal()));
 				ingreso.setOtro(BigDecimal.ZERO);
-				ingreso.setTipo(meses_renovar + "% + M");
+				ingreso.setTipo(pago.getDescripcion());
 				PagarMoras();
 				contrato.setFechaVencimiento(String.valueOf(nuevo_vencimiento));
 				contrato.setFechaRemate(String.valueOf(nuevo_remate));
