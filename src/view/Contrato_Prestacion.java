@@ -377,8 +377,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEditarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(/* txtDni.getText() */);
-				Principal.dskPrincipal.add(mc);
+				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(txtDni.getText());
+				Principal.dskPrincipal.add(mc);				
+				dispose();
 			}
 		});
 

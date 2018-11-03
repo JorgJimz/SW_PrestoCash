@@ -275,6 +275,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 				Utiles.Limpiar(contenedor);
 				ListarClientes();
 				Utiles.Mensaje("Cliente actualizado.", JOptionPane.INFORMATION_MESSAGE);
+				Utiles.MostrarOperaciones(c.getDocumento(), internal);
 			}
 		});
 
@@ -346,7 +347,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		txtId.setVisible(false);
 
 		txtDni = new JIconTextField();
-		txtDni.setText(documento);
+		txtDni.setText(documento);		
 		contenedor.add(txtDni);
 		txtDni.setBounds(178, 12, 225, 50);
 		txtDni.setBorder(BorderFactory.createTitledBorder(null, "D.N.I.", TitledBorder.DEFAULT_JUSTIFICATION,
@@ -355,34 +356,7 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		txtDni.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtDni.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
-				Cliente c = new ClienteController().BuscarCliente(txtDni.getText());
-				if (c != null) {
-					int q = JOptionPane.showConfirmDialog(null,
-							"Este Cliente ya se encuentra registrado, ¿Desea traer los registros del mismo?",
-							"Coincidencia de Datos", JOptionPane.YES_NO_OPTION);
-					if (q == JOptionPane.YES_OPTION) {
-						cboTipoDocumento.setSelectedItem(c.getTDocumento());
-						txtDni.setText(c.getDocumento());
-						txtNombre.setText(c.getNombres());
-						txtPaterno.setText(c.getPaterno());
-						txtMaterno.setText(c.getMaterno());
-						txtEmail.setText(c.getEmail());
-						txtTlf1.setText(c.getTlf1());
-						txtTlf2.setText(c.getTlf2());
-						txtDireccion.setText(c.getDireccion());
-						cboDistrito.setSelectedItem(c.getDistrito());
-						cboCategoriaCliente.setSelectedItem(c.getCategoriaId());
-						txtObs.setText(c.getObs());
-						txtDni.setEnabled(false);
-						btnEditar.setEnabled(true);
-						btnGrabar.setEnabled(false);
-						btnGrabar.setIcon(new ImageIcon("img/acciones.png"));
-						btnGrabar.setToolTipText("GENERAR CONTRATO");
-					} else {
-						txtDni.setText("");
-						txtDni.requestFocus();
-					}
-				}
+				CargarInformacionCliente();
 			}
 		});
 
@@ -468,6 +442,34 @@ public class Mantenimiento_Clientes extends JInternalFrame {
 		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
 
 		ListarClientes();
+		
+		CargarInformacionCliente();
+	}
+	
+	public void CargarInformacionCliente() {		
+		if(!txtDni.getText().isEmpty()) {
+			Cliente c = new ClienteController().BuscarCliente(txtDni.getText());
+			if (c != null) {	
+				txtId.setText(String.valueOf(c.getId()));
+				cboTipoDocumento.setSelectedItem(c.getTDocumento());
+				txtDni.setText(c.getDocumento());
+				txtNombre.setText(c.getNombres());
+				txtPaterno.setText(c.getPaterno());
+				txtMaterno.setText(c.getMaterno());
+				txtEmail.setText(c.getEmail());
+				txtTlf1.setText(c.getTlf1());
+				txtTlf2.setText(c.getTlf2());
+				txtDireccion.setText(c.getDireccion());
+				cboDistrito.setSelectedItem(c.getDistrito());
+				cboCategoriaCliente.setSelectedItem(c.getCategoriaId());
+				txtObs.setText(c.getObs());
+				txtDni.setEnabled(false);
+				btnEditar.setEnabled(true);
+				btnGrabar.setEnabled(false);
+				btnGrabar.setIcon(new ImageIcon("img/acciones.png"));
+				btnGrabar.setToolTipText("GENERAR CONTRATO");				
+			}
+		}		
 	}
 
 	public void ListarClientes() {
