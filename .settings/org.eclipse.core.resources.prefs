@@ -1,9 +1,12 @@
 eclipse.preferences.version=1
 encoding//reports/cargo.jrxml=UTF-8
+encoding//reports/compra_oro.jrxml=UTF-8
 encoding//reports/contrato.jrxml=UTF-8
 encoding//reports/descargo_caja.jrxml=UTF-8
 encoding//reports/detalle_cargo.jrxml=UTF-8
 encoding//reports/detalle_contrato.jrxml=UTF-8
 encoding//reports/reporte_caja_diaria.jrxml=UTF-8
+encoding//reports/reporte_contratos.jrxml=UTF-8
+encoding//reports/reporte_vitrina.jrxml=UTF-8
 encoding//reports/subreporte_egresos.jrxml=UTF-8
 encoding//reports/subreporte_ingresos.jrxml=UTF-8

@@ -31,7 +31,7 @@ public class ArticuloController {
 		} catch (Exception e1) {
 			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
-			e1.printStackTrace();			
+			e1.printStackTrace();
 		} finally {
 			em.close();
 			emf.close();
@@ -143,6 +143,25 @@ public class ArticuloController {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
+		return l;
+	}
+
+	public List<Articulo> CargarReporteVitrina() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Articulo> l = null;
+		try {
+			Query q = em.createQuery("SELECT a FROM Articulo a WHERE a.EArticulo.id = 5 AND a.precioVenta > 0",
+					Articulo.class);
+			l = q.getResultList();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+
 		return l;
 	}
 }

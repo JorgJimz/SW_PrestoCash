@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import common.Constantes;
 import common.Logger;
 import model.Contrato;
+import model.EContrato;
 import model.Egreso;
 import model.Ingreso;
 import model.Seguimiento;
@@ -119,7 +120,7 @@ public class ContratoController {
 		}
 		return c;
 	}
-	
+
 	public Contrato ActualizarContrato(Contrato c) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
@@ -163,9 +164,24 @@ public class ContratoController {
 		EntityManager em = emf.createEntityManager();
 		List<Contrato> l = null;
 		try {
-			l = em.createQuery(
-					"SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)",
-					Contrato.class).getResultList();
+			l = em.createQuery("SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)", Contrato.class)
+					.getResultList();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return l;
+	}
+
+	public List<EContrato> ListarEstadosContrato() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<EContrato> l = null;
+		try {
+			l = em.createNamedQuery("EContrato.findAll", EContrato.class).getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();

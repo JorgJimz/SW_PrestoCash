@@ -220,7 +220,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		btnBuscar = new JButton();
 		contenedor.add(btnBuscar);
-		btnBuscar.setIcon(new ImageIcon("img/find.png"));
+		btnBuscar.setIcon(new ImageIcon("img/barcode.png"));
 		btnBuscar.setBorderPainted(false);
 		btnBuscar.setContentAreaFilled(false);
 		btnBuscar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
