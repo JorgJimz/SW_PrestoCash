@@ -140,7 +140,7 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="84" splitType="Stretch">
+		<band height="96" splitType="Stretch">
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="555" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
 				<textElement verticalAlignment="Middle">
@@ -149,11 +149,18 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 				<text><![CDATA[Reporte General de Contratos]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="SubTitle" x="1" y="62" width="554" height="18" uuid="19a75757-bf77-4d55-81a3-11ef5473dafc"/>
+				<reportElement style="SubTitle" x="1" y="62" width="409" height="18" uuid="19a75757-bf77-4d55-81a3-11ef5473dafc"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="62" width="145" height="18" uuid="ace3d6fa-1f86-4c80-a1e8-5e2b256bed96"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SEDE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

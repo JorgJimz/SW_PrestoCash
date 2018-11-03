@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -51,6 +53,23 @@ public class VentaController {
 			emf.close();
 		}
 		return s;
+	}
+	
+	public List<Separacion> ListarSeparaciones() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Separacion> l = null;
+		try {
+			l = em.createQuery("SELECT s FROM Separacion s WHERE s.status = 1", Separacion.class)
+					.getResultList();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return l;
 	}
 
 }

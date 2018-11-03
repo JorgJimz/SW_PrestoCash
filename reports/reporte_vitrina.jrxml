@@ -51,7 +51,7 @@
 				<textElement>
 					<font size="20"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MMM-yyyy").parse(new Date()).toUpperCase()]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

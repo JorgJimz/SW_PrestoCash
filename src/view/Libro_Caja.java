@@ -300,21 +300,26 @@ public class Libro_Caja extends JInternalFrame {
 		btnCerrarCaja.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int opc = JOptionPane.showConfirmDialog(null,
-						"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
-						"Confirmación", JOptionPane.YES_NO_OPTION);
-				if (opc == JOptionPane.YES_OPTION) {
-					caja.setStatus(0);
-					caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
-					caja.setFechaCierre(String.valueOf(LocalDate.now()));
-					caja.setHoraCierre(String.valueOf(LocalTime.now()));
-					Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
-							.findFirst().orElse(Asistencia.DEFAULT);
-					a.setHoraSalida(String.valueOf(LocalTime.now()));
-					new UsuarioController().MarcarAsistencia(a);
-					List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
-					Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
-					ImprimirCaja();
+				try {
+					int opc = JOptionPane.showConfirmDialog(null,
+							"<html><h2>Si cierra la caja no podrá realizar ninguna operación hasta el día siguiente. ¿Continuar?</h2></html>",
+							"Confirmación", JOptionPane.YES_NO_OPTION);
+					if (opc == JOptionPane.YES_OPTION) {
+						caja.setStatus(0);
+						caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
+						caja.setFechaCierre(String.valueOf(LocalDate.now()));
+						caja.setHoraCierre(String.valueOf(LocalTime.now()));
+						Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
+								.findFirst().orElse(Asistencia.DEFAULT);
+						a.setHoraSalida(String.valueOf(LocalTime.now()));
+						new UsuarioController().MarcarAsistencia(a);
+						List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
+						Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
+						ImprimirCaja();
+					}
+				} catch (Exception e) {
+					Logger.RegistrarIncidencia(e);
+					e.printStackTrace();
 				}
 			}
 		});
@@ -575,6 +580,12 @@ public class Libro_Caja extends JInternalFrame {
 		btnImprimir.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnImprimir.setBounds(763, 610, 263, 70);
 		btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnImprimir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ImprimirCaja();
+			}
+		});
 
 		lbltotalIngresosDolares = new JIconTextField();
 		contenedor.add(lbltotalIngresosDolares);
@@ -663,13 +674,6 @@ public class Libro_Caja extends JInternalFrame {
 		lblTotalEgresoDolares.setOrientation(SwingConstants.RIGHT);
 		lblTotalEgresoDolares.setBounds(1143, 488, 168, 40);
 		lblTotalEgresoDolares.setEditable(false);
-
-		btnImprimir.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				ImprimirCaja();
-			}
-		});
 
 		CargarIngresos();
 		CargarEgresos();

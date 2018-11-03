@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_separaciones" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="cliente" class="model.Cliente">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[fecha]]></fieldDescription>
+	</field>
+	<field name="articulo" class="model.Articulo">
+		<fieldDescription><![CDATA[articulo]]></fieldDescription>
+	</field>
+	<field name="precioVenta" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[precioVenta]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[importe]]></fieldDescription>
+	</field>
+	<variable name="TotalImporte" class="java.math.BigDecimal" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
+	<variable name="Restante" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{precioVenta}.subtract($V{TotalImporte})]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{articulo}.getId()]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="0" width="597" height="24" forecolor="#B89F7D" backcolor="#F2EBDF" uuid="df26104b-a7fc-458f-8a21-50b13c7c7736"/>
+					<textField>
+						<reportElement style="SubTitle" x="22" y="0" width="459" height="24" forecolor="#736343" uuid="ef0a10c7-2940-4ac1-a69e-db1a00ae6f2e"/>
+						<textElement verticalAlignment="Middle">
+							<font size="14" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA["[" + $F{articulo}.getContrato() + "] " + $F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="480" y="0" width="96" height="24" uuid="6f0ccd17-2265-40ba-9df9-9bcc881ba5e5"/>
+						<textElement textAlignment="Right" verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{precioVenta}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="40">
+				<textField>
+					<reportElement x="380" y="1" width="176" height="19" uuid="74b44ad0-33cc-44c3-b703-6fb824bb384d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["TOTAL A LA FECHA: " + $V{TotalImporte}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="380" height="20" uuid="55bdd549-4123-41ae-bb29-848b3b8251f5"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["CUOTAS PAGADAS :" + $V{Group1_COUNT}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="fa45a887-615a-4d84-a2d7-8a2219671b3c"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="380" y="21" width="175" height="19" forecolor="#CC0000" uuid="4a2beaba-68ae-4ca1-a709-7c2969fe1a8d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["SALDO: " + $V{Restante}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="39" width="555" height="1" uuid="096f6846-1ebd-4138-b0a4-f6d12b04dc20"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="555" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reporte de Separaciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="SubTitle" x="1" y="62" width="554" height="22" uuid="8e798626-f20f-4fc0-a273-7c80c7788edb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MMM-yyyy").format(new Date()).toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="0" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="90" height="21" uuid="bc8514d2-ae96-44c9-9654-550081360cbb"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="369" height="20" uuid="11d3f19b-aec0-4ec7-afb4-50f468bdf090"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="95" height="21" uuid="de8b0c9a-6ca2-462e-a9c5-e2289c51b0cc"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="460" y="0" width="95" height="20" uuid="d3a27ccb-537a-4fd7-aa27-2d5bc67e200e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="0" width="89" height="20" uuid="4fffa52a-eee2-412c-ac2d-16b206e19523"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{fecha})).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="369" height="20" uuid="d30bdc5a-6a6c-4cdc-8c4a-9497e8ee1892"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cliente}.getNombreCompleto()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -19,6 +19,7 @@ import common.Logger;
 import common.MySQLConexion;
 import controller.ArticuloController;
 import controller.ContratoController;
+import controller.VentaController;
 import model.EContrato;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -109,6 +110,12 @@ public class Reporteria extends JInternalFrame {
 		btnReporteSeparacion.setContentAreaFilled(false);
 		btnReporteSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnReporteSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnReporteSeparacion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MostrarReporteSeparacion();
+			}
+		});
 
 		CargarEstadosContrato();
 
@@ -155,8 +162,23 @@ public class Reporteria extends JInternalFrame {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
-		
 
+	}
+
+	public void MostrarReporteSeparacion() {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("SEDE", Principal.SEDE.getDescripcion());
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_separaciones.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
+					new JRBeanCollectionDataSource(new VentaController().ListarSeparaciones()));
+			JasperViewer viewer = new JasperViewer(jasperPrint, false);
+			viewer.show();
+			viewer.toFront();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		}
 	}
 
 	public void MostrarReporteVitrina() {
