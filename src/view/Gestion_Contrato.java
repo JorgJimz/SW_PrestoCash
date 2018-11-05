@@ -181,6 +181,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JTable tbHistorial;
 
 	TableColumn cargoColumn;
+	TableColumn vctoColumn;
 
 	Contrato contrato;
 
@@ -194,7 +195,8 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 		}
 	};
-	DefaultTableModel InteresModel = new DefaultTableModel(null, new String[] { "MES", "MONTO", "¿ACTIVO?" }) {
+	DefaultTableModel InteresModel = new DefaultTableModel(null,
+			new String[] { "MES", "MONTO", "¿ACTIVO?", "FECHA_VENCIMIENTO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			if (rowIndex == tbIntereses.getSelectedRow() && colIndex == 2) {
 				return true;
@@ -365,6 +367,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		spIntereses.setPreferredSize(new java.awt.Dimension(1200, 170));
 		spIntereses.setViewportView(tbIntereses);
 		pnlInteres.add(spIntereses);
+		vctoColumn = tbIntereses.getColumnModel().getColumn(3);
+		tbIntereses.getColumnModel().removeColumn(vctoColumn);
 		tpContrato.addTab("INTERESES", null, pnlInteres, null);
 
 		pnlPagos = new JPanel();
@@ -1384,7 +1388,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			InteresModel.setRowCount(0);
 			for (int i = 0; i < contrato.getCuotas().intValue(); i++) {
 				InteresModel.addRow(new Object[] { Constantes.formatoMes.format(fecha_vencimiento).toUpperCase(),
-						contrato.getInteresMensual(), 1 });
+						contrato.getInteresMensual(), 1, String.valueOf(fecha_vencimiento) });
 				fecha_vencimiento = fecha_vencimiento.plusMonths(1);
 				total_interes = total_interes.add(contrato.getInteresMensual());
 			}
@@ -1433,15 +1437,17 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public int CalcularRenovacion() {
-		int meses = 0;
-		for (int i = 0; i <= InteresModel.getRowCount() - 1; i++) {
+	public String[] CalcularRenovacion() {	
+		int meses = 1;
+		String ultimo_pago = contrato.getFechaVencimiento();
+		for (int i = 1; i <= InteresModel.getRowCount() - 1; i++) {
 			int estado = Integer.parseInt(InteresModel.getValueAt(i, 2).toString());
 			if (estado == 1) {
+				ultimo_pago = InteresModel.getValueAt(i, 3).toString();
 				meses += 1;
 			}
 		}
-		return meses;
+		return new String[] { String.valueOf(meses), ultimo_pago };
 	}
 
 	public void PagarMoras() {
@@ -1468,7 +1474,6 @@ public class Gestion_Contrato extends JInternalFrame {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/cargo.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
 					new JRBeanCollectionDataSource(arreglo_cargo));
-			// JasperPrintManager.printReport(jasperPrint, true);
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.setVisible(true);
 			viewer.toFront();
@@ -1488,19 +1493,22 @@ public class Gestion_Contrato extends JInternalFrame {
 			ingreso.setDescripcion(contrato.getFlag() + "-" + contrato.getNumero());
 			ingreso.setMoneda(lblTipoMoneda.getText());
 
-			int meses_renovar = CalcularRenovacion();
+			String[] dataRenovacion = CalcularRenovacion();
+
+			int meses_renovar = Integer.parseInt(dataRenovacion[0]);
+			String ultimo_pago = dataRenovacion[1];
 
 			LocalDate nuevo_vencimiento = LocalDate.parse(contrato.getFechaVencimiento()).plusMonths(meses_renovar);
 			LocalDate nuevo_remate = LocalDate.parse(contrato.getFechaRemate()).plusMonths(meses_renovar);
 
 			switch (rbgOpcionPago.getSelection().getActionCommand()) {
 			case "I":
-				pago.setDescripcion((meses_renovar == 0) ? "1%" : meses_renovar + "%");
+				pago.setDescripcion(meses_renovar + "%");
 				pago.setCapital(BigDecimal.ZERO);
 				pago.setInteres(contrato.getInteresTotal());
 				pago.setMora(BigDecimal.ZERO);
 				pago.setContrato(contrato);
-				pago.setFechaVencimiento(contrato.getFechaVencimiento());
+				pago.setFechaVencimiento(ultimo_pago);
 				pago.setFechaPago(LocalDate.now().toString());
 				contrato.addPago(pago);
 
@@ -1549,11 +1557,11 @@ public class Gestion_Contrato extends JInternalFrame {
 
 				break;
 			case "IM":
-				pago.setDescripcion((meses_renovar == 0) ? "1% + M" : meses_renovar + "% + M");
+				pago.setDescripcion(meses_renovar + "% + M");
 				pago.setCapital(BigDecimal.ZERO);
 				pago.setInteres(contrato.getInteresTotal());
 				pago.setMora(contrato.getMoraTotal());
-				pago.setFechaVencimiento(contrato.getFechaVencimiento());
+				pago.setFechaVencimiento(ultimo_pago);
 				pago.setFechaPago(LocalDate.now().toString());
 				pago.setContrato(contrato);
 				contrato.addPago(pago);
@@ -1625,7 +1633,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				pago.setCapital(contrato.getCapital());
 				pago.setInteres(contrato.getInteresTotal().add(contrato.getProrrateo()));
 				pago.setMora(contrato.getMoraTotal().add(contrato.getProrrateoMora()));
-				pago.setFechaVencimiento(contrato.getFechaVencimiento());
+				pago.setFechaVencimiento(ultimo_pago);
 				pago.setFechaPago(LocalDate.now().toString());
 				pago.setContrato(contrato);
 				contrato.addPago(pago);
