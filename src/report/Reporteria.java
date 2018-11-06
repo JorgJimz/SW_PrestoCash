@@ -100,6 +100,12 @@ public class Reporteria extends JInternalFrame {
 		btnReporteRemates.setContentAreaFilled(false);
 		btnReporteRemates.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnReporteRemates.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnReporteRemates.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MostrarReporteRemate();
+			}
+		});
 
 		btnReporteSeparacion = new JButton(new ImageIcon("img/separar.png"));
 		contenedor.add(btnReporteSeparacion);
@@ -163,6 +169,22 @@ public class Reporteria extends JInternalFrame {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void MostrarReporteRemate() {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("SEDE", Principal.SEDE.getDescripcion());
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptVentas.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
+					new JRBeanCollectionDataSource(new VentaController().ListarVentas()));
+			JasperViewer viewer = new JasperViewer(jasperPrint, false);
+			viewer.show();
+			viewer.toFront();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		}
 	}
 
 	public void MostrarReporteSeparacion() {

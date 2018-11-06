@@ -14,8 +14,7 @@ import model.Venta;
 
 public class VentaController {
 	public Venta GenerarVenta(Venta v, Ingreso i) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -35,8 +34,7 @@ public class VentaController {
 	}
 
 	public Separacion GenerarSeparacion(Separacion s, Ingreso i) {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -54,14 +52,29 @@ public class VentaController {
 		}
 		return s;
 	}
-	
+
 	public List<Separacion> ListarSeparaciones() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<Separacion> l = null;
 		try {
-			l = em.createQuery("SELECT s FROM Separacion s WHERE s.status = 1", Separacion.class)
-					.getResultList();
+			l = em.createQuery("SELECT s FROM Separacion s WHERE s.status = 1", Separacion.class).getResultList();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return l;
+	}
+
+	public List<Venta> ListarVentas() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Venta> l = null;
+		try {
+			l = em.createQuery("SELECT v FROM Venta v", Venta.class).getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
