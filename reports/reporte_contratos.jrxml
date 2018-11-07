@@ -15,6 +15,7 @@
 	</style>
 	<parameter name="SEDE" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="ESTADOS" class="java.util.List" isForPrompting="false"/>
+	<parameter name="PRESTAMOS" class="java.util.List" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
 EC.DESCRIPCION AS ESTADO, 
@@ -28,7 +29,10 @@ FROM contrato C
 	INNER JOIN cliente K ON C.CLIENTE_ID = K.ID
 	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
 	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID
-WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
+WHERE 
+$X{IN,P.DESCRIPCION,PRESTAMOS}
+AND
+$X{IN,EC.DESCRIPCION,ESTADOS}]]>
 	</queryString>
 	<field name="FLAG" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
@@ -107,12 +111,15 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 					<textField>
 						<reportElement style="SubTitle" x="22" y="0" width="457" height="24" forecolor="#736343" uuid="ef0a10c7-2940-4ac1-a69e-db1a00ae6f2e"/>
 						<textElement>
-							<font size="12" isBold="true"/>
+							<font fontName="Calibri" size="12" isBold="true"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{FLAG} +"-"+ $F{NUMERO} + "["+ $F{PRESTAMO} +"]" + "("+$F{NOMBRES}+ " " + $F{PATERNO} + " " +$F{MATERNO} + ")"]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement x="481" y="0" width="95" height="24" uuid="0908b62d-bfab-40d6-8912-c73dfea1d3f9"/>
+						<textElement>
+							<font fontName="Calibri"/>
+						</textElement>
 						<textFieldExpression><![CDATA[$F{ESTADO}]]></textFieldExpression>
 					</textField>
 				</frame>
@@ -123,7 +130,7 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 				<textField>
 					<reportElement x="460" y="0" width="95" height="20" uuid="d40c97a4-3f70-48eb-b07e-07de0d2739d2"/>
 					<textElement>
-						<font isBold="true"/>
+						<font fontName="Calibri" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CAPITAL}]]></textFieldExpression>
 				</textField>
@@ -140,25 +147,25 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="96" splitType="Stretch">
+		<band height="80" splitType="Stretch">
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="555" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="38"/>
+					<font fontName="Calibri" size="38"/>
 				</textElement>
 				<text><![CDATA[Reporte General de Contratos]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="SubTitle" x="1" y="62" width="409" height="18" uuid="19a75757-bf77-4d55-81a3-11ef5473dafc"/>
 				<textElement>
-					<font fontName="Times New Roman" size="14"/>
+					<font fontName="Calibri" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="410" y="62" width="145" height="18" uuid="ace3d6fa-1f86-4c80-a1e8-5e2b256bed96"/>
 				<textElement textAlignment="Right">
-					<font isBold="true"/>
+					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{SEDE}]]></textFieldExpression>
 			</textField>
@@ -167,46 +174,24 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
-	<columnHeader>
-		<band height="16" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement x="47" y="0" width="411" height="15" uuid="7a09676f-de5f-479e-af78-e95dd985646d">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="742f2ed3-d576-4cb0-8fe4-6a705835992c"/>
-				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[DESCRIPCION]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="460" y="0" width="95" height="15" uuid="08ba018e-7b87-428d-bbf6-2d9bb345d416">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="27a934a6-acc1-4ec3-a32c-8f14ccb50aaa"/>
-				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[TASACION]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="458" height="20" uuid="4f6e93ca-d61f-49a9-9b6d-4a3c530b9b42">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="742f2ed3-d576-4cb0-8fe4-6a705835992c"/>
 				</reportElement>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{ARTICULO} + " " + $F{MARCA} + " " + $F{MODELO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="460" y="0" width="95" height="20" uuid="d06117cb-4524-4784-9b9c-b8261a53f9e9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="27a934a6-acc1-4ec3-a32c-8f14ccb50aaa"/>
 				</reportElement>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{TASACION}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -228,21 +213,21 @@ WHERE $X{IN,EC.DESCRIPCION,ESTADOS}]]>
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="Calibri" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="Calibri" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="Calibri" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
