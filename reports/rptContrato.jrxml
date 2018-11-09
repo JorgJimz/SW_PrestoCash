@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptContrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e3f06fd-e51c-422c-906d-4cc8dd243039">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="ccb54270-e543-4e24-a91b-2b5f1ef50fef">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="PRESTAMOS" class="java.util.List"/>
+		<queryString>
+			<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
+C.FECHA_CONTRATO, C.FECHA_VENCIMIENTO, C.FECHA_REMATE,
+EC.DESCRIPCION AS ESTADO, 
+A.DESCRIPCION AS ARTICULO, A.MARCA, A.MODELO,
+DC.TASACION,
+K.NOMBRES, K.PATERNO, K.MATERNO, K.DOCUMENTO, K.T_DOCUMENTO, K.TLF1, K.TLF2,
+P.DESCRIPCION AS PRESTAMO
+FROM contrato C 
+	INNER JOIN detalle_contrato DC ON C.ID = DC.CONTRATO_ID 
+	INNER JOIN articulo A ON DC.ARTICULO_ID = A.ID
+	INNER JOIN cliente K ON C.CLIENTE_ID = K.ID
+	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
+	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID
+WHERE 
+$X{IN,P.DESCRIPCION,PRESTAMOS}]]>
+		</queryString>
+		<field name="FLAG" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="NUMERO" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="NUMERO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="CAPITAL" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="CAPITAL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="INTERES_MENSUAL" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="INTERES_MENSUAL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="FECHA_CONTRATO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="FECHA_CONTRATO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="FECHA_VENCIMIENTO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="FECHA_VENCIMIENTO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="FECHA_REMATE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="FECHA_REMATE"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="ESTADO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ESTADO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="e_contrato"/>
+		</field>
+		<field name="ARTICULO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ARTICULO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="articulo"/>
+		</field>
+		<field name="MARCA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="MARCA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="articulo"/>
+		</field>
+		<field name="MODELO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="MODELO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="articulo"/>
+		</field>
+		<field name="TASACION" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="TASACION"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_contrato"/>
+		</field>
+		<field name="NOMBRES" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="NOMBRES"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="PATERNO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="PATERNO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="MATERNO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="MATERNO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="DOCUMENTO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="DOCUMENTO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="T_DOCUMENTO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="T_DOCUMENTO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="TLF1" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="TLF1"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="TLF2" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="TLF2"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		</field>
+		<field name="PRESTAMO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="PRESTAMO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+		</field>
+	</subDataset>
+	<parameter name="PRESTAMOS" class="java.util.List"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
+EC.DESCRIPCION AS ESTADO, 
+A.DESCRIPCION AS ARTICULO, A.MARCA, A.MODELO,
+DC.TASACION,
+K.NOMBRES, K.PATERNO, K.MATERNO, K.DOCUMENTO, K.T_DOCUMENTO, K.TLF1, K.TLF2,
+P.DESCRIPCION AS PRESTAMO
+FROM contrato C 
+	INNER JOIN detalle_contrato DC ON C.ID = DC.CONTRATO_ID 
+	INNER JOIN articulo A ON DC.ARTICULO_ID = A.ID
+	INNER JOIN cliente K ON C.CLIENTE_ID = K.ID
+	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
+	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID]]>
+	</queryString>
+	<field name="FLAG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="NUMERO" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="NUMERO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="CAPITAL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CAPITAL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="INTERES_MENSUAL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="INTERES_MENSUAL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="ESTADO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ESTADO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="e_contrato"/>
+	</field>
+	<field name="ARTICULO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ARTICULO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="articulo"/>
+	</field>
+	<field name="MARCA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MARCA"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="articulo"/>
+	</field>
+	<field name="MODELO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODELO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="articulo"/>
+	</field>
+	<field name="TASACION" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TASACION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detalle_contrato"/>
+	</field>
+	<field name="NOMBRES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NOMBRES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="PATERNO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PATERNO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="MATERNO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MATERNO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="T_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="TLF1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TLF1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="TLF2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TLF2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="PRESTAMO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PRESTAMO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="5d775bbe-9b98-4132-ba55-a3f66fcb61cd"/>
+				<text><![CDATA[Static Text]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="550" height="60" uuid="50e3292e-8fd9-46c9-9a2b-72d4f3796e6d">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset1" uuid="86e1fbba-17e0-4740-ba59-730627d854c8">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="43f52246-ca47-4d54-bb85-94449261152f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="30" uuid="c4b0f084-b0e6-4fb9-b782-4c6311cbd2bc"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FLAG} + "-" + $F{NUMERO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="23ec80af-e40b-4eb4-b0a6-e09f25163c03">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="ca7fa9b6-d180-46be-bf4e-2b25427ca541"/>
+								<text><![CDATA[TIPO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="30" uuid="ca400603-f41e-4766-84a2-795b4122a64a"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PRESTAMO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="7d9316fb-85e3-463f-95f7-d32a34e53649">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="30" uuid="aa3768b4-693a-434a-9241-e38344f8654a"/>
+								<text><![CDATA[CLIENTE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="30" uuid="88544355-f3b5-4a76-a175-2e0bc0c4133c"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NOMBRES}.split(" ")[0] + " " + $F{PATERNO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="286975d0-5f28-4ced-8939-5cfbda0c80aa">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30" uuid="22f45f1f-c94c-4713-a97d-d8be23bc1eb1"/>
+								<text><![CDATA[PRENDA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="30" uuid="b7f1b8f8-c888-4449-90aa-8a7eddb4f003"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ARTICULO} + " " + $F{MARCA} + " " +  $F{MODELO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="13b765f6-f7b4-4399-b93e-36526cfc880a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="32c23690-398f-4cb7-a81d-f1bbe64c9579"/>
+								<text><![CDATA[INICIO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="08384538-c1e1-4aa6-8269-054c177b8f6b"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA_CONTRATO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="284fb708-1e1f-4919-b136-0fa92a7532aa">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="12800872-61c9-49b7-9793-a1745ee056ff"/>
+								<text><![CDATA[VCTO.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="fa4d8150-f62a-4d18-8f1c-a392471e629c"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA_VENCIMIENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="ca023397-8968-40fc-8900-3a9db8f593a2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="6195a465-76c5-412b-b0da-3545ae3b946a"/>
+								<text><![CDATA[REMATE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="fb3015ac-8576-4b60-89af-f3dabf8acb4c"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA_REMATE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="e54c1ed6-3858-4937-a4c8-f51b9c267fb8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="f042002a-41e4-4a98-a7f2-5c9058d60c87"/>
+								<text><![CDATA[CAP.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="30" uuid="80f9fae4-88ce-4005-9269-7da2350c8504"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CAPITAL}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="f234076a-fae5-488e-ad1b-f2335c5c21af">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="3466dcd4-56c6-46d6-b60c-30baa110a1db"/>
+								<text><![CDATA[% MES]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="30" uuid="554af707-4ef6-4ccb-9d10-00538b175006"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{INTERES_MENSUAL}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

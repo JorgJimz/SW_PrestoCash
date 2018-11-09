@@ -2,22 +2,34 @@ package report;
 
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
+import com.toedter.calendar.JDateChooser;
+
+import common.Constantes;
 import common.Logger;
 import common.MySQLConexion;
+import common.Utiles;
 import controller.ArticuloController;
 import controller.ContratoController;
 import controller.PrestamoController;
@@ -38,9 +50,11 @@ public class Reporteria extends JInternalFrame {
 
 	private JPanel contenedor;
 	private JPanel pnlTPrestamo;
+	private JDateChooser dcFin;
+	private JDateChooser dcInicio;
+	private JPanel pnlFecha;
 	private JButton btnGenerar;
 	private JPanel pnlEContrato;
-	private JPanel pnlFiltro;
 	private JButton btnReporteSeparacion;
 	private JButton btnReporteRemates;
 	private JButton btnReporteContrato;
@@ -51,13 +65,13 @@ public class Reporteria extends JInternalFrame {
 		this.setLayout(null);
 		this.setSize(601, 113);
 		this.setClosable(true);
-		this.setPreferredSize(new java.awt.Dimension(1146, 467));
-		this.setBounds(0, 0, 1146, 467);
+		this.setPreferredSize(new java.awt.Dimension(1205, 467));
+		this.setBounds(0, 0, 1205, 467);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1144, 443);
+		contenedor.setBounds(0, 0, 1197, 443);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		btnReporteVitrina = new JButton(new ImageIcon("img/report.png"));
@@ -122,25 +136,67 @@ public class Reporteria extends JInternalFrame {
 		btnReporteSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 12));
 		btnReporteSeparacion.setHorizontalAlignment(SwingConstants.LEFT);
 
-		pnlFiltro = new JPanel();
-		contenedor.add(pnlFiltro);
-		pnlFiltro.setBounds(295, 12, 650, 300);
-
 		pnlTPrestamo = new JPanel(new GridLayout(3, 2, 10, 10));
-		pnlFiltro.add(pnlTPrestamo);
-		pnlTPrestamo.setPreferredSize(new java.awt.Dimension(650, 130));
-		pnlTPrestamo.setBackground(new java.awt.Color(128, 255, 128));
+		contenedor.add(pnlTPrestamo);
 		pnlTPrestamo.setOpaque(false);
+		pnlTPrestamo.setBounds(295, 116, 231, 209);
+		pnlTPrestamo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+		pnlTPrestamo.setBorder(BorderFactory.createTitledBorder(null, "FILTRADO POR TIPO DE CONTRATO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		pnlEContrato = new JPanel(new GridLayout(3, 2, 10, 10));
-		pnlFiltro.add(pnlEContrato);
-		pnlEContrato.setPreferredSize(new java.awt.Dimension(650, 130));
-		pnlEContrato.setBackground(new java.awt.Color(255, 255, 128));
+		contenedor.add(pnlEContrato);
 		pnlEContrato.setOpaque(false);
+		pnlEContrato.setBounds(538, 116, 638, 209);
+		pnlEContrato.setBorder(BorderFactory.createTitledBorder(null, "FILTRADO POR ESTADO CONTRATO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
-		btnGenerar = new JButton();
-		pnlFiltro.add(btnGenerar);
-		btnGenerar.setText("PROCESAR");
+		pnlFecha = new JPanel();
+		contenedor.add(pnlFecha);
+		pnlFecha.setBounds(295, 12, 881, 98);
+		pnlFecha.setBorder(BorderFactory.createTitledBorder(null, "FILTRADO POR FECHA",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		pnlFecha.setOpaque(false);
+		pnlFecha.setLayout(null);
+
+		dcFin = new JDateChooser();
+		pnlFecha.add(dcFin);
+		dcFin.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		dcFin.setBounds(283, 29, 257, 56);
+		dcFin.setBorder(BorderFactory.createTitledBorder(null, "FIN", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 64, 128)));
+		dcFin.setOpaque(false);
+		dcFin.setForeground(new java.awt.Color(0, 0, 0));
+
+		dcInicio = new JDateChooser();
+		dcInicio.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		pnlFecha.add(dcInicio);
+		dcInicio.setBounds(16, 29, 257, 56);
+		dcInicio.setBorder(BorderFactory.createTitledBorder(null, "INICIO", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 64, 128)));
+		dcInicio.setOpaque(false);
+		dcInicio.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent arg0) {
+				if ("date".equals(arg0.getPropertyName())) {
+					dcFin.setMinSelectableDate((Date) arg0.getNewValue());
+				}
+			}
+		});
+
+		btnGenerar = new JButton(new ImageIcon("img/settings.png"));
+		contenedor.add(btnGenerar);
+		btnGenerar.setOpaque(false);
+		btnGenerar.setBorderPainted(false);
+		btnGenerar.setToolTipText("GENERAR");
+		btnGenerar.setContentAreaFilled(false);
+		btnGenerar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGenerar.setBounds(1106, 331, 70, 70);
 		btnGenerar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -161,14 +217,15 @@ public class Reporteria extends JInternalFrame {
 	}
 
 	public void CargarEstadosContrato() {
-		List<EContrato> l = new ContratoController().ListarEstadosContrato();		
+		List<EContrato> l = new ContratoController().ListarEstadosContrato();
 		l.forEach(ec -> {
-			JCheckBox chk = new JCheckBox();			
+			JCheckBox chk = new JCheckBox();
 			chk.setFont(new java.awt.Font("Segoe UI", 1, 14));
 			chk.setText(ec.getDescripcion());
 			chk.setSize(80, 20);
-			pnlEContrato.add(chk);			
-		});		
+			chk.setOpaque(false);
+			pnlEContrato.add(chk);
+		});
 	}
 
 	public void CargarPrestamos() {
@@ -178,43 +235,79 @@ public class Reporteria extends JInternalFrame {
 			chk.setFont(new java.awt.Font("Segoe UI", 1, 14));
 			chk.setText(ec.getDescripcion());
 			chk.setSize(80, 20);
+			chk.setOpaque(false);
 			pnlTPrestamo.add(chk);
 		});
 	}
 
+	public Object[] ValidarEstadosSeleccionados() {
+		boolean flag = false;
+		List<String> lc = new ArrayList<String>();
+		for (Component c : pnlEContrato.getComponents()) {
+			if (c instanceof JCheckBox) {
+				if (((JCheckBox) c).isSelected()) {
+					lc.add(((JCheckBox) c).getText());
+					flag = true;
+				}
+			}
+		}
+		return new Object[] { flag, lc };
+	}
+
+	public Object[] ValidarPrestamosSeleccionados() {
+		boolean flag = false;
+		List<String> lp = new ArrayList<String>();
+		for (Component c : pnlTPrestamo.getComponents()) {
+			if (c instanceof JCheckBox) {
+				if (((JCheckBox) c).isSelected()) {
+					lp.add(((JCheckBox) c).getText());
+					flag = true;
+				}
+			}
+		}
+		return new Object[] { flag, lp };
+	}
+
 	public void MostrarReporteContratos() {
 		try {
-			List<String> lc = new ArrayList<String>();
-			for (Component c : pnlEContrato.getComponents()) {
-				if (c instanceof JCheckBox) {
-					if (((JCheckBox) c).isSelected()) {
-						lc.add(((JCheckBox) c).getText());
-					}
-				}
+			Object[] o1 = ValidarEstadosSeleccionados();
+			Object[] o2 = ValidarPrestamosSeleccionados();
+			if (Boolean.parseBoolean(String.valueOf(o1[0])) && Boolean.parseBoolean(String.valueOf(o2[0]))) {
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("SEDE", Principal.SEDE.getDescripcion());
+				params.put("ESTADOS", o1[1]);
+				params.put("PRESTAMOS", o2[1]);
+				params.put("FECHAS", GenerarFiltroFechas());
+				JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptContratos.jasper");
+				JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
+				JasperViewer viewer = new JasperViewer(print, false);
+				viewer.show();
+				viewer.toFront();
+			} else {
+				Utiles.Mensaje(
+						"Seleccione como mínimo un <b> Estado Contrato / Préstamo </b> para la emisión del reporte.",
+						JOptionPane.WARNING_MESSAGE);
 			}
 
-			List<String> lp = new ArrayList<String>();
-			for (Component c : pnlTPrestamo.getComponents()) {
-				if (c instanceof JCheckBox) {
-					if (((JCheckBox) c).isSelected()) {
-						lp.add(((JCheckBox) c).getText());
-					}
-				}
-			}
-			HashMap<String, Object> params = new HashMap<String, Object>();
-			params.put("SEDE", Principal.SEDE.getDescripcion());
-			params.put("ESTADOS", lc);
-			params.put("PRESTAMOS", lp);
-			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_contratos.jasper");
-			JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
-			JasperViewer viewer = new JasperViewer(print, false);
-			viewer.show();
-			viewer.toFront();
 		} catch (JRException e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
+	}
 
+	public String GenerarFiltroFechas() {
+		Date inicio = dcInicio.getDate();
+		Date fin = dcFin.getDate();
+		String criteria = "";
+		if (Objects.nonNull(inicio) && Objects.isNull(fin)) {
+			criteria = " WHERE FECHA_CONTRATO = " + Constantes.formatoSQL_2.format(inicio);
+		} else if (Objects.nonNull(inicio) && Objects.nonNull(fin)) {
+			criteria = " WHERE FECHA_CONTRATO BETWEEN " + Constantes.formatoSQL_2.format(inicio) + " AND "
+					+ Constantes.formatoSQL_2.format(fin);
+		} else {
+			Utiles.Mensaje("Selecciona correctamente la(s) fechas.", JOptionPane.WARNING_MESSAGE);
+		}
+		return criteria;
 	}
 
 	public void MostrarReporteRemate() {
