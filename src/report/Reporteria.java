@@ -278,7 +278,7 @@ public class Reporteria extends JInternalFrame {
 				params.put("ESTADOS", o1[1]);
 				params.put("PRESTAMOS", o2[1]);
 				params.put("FECHAS", GenerarFiltroFechas());
-				JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptContratos.jasper");
+				JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptContrato.jasper");
 				JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
 				JasperViewer viewer = new JasperViewer(print, false);
 				viewer.show();
@@ -300,13 +300,13 @@ public class Reporteria extends JInternalFrame {
 		Date fin = dcFin.getDate();
 		String criteria = "";
 		if (Objects.nonNull(inicio) && Objects.isNull(fin)) {
-			criteria = " WHERE FECHA_CONTRATO = " + Constantes.formatoSQL_2.format(inicio);
+			criteria = " AND FECHA_CONTRATO = '" + Constantes.formatoSQL_2.format(inicio) + "'";
 		} else if (Objects.nonNull(inicio) && Objects.nonNull(fin)) {
-			criteria = " WHERE FECHA_CONTRATO BETWEEN " + Constantes.formatoSQL_2.format(inicio) + " AND "
-					+ Constantes.formatoSQL_2.format(fin);
-		} else {
+			criteria = " AND FECHA_CONTRATO BETWEEN '" + Constantes.formatoSQL_2.format(inicio) + "' AND '"
+					+ Constantes.formatoSQL_2.format(fin) + "'";
+		}/* else {
 			Utiles.Mensaje("Selecciona correctamente la(s) fechas.", JOptionPane.WARNING_MESSAGE);
-		}
+		}*/
 		return criteria;
 	}
 

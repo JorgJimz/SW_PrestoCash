@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptContrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e3f06fd-e51c-422c-906d-4cc8dd243039">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptContrato" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e3f06fd-e51c-422c-906d-4cc8dd243039">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -34,6 +43,8 @@
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<parameter name="PRESTAMOS" class="java.util.List"/>
+		<parameter name="ESTADOS" class="java.util.List"/>
+		<parameter name="FECHAS" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
 C.FECHA_CONTRATO, C.FECHA_VENCIMIENTO, C.FECHA_REMATE,
@@ -49,7 +60,10 @@ FROM contrato C
 	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
 	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID
 WHERE 
-$X{IN,P.DESCRIPCION,PRESTAMOS}]]>
+$X{IN,EC.DESCRIPCION,ESTADOS}
+AND
+$X{IN,P.DESCRIPCION,PRESTAMOS}
+$P!{FECHAS}]]>
 		</queryString>
 		<field name="FLAG" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
@@ -132,7 +146,9 @@ $X{IN,P.DESCRIPCION,PRESTAMOS}]]>
 			<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
 		</field>
 	</subDataset>
-	<parameter name="PRESTAMOS" class="java.util.List"/>
+	<parameter name="FECHAS" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PRESTAMOS" class="java.util.List" isForPrompting="false"/>
+	<parameter name="ESTADOS" class="java.util.List" isForPrompting="false"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
 EC.DESCRIPCION AS ESTADO, 
@@ -145,7 +161,12 @@ FROM contrato C
 	INNER JOIN articulo A ON DC.ARTICULO_ID = A.ID
 	INNER JOIN cliente K ON C.CLIENTE_ID = K.ID
 	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
-	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID]]>
+	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID
+WHERE 
+$X{IN,EC.DESCRIPCION,ESTADOS}
+AND
+$X{IN,P.DESCRIPCION,PRESTAMOS}
+$P!{FECHAS}]]>
 	</queryString>
 	<field name="FLAG" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
@@ -221,7 +242,7 @@ FROM contrato C
 	<title>
 		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="30" uuid="5d775bbe-9b98-4132-ba55-a3f66fcb61cd"/>
+				<reportElement x="0" y="0" width="800" height="30" uuid="5d775bbe-9b98-4132-ba55-a3f66fcb61cd"/>
 				<text><![CDATA[Static Text]]></text>
 			</staticText>
 		</band>
@@ -229,22 +250,33 @@ FROM contrato C
 	<summary>
 		<band height="60" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="0" width="550" height="60" uuid="50e3292e-8fd9-46c9-9a2b-72d4f3796e6d">
+				<reportElement stretchType="ContainerBottom" x="0" y="0" width="800" height="60" uuid="50e3292e-8fd9-46c9-9a2b-72d4f3796e6d">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Dataset1" uuid="86e1fbba-17e0-4740-ba59-730627d854c8">
+					<datasetRun subDataset="Dataset1" uuid="764a9543-4dce-40a1-aa34-1653aaac9826">
+						<datasetParameter name="PRESTAMOS">
+							<datasetParameterExpression><![CDATA[$P{PRESTAMOS}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="ESTADOS">
+							<datasetParameterExpression><![CDATA[$P{ESTADOS}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="FECHAS">
+							<datasetParameterExpression><![CDATA[$P{FECHAS}]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="40" uuid="43f52246-ca47-4d54-bb85-94449261152f">
+					<jr:column width="67" uuid="43f52246-ca47-4d54-bb85-94449261152f">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1"/>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="30" uuid="c4b0f084-b0e6-4fb9-b782-4c6311cbd2bc"/>
+								<reportElement x="0" y="0" width="67" height="30" uuid="c4b0f084-b0e6-4fb9-b782-4c6311cbd2bc"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
@@ -252,17 +284,20 @@ FROM contrato C
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="23ec80af-e40b-4eb4-b0a6-e09f25163c03">
+					<jr:column width="66" uuid="2f5c5aff-4ecb-4065-a6c4-410570638139">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="40" height="30" uuid="ca7fa9b6-d180-46be-bf4e-2b25427ca541"/>
+								<reportElement x="0" y="0" width="66" height="30" uuid="ca7fa9b6-d180-46be-bf4e-2b25427ca541"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[TIPO]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="30" uuid="ca400603-f41e-4766-84a2-795b4122a64a"/>
+								<reportElement x="0" y="0" width="66" height="30" uuid="ca400603-f41e-4766-84a2-795b4122a64a"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
@@ -270,17 +305,38 @@ FROM contrato C
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="100" uuid="7d9316fb-85e3-463f-95f7-d32a34e53649">
+					<jr:column width="67" uuid="23ec80af-e40b-4eb4-b0a6-e09f25163c03">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="100" height="30" uuid="aa3768b4-693a-434a-9241-e38344f8654a"/>
+								<reportElement x="0" y="0" width="67" height="30" uuid="c96a978e-ee41-4c77-bd36-144cb455fd61"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[ESTADO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="67" height="30" uuid="6b8b2bec-3242-4f7e-8804-54ae3ff0110a"/>
+								<textFieldExpression><![CDATA[$F{ESTADO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="99" uuid="7d9316fb-85e3-463f-95f7-d32a34e53649">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="99" height="30" uuid="aa3768b4-693a-434a-9241-e38344f8654a"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[CLIENTE]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="100" height="30" uuid="88544355-f3b5-4a76-a175-2e0bc0c4133c"/>
+								<reportElement x="0" y="0" width="99" height="30" uuid="88544355-f3b5-4a76-a175-2e0bc0c4133c"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
@@ -288,17 +344,56 @@ FROM contrato C
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110" uuid="286975d0-5f28-4ced-8939-5cfbda0c80aa">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+					<jr:column width="60" uuid="286975d0-5f28-4ced-8939-5cfbda0c80aa">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="110" height="30" uuid="22f45f1f-c94c-4713-a97d-d8be23bc1eb1"/>
+								<reportElement x="0" y="0" width="60" height="30" uuid="dd5689da-c54e-4114-8ae0-d2e55d7330c9"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[DNI]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="ef26a342-c273-469c-b9ad-124e45e80bab"/>
+								<textFieldExpression><![CDATA["[" + $F{T_DOCUMENTO} + "]" + $F{DOCUMENTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="13b765f6-f7b4-4399-b93e-36526cfc880a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="30" uuid="a0001f0a-9e0b-4bdd-bb54-481a9dbb9cca"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[TELEFONO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="30" uuid="cbd52294-89bd-4e4a-85fa-9db5cd4daaef"/>
+								<textFieldExpression><![CDATA[$F{TLF1} + " / " + $F{TLF2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="86" uuid="284fb708-1e1f-4919-b136-0fa92a7532aa">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="30" uuid="22f45f1f-c94c-4713-a97d-d8be23bc1eb1"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[PRENDA]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="110" height="30" uuid="b7f1b8f8-c888-4449-90aa-8a7eddb4f003"/>
+								<reportElement x="0" y="0" width="86" height="30" uuid="b7f1b8f8-c888-4449-90aa-8a7eddb4f003"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
@@ -306,71 +401,83 @@ FROM contrato C
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="13b765f6-f7b4-4399-b93e-36526cfc880a">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+					<jr:column width="58" uuid="ca023397-8968-40fc-8900-3a9db8f593a2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="60" height="30" uuid="32c23690-398f-4cb7-a81d-f1bbe64c9579"/>
+								<reportElement x="0" y="0" width="58" height="30" uuid="32c23690-398f-4cb7-a81d-f1bbe64c9579"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[INICIO]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="60" height="30" uuid="08384538-c1e1-4aa6-8269-054c177b8f6b"/>
+								<reportElement x="0" y="0" width="58" height="30" uuid="08384538-c1e1-4aa6-8269-054c177b8f6b"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{FECHA_CONTRATO}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[(new SimpleDateFormat("dd-MMM-yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{FECHA_CONTRATO}))).toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="284fb708-1e1f-4919-b136-0fa92a7532aa">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+					<jr:column width="63" uuid="e54c1ed6-3858-4937-a4c8-f51b9c267fb8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="60" height="30" uuid="12800872-61c9-49b7-9793-a1745ee056ff"/>
+								<reportElement x="0" y="0" width="63" height="30" uuid="12800872-61c9-49b7-9793-a1745ee056ff"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[VCTO.]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="60" height="30" uuid="fa4d8150-f62a-4d18-8f1c-a392471e629c"/>
+								<reportElement x="0" y="0" width="63" height="30" uuid="fa4d8150-f62a-4d18-8f1c-a392471e629c"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{FECHA_VENCIMIENTO}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[(new SimpleDateFormat("dd-MMM-yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{FECHA_VENCIMIENTO}))).toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="ca023397-8968-40fc-8900-3a9db8f593a2">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+					<jr:column width="69" uuid="f234076a-fae5-488e-ad1b-f2335c5c21af">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="60" height="30" uuid="6195a465-76c5-412b-b0da-3545ae3b946a"/>
+								<reportElement x="0" y="0" width="69" height="30" uuid="6195a465-76c5-412b-b0da-3545ae3b946a"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[REMATE]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="60" height="30" uuid="fb3015ac-8576-4b60-89af-f3dabf8acb4c"/>
+								<reportElement x="0" y="0" width="69" height="30" uuid="fb3015ac-8576-4b60-89af-f3dabf8acb4c"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{FECHA_REMATE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[(new SimpleDateFormat("dd-MMM-yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{FECHA_REMATE}))).toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="e54c1ed6-3858-4937-a4c8-f51b9c267fb8">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+					<jr:column width="54" uuid="c9844635-9e07-464e-900a-a3c8ebdd2be5">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="40" height="30" uuid="f042002a-41e4-4a98-a7f2-5c9058d60c87"/>
+								<reportElement x="0" y="0" width="54" height="30" uuid="f042002a-41e4-4a98-a7f2-5c9058d60c87"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[CAP.]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="30" uuid="80f9fae4-88ce-4005-9269-7da2350c8504"/>
+								<reportElement x="0" y="0" width="54" height="30" uuid="80f9fae4-88ce-4005-9269-7da2350c8504"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
@@ -378,17 +485,20 @@ FROM contrato C
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="f234076a-fae5-488e-ad1b-f2335c5c21af">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+					<jr:column width="56" uuid="0aada2c8-edab-4654-a867-bcb22a3b2e72">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="40" height="30" uuid="3466dcd4-56c6-46d6-b60c-30baa110a1db"/>
+								<reportElement x="0" y="0" width="56" height="30" uuid="3466dcd4-56c6-46d6-b60c-30baa110a1db"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[% MES]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="30" uuid="554af707-4ef6-4ccb-9d10-00538b175006"/>
+								<reportElement x="0" y="0" width="56" height="30" uuid="554af707-4ef6-4ccb-9d10-00538b175006"/>
 								<textElement>
 									<font size="9"/>
 								</textElement>
