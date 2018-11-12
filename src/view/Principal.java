@@ -35,7 +35,7 @@ import model.Usuario;
 @SuppressWarnings({ "serial" })
 public class Principal extends JFrame {
 
-	private JMenuBar menuBarPrincipal;
+	public static JMenuBar menuBarPrincipal;
 
 	public static JDesktopPane dskPrincipal;
 
@@ -47,12 +47,13 @@ public class Principal extends JFrame {
 		this.setVisible(true);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setResizable(false);		
+		this.setResizable(false);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
 		Principal.SEDE = new LibroCajaController().ObtenerSedePrincipal();
-		this.setTitle("USUARIO: " + user.getNombres() + " " + user.getPaterno() + " - PRESTOCASH " + Principal.SEDE.getDescripcion());
+		this.setTitle("USUARIO: " + user.getNombres() + " " + user.getPaterno() + " - PRESTOCASH "
+				+ Principal.SEDE.getDescripcion());
 		dskPrincipal = new JDesktopPane();
 		getContentPane().add(dskPrincipal, BorderLayout.CENTER);
 		menuBarPrincipal = new JMenuBar();
@@ -68,8 +69,9 @@ public class Principal extends JFrame {
 			}
 		});
 
-		CargarMenuAplicaciones();		
+		CargarMenuAplicaciones();
 		AperturarCaja();
+
 	}
 
 	public void CargarMenuAplicaciones() {
@@ -99,7 +101,8 @@ public class Principal extends JFrame {
 								@Override
 								public void actionPerformed(ActionEvent arg0) {
 									try {
-										JInternalFrame iFrame = (JInternalFrame) Class.forName(x.getUrl()).newInstance();
+										JInternalFrame iFrame = (JInternalFrame) Class.forName(x.getUrl())
+												.newInstance();
 										Principal.dskPrincipal.add(iFrame);
 										iFrame.moveToFront();
 									} catch (Exception ex) {
@@ -124,13 +127,20 @@ public class Principal extends JFrame {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
 		}
-	}	
+	}
 
 	public void AperturarCaja() {
 		Object obj = new LibroCajaController().AperturarCaja();
 		if (obj instanceof String) {
 			Utiles.Mensaje(String.valueOf(obj), JOptionPane.WARNING_MESSAGE);
+			Utiles.BloquearMenu(menuBarPrincipal);			
+			dskPrincipal.add(new Libro_Caja());
+		} else if (obj instanceof Object[]) {
+			Object[] ox = (Object[]) obj;
+			Utiles.Mensaje(String.valueOf(ox[0]), JOptionPane.WARNING_MESSAGE);
+			LIBRO_CAJA = (LibroCaja) ox[1];
 			Utiles.BloquearMenu(menuBarPrincipal);
+			dskPrincipal.add(new Libro_Caja(LIBRO_CAJA));
 		} else {
 			LIBRO_CAJA = (LibroCaja) obj;
 		}

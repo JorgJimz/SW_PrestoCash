@@ -49,6 +49,7 @@ public class Login extends JFrame {
 	Thread hilo;
 	Vector<Component> order = new Vector<Component>(3);
 	Usuario u;
+	boolean requiereActualizacion = new UsuarioController().RequiereActualizacion();
 
 	public Login() {
 		this.setVisible(true);
@@ -71,16 +72,7 @@ public class Login extends JFrame {
 		btnIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				u = IniciarSesion();
-				if (Objects.nonNull(u)) {
-					Runnable miRunnable = new Runnable() {
-						public void run() {
-							ActualizacionAutomatica();
-						}
-					};
-					hilo = new Thread(miRunnable);
-					hilo.start();
-				}
+				Logueo();
 			}
 		});
 
@@ -99,16 +91,7 @@ public class Login extends JFrame {
 		txtUsuario.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				u = IniciarSesion();
-				if (Objects.nonNull(u)) {
-					Runnable miRunnable = new Runnable() {
-						public void run() {
-							ActualizacionAutomatica();
-						}
-					};
-					hilo = new Thread(miRunnable);
-					hilo.start();
-				}
+				Logueo();
 			}
 		});
 
@@ -124,16 +107,7 @@ public class Login extends JFrame {
 		txtPassword.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				u = IniciarSesion();
-				if (Objects.nonNull(u)) {
-					Runnable miRunnable = new Runnable() {
-						public void run() {
-							ActualizacionAutomatica();
-						}
-					};
-					hilo = new Thread(miRunnable);
-					hilo.start();
-				}
+				Logueo();
 			}
 		});
 
@@ -162,6 +136,23 @@ public class Login extends JFrame {
 
 		this.setFocusTraversalPolicy(new MyFocusTraversalPolicy(order));
 
+	}
+
+	public void Logueo() {
+		u = IniciarSesion();
+		if (Objects.nonNull(u)) {
+			if (requiereActualizacion) {
+				Runnable miRunnable = new Runnable() {
+					public void run() {
+						ActualizacionAutomatica();
+					}
+				};
+				hilo = new Thread(miRunnable);
+				hilo.start();
+			} else {
+				DesplegarSistema();
+			}
+		}
 	}
 
 	public Usuario IniciarSesion() {

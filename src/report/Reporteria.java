@@ -298,15 +298,17 @@ public class Reporteria extends JInternalFrame {
 	public String GenerarFiltroFechas() {
 		Date inicio = dcInicio.getDate();
 		Date fin = dcFin.getDate();
-		String criteria = "";
+		String criteria = null;
 		if (Objects.nonNull(inicio) && Objects.isNull(fin)) {
 			criteria = " AND FECHA_CONTRATO = '" + Constantes.formatoSQL_2.format(inicio) + "'";
 		} else if (Objects.nonNull(inicio) && Objects.nonNull(fin)) {
 			criteria = " AND FECHA_CONTRATO BETWEEN '" + Constantes.formatoSQL_2.format(inicio) + "' AND '"
 					+ Constantes.formatoSQL_2.format(fin) + "'";
-		}/* else {
+		} else if(Objects.isNull(inicio) && Objects.nonNull(fin)){
 			Utiles.Mensaje("Selecciona correctamente la(s) fechas.", JOptionPane.WARNING_MESSAGE);
-		}*/
+		}else {
+			criteria = " ";
+		}
 		return criteria;
 	}
 
@@ -330,7 +332,7 @@ public class Reporteria extends JInternalFrame {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 		try {
-			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_separaciones.jasper");
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptSeparaciones.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
 					new JRBeanCollectionDataSource(new VentaController().ListarSeparaciones()));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
@@ -346,7 +348,7 @@ public class Reporteria extends JInternalFrame {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 		try {
-			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/reporte_vitrina.jasper");
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptVitrina.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
 					new JRBeanCollectionDataSource(new ArticuloController().CargarReporteVitrina()));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);

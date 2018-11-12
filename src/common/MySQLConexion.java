@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class MySQLConexion {
 	static {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -16,7 +16,7 @@ public class MySQLConexion {
 	public static Connection getConexion() {
 		Connection con = null;
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_prestocash?serverTimezone=UTC", "root", "mysql");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_prestocash?serverTimezone=UTC&useSSL=false", "root", "mysql");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

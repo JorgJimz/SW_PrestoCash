@@ -41,16 +41,21 @@ public class LibroCajaController {
 				}
 			}
 		} catch (NoResultException e1) {
-			tx.begin();
-			LibroCaja olc = new LibroCaja();
-			olc.setFechaApertura(String.valueOf(LocalDate.now()));
-			olc.setHoraApertura(String.valueOf(LocalTime.now()));
-			olc.setAmanece(ObtenerAmanece());
-			olc.setAmaneceDolares(ObtenerAmaneceDolares());
-			olc.setStatus(1);
-			em.persist(olc);
-			tx.commit();
-			o = olc;
+			LibroCaja lx = ValidarCajaAnterior();
+			if (Objects.isNull(lx)) {
+				tx.begin();
+				LibroCaja olc = new LibroCaja();
+				olc.setFechaApertura(String.valueOf(LocalDate.now()));
+				olc.setHoraApertura(String.valueOf(LocalTime.now()));
+				olc.setAmanece(ObtenerAmanece());
+				olc.setAmaneceDolares(ObtenerAmaneceDolares());
+				olc.setStatus(1);
+				em.persist(olc);
+				tx.commit();
+				o = olc;
+			} else {
+				o = new Object[] { "Imposible abrir una nueva caja teniendo una anterior pendiente por cerrar.", lx };
+			}
 		} catch (Exception e2) {
 			Logger.RegistrarIncidencia(e2);
 			tx.rollback();
@@ -60,6 +65,28 @@ public class LibroCajaController {
 			emf.close();
 		}
 		return o;
+	}
+
+	public LibroCaja ValidarCajaAnterior() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		LibroCaja lc = null;
+		try {
+			Query q = em.createQuery("SELECT c FROM LibroCaja c ORDER BY c.fechaApertura DESC").setMaxResults(1);
+			LibroCaja olc = (LibroCaja) q.getSingleResult();
+			if (olc.getStatus() == 1) {
+				lc = olc;
+			}
+		} catch (NoResultException e1) {
+			lc = null;
+		} catch (Exception e2) {
+			Logger.RegistrarIncidencia(e2);
+			e2.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return lc;
 	}
 
 	public BigDecimal ObtenerAmanece() {
@@ -90,7 +117,7 @@ public class LibroCajaController {
 			a = (BigDecimal) em.createQuery(
 					"SELECT COALESCE(c.cierreDolares,0) cierreDolares FROM LibroCaja c WHERE c.status = 0 ORDER BY c.fechaApertura DESC")
 					.setMaxResults(1).getSingleResult();
-		} catch (NoResultException e1) {			
+		} catch (NoResultException e1) {
 			a = BigDecimal.ZERO;
 		} catch (Exception e2) {
 			Logger.RegistrarIncidencia(e2);

@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -112,6 +113,24 @@ public class UsuarioController {
 			emf.close();
 		}
 		return msg;
+	}
+
+	public boolean RequiereActualizacion() {
+		boolean flag = false;
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT a FROM Asistencia a WHERE a.fecha= :t");
+			q.setParameter("t", String.valueOf(LocalDate.now()));
+			flag = q.getResultList().isEmpty();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return flag;
 	}
 
 	public DefaultComboBoxModel<ComboItem> CargarPerfiles() {

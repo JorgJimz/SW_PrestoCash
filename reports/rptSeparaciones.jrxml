@@ -13,6 +13,7 @@
 			<style backcolor="#E6DAC3"/>
 		</conditionalStyle>
 	</style>
+	<parameter name="SEDE" class="java.lang.String" isForPrompting="false"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -46,7 +47,7 @@
 					<textField>
 						<reportElement style="SubTitle" x="22" y="0" width="459" height="24" forecolor="#736343" uuid="ef0a10c7-2940-4ac1-a69e-db1a00ae6f2e"/>
 						<textElement verticalAlignment="Middle">
-							<font size="14" isBold="true"/>
+							<font size="12" isBold="true"/>
 						</textElement>
 						<textFieldExpression><![CDATA["[" + $F{articulo}.getContrato() + "] " + $F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
 					</textField>
@@ -71,7 +72,9 @@
 				</textField>
 				<textField>
 					<reportElement x="0" y="0" width="380" height="20" uuid="55bdd549-4123-41ae-bb29-848b3b8251f5"/>
-					<textElement verticalAlignment="Middle"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
 					<textFieldExpression><![CDATA["CUOTAS PAGADAS :" + $V{Group1_COUNT}]]></textFieldExpression>
 				</textField>
 				<line>
@@ -100,73 +103,73 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="84" splitType="Stretch">
+		<band height="81" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="159" height="70" uuid="7d885364-bb32-4e5e-908a-9e300a81512f"/>
+				<imageExpression><![CDATA["img/logo.png"]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="555" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Reporte de Separaciones]]></text>
+				<reportElement x="170" y="0" width="350" height="30" uuid="478015e1-3176-4c07-a2a6-ab8ba725e23a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE SEPARACIONES]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="SubTitle" x="1" y="62" width="554" height="22" uuid="8e798626-f20f-4fc0-a273-7c80c7788edb"/>
+				<reportElement x="170" y="30" width="350" height="20" uuid="25c8ad59-a082-47ed-9099-4dc98b853063"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MMM-yyyy").format(new Date()).toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="50" width="350" height="20" uuid="12543eb6-2791-4401-8df5-2f1801a41a8e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
-	<columnHeader>
-		<band height="21" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="2" y="0" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement x="0" y="0" width="90" height="21" uuid="bc8514d2-ae96-44c9-9654-550081360cbb"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[FECHA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="90" y="0" width="369" height="20" uuid="11d3f19b-aec0-4ec7-afb4-50f468bdf090"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[CLIENTE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="460" y="0" width="95" height="21" uuid="de8b0c9a-6ca2-462e-a9c5-e2289c51b0cc"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[IMPORTE]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="460" y="0" width="95" height="20" uuid="d3a27ccb-537a-4fd7-aa27-2d5bc67e200e"/>
+				<reportElement mode="Opaque" x="460" y="0" width="95" height="20" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="d3a27ccb-537a-4fd7-aa27-2d5bc67e200e"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="0" width="89" height="20" uuid="4fffa52a-eee2-412c-ac2d-16b206e19523"/>
+				<reportElement mode="Opaque" x="1" y="0" width="89" height="20" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="4fffa52a-eee2-412c-ac2d-16b206e19523"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{fecha})).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="90" y="0" width="369" height="20" uuid="d30bdc5a-6a6c-4cdc-8c4a-9497e8ee1892"/>
+				<reportElement mode="Opaque" x="90" y="0" width="369" height="20" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="d30bdc5a-6a6c-4cdc-8c4a-9497e8ee1892"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{cliente}.getNombreCompleto()]]></textFieldExpression>
 			</textField>
