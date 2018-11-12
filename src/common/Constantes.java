@@ -39,23 +39,6 @@ public class Constantes {
 		}
 	};
 
-	public static DefaultTableModel MultiCargoModel = new DefaultTableModel(null,
-			new String[] { "ID", "CONTRATO", "ARTÍCULO", "DESTINO" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			if (colIndex == 3) {
-				return true;
-			}
-			return false;
-		}
-	};
-
-	public static DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null,
-			new String[] { "CID", "CONTRATO", "AID", "ARTÍCULO", "ESTADO" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			return false;
-		}
-	};
-
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {

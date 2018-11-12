@@ -31,9 +31,9 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 import common.ComboItem;
-import common.Constantes;
 import common.EditorDS;
 import common.RenderCA;
 import common.RenderDS;
@@ -70,6 +70,23 @@ public class Multi_Cargo extends JInternalFrame {
 	private JSeparator jSeparator1;
 	Cargo cargo;
 	List<DetalleCargo> detalle = new ArrayList<DetalleCargo>();
+
+	public DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null,
+			new String[] { "CID", "CONTRATO", "AID", "ARTÍCULO", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
+	public DefaultTableModel MultiCargoModel = new DefaultTableModel(null,
+			new String[] { "ID", "CONTRATO", "ARTÍCULO", "DESTINO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if (colIndex == 3) {
+				return true;
+			}
+			return false;
+		}
+	};
 
 	public Multi_Cargo() {
 
@@ -122,7 +139,7 @@ public class Multi_Cargo extends JInternalFrame {
 		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		tbArticulos = new JTable();
-		tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
+		tbArticulos.setModel(ArticulosMultiCargoModel);
 		tbArticulos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tbArticulos.setDefaultRenderer(Object.class, new RenderCA());
 		spArticulos.setViewportView(tbArticulos);
@@ -134,17 +151,15 @@ public class Multi_Cargo extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					int fila = tbArticulos.getSelectedRow();
-					int contratoId = Integer
-							.parseInt(Constantes.ArticulosMultiCargoModel.getValueAt(fila, 0).toString());
-					String flagNumero = Constantes.ArticulosMultiCargoModel.getValueAt(fila, 1).toString();
-					int articuloId = Integer
-							.parseInt(Constantes.ArticulosMultiCargoModel.getValueAt(fila, 2).toString());
+					int contratoId = Integer.parseInt(ArticulosMultiCargoModel.getValueAt(fila, 0).toString());
+					String flagNumero = ArticulosMultiCargoModel.getValueAt(fila, 1).toString();
+					int articuloId = Integer.parseInt(ArticulosMultiCargoModel.getValueAt(fila, 2).toString());
 					Contrato cAsociado = new Contrato();
 					cAsociado.setId(contratoId);
 					cAsociado.setFlag(flagNumero.split("-")[0]);
 					cAsociado.setNumero(Integer.parseInt(flagNumero.split("-")[1]));
 					Articulo aAsociado = new ArticuloController().ObtenerArticulo(articuloId);
-					aAsociado.setEArticulo(new EArticulo(4,"CON CARGO"));
+					aAsociado.setEArticulo(new EArticulo(4, "CON CARGO"));
 					DetalleCargo dcc = new DetalleCargo();
 					dcc.setId(new Random().nextInt(100));
 					dcc.setContrato(cAsociado);
@@ -173,7 +188,7 @@ public class Multi_Cargo extends JInternalFrame {
 
 		tbCargo = new JTable();
 		spCargo.setViewportView(tbCargo);
-		tbCargo.setModel(Constantes.MultiCargoModel);
+		tbCargo.setModel(MultiCargoModel);
 		tbCargo.putClientProperty("terminateEditOnFocusLost", true);
 		tbCargo.setDefaultEditor(Object.class, new EditorDS());
 		tbCargo.setRowHeight(25);
@@ -187,12 +202,11 @@ public class Multi_Cargo extends JInternalFrame {
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int fila = tbCargo.getSelectedRow();
-					int SelectedId = Integer.parseInt(Constantes.MultiCargoModel.getValueAt(fila, 0).toString());
+					int SelectedId = Integer.parseInt(MultiCargoModel.getValueAt(fila, 0).toString());
 					for (DetalleCargo dc : detalle) {
 						if (dc.getId() == SelectedId) {
-							Sede s = new Sede(((ComboItem) Constantes.MultiCargoModel.getValueAt(fila, 3)).getId());
-							s.setDescripcion(
-									((ComboItem) Constantes.MultiCargoModel.getValueAt(fila, 3)).getDescripcion());
+							Sede s = new Sede(((ComboItem) MultiCargoModel.getValueAt(fila, 3)).getId());
+							s.setDescripcion(((ComboItem) MultiCargoModel.getValueAt(fila, 3)).getDescripcion());
 							dc.setSede(s);
 						}
 					}
@@ -207,7 +221,7 @@ public class Multi_Cargo extends JInternalFrame {
 							"Confirmación", JOptionPane.YES_NO_OPTION);
 					if (opc == JOptionPane.YES_OPTION) {
 						int fila = tbCargo.getSelectedRow();
-						int SelectedId = Integer.parseInt(Constantes.MultiCargoModel.getValueAt(fila, 0).toString());
+						int SelectedId = Integer.parseInt(MultiCargoModel.getValueAt(fila, 0).toString());
 						for (DetalleCargo dc : detalle) {
 							if (dc.getId() == SelectedId) {
 								detalle.remove(dc);
@@ -287,13 +301,13 @@ public class Multi_Cargo extends JInternalFrame {
 	}
 
 	public void ListarCargo() {
-		Constantes.MultiCargoModel.setRowCount(0);
+		MultiCargoModel.setRowCount(0);
 		for (DetalleCargo dc : detalle) {
-			Constantes.MultiCargoModel
+			MultiCargoModel
 					.addRow(new Object[] { dc.getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
 							dc.getArticulo().getDescripcion(), dc.getSede().getDescripcion() });
 		}
-		tbCargo.setModel(Constantes.MultiCargoModel);
+		tbCargo.setModel(MultiCargoModel);
 	}
 
 	public void ObtenerDetalleContrato(String contrato) {
@@ -301,15 +315,15 @@ public class Multi_Cargo extends JInternalFrame {
 			Contrato cn = new ContratoController().CargarContrato(contrato.split("-")[0],
 					Integer.parseInt(contrato.split("-")[1]));
 			if (Objects.nonNull(cn)) {
-				Constantes.ArticulosMultiCargoModel.setRowCount(0);
+				ArticulosMultiCargoModel.setRowCount(0);
 				for (DetalleContrato dc : cn.getDetalleContratos()) {
-					Constantes.ArticulosMultiCargoModel.addRow(new Object[] {
+					ArticulosMultiCargoModel.addRow(new Object[] {
 							dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
 							dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " "
 									+ dc.getArticulo().getMarca() + " " + dc.getArticulo().getModelo(),
 							dc.getArticulo().getEArticulo().getDescripcion() });
 				}
-				tbArticulos.setModel(Constantes.ArticulosMultiCargoModel);
+				tbArticulos.setModel(ArticulosMultiCargoModel);
 			} else {
 				Utiles.Mensaje(String.format("El contrato %s no existe. Por favor, verificar.", contrato),
 						JOptionPane.INFORMATION_MESSAGE);
