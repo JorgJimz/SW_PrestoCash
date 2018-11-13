@@ -20,11 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.search.SearchFactory;
 
-import common.Constantes;
 import common.JIconTextField;
 import common.Utiles;
 import controller.ArticuloController;
@@ -54,6 +54,14 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 	private JLabel lblIdSC;
 	private JPanel contenedor;
 	private JButton btnBuscar;
+	
+	public DefaultTableModel MtoArticuloModel = new DefaultTableModel(null, new String[] { "ID", "DESCRIPCIÓN",
+			"MARCA", "MODELO", "SERIE", "OBSERVACIONES", "CONTRATO", "CAPITAL", "P.VENTA", "P.INTERNO", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
 
 	public Mantenimiento_Articulos() {
 		this.setVisible(true);
@@ -244,7 +252,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		tbArticulos = new JXTable();
 		jScrollPane1.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(25);
-		tbArticulos.setModel(Constantes.MtoArticuloModel);
+		tbArticulos.setModel(MtoArticuloModel);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
@@ -344,13 +352,13 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 	}
 
 	public void ListarArticulos() {
-		Constantes.MtoArticuloModel.setRowCount(0);
+		MtoArticuloModel.setRowCount(0);
 		for (Articulo a : new ArticuloController().ListarArticulos()) {
-			Constantes.MtoArticuloModel.addRow(new Object[] { a.getId(), a.getDescripcion(), a.getMarca(),
+			MtoArticuloModel.addRow(new Object[] { a.getId(), a.getDescripcion(), a.getMarca(),
 					a.getModelo(), a.getSerie(), a.getObs(), a.getContrato(), a.getCapitalContrato(),
 					a.getPrecioVenta(), a.getPrecioInterno(), a.getEArticulo().getDescripcion() });
 		}
-		tbArticulos.setModel(Constantes.MtoArticuloModel);
+		tbArticulos.setModel(MtoArticuloModel);
 	}
 
 }

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.search.SearchFactory;
@@ -27,6 +30,7 @@ import common.JIconTextField;
 import common.Utiles;
 import controller.ArticuloController;
 import model.Articulo;
+import model.DetalleContrato;
 import model.EArticulo;
 
 @SuppressWarnings("serial")
@@ -49,6 +53,14 @@ public class Registro_Articulo extends JInternalFrame {
 	private JLabel lblIdSC;
 	private JPanel contenedor;
 	private JButton btnBuscar;
+
+	public DefaultTableModel MtoArticuloModel = new DefaultTableModel(null,
+			new String[] { "ID", "DESCRIPCIÓN", "MARCA", "MODELO", "SERIE", "OBSERVACIONES", "CONTRATO", "INICIO",
+					"VENCIMIENTO", "REMATE", "CLIENTE", "CAPITAL", "P.VENTA", "P.INTERNO", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
 
 	public Registro_Articulo() {
 		this.setVisible(true);
@@ -174,7 +186,7 @@ public class Registro_Articulo extends JInternalFrame {
 		tbArticulos = new JXTable();
 		jScrollPane1.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(25);
-		tbArticulos.setModel(Constantes.MtoArticuloModel);
+		tbArticulos.setModel(MtoArticuloModel);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
@@ -254,13 +266,27 @@ public class Registro_Articulo extends JInternalFrame {
 	}
 
 	public void ListarArticulos() {
-		Constantes.MtoArticuloModel.setRowCount(0);
-		for (Articulo a : new ArticuloController().ListarArticulos()) {
-			Constantes.MtoArticuloModel.addRow(new Object[] { a.getId(), a.getDescripcion(), a.getMarca(),
-					a.getModelo(), a.getSerie(), a.getObs(), a.getContrato(), a.getCapitalContrato(),
-					a.getPrecioVenta(), a.getPrecioInterno(), a.getEArticulo().getDescripcion() });
+		MtoArticuloModel.setRowCount(0);
+		List<Articulo> l = new ArticuloController().ListarArticulos();
+		for (Articulo a : l) {
+			if (a.getDetalleContratos().size() > 0) {
+				DetalleContrato dc = Collections.max(a.getDetalleContratos(), Constantes.UltimoContratoComparator);
+				a.setFechaContrato(dc.getContrato().getFechaContrato());
+				a.setFechaVencimiento(dc.getContrato().getFechaVencimiento());
+				a.setFechaRemate(dc.getContrato().getFechaRemate());
+				a.setDocumentoCliente(dc.getContrato().getCliente().getDocumento());
+			} else {
+				a.setFechaContrato("-");
+				a.setFechaVencimiento("-");
+				a.setFechaRemate("-");
+				a.setDocumentoCliente("-");
+			}
+			MtoArticuloModel.addRow(new Object[] { a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(),
+					a.getSerie(), a.getObs(), a.getContrato(), a.getFechaContrato(), a.getFechaVencimiento(),
+					a.getFechaRemate(), a.getDocumentoCliente(), a.getCapitalContrato(), a.getPrecioVenta(),
+					a.getPrecioInterno(), a.getEArticulo().getDescripcion() });
 		}
-		tbArticulos.setModel(Constantes.MtoArticuloModel);
+		tbArticulos.setModel(MtoArticuloModel);
 	}
 
 }

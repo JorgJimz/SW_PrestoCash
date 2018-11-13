@@ -48,6 +48,9 @@ public class ArticuloController {
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
 		}
 		return l;
 	}

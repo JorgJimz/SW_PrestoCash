@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a")
@@ -56,6 +57,18 @@ public class Articulo implements Serializable {
 
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
+
+	@Transient
+	private String fechaContrato;
+
+	@Transient
+	private String fechaVencimiento;
+
+	@Transient
+	private String fechaRemate;
+
+	@Transient
+	private String documentoCliente;
 
 	// bi-directional many-to-one association to EArticulo
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -317,6 +330,38 @@ public class Articulo implements Serializable {
 		venta.setArticulo(null);
 
 		return venta;
+	}
+
+	public String getFechaContrato() {
+		return fechaContrato;
+	}
+
+	public void setFechaContrato(String fechaContrato) {
+		this.fechaContrato = fechaContrato;
+	}
+
+	public String getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(String fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public String getFechaRemate() {
+		return fechaRemate;
+	}
+
+	public void setFechaRemate(String fechaRemate) {
+		this.fechaRemate = fechaRemate;
+	}
+
+	public String getDocumentoCliente() {
+		return documentoCliente;
+	}
+
+	public void setDocumentoCliente(String documentoCliente) {
+		this.documentoCliente = documentoCliente;
 	}
 
 }

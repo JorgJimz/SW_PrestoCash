@@ -45,8 +45,6 @@ import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
 import controller.LibroCajaController;
-import controller.UsuarioController;
-import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
@@ -339,10 +337,10 @@ public class Libro_Caja extends JInternalFrame {
 						caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
 						caja.setFechaCierre(String.valueOf(LocalDate.now()));
 						caja.setHoraCierre(String.valueOf(LocalTime.now()));
-						Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
+						/*Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
 								.findFirst().orElse(Asistencia.DEFAULT);
 						a.setHoraSalida(String.valueOf(LocalTime.now()));
-						new UsuarioController().MarcarAsistencia(a);
+						new UsuarioController().MarcarAsistencia(a);*/
 						List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
 						Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
 						Utiles.BloquearMenu(Principal.menuBarPrincipal);

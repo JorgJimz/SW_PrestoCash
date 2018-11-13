@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Articulo;
 import model.Asistencia;
+import model.DetalleContrato;
 import model.Egreso;
 import model.Pago;
 import view.Principal;
@@ -88,13 +89,6 @@ public class Constantes {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			if (colIndex == 5)
 				return true;
-			return false;
-		}
-	};
-
-	public static DefaultTableModel MtoArticuloModel = new DefaultTableModel(null, new String[] { "ID", "DESCRIPCIÓN",
-			"MARCA", "MODELO", "SERIE", "OBSERVACIONES", "CONTRATO", "CAPITAL", "P.VENTA", "P.INTERNO", "ESTADO" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
 	};
@@ -174,6 +168,13 @@ public class Constantes {
 		@Override
 		public int compare(Pago p1, Pago p2) {
 			return LocalDate.parse(p1.getFechaPago()).compareTo(LocalDate.parse(p2.getFechaPago()));
+		}
+	};
+
+	public static Comparator<DetalleContrato> UltimoContratoComparator = new Comparator<DetalleContrato>() {
+		@Override
+		public int compare(DetalleContrato c1, DetalleContrato c2) {
+			return LocalDate.parse(c1.getContrato().getFechaContrato()).compareTo(LocalDate.parse(c2.getContrato().getFechaContrato()));
 		}
 	};
 
