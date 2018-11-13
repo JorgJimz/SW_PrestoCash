@@ -130,32 +130,6 @@ public class Constantes {
 		}
 	};
 
-	public static DefaultTableModel IngresoModel = new DefaultTableModel(null,
-			new String[] { "DESCRIPCIÓN", "TIPO", "CAPITAL", "GANANCIA", "OTROS", "NETO", "MONEDA" }) {
-		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class,
-				BigDecimal.class, BigDecimal.class, BigDecimal.class, String.class };
-
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			return false;
-		}
-
-		public Class<?> getColumnClass(int columnIndex) {
-			return columnClass[columnIndex];
-		}
-	};
-	public static DefaultTableModel EgresoModel = new DefaultTableModel(null,
-			new String[] { "DESCRIPCIÓN", "TIPO", "MONTO", "MONEDA" }) {
-		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class, String.class };
-
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			return false;
-		}
-
-		public Class<?> getColumnClass(int columnIndex) {
-			return columnClass[columnIndex];
-		}
-	};
-
 	public static DefaultTableModel CargoModel = new DefaultTableModel(null,
 			new String[] { "FECHA", "TRANSPORTISTA", "ARTICULO", "SEDE", "OBS" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -193,7 +167,7 @@ public class Constantes {
 	public static DateTimeFormatter formatoLocal = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	public static DateTimeFormatter formatoSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM");
-	
+
 	public static SimpleDateFormat formatoSQL_2 = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static Comparator<Pago> PagoComparator = new Comparator<Pago>() {

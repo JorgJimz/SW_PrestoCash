@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXTitledSeparator;
 
@@ -44,6 +45,8 @@ import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
 import controller.LibroCajaController;
+import controller.UsuarioController;
+import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
@@ -55,7 +58,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
-@SuppressWarnings({ "serial", "deprecation" })
+@SuppressWarnings({ "serial", "deprecation", "rawtypes" })
 public class Libro_Caja extends JInternalFrame {
 	private JPanel contenedor;
 	private JIconTextField lblAmanece;
@@ -77,6 +80,8 @@ public class Libro_Caja extends JInternalFrame {
 	private JXTitledSeparator jSeparator1;
 	private JButton btnCerrarCaja;
 	private JLabel jLabel3;
+	private JButton btnCancelarEgreso;
+	private JButton btnCancelarIngreso;
 	private JIconTextField lblTotalEgreso;
 	private JIconTextField lblTotalEgresoDolares;
 	private JIconTextField lblNetoDolares;
@@ -95,6 +100,33 @@ public class Libro_Caja extends JInternalFrame {
 	private JDateChooser dpFecha;
 
 	LibroCaja caja;
+
+	public DefaultTableModel IngresoModel = new DefaultTableModel(null,
+			new String[] { "DESCRIPCIÓN", "TIPO", "CAPITAL", "GANANCIA", "OTROS", "NETO", "MONEDA" }) {
+		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class,
+				BigDecimal.class, BigDecimal.class, BigDecimal.class, String.class };
+
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+
+		public Class<?> getColumnClass(int columnIndex) {
+			return columnClass[columnIndex];
+		}
+	};
+
+	public DefaultTableModel EgresoModel = new DefaultTableModel(null,
+			new String[] { "DESCRIPCIÓN", "TIPO", "MONTO", "MONEDA" }) {
+		private final Class[] columnClass = new Class[] { String.class, String.class, BigDecimal.class, String.class };
+
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+
+		public Class<?> getColumnClass(int columnIndex) {
+			return columnClass[columnIndex];
+		}
+	};
 
 	public Libro_Caja() {
 		Principal.dskPrincipal.add(new Libro_Caja(new LibroCajaController().ObtenerLibroCaja(LocalDate.now())));
@@ -184,7 +216,7 @@ public class Libro_Caja extends JInternalFrame {
 
 		tbIngresos = new JEditableTable();
 		spIngresos.setViewportView(tbIngresos);
-		tbIngresos.setModel(Constantes.IngresoModel);
+		tbIngresos.setModel(IngresoModel);
 		tbIngresos.setDefaultRenderer(Object.class, new RenderLCI());
 		tbIngresos.putClientProperty("terminateEditOnFocusLost", true);
 		tbIngresos.setRowHeight(25);
@@ -213,7 +245,7 @@ public class Libro_Caja extends JInternalFrame {
 		tbEgresos = new JEditableTable();
 		tbEgresos.putClientProperty("terminateEditOnFocusLost", true);
 		spEgresos.setViewportView(tbEgresos);
-		tbEgresos.setModel(Constantes.EgresoModel);
+		tbEgresos.setModel(EgresoModel);
 		tbEgresos.setRowHeight(25);
 		tbEgresos.setDefaultRenderer(Object.class, new RenderLCE());
 		tbEgresos.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -292,7 +324,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnCerrarCaja.setBorderPainted(false);
 		btnCerrarCaja.setContentAreaFilled(false);
 		btnCerrarCaja.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCerrarCaja.setBounds(763, 602, 263, 70);
+		btnCerrarCaja.setBounds(751, 609, 263, 70);
 		btnCerrarCaja.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnCerrarCaja.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCerrarCaja.addActionListener(new ActionListener() {
@@ -307,12 +339,10 @@ public class Libro_Caja extends JInternalFrame {
 						caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
 						caja.setFechaCierre(String.valueOf(LocalDate.now()));
 						caja.setHoraCierre(String.valueOf(LocalTime.now()));
-						/*
-						 * Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.
-						 * predicadoAsistencia) .findFirst().orElse(Asistencia.DEFAULT);
-						 * a.setHoraSalida(String.valueOf(LocalTime.now())); new
-						 * UsuarioController().MarcarAsistencia(a);
-						 */
+						Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
+								.findFirst().orElse(Asistencia.DEFAULT);
+						a.setHoraSalida(String.valueOf(LocalTime.now()));
+						new UsuarioController().MarcarAsistencia(a);
 						List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
 						Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
 						Utiles.BloquearMenu(Principal.menuBarPrincipal);
@@ -407,24 +437,85 @@ public class Libro_Caja extends JInternalFrame {
 		btnNuevoIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnNuevoIngreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnNuevoIngreso.setText("NUEVO INGRESO");
-		btnNuevoIngreso.setBounds(763, 535, 263, 70);
+		btnNuevoIngreso.setBounds(751, 535, 263, 70);
 		btnNuevoIngreso.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNuevoIngreso.setEnabled(btnCerrarCaja.isVisible());
 		btnNuevoIngreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (!btnGrabarEgreso.isVisible()) {
-					Constantes.IngresoModel.addRow(new Object[] { "", "", "0.00", "0.00", "0.00", "0.00", "" });
+					IngresoModel.addRow(new Object[] { "", "", "0.00", "0.00", "0.00", "0.00", "" });
 					tbIngresos.setCellEditable(true);
-					tbIngresos.setModel(Constantes.IngresoModel);
+					tbIngresos.setModel(IngresoModel);
 					btnNuevoIngreso.setVisible(false);
 					btnGrabarIngreso.setVisible(true);
+					btnCancelarIngreso.setVisible(true);
 					btnCerrarCaja.setEnabled(false);
 				} else {
 					Utiles.Mensaje(
 							"Tiene cambios pendientes en el lado de <b>EGRESOS</b>. Guarde la información primero antes de continuar.",
 							JOptionPane.WARNING_MESSAGE);
 				}
+			}
+		});
+
+		btnGrabarIngreso = new JButton(new ImageIcon("img/grabar.png"));
+		contenedor.add(btnGrabarIngreso);
+		btnGrabarIngreso.setVisible(false);
+		btnGrabarIngreso.setOpaque(false);
+		btnGrabarIngreso.setText("GRABAR");
+		btnGrabarIngreso.setBorderPainted(false);
+		btnGrabarIngreso.setContentAreaFilled(false);
+		btnGrabarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGrabarIngreso.setHorizontalAlignment(SwingConstants.LEFT);
+		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnGrabarIngreso.setBounds(751, 535, 165, 70);
+		btnGrabarIngreso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (Utiles.ValidarTabla(tbIngresos)) {
+					Ingreso ingreso = new Ingreso();
+					ingreso.setLibroCaja(Principal.LIBRO_CAJA);
+					ingreso.setDescripcion(String.valueOf(IngresoModel.getValueAt(IngresoModel.getRowCount() - 1, 0)));
+					ingreso.setTipo(String.valueOf(IngresoModel.getValueAt(IngresoModel.getRowCount() - 1, 1)));
+					ingreso.setCapital(
+							new BigDecimal(String.valueOf(IngresoModel.getValueAt(IngresoModel.getRowCount() - 1, 2))));
+					ingreso.setGanancia(
+							new BigDecimal(String.valueOf(IngresoModel.getValueAt(IngresoModel.getRowCount() - 1, 3))));
+					ingreso.setOtro(
+							new BigDecimal(String.valueOf(IngresoModel.getValueAt(IngresoModel.getRowCount() - 1, 4))));
+					ingreso.setMoneda(String.valueOf(IngresoModel.getValueAt(IngresoModel.getRowCount() - 1, 6)));
+					new LibroCajaController().RegistrarIngreso(ingreso);
+					tbIngresos.setCellEditable(false);
+					btnGrabarIngreso.setVisible(false);
+					btnNuevoIngreso.setVisible(true);
+					btnCerrarCaja.setEnabled(true);
+					Utiles.Mensaje("Ingreso registrado.", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					Utiles.Mensaje("Complete los datos", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+
+		btnCancelarIngreso = new JButton(new ImageIcon("img/cancelar.png"));
+		contenedor.add(btnCancelarIngreso);
+		btnCancelarIngreso.setBorderPainted(false);
+		btnCancelarIngreso.setText("QUITAR");
+		btnCancelarIngreso.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCancelarIngreso.setContentAreaFilled(false);
+		btnCancelarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnCancelarIngreso.setOpaque(false);
+		btnCancelarIngreso.setVisible(false);
+		btnCancelarIngreso.setBounds(901, 535, 150, 70);
+		btnCancelarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnCancelarIngreso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IngresoModel.removeRow(IngresoModel.getRowCount() - 1);
+				btnGrabarIngreso.setVisible(false);
+				btnCancelarIngreso.setVisible(false);
+				btnNuevoIngreso.setVisible(true);
+				btnCerrarCaja.setEnabled(true);
 			}
 		});
 
@@ -443,11 +534,12 @@ public class Libro_Caja extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!btnGrabarIngreso.isVisible()) {
-					Constantes.EgresoModel.addRow(new Object[] { "", "", "0.00", "" });
+					EgresoModel.addRow(new Object[] { "", "", "0.00", "" });
 					tbEgresos.setCellEditable(true);
-					tbEgresos.setModel(Constantes.EgresoModel);
+					tbEgresos.setModel(EgresoModel);
 					btnNuevoEgreso.setVisible(false);
 					btnGrabarEgreso.setVisible(true);
+					btnCancelarEgreso.setVisible(true);
 					btnCerrarCaja.setEnabled(false);
 				} else {
 					Utiles.Mensaje(
@@ -457,76 +549,33 @@ public class Libro_Caja extends JInternalFrame {
 			}
 		});
 
-		btnGrabarIngreso = new JButton(new ImageIcon("img/grabar.png"));
-		contenedor.add(btnGrabarIngreso);
-		btnGrabarIngreso.setVisible(false);
-		btnGrabarIngreso.setText("GRABAR INGRESO");
-		btnGrabarIngreso.setOpaque(false);
-		btnGrabarIngreso.setBorderPainted(false);
-		btnGrabarIngreso.setContentAreaFilled(false);
-		btnGrabarIngreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabarIngreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
-		btnGrabarIngreso.setBounds(763, 535, 263, 70);
-		btnGrabarIngreso.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (Utiles.ValidarTabla(tbIngresos)) {
-					Ingreso ingreso = new Ingreso();
-					ingreso.setLibroCaja(Principal.LIBRO_CAJA);
-					ingreso.setDescripcion(String
-							.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 0)));
-					ingreso.setTipo(String
-							.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 1)));
-					ingreso.setCapital(new BigDecimal(String.valueOf(
-							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 2))));
-					ingreso.setGanancia(new BigDecimal(String.valueOf(
-							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 3))));
-					ingreso.setOtro(new BigDecimal(String.valueOf(
-							Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 4))));
-					ingreso.setMoneda(String
-							.valueOf(Constantes.IngresoModel.getValueAt(Constantes.IngresoModel.getRowCount() - 1, 6)));
-					new LibroCajaController().RegistrarIngreso(ingreso);
-					tbIngresos.setCellEditable(false);
-					btnGrabarIngreso.setVisible(false);
-					btnNuevoIngreso.setVisible(true);
-					btnCerrarCaja.setEnabled(true);
-					Utiles.Mensaje("Ingreso registrado.", JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					Utiles.Mensaje("Complete los datos", JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-
 		btnGrabarEgreso = new JButton(new ImageIcon("img/grabar.png"));
 		contenedor.add(btnGrabarEgreso);
 		btnGrabarEgreso.setOpaque(false);
 		btnGrabarEgreso.setBorderPainted(false);
 		btnGrabarEgreso.setContentAreaFilled(false);
+		btnGrabarEgreso.setHorizontalAlignment(SwingConstants.LEFT);
 		btnGrabarEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnGrabarEgreso.setVisible(false);
-		btnGrabarEgreso.setText("GRABAR EGRESO");
-		btnGrabarEgreso.setBounds(1048, 534, 263, 70);
+		btnGrabarEgreso.setText("GRABAR");
+		btnGrabarEgreso.setBounds(1048, 534, 165, 70);
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ComboItem c = (ComboItem) Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1,
-						1);
+				ComboItem c = (ComboItem) EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 1);
 				if (Utiles.ValidarTabla(tbEgresos)) {
 					Egreso egreso = new Egreso();
 					egreso.setLibroCaja(Principal.LIBRO_CAJA);
-					egreso.setDescripcion(String
-							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 0)));
+					egreso.setDescripcion(String.valueOf(EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 0)));
 					egreso.setTipo(c.getDescripcion());
-					egreso.setImporte(new BigDecimal(String
-							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2))));
-					egreso.setMoneda(String
-							.valueOf(Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 3)));
+					egreso.setImporte(
+							new BigDecimal(String.valueOf(EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 2))));
+					egreso.setMoneda(String.valueOf(EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 3)));
 					egreso.setImporteTexto(new NumberToLetter().convertir(
-							String.valueOf(new BigDecimal(String.valueOf(
-									Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 2)))),
-							true, String.valueOf(
-									Constantes.EgresoModel.getValueAt(Constantes.EgresoModel.getRowCount() - 1, 3))));
+							String.valueOf(new BigDecimal(
+									String.valueOf(EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 2)))),
+							true, String.valueOf(EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 3))));
 					egreso.setComprobante(String.valueOf(c.getExtraValor()));
 					new LibroCajaController().RegistrarEgreso(egreso);
 					tbEgresos.setCellEditable(false);
@@ -545,6 +594,28 @@ public class Libro_Caja extends JInternalFrame {
 				} else {
 					Utiles.Mensaje("Complete los datos", JOptionPane.WARNING_MESSAGE);
 				}
+			}
+		});
+
+		btnCancelarEgreso = new JButton(new ImageIcon("img/cancelar.png"));
+		contenedor.add(btnCancelarEgreso);
+		btnCancelarEgreso.setText("QUITAR");
+		btnCancelarEgreso.setBorderPainted(false);
+		btnCancelarEgreso.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCancelarEgreso.setContentAreaFilled(false);
+		btnCancelarEgreso.setVisible(false);
+		btnCancelarEgreso.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnCancelarEgreso.setOpaque(false);
+		btnCancelarEgreso.setBounds(1197, 534, 150, 70);
+		btnCancelarEgreso.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnCancelarEgreso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EgresoModel.removeRow(EgresoModel.getRowCount() - 1);
+				btnGrabarEgreso.setVisible(false);
+				btnCancelarEgreso.setVisible(false);
+				btnNuevoEgreso.setVisible(true);
+				btnCerrarCaja.setEnabled(true);
 			}
 		});
 
@@ -583,7 +654,7 @@ public class Libro_Caja extends JInternalFrame {
 		btnImprimir.setBorderPainted(false);
 		btnImprimir.setContentAreaFilled(false);
 		btnImprimir.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnImprimir.setBounds(763, 610, 263, 70);
+		btnImprimir.setBounds(751, 609, 263, 70);
 		btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnImprimir.addActionListener(new ActionListener() {
 			@Override
@@ -686,25 +757,24 @@ public class Libro_Caja extends JInternalFrame {
 	}
 
 	public void CargarIngresos() {
-		Constantes.IngresoModel.setRowCount(0);
+		IngresoModel.setRowCount(0);
 		for (Ingreso i : caja.getIngresos()) {
 			BigDecimal Neto = i.getCapital().add(i.getGanancia()).add(i.getOtro());
 			if (i.getTipo().startsWith("SEP") && i.getTipo().endsWith("(R)")) {
 				Neto = i.getOtro();
 			}
-			Constantes.IngresoModel.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(),
-					i.getGanancia(), i.getOtro(), Neto, i.getMoneda() });
+			IngresoModel.addRow(new Object[] { i.getDescripcion(), i.getTipo(), i.getCapital(), i.getGanancia(),
+					i.getOtro(), Neto, i.getMoneda() });
 		}
-		tbIngresos.setModel(Constantes.IngresoModel);
+		tbIngresos.setModel(IngresoModel);
 	}
 
 	public void CargarEgresos() {
-		Constantes.EgresoModel.setRowCount(0);
+		EgresoModel.setRowCount(0);
 		for (Egreso e : caja.getEgresos()) {
-			Constantes.EgresoModel
-					.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte(), e.getMoneda() });
+			EgresoModel.addRow(new Object[] { e.getDescripcion(), e.getTipo(), e.getImporte(), e.getMoneda() });
 		}
-		tbEgresos.setModel(Constantes.EgresoModel);
+		tbEgresos.setModel(EgresoModel);
 	}
 
 	public void Cerrar() {
