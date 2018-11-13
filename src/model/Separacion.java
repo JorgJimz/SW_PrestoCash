@@ -37,6 +37,12 @@ public class Separacion implements Serializable {
 	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
+	@Column(name = "FECHA_LIBERACION")
+	private String fechaLiberacion;
+
+	@Column(name = "USUARIO_LIBERACION")
+	private String usuarioLiberacion;
+
 	// bi-directional many-to-one association to Articulo
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Articulo articulo;
@@ -119,4 +125,21 @@ public class Separacion implements Serializable {
 	public void setImporte(BigDecimal importe) {
 		this.importe = importe;
 	}
+
+	public String getFechaLiberacion() {
+		return fechaLiberacion;
+	}
+
+	public void setFechaLiberacion(String fechaLiberacion) {
+		this.fechaLiberacion = fechaLiberacion;
+	}
+
+	public String getUsuarioLiberacion() {
+		return usuarioLiberacion;
+	}
+
+	public void setUsuarioLiberacion(String usuarioLiberacion) {
+		this.usuarioLiberacion = usuarioLiberacion;
+	}
+
 }

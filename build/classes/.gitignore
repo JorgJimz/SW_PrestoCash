@@ -1,6 +1,5 @@
-/common/
-/controller/
-/maintenance/
 /model/
 /report/
 /view/
+/controller/
+/common/

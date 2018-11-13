@@ -31,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTitledSeparator;
@@ -50,22 +51,13 @@ import model.Ingreso;
 import model.Separacion;
 import model.Venta;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 public class Venta_Articulos extends JInternalFrame {
 
 	private JScrollPane spArticulos;
 	private JXTable tbArticulos;
 	private JLabel lblCapital;
+	private JButton btnLiberarSeparacion;
 	private JTable tbHistorialSeparacion;
 	private JButton btnBuscar;
 	private JLabel txtPrecioVenta;
@@ -114,6 +106,13 @@ public class Venta_Articulos extends JInternalFrame {
 	private Articulo articulo;
 	private boolean MOUSECLICKED;
 	private BigDecimal totalFecha = BigDecimal.ZERO;
+
+	public DefaultTableModel HistorialSeparacionModel = new DefaultTableModel(null,
+			new String[] { "FECHA", "IMPORTE", "CLIENTE" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
 
 	public Venta_Articulos() {
 		this("");
@@ -526,7 +525,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 		txtMonto = new JTextField();
 		pnlSeparacion.add(txtMonto);
-		txtMonto.setBounds(0, 136, 205, 50);
+		txtMonto.setBounds(0, 112, 205, 50);
 		txtMonto.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		txtMonto.setBorder(BorderFactory.createTitledBorder(null, "NUEVO IMPORTE", TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
@@ -557,7 +556,7 @@ public class Venta_Articulos extends JInternalFrame {
 		txtTotalFecha = new JLabel();
 		pnlSeparacion.add(txtTotalFecha);
 		txtTotalFecha.setFont(new java.awt.Font("Segoe UI", 1, 18));
-		txtTotalFecha.setBounds(0, 68, 205, 50);
+		txtTotalFecha.setBounds(0, 56, 205, 50);
 		txtTotalFecha.setBorder(BorderFactory.createTitledBorder(null, "TOTAL A LA FECHA",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
@@ -571,7 +570,7 @@ public class Venta_Articulos extends JInternalFrame {
 		btnFinSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnFinSeparacion.setHorizontalAlignment(SwingConstants.LEFT);
 		btnFinSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 14));
-		btnFinSeparacion.setBounds(0, 204, 205, 70);
+		btnFinSeparacion.setBounds(0, 163, 205, 70);
 		btnFinSeparacion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -626,16 +625,16 @@ public class Venta_Articulos extends JInternalFrame {
 			}
 		});
 
-		btnCancelarSeparacion = new JButton(new ImageIcon("img/cancelar.png"));
+		btnCancelarSeparacion = new JButton(new ImageIcon("img/regresar.png"));
 		pnlSeparacion.add(btnCancelarSeparacion);
-		btnCancelarSeparacion.setText("CANCELAR");
+		btnCancelarSeparacion.setText("REGRESAR");
 		btnCancelarSeparacion.setOpaque(false);
 		btnCancelarSeparacion.setBorderPainted(false);
 		btnCancelarSeparacion.setContentAreaFilled(false);
 		btnCancelarSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCancelarSeparacion.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCancelarSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 14));
-		btnCancelarSeparacion.setBounds(0, 292, 205, 70);
+		btnCancelarSeparacion.setBounds(0, 303, 205, 70);
 		btnCancelarSeparacion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -653,7 +652,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 		spHistorialSeparacion = new JScrollPane();
 		pnlSeparacion.add(spHistorialSeparacion);
-		spHistorialSeparacion.setBounds(217, 0, 750, 362);
+		spHistorialSeparacion.setBounds(217, 0, 750, 373);
 		spHistorialSeparacion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 
 		txtPrecioVenta = new JLabel();
@@ -664,13 +663,36 @@ public class Venta_Articulos extends JInternalFrame {
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 		txtPrecioVenta.setBounds(0, 0, 205, 50);
 
+		btnLiberarSeparacion = new JButton(new ImageIcon("img/cancelar.png"));
+		pnlSeparacion.add(btnLiberarSeparacion);
+		btnLiberarSeparacion.setText("LIBERAR");
+		btnLiberarSeparacion.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLiberarSeparacion.setBorderPainted(false);
+		btnLiberarSeparacion.setContentAreaFilled(false);
+		btnLiberarSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 14));
+		btnLiberarSeparacion.setOpaque(false);
+		btnLiberarSeparacion.setBounds(0, 233, 205, 70);
+		btnLiberarSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnLiberarSeparacion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int opc = JOptionPane.showConfirmDialog(null,
+						"<html><h2>Está a punto de eliminar una Separación. ¿Desea continuar?</h2></html>",
+						"Confirmación", JOptionPane.YES_NO_OPTION);
+				if (opc == JOptionPane.YES_OPTION) {
+					String[] q = new VentaController().LiberarSeparacion(cliente, articulo);
+					Utiles.Mensaje(q[0], Integer.parseInt(q[1]));
+				}
+			}
+		});
+
 		tbHistorialSeparacion = new JTable();
 		spHistorialSeparacion.setViewportView(tbHistorialSeparacion);
 		tbHistorialSeparacion.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbHistorialSeparacion.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbHistorialSeparacion.setRowHeight(25);
 		tbHistorialSeparacion.getTableHeader().setForeground(new Color(181, 0, 0));
-		tbHistorialSeparacion.setModel(Constantes.HistorialSeparacionModel);
+		tbHistorialSeparacion.setModel(HistorialSeparacionModel);
 
 		btnVender = new JButton(new ImageIcon("img/rematar.png"));
 		pnlRemate.add(btnVender);
@@ -750,15 +772,15 @@ public class Venta_Articulos extends JInternalFrame {
 
 	public void ListarHistorial(List<Separacion> ls) {
 		totalFecha = BigDecimal.ZERO;
-		Constantes.HistorialSeparacionModel.setRowCount(0);
+		HistorialSeparacionModel.setRowCount(0);
 		for (Separacion s : ls) {
-			Constantes.HistorialSeparacionModel
+			HistorialSeparacionModel
 					.addRow(new Object[] { Constantes.formatoLocal.format(LocalDate.parse(s.getFecha())).toUpperCase(),
 							s.getImporte(), s.getCliente().getNombreCompleto() });
 			totalFecha = totalFecha.add(s.getImporte());
 		}
 		txtTotalFecha.setText(String.valueOf(totalFecha));
-		tbHistorialSeparacion.setModel(Constantes.HistorialSeparacionModel);
+		tbHistorialSeparacion.setModel(HistorialSeparacionModel);
 	}
 
 	public void ObtenerCliente() {

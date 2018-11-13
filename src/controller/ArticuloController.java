@@ -66,7 +66,7 @@ public class ArticuloController {
 			model.setRowCount(0);
 			for (Articulo a : l) {
 				model.addRow(
-						new Object[] { a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(), a.getObs(), "200" });
+						new Object[] { a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(), a.getObs(), a.getCapitalContrato() });
 			}
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);

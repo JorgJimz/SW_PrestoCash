@@ -33,13 +33,7 @@ public class Constantes {
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
 	public static final Integer[] ESTADOS_INACTIVIDAD = new Integer[] { 6, 9, 10, 11, 12, 13, 14 };
 
-	public static DefaultTableModel HistorialSeparacionModel = new DefaultTableModel(null,
-			new String[] { "FECHA", "IMPORTE", "CLIENTE" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			return false;
-		}
-	};
-
+	
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -69,6 +63,13 @@ public class Constantes {
 		}
 	};
 
+	public static DefaultTableModel VitrinaModel = new DefaultTableModel(null, new String[] { "CONTRATO", "CÓDIGO",
+			"DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "CAPITAL", "PRECIO VENTA", "ESTADO" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+	
 	public static ComboBoxModel DistritoModel = new DefaultComboBoxModel(new String[] { "CERCADO DE LIMA", "ATE",
 			"BARRANCO", "BREÑA", "COMAS", "CHORRILLOS", "EL AGUSTINO", "JESUS MARIA", "LA MOLINA", "LA VICTORIA",
 			"LINCE", "MAGDALENA", "MIRAFLORES", "PUEBLO LIBRE", "PTE.PIEDRA", "RIMAC", "SAN ISIDRO", "INDEPENDENCIA",
@@ -150,12 +151,7 @@ public class Constantes {
 		}
 	};
 
-	public static DefaultTableModel VitrinaModel = new DefaultTableModel(null, new String[] { "CONTRATO", "CÓDIGO",
-			"DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "CAPITAL", "PRECIO VENTA", "ESTADO" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			return false;
-		}
-	};
+	
 
 	public static DateTimeFormatter formatoCaja = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
 	public static DateTimeFormatter formatoLocal = DateTimeFormatter.ofPattern("dd-MMM-yyyy");

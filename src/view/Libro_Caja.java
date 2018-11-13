@@ -45,6 +45,8 @@ import common.RenderLCE;
 import common.RenderLCI;
 import common.Utiles;
 import controller.LibroCajaController;
+import controller.UsuarioController;
+import model.Asistencia;
 import model.Egreso;
 import model.Ingreso;
 import model.LibroCaja;
@@ -337,10 +339,6 @@ public class Libro_Caja extends JInternalFrame {
 						caja.setCierre(caja.getAmanece().add(caja.getTotalNeto()).subtract(caja.getTotalEgresos()));
 						caja.setFechaCierre(String.valueOf(LocalDate.now()));
 						caja.setHoraCierre(String.valueOf(LocalTime.now()));
-						/*Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia)
-								.findFirst().orElse(Asistencia.DEFAULT);
-						a.setHoraSalida(String.valueOf(LocalTime.now()));
-						new UsuarioController().MarcarAsistencia(a);*/
 						List<String> msg = new LibroCajaController().CerrarLibroCaja(caja);
 						Utiles.Mensaje(msg.get(0), Integer.parseInt(msg.get(1)));
 						Utiles.BloquearMenu(Principal.menuBarPrincipal);
@@ -349,6 +347,7 @@ public class Libro_Caja extends JInternalFrame {
 						btnCerrarCaja.setVisible(false);
 						btnImprimir.setVisible(true);
 						ImprimirCaja();
+						MarcarSalida();
 					}
 				} catch (Exception e) {
 					Logger.RegistrarIncidencia(e);
@@ -561,8 +560,8 @@ public class Libro_Caja extends JInternalFrame {
 		btnGrabarEgreso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ComboItem c = (ComboItem) EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 1);
 				if (Utiles.ValidarTabla(tbEgresos)) {
+					ComboItem c = (ComboItem) EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 1);
 					Egreso egreso = new Egreso();
 					egreso.setLibroCaja(Principal.LIBRO_CAJA);
 					egreso.setDescripcion(String.valueOf(EgresoModel.getValueAt(EgresoModel.getRowCount() - 1, 0)));
@@ -777,6 +776,18 @@ public class Libro_Caja extends JInternalFrame {
 
 	public void Cerrar() {
 		this.dispose();
+	}
+
+	public void MarcarSalida() {
+		try {
+			Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
+					.orElse(Asistencia.DEFAULT);
+			a.setHoraSalida(String.valueOf(LocalTime.now()));
+			new UsuarioController().MarcarAsistencia(a);
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		}
 	}
 
 	public void ImprimirComprobante(Egreso e) {
