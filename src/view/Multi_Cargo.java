@@ -159,6 +159,7 @@ public class Multi_Cargo extends JInternalFrame {
 					cAsociado.setFlag(flagNumero.split("-")[0]);
 					cAsociado.setNumero(Integer.parseInt(flagNumero.split("-")[1]));
 					Articulo aAsociado = new ArticuloController().ObtenerArticulo(articuloId);
+					aAsociado.setExEArticulo(aAsociado.getEArticulo());
 					aAsociado.setEArticulo(new EArticulo(4, "CON CARGO"));
 					DetalleCargo dcc = new DetalleCargo();
 					dcc.setId(new Random().nextInt(100));

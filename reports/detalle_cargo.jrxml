@@ -141,7 +141,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{articulo}.getEArticulo().getDescripcion()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{articulo}.getExEArticulo().getDescripcion()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
