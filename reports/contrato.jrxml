@@ -21,9 +21,6 @@
 	<field name="fechaVencimiento" class="java.lang.String">
 		<fieldDescription><![CDATA[fechaVencimiento]]></fieldDescription>
 	</field>
-	<field name="clienteJasper" class="java.lang.String">
-		<fieldDescription><![CDATA[clienteJasper]]></fieldDescription>
-	</field>
 	<field name="detalleContratoJasper" class="net.sf.jasperreports.engine.JRDataSource">
 		<fieldDescription><![CDATA[detalleContratoJasper]]></fieldDescription>
 	</field>
@@ -70,14 +67,14 @@
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("dd-MMM-yyyy").parse($F{fechaContrato})).toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{fechaContrato})).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="360" y="50" width="138" height="30" uuid="5ccddcb9-17eb-4397-baf3-b81582996db5"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("dd-MMM-yyyy").parse($F{fechaVencimiento})).toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("yyyy-MM-dd").parse($F{fechaVencimiento})).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="23" y="0" width="544" height="20" uuid="5884b4ae-de91-48ec-b1a9-c1e1070449a9"/>
