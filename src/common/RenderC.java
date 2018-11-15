@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import model.EArticulo;
+
 public class RenderC implements TableCellRenderer {
 
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
@@ -24,6 +26,13 @@ public class RenderC implements TableCellRenderer {
 		}
 
 		if (column == 6) {
+			EArticulo ea = (EArticulo) value;
+			e.setText(ea.getDescripcion());
+			e.setBackground(ea.getBackground());
+			e.setForeground(ea.getForeground());
+		}
+
+		if (column == 8) {
 			if ((Integer) value == 4 || (Integer) value == 99) {
 				chk.setSelected(true);
 				return chk;

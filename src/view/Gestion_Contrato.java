@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -195,6 +196,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 		}
 	};
+
 	DefaultTableModel InteresModel = new DefaultTableModel(null,
 			new String[] { "MES", "MONTO", "¿ACTIVO?", "FECHA_VENCIMIENTO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -203,6 +205,16 @@ public class Gestion_Contrato extends JInternalFrame {
 			} else {
 				return false;
 			}
+		}
+	};
+
+	public DefaultTableModel DetalleContratoModel = new DefaultTableModel(null, new String[] { "CÓDIGO", "DESCRIPCIÓN",
+			"MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN", "STATUS", "UBICACIÓN", "" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if (colIndex == 8) {
+				return true;
+			}
+			return false;
 		}
 	};
 
@@ -338,8 +350,8 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		pnlArticulos = new JPanel();
 		spArticulos = new JScrollPane();
-		spArticulos.setPreferredSize(new java.awt.Dimension(1200, 170));
-		pnlArticulos.setPreferredSize(new java.awt.Dimension(1224, 189));
+		spArticulos.setPreferredSize(new java.awt.Dimension(1200, 174));
+		pnlArticulos.setPreferredSize(new java.awt.Dimension(1200, 174));
 		tbContrato = new JTable();
 		tbContrato.setDefaultRenderer(Object.class, new RenderC());
 		tbContrato.setDefaultEditor(Object.class, new EditorC());
@@ -347,10 +359,10 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbContrato.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContrato.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContrato.getTableHeader().setForeground(new Color(181, 0, 0));
-		tbContrato.setModel(Constantes.DetalleContratoModel);
+		tbContrato.setModel(DetalleContratoModel);
 		spArticulos.setViewportView(tbContrato);
 		pnlArticulos.add(spArticulos);
-		cargoColumn = tbContrato.getColumnModel().getColumn(6);
+		cargoColumn = tbContrato.getColumnModel().getColumn(8);
 		tbContrato.getColumnModel().removeColumn(cargoColumn);
 		tpContrato.addTab("ARTÍCULOS", null, pnlArticulos, null);
 
@@ -392,7 +404,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbMoras.setDefaultRenderer(Object.class, new RenderIM());
 		tbMoras.setDefaultEditor(Object.class, new EditorIM());
 		tbMoras.setRowHeight(25);
-		tbMoras.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbMoras.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbMoras.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbMoras.getTableHeader().setForeground(new Color(181, 0, 0));
 		spMoras.setPreferredSize(new java.awt.Dimension(1200, 170));
@@ -405,7 +417,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbAbonos = new JTable();
 		tbAbonos.setModel(Constantes.AbonoModel);
 		tbAbonos.setRowHeight(25);
-		tbAbonos.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbAbonos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbAbonos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbAbonos.getTableHeader().setForeground(new Color(181, 0, 0));
 		spAbonos.setPreferredSize(new java.awt.Dimension(1200, 170));
@@ -418,7 +430,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbCargos = new JTable();
 		tbCargos.setModel(Constantes.CargoModel);
 		tbCargos.setRowHeight(25);
-		tbCargos.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbCargos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbCargos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbCargos.getTableHeader().setForeground(new Color(181, 0, 0));
 		spCargos.setPreferredSize(new java.awt.Dimension(1204, 229));
@@ -839,13 +851,14 @@ public class Gestion_Contrato extends JInternalFrame {
 					cargo.setObs(txtObsCargo.getText());
 					cargo.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					cargo.setFechaCreacion(String.valueOf(LocalDate.now()));
-					for (int i = 0; i <= Constantes.DetalleContratoModel.getRowCount() - 1; i++) {
-						int estado = Integer.parseInt(Constantes.DetalleContratoModel.getValueAt(i, 6).toString());
+					for (int i = 0; i <= DetalleContratoModel.getRowCount() - 1; i++) {
+						int estado = Integer.parseInt(DetalleContratoModel.getValueAt(i, 8).toString());
 						if (estado == 99) {
 							DetalleCargo detalle_cargo = new DetalleCargo();
 							detalle_cargo.setContrato(contrato);
 							Articulo articulo = new ArticuloController().ObtenerArticulo(
-									Integer.parseInt(Constantes.DetalleContratoModel.getValueAt(i, 0).toString()));
+									Integer.parseInt(DetalleContratoModel.getValueAt(i, 0).toString()));
+							articulo.setExEArticulo(articulo.getEArticulo());
 							articulo.setEArticulo(new EArticulo(4, "CON CARGO"));
 							detalle_cargo.setArticulo(articulo);
 							Sede sede = new Sede();
@@ -1341,11 +1354,20 @@ public class Gestion_Contrato extends JInternalFrame {
 	}
 
 	public void CargarDetalleContrato() {
-		Constantes.DetalleContratoModel.setRowCount(0);
+		DetalleContratoModel.setRowCount(0);
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
-			Constantes.DetalleContratoModel.addRow(new Object[] { dc.getArticulo().getId(),
-					dc.getArticulo().getDescripcion(), dc.getArticulo().getMarca(), dc.getArticulo().getModelo(),
-					dc.getArticulo().getObs(), dc.getTasacion().setScale(2, RoundingMode.HALF_UP),
+			String ubicacion = null;
+			if (dc.getArticulo().getDetalleCargos().size() > 0) {
+				DetalleCargo dcc = Collections.max(dc.getArticulo().getDetalleCargos(),
+						Comparator.comparing(DetalleCargo::getId));
+				ubicacion = dcc.getSede().getDescripcion();
+			} else {
+				ubicacion = Principal.SEDE.getDescripcion();
+			}
+
+			DetalleContratoModel.addRow(new Object[] { dc.getArticulo().getId(), dc.getArticulo().getDescripcion(),
+					dc.getArticulo().getMarca(), dc.getArticulo().getModelo(), dc.getArticulo().getObs(),
+					dc.getTasacion().setScale(2, RoundingMode.HALF_UP), dc.getArticulo().getEArticulo(), ubicacion,
 					dc.getArticulo().getEArticulo().getId() });
 		}
 	}
@@ -1437,7 +1459,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public String[] CalcularRenovacion() {	
+	public String[] CalcularRenovacion() {
 		int meses = 1;
 		String ultimo_pago = contrato.getFechaVencimiento();
 		for (int i = 1; i <= InteresModel.getRowCount() - 1; i++) {
@@ -1625,7 +1647,16 @@ public class Gestion_Contrato extends JInternalFrame {
 					new LibroCajaController().RegistrarEgreso(e);
 					Utiles.Mensaje("Se revirtió el egreso en la caja.", JOptionPane.INFORMATION_MESSAGE);
 				}
+
+				for (DetalleContrato dc : contrato.getDetalleContratos()) {
+					Articulo a = dc.getArticulo();
+					a.setEArticulo(new EArticulo(8));
+					a.setUsuarioModificacion(Principal.LOGGED.getLogin());
+					a.setFechaModificacion(String.valueOf(LocalDate.now()));
+				}
+
 				new ContratoController().ActualizarContrato(contrato);
+
 				dispose();
 				break;
 			default:

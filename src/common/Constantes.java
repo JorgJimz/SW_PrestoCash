@@ -33,7 +33,6 @@ public class Constantes {
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
 	public static final Integer[] ESTADOS_INACTIVIDAD = new Integer[] { 6, 9, 10, 11, 12, 13, 14 };
 
-	
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -69,7 +68,7 @@ public class Constantes {
 			return false;
 		}
 	};
-	
+
 	public static ComboBoxModel DistritoModel = new DefaultComboBoxModel(new String[] { "CERCADO DE LIMA", "ATE",
 			"BARRANCO", "BREÑA", "COMAS", "CHORRILLOS", "EL AGUSTINO", "JESUS MARIA", "LA MOLINA", "LA VICTORIA",
 			"LINCE", "MAGDALENA", "MIRAFLORES", "PUEBLO LIBRE", "PTE.PIEDRA", "RIMAC", "SAN ISIDRO", "INDEPENDENCIA",
@@ -108,16 +107,6 @@ public class Constantes {
 		}
 	};
 
-	public static DefaultTableModel DetalleContratoModel = new DefaultTableModel(null,
-			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN", "" }) {
-		public boolean isCellEditable(int rowIndex, int colIndex) {
-			if (colIndex == 6) {
-				return true;
-			}
-			return false;
-		}
-	};
-
 	public static DefaultTableModel PagoModel = new DefaultTableModel(null,
 			new String[] { "FECHA VCTO.", "FECHA PAGO", "CONCEPTO", "INTERES", "MORA", "TOTAL" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -151,8 +140,6 @@ public class Constantes {
 		}
 	};
 
-	
-
 	public static DateTimeFormatter formatoCaja = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
 	public static DateTimeFormatter formatoLocal = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	public static DateTimeFormatter formatoSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -170,7 +157,8 @@ public class Constantes {
 	public static Comparator<DetalleContrato> UltimoContratoComparator = new Comparator<DetalleContrato>() {
 		@Override
 		public int compare(DetalleContrato c1, DetalleContrato c2) {
-			return LocalDate.parse(c1.getContrato().getFechaContrato()).compareTo(LocalDate.parse(c2.getContrato().getFechaContrato()));
+			return LocalDate.parse(c1.getContrato().getFechaContrato())
+					.compareTo(LocalDate.parse(c2.getContrato().getFechaContrato()));
 		}
 	};
 

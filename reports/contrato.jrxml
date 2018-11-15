@@ -41,6 +41,9 @@
 	<field name="obs" class="java.lang.String">
 		<fieldDescription><![CDATA[obs]]></fieldDescription>
 	</field>
+	<field name="cliente" class="model.Cliente">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -95,6 +98,13 @@
 				</textElement>
 				<text><![CDATA[30 DIAS]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="396" y="90" width="140" height="30" uuid="598b0319-3aab-45af-b0f0-80ae7d30bea5"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}.getDocumento()]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>

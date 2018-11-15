@@ -485,6 +485,7 @@ public class Libro_Caja extends JInternalFrame {
 					new LibroCajaController().RegistrarIngreso(ingreso);
 					tbIngresos.setCellEditable(false);
 					btnGrabarIngreso.setVisible(false);
+					btnCancelarIngreso.setVisible(false);
 					btnNuevoIngreso.setVisible(true);
 					btnCerrarCaja.setEnabled(true);
 					Utiles.Mensaje("Ingreso registrado.", JOptionPane.INFORMATION_MESSAGE);
@@ -577,6 +578,7 @@ public class Libro_Caja extends JInternalFrame {
 					new LibroCajaController().RegistrarEgreso(egreso);
 					tbEgresos.setCellEditable(false);
 					btnGrabarEgreso.setVisible(false);
+					btnCancelarEgreso.setVisible(false);
 					btnNuevoEgreso.setVisible(true);
 					btnCerrarCaja.setEnabled(true);
 					Utiles.Mensaje("Egreso registrado.", JOptionPane.INFORMATION_MESSAGE);

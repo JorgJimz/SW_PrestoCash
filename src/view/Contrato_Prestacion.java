@@ -646,7 +646,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (new ArticuloController().ObtenerHistorial(Constantes.ArticuloModel, cliente.getId())
 						.getRowCount() != 0) {
-					btnHistorial.setEnabled(false);
+					btnHistorial.setVisible(false);
 					btnRegresar.setVisible(true);
 					spContrato.setVisible(false);
 					spArticulo.setVisible(true);
@@ -699,7 +699,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					detalle.add(detalle_contrato);
 
 					btnRegresar.setVisible(false);
-					btnHistorial.setEnabled(true);
+					btnHistorial.setVisible(true);
 					spContrato.setVisible(true);
 					spArticulo.setVisible(false);
 					ListarDetalle();
@@ -717,12 +717,13 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnRegresar = new JButton(new ImageIcon("img/regresar.png"));
 		contenedor.add(btnRegresar);
 		btnRegresar.setVisible(false);
+		btnRegresar.setText("VOLVER AL DETALLE");
 		btnRegresar.setOpaque(false);
 		btnRegresar.setBorderPainted(false);
 		btnRegresar.setContentAreaFilled(false);
 		btnRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14));
-		btnRegresar.setBounds(245, 582, 64, 64);
+		btnRegresar.setBounds(960, 204, 239, 64);
 		btnRegresar.setHorizontalAlignment(SwingConstants.LEFT);
 
 		jSeparator1 = new JSeparator();
@@ -760,7 +761,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnRegresar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				btnHistorial.setEnabled(true);
+				btnHistorial.setVisible(true);
 				btnRegresar.setVisible(false);
 				spArticulo.setVisible(false);
 				spContrato.setVisible(true);

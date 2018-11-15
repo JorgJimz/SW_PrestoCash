@@ -1,7 +1,11 @@
 package model;
 
+import java.awt.Color;
 import java.io.Serializable;
 import javax.persistence.*;
+
+import common.Utiles;
+
 import java.util.List;
 
 @Entity
@@ -18,6 +22,12 @@ public class EArticulo implements Serializable {
 
 	private String valor;
 
+	@Transient
+	private Color background;
+
+	@Transient
+	private Color foreground;
+
 	// bi-directional many-to-one association to Articulo
 	@OneToMany(mappedBy = "EArticulo")
 	private List<Articulo> articulos;
@@ -28,10 +38,17 @@ public class EArticulo implements Serializable {
 	public EArticulo(int id) {
 		this.id = id;
 	}
-	
+
 	public EArticulo(int id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;
+	}
+
+	@PostLoad
+	public void procesarCamposCalculados() {
+		int[] v = Utiles.mapToInt(valor.split(","));
+		background = new Color(v[0], v[1], v[2]);
+		foreground = new Color(v[3], v[4], v[5]);
 	}
 
 	public int getId() {
@@ -78,6 +95,27 @@ public class EArticulo implements Serializable {
 		articulo.setEArticulo(null);
 
 		return articulo;
+	}
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
+	}
+
+	public Color getForeground() {
+		return foreground;
+	}
+
+	public void setForeground(Color foreground) {
+		this.foreground = foreground;
+	}
+
+	@Override
+	public String toString() {
+		return descripcion;
 	}
 
 }
