@@ -1687,18 +1687,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public void ImprimirFormato() {
-		contrato.setClienteJasper(contrato.getCliente().getNombreCompleto());
+	public void ImprimirFormato() {		
 		ArrayList<Contrato> arreglo_contrato = new ArrayList<Contrato>();
-		arreglo_contrato.add(contrato);
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("direccion_cliente", contrato.getCliente().getDireccion());
-		parametros.put("telefonos_cliente", contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2());
-		parametros.put("fecha_contrato", lblInicio.getText());
-		parametros.put("fecha_vencimiento", lblVencimiento.getText());
+		arreglo_contrato.add(contrato);		
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/contrato.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,
 					new JRBeanCollectionDataSource(arreglo_contrato));
 			JasperPrintManager.printReport(jasperPrint, true);
 		} catch (Exception e) {

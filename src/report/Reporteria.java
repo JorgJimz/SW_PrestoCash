@@ -11,8 +11,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -36,6 +38,8 @@ import controller.PrestamoController;
 import controller.VentaController;
 import model.EContrato;
 import model.Prestamo;
+import model.Separacion;
+import model.Venta;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -304,9 +308,9 @@ public class Reporteria extends JInternalFrame {
 		} else if (Objects.nonNull(inicio) && Objects.nonNull(fin)) {
 			criteria = " AND FECHA_CONTRATO BETWEEN '" + Constantes.formatoSQL_2.format(inicio) + "' AND '"
 					+ Constantes.formatoSQL_2.format(fin) + "'";
-		} else if(Objects.isNull(inicio) && Objects.nonNull(fin)){
+		} else if (Objects.isNull(inicio) && Objects.nonNull(fin)) {
 			Utiles.Mensaje("Selecciona correctamente la(s) fechas.", JOptionPane.WARNING_MESSAGE);
-		}else {
+		} else {
 			criteria = " ";
 		}
 		return criteria;
@@ -315,10 +319,28 @@ public class Reporteria extends JInternalFrame {
 	public void MostrarReporteRemate() {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
+
+		List<Venta> remates = new VentaController().ListarVentas();
+		List<Venta> separacionesFinalizadas = new VentaController().ListarSeparaciones(Separacion.FINALIZADA).stream()
+				.map(s -> {
+					Venta v = new Venta();
+					v.setArticulo(s.getArticulo());
+					v.setFecha(s.getFechaCreacion());
+					v.setCliente(s.getCliente());
+					v.setImporte(s.getPrecioVenta());
+					v.setModalidad("SEPARACIÓN FINALIZADA");
+					return v;
+				}).collect(Collectors.toList());
+		
+		HashSet<Object> seen=new HashSet<>();
+		separacionesFinalizadas.removeIf(e->!seen.add(e.getArticulo().getId()));
+				
+		remates.addAll(separacionesFinalizadas);
+
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptVentas.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
-					new JRBeanCollectionDataSource(new VentaController().ListarVentas()));
+					new JRBeanCollectionDataSource(remates));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();
@@ -334,7 +356,7 @@ public class Reporteria extends JInternalFrame {
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptSeparaciones.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
-					new JRBeanCollectionDataSource(new VentaController().ListarSeparaciones()));
+					new JRBeanCollectionDataSource(new VentaController().ListarSeparaciones(Separacion.ACTIVA)));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();

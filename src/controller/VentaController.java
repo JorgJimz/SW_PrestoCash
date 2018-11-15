@@ -48,8 +48,8 @@ public class VentaController {
 			tx.commit();
 		} catch (Exception e1) {
 			Logger.RegistrarIncidencia(e1);
-			tx.rollback();
 			e1.printStackTrace();
+			tx.rollback();
 		} finally {
 			em.close();
 			emf.close();
@@ -57,21 +57,21 @@ public class VentaController {
 		return s;
 	}
 
-	public String[] LiberarSeparacion(Cliente c, Articulo a) {
+	public String[] ActualizarSeparacion(Cliente c, Articulo a, int s) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		String[] m = null;
 		try {
 			tx.begin();
-			Query q = em
-					.createQuery("UPDATE Separacion s SET s.status = 0 WHERE s.cliente.id = :c AND s.articulo.id = :a");
+			Query q = em.createQuery(
+					"UPDATE Separacion s SET s.status = :s WHERE s.cliente.id = :c AND s.articulo.id = :a");
+			q.setParameter("s", s);
 			q.setParameter("c", c.getId());
 			q.setParameter("a", a.getId());
 			q.executeUpdate();
 			tx.commit();
-			m = new String[] { "Artículo liberado. Se envía nuevamente a Vitrina.",
-					String.valueOf(JOptionPane.INFORMATION_MESSAGE) };
+			m = new String[] { "Separación finalizada.", String.valueOf(JOptionPane.INFORMATION_MESSAGE) };
 		} catch (Exception e1) {
 			Logger.RegistrarIncidencia(e1);
 			tx.rollback();
@@ -85,12 +85,13 @@ public class VentaController {
 		return m;
 	}
 
-	public List<Separacion> ListarSeparaciones() {
+	public List<Separacion> ListarSeparaciones(int s) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<Separacion> l = null;
 		try {
-			l = em.createQuery("SELECT s FROM Separacion s WHERE s.status = 1", Separacion.class).getResultList();
+			l = em.createQuery("SELECT s FROM Separacion s WHERE s.status = :s", Separacion.class).setParameter("s", s)
+					.getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();

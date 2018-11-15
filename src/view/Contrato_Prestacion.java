@@ -15,7 +15,6 @@ import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -378,7 +377,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(txtDni.getText());
-				Principal.dskPrincipal.add(mc);				
+				Principal.dskPrincipal.add(mc);
 				dispose();
 			}
 		});
@@ -857,17 +856,11 @@ public class Contrato_Prestacion extends JInternalFrame {
 	}
 
 	public void ImprimirFormato() {
-		contrato.setClienteJasper(contrato.getCliente().getNombreCompleto());
 		ArrayList<Contrato> arreglo_contrato = new ArrayList<Contrato>();
 		arreglo_contrato.add(contrato);
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("direccion_cliente", cliente.getDireccion());
-		parametros.put("telefonos_cliente", cliente.getTlf1() + " / " + cliente.getTlf2());
-		parametros.put("fecha_contrato", lblFechaContrato.getText().toUpperCase());
-		parametros.put("fecha_vencimiento", lblFechaVencimiento.getText().toUpperCase());
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/contrato.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros,
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,
 					new JRBeanCollectionDataSource(arreglo_contrato));
 			JasperPrintManager.printReport(jasperPrint, true);
 		} catch (Exception e) {

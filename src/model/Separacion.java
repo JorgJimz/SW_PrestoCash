@@ -17,6 +17,9 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "Separacion.findAll", query = "SELECT s FROM Separacion s")
 public class Separacion implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final int LIBERADA = 0;
+	public static final int ACTIVA = 1;
+	public static final int FINALIZADA = 2;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

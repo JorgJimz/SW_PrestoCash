@@ -35,6 +35,14 @@ public class Venta implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
+	@Transient
+	private String modalidad;
+
+	@PostLoad
+	public void procesarCamposCalculados() {
+		modalidad = "VENTA DIRECTA";
+	}
+
 	public Venta() {
 	}
 
@@ -100,6 +108,14 @@ public class Venta implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getModalidad() {
+		return modalidad;
+	}
+
+	public void setModalidad(String modalidad) {
+		this.modalidad = modalidad;
 	}
 
 }

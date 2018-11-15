@@ -146,9 +146,6 @@ public class Contrato implements Serializable {
 	@Transient
 	private String operacion;
 
-	@Transient
-	private String clienteJasper;
-
 	public Contrato() {
 		detalleContratos = new ArrayList<DetalleContrato>();
 	}
@@ -650,14 +647,6 @@ public class Contrato implements Serializable {
 
 	public void setOperacion(String operacion) {
 		this.operacion = operacion;
-	}
-
-	public String getClienteJasper() {
-		return cliente.getPaterno() + " " + cliente.getMaterno() + ", " + cliente.getNombres();
-	}
-
-	public void setClienteJasper(String clienteJasper) {
-		this.clienteJasper = clienteJasper;
 	}
 
 	public JRDataSource getDetalleContratoJasper() {

@@ -476,7 +476,7 @@ public class Venta_Articulos extends JInternalFrame {
 					c.setDistrito(cboDistrito.getSelectedItem().toString().toUpperCase());
 					c.setCategoriaId("BUENO");
 					c.setObs("NUEVO COMPRADOR");
-					c.setStatus(1);
+					c.setStatus(Cliente.ACTIVO);
 					c.setFechaCreacion(String.valueOf(LocalDate.now()));
 					c.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					new ClienteController().RegistrarCliente(c);
@@ -576,10 +576,11 @@ public class Venta_Articulos extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Utiles.Validar(pnlSeparacion)) {
 					int nSep = tbHistorialSeparacion.getRowCount() + 1;
+					boolean FinalizarSeparacion = false;
 					Separacion separacion = new Separacion();
 					separacion.setFecha(String.valueOf(LocalDate.now()));
 					separacion.setPrecioVenta(articulo.getPrecioVenta());
-					separacion.setStatus(1);
+					separacion.setStatus(Separacion.ACTIVA);
 					separacion.setCliente(cliente);
 					separacion.setImporte(new BigDecimal(txtMonto.getText()));
 					separacion.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -598,6 +599,8 @@ public class Venta_Articulos extends JInternalFrame {
 						ingreso.setGanancia(articulo.getPrecioVenta().subtract(articulo.getCapitalContrato()));
 						ingreso.setOtro(separacion.getImporte());
 						ingreso.setMoneda("SOLES");
+						FinalizarSeparacion = true;
+
 					} else {
 						articulo.setEArticulo(new EArticulo(2));
 						ingreso.setTipo("SEP #" + nSep);
@@ -608,8 +611,12 @@ public class Venta_Articulos extends JInternalFrame {
 					}
 
 					separacion.setArticulo(articulo);
-
 					new VentaController().GenerarSeparacion(separacion, ingreso);
+
+					if (FinalizarSeparacion) {
+						String[] q = new VentaController().ActualizarSeparacion(cliente, articulo, Separacion.FINALIZADA);
+						Utiles.Mensaje(q[0], Integer.parseInt(q[1]));
+					}
 
 					Utiles.Limpiar(pnlSeparacion);
 					pnlSeparacion.setVisible(false);
@@ -680,7 +687,7 @@ public class Venta_Articulos extends JInternalFrame {
 						"<html><h2>Está a punto de eliminar una Separación. ¿Desea continuar?</h2></html>",
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 				if (opc == JOptionPane.YES_OPTION) {
-					String[] q = new VentaController().LiberarSeparacion(cliente, articulo);
+					String[] q = new VentaController().ActualizarSeparacion(cliente, articulo, 0);
 					Utiles.Mensaje(q[0], Integer.parseInt(q[1]));
 				}
 			}
@@ -781,6 +788,7 @@ public class Venta_Articulos extends JInternalFrame {
 		}
 		txtTotalFecha.setText(String.valueOf(totalFecha));
 		tbHistorialSeparacion.setModel(HistorialSeparacionModel);
+		btnLiberarSeparacion.setEnabled(totalFecha.compareTo(BigDecimal.ZERO) == 1);
 	}
 
 	public void ObtenerCliente() {

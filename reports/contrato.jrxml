@@ -12,11 +12,6 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
-	<parameter name="direccion_cliente" class="java.lang.String"/>
-	<parameter name="telefonos_cliente" class="java.lang.String"/>
-	<parameter name="nombre_cliente" class="java.lang.String"/>
-	<parameter name="fecha_contrato" class="java.lang.String"/>
-	<parameter name="fecha_vencimiento" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -54,35 +49,35 @@
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{clienteJasper}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cliente}.getNombreCompleto()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="80" y="120" width="365" height="25" uuid="69062859-bb09-499d-ad73-3134ef84cced"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{direccion_cliente}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cliente}.getDireccion()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="396" y="110" width="140" height="25" uuid="f8b324f6-bd59-466d-992f-02390a8ef637"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{telefonos_cliente}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cliente}.getTlf1() + " / " + $F{cliente}.getTlf2()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="248" y="50" width="100" height="30" uuid="21981fab-a8c5-4c3f-a61b-6cdb16084bc8"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("dd-MMM-yyyy").parse($P{fecha_contrato})).toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("dd-MMM-yyyy").parse($F{fechaContrato})).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="360" y="50" width="138" height="30" uuid="5ccddcb9-17eb-4397-baf3-b81582996db5"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("dd-MMM-yyyy").parse($P{fecha_vencimiento})).toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yy").format(new SimpleDateFormat("dd-MMM-yyyy").parse($F{fechaVencimiento})).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="23" y="0" width="544" height="20" uuid="5884b4ae-de91-48ec-b1a9-c1e1070449a9"/>

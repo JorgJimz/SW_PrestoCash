@@ -167,7 +167,9 @@ public class Login extends JFrame {
 				a.setHoraIngreso(String.valueOf(LocalTime.now()));
 				a.setObs("");
 				a.setUsuario(user);
-				Utiles.Mensaje(new UsuarioController().MarcarAsistencia(a), JOptionPane.INFORMATION_MESSAGE);
+				Asistencia nuevaAsistencia = new UsuarioController().MarcarAsistencia(a);
+				Utiles.Mensaje("Se grabó asistencia.", JOptionPane.INFORMATION_MESSAGE);
+				user.getAsistencias().add(nuevaAsistencia);
 			}
 		} else {
 			Utiles.Mensaje("Usuario y/ Contraseña incorrecto(s)", JOptionPane.WARNING_MESSAGE);

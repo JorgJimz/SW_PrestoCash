@@ -94,15 +94,13 @@ public class UsuarioController {
 		return model;
 	}
 
-	public String MarcarAsistencia(Asistencia a) {
-		String msg = "";
+	public Asistencia MarcarAsistencia(Asistencia a) {		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
 			tx.begin();
 			em.merge(a);
-			msg = "Se grabó asistencia.";
 			tx.commit();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
@@ -112,7 +110,7 @@ public class UsuarioController {
 			em.close();
 			emf.close();
 		}
-		return msg;
+		return a;
 	}
 
 	public boolean RequiereActualizacion() {
