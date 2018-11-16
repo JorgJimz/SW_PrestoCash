@@ -29,6 +29,9 @@ public class Constantes {
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
 	public static BigDecimal MORA_SOLES = new BigDecimal(150);
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
+	
+	public static final int RANGO_PRE = 5;
+	public static final int RANGO_POST = 15;
 
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
 	public static final Integer[] ESTADOS_INACTIVIDAD = new Integer[] { 6, 9, 10, 11, 12, 13, 14 };

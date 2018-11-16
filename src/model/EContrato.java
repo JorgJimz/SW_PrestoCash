@@ -21,6 +21,11 @@ import common.Utiles;
 @NamedQuery(name = "EContrato.findAll", query = "SELECT e FROM EContrato e")
 public class EContrato implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final int VITRINA_SP = 13;
+	public static final int POST = 7;
+	public static final int PRE = 4;
+	public static final int VENCIDO = 2;
+	public static final int ACTIVO = 1;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

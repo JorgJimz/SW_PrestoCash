@@ -13,7 +13,8 @@ import java.util.List;
 @NamedQuery(name = "EArticulo.findAll", query = "SELECT e FROM EArticulo e")
 public class EArticulo implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	public static final int VITRINA = 5;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

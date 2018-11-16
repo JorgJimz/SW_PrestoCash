@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,9 +26,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import com.toedter.calendar.JDateChooser;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 
-import common.Constantes;
 import common.Logger;
 import common.MySQLConexion;
 import common.Utiles;
@@ -40,6 +40,7 @@ import model.EContrato;
 import model.Prestamo;
 import model.Separacion;
 import model.Venta;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -49,13 +50,26 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import view.Principal;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings({ "serial", "deprecation" })
 public class Reporteria extends JInternalFrame {
 
 	private JPanel contenedor;
 	private JPanel pnlTPrestamo;
-	private JDateChooser dcFin;
-	private JDateChooser dcInicio;
+	private DatePicker dcFin;
+	private DatePicker dcInicio;
 	private JPanel pnlFecha;
 	private JButton btnGenerar;
 	private JPanel pnlEContrato;
@@ -165,8 +179,10 @@ public class Reporteria extends JInternalFrame {
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 		pnlFecha.setOpaque(false);
 		pnlFecha.setLayout(null);
+		DatePickerSettings dps = new DatePickerSettings();
+		
 
-		dcFin = new JDateChooser();
+		dcFin = new DatePicker(dps);
 		pnlFecha.add(dcFin);
 		dcFin.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		dcFin.setBounds(283, 29, 257, 56);
@@ -176,7 +192,8 @@ public class Reporteria extends JInternalFrame {
 		dcFin.setOpaque(false);
 		dcFin.setForeground(new java.awt.Color(0, 0, 0));
 
-		dcInicio = new JDateChooser();
+		dcInicio = new DatePicker();
+		dcInicio.setDate(LocalDate.now());
 		dcInicio.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		pnlFecha.add(dcInicio);
 		dcInicio.setBounds(16, 29, 257, 56);
@@ -184,14 +201,17 @@ public class Reporteria extends JInternalFrame {
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 64, 128)));
 		dcInicio.setOpaque(false);
-		dcInicio.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
+		dcInicio.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
 				if ("date".equals(arg0.getPropertyName())) {
-					dcFin.setMinSelectableDate((Date) arg0.getNewValue());
+					dcFin.clear();
+					dps.setDateRangeLimits(dcInicio.getDate(),LocalDate.now());
 				}
 			}
 		});
+		
+		dps.setDateRangeLimits(null, LocalDate.now());
 
 		btnGenerar = new JButton(new ImageIcon("img/settings.png"));
 		contenedor.add(btnGenerar);
@@ -300,15 +320,13 @@ public class Reporteria extends JInternalFrame {
 	}
 
 	public String GenerarFiltroFechas() {
-		Date inicio = dcInicio.getDate();
-		Date fin = dcFin.getDate();
 		String criteria = null;
-		if (Objects.nonNull(inicio) && Objects.isNull(fin)) {
-			criteria = " AND FECHA_CONTRATO = '" + Constantes.formatoSQL_2.format(inicio) + "'";
-		} else if (Objects.nonNull(inicio) && Objects.nonNull(fin)) {
-			criteria = " AND FECHA_CONTRATO BETWEEN '" + Constantes.formatoSQL_2.format(inicio) + "' AND '"
-					+ Constantes.formatoSQL_2.format(fin) + "'";
-		} else if (Objects.isNull(inicio) && Objects.nonNull(fin)) {
+		if (Objects.nonNull(dcInicio.getDate()) && Objects.isNull(dcFin.getDate())) {
+			criteria = " AND FECHA_CONTRATO = '" + String.valueOf(dcInicio.getDate()) + "'";
+		} else if (Objects.nonNull(dcInicio.getDate()) && Objects.nonNull(dcFin.getDate())) {
+			criteria = " AND FECHA_CONTRATO BETWEEN '" + String.valueOf(dcInicio.getDate()) + "' AND '"
+					+ String.valueOf(dcFin.getDate()) + "'";
+		} else if (Objects.isNull(dcInicio.getDate()) && Objects.nonNull(dcFin.getDate())) {
 			Utiles.Mensaje("Selecciona correctamente la(s) fechas.", JOptionPane.WARNING_MESSAGE);
 		} else {
 			criteria = " ";
@@ -320,9 +338,9 @@ public class Reporteria extends JInternalFrame {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 
-		List<Venta> remates = new VentaController().ListarVentas();
-		List<Venta> separacionesFinalizadas = new VentaController().ListarSeparaciones(Separacion.FINALIZADA).stream()
-				.map(s -> {
+		List<Venta> remates = new VentaController().ListarVentas(dcInicio.getDate(), dcFin.getDate());
+		List<Venta> separacionesFinalizadas = new VentaController()
+				.ListarSeparaciones(Separacion.FINALIZADA, dcInicio.getDate(), dcFin.getDate()).stream().map(s -> {
 					Venta v = new Venta();
 					v.setArticulo(s.getArticulo());
 					v.setFecha(s.getFechaCreacion());
@@ -331,10 +349,10 @@ public class Reporteria extends JInternalFrame {
 					v.setModalidad("SEPARACIÓN FINALIZADA");
 					return v;
 				}).collect(Collectors.toList());
-		
-		HashSet<Object> seen=new HashSet<>();
-		separacionesFinalizadas.removeIf(e->!seen.add(e.getArticulo().getId()));
-				
+
+		HashSet<Object> seen = new HashSet<>();
+		separacionesFinalizadas.removeIf(e -> !seen.add(e.getArticulo().getId()));
+
 		remates.addAll(separacionesFinalizadas);
 
 		try {
@@ -355,8 +373,8 @@ public class Reporteria extends JInternalFrame {
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptSeparaciones.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
-					new JRBeanCollectionDataSource(new VentaController().ListarSeparaciones(Separacion.ACTIVA)));
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params, new JRBeanCollectionDataSource(
+					new VentaController().ListarSeparaciones(Separacion.ACTIVA, dcInicio.getDate(), dcFin.getDate())));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();
@@ -368,11 +386,11 @@ public class Reporteria extends JInternalFrame {
 
 	public void MostrarReporteVitrina() {
 		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("DS_VITRINA", new JRBeanCollectionDataSource(new ArticuloController().CargarReporteVitrina()));
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptVitrina.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
-					new JRBeanCollectionDataSource(new ArticuloController().CargarReporteVitrina()));
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params, new JREmptyDataSource());
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();

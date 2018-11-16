@@ -1,6 +1,8 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -85,12 +87,16 @@ public class VentaController {
 		return m;
 	}
 
-	public List<Separacion> ListarSeparaciones(int s) {
+	public List<Separacion> ListarSeparaciones(int s, LocalDate inicio, LocalDate fin) {
+		String i = Objects.isNull(inicio) ? null : String.valueOf(inicio);
+		String f = Objects.isNull(fin) ? null : String.valueOf(fin);
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<Separacion> l = null;
 		try {
-			l = em.createQuery("SELECT s FROM Separacion s WHERE s.status = :s", Separacion.class).setParameter("s", s)
+			l = em.createQuery(
+					"SELECT s FROM Separacion s WHERE s.status = :s AND s.fecha BETWEEN COALESCE(:i,s.fecha) AND COALESCE(:f,s.fecha)",
+					Separacion.class).setParameter("s", s).setParameter("i", i).setParameter("f", f)
 					.getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
@@ -102,12 +108,16 @@ public class VentaController {
 		return l;
 	}
 
-	public List<Venta> ListarVentas() {
+	public List<Venta> ListarVentas(LocalDate inicio, LocalDate fin) {
+		String i = Objects.isNull(inicio) ? null : String.valueOf(inicio);
+		String f = Objects.isNull(fin) ? null : String.valueOf(fin);
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<Venta> l = null;
 		try {
-			l = em.createQuery("SELECT v FROM Venta v", Venta.class).getResultList();
+			l = em.createQuery(
+					"SELECT v FROM Venta v WHERE v.fecha BETWEEN COALESCE(:i,v.fecha) AND COALESCE(:f,v.fecha)",
+					Venta.class).setParameter("i", i).setParameter("f", f).getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
