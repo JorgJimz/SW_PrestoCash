@@ -46,6 +46,15 @@
 	<field name="modalidad" class="java.lang.String">
 		<fieldDescription><![CDATA[modalidad]]></fieldDescription>
 	</field>
+	<variable name="TOTAL_CAPITAL" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{articulo}.getCapitalContrato()]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_GANANCIA" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}.subtract($F{articulo}.getCapitalContrato())]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_PV" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{articulo}.getPrecioVenta()]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -288,6 +297,46 @@
 		</band>
 	</detail>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="30">
+			<textField>
+				<reportElement mode="Opaque" x="538" y="0" width="40" height="30" backcolor="#FFFF99" uuid="0ce535d5-3f36-410d-a880-348037df67d7"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_CAPITAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="618" y="0" width="40" height="30" backcolor="#FFFF99" uuid="f58c4336-5ab0-4497-8689-b87558a87901"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_GANANCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="578" y="0" width="40" height="30" backcolor="#FFFF99" uuid="61ec8508-5b32-4fb6-86a0-cccf0a13a062"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_PV}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
