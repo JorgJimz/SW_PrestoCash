@@ -158,8 +158,8 @@ public class Login extends JFrame {
 	public Usuario IniciarSesion() {
 		Usuario user = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
 		if (Objects.nonNull(user)) {
-			Asistencia ga = user.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
-					.orElse(Asistencia.DEFAULT);
+			Asistencia ga = user.getAsistencias().stream().filter(Constantes.predicadoAsistencia(String.valueOf(LocalDate.now())))
+					.findFirst().orElse(Asistencia.DEFAULT);
 			if (Objects.isNull(ga)) {
 				Asistencia a = new Asistencia();
 				a.setFecha(String.valueOf(LocalDate.now()));

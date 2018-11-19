@@ -29,7 +29,7 @@ public class Constantes {
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
 	public static BigDecimal MORA_SOLES = new BigDecimal(150);
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
-	
+
 	public static final int RANGO_PRE = 5;
 	public static final int RANGO_POST = 15;
 
@@ -165,11 +165,8 @@ public class Constantes {
 		}
 	};
 
-	public static Predicate<Asistencia> predicadoAsistencia = new Predicate<Asistencia>() {
-		@Override
-		public boolean test(Asistencia t) {
-			return LocalDate.parse(t.getFecha()).compareTo(LocalDate.now()) == 0;
-		}
+	public static Predicate<Asistencia> predicadoAsistencia(String fechaCaja) {
+		return t -> LocalDate.parse(t.getFecha()).compareTo(LocalDate.parse(fechaCaja)) == 0;
 	};
 
 	public static Predicate<Articulo> predicadoArticulo(String contrato) {

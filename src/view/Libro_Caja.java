@@ -782,8 +782,8 @@ public class Libro_Caja extends JInternalFrame {
 
 	public void MarcarSalida() {
 		try {
-			Asistencia a = Principal.LOGGED.getAsistencias().stream().filter(Constantes.predicadoAsistencia).findFirst()
-					.orElse(Asistencia.DEFAULT);
+			Asistencia a = Principal.LOGGED.getAsistencias().stream()
+					.filter(Constantes.predicadoAsistencia(caja.getFechaApertura())).findFirst().orElse(Asistencia.DEFAULT);
 			a.setHoraSalida(String.valueOf(LocalTime.now()));
 			new UsuarioController().MarcarAsistencia(a);
 		} catch (Exception e) {
