@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptStdVentas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="60b39f74-96de-4cdb-9675-762956723a7f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="dsVentas" uuid="46f233ff-2805-47be-9071-db996fbe2d17">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+		<parameter name="INICIO" class="java.lang.String"/>
+		<parameter name="FIN" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT YEAR(V.FECHA) ANHO, UPPER(DATE_FORMAT(FECHA,'%M')) MES, COUNT(ID) VENTAS, SUM(IMPORTE) TOTAL 
+FROM VENTA V 
+WHERE V.FECHA BETWEEN $P{INICIO} AND  $P{FIN}
+GROUP BY YEAR(V.FECHA), MONTH(FECHA)
+ORDER BY ANHO]]>
+		</queryString>
+		<field name="ANHO" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="ANHO"/>
+		</field>
+		<field name="MES" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="MES"/>
+		</field>
+		<field name="VENTAS" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="VENTAS"/>
+		</field>
+		<field name="TOTAL" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="TOTAL"/>
+		</field>
+	</subDataset>
+	<parameter name="INICIO" class="java.lang.String"/>
+	<parameter name="FIN" class="java.lang.String"/>
+	<parameter name="SEDE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT YEAR(V.FECHA) ANHO, UPPER(DATE_FORMAT(FECHA,'%M')) MES, COUNT(ID) VENTAS, SUM(IMPORTE) TOTAL 
+FROM VENTA V 
+WHERE V.FECHA BETWEEN $P{INICIO} AND  $P{FIN}
+GROUP BY YEAR(V.FECHA), MONTH(FECHA)
+ORDER BY ANHO]]>
+	</queryString>
+	<field name="ANHO" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ANHO"/>
+	</field>
+	<field name="MES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MES"/>
+	</field>
+	<field name="VENTAS" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="VENTAS"/>
+	</field>
+	<field name="TOTAL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="353" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report" theme="eye.candy.sixties">
+					<reportElement x="0" y="0" width="800" height="353" uuid="5dceb32c-5e17-4dbc-a675-72d6a0acdb96"/>
+					<chartTitle>
+						<titleExpression><![CDATA["ESTADÍSTICO DE VENTAS DESDE" +
+new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{INICIO})).toUpperCase()  + " HASTA" + new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{FIN})).toUpperCase()]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<subtitleExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="dsVentas" uuid="d06ca283-114a-4fb2-8dc1-fc4de44e4111">
+							<datasetParameter name="INICIO">
+								<datasetParameterExpression><![CDATA[$P{INICIO}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="FIN">
+								<datasetParameterExpression><![CDATA[$P{FIN}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{ANHO}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{MES}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{VENTAS}]]></valueExpression>
+						<labelExpression><![CDATA[$F{VENTAS}.toString()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA["MESES"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["VENTAS CONCRETADAS"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

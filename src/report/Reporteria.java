@@ -50,11 +50,23 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import view.Principal;
 
+/**
+ * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
+ * Builder, which is free for non-commercial use. If Jigloo is being used
+ * commercially (ie, by a corporation, company or business for any purpose
+ * whatever) then you should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details. Use of Jigloo implies
+ * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
+ * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
+ * ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 @SuppressWarnings({ "serial", "deprecation" })
 public class Reporteria extends JInternalFrame {
 
 	private JPanel contenedor;
 	private JPanel pnlTPrestamo;
+	private JButton btnEstadisticoVenta;
+	private JButton btnEstadisticoEmpeno;
 	private DatePicker dcFin;
 	private DatePicker dcInicio;
 	private JPanel pnlFecha;
@@ -70,13 +82,13 @@ public class Reporteria extends JInternalFrame {
 		this.setLayout(null);
 		this.setSize(601, 113);
 		this.setClosable(true);
-		this.setPreferredSize(new java.awt.Dimension(1205, 467));
-		this.setBounds(0, 0, 1205, 467);
+		this.setPreferredSize(new java.awt.Dimension(1205, 644));
+		this.setBounds(0, 0, 1205, 644);
 
 		contenedor = new JPanel();
 		getContentPane().add(contenedor);
 		contenedor.setLayout(null);
-		contenedor.setBounds(0, 0, 1197, 443);
+		contenedor.setBounds(0, 0, 1197, 607);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		btnReporteVitrina = new JButton(new ImageIcon("img/report.png"));
@@ -167,7 +179,6 @@ public class Reporteria extends JInternalFrame {
 		pnlFecha.setOpaque(false);
 		pnlFecha.setLayout(null);
 		DatePickerSettings dps = new DatePickerSettings();
-		
 
 		dcFin = new DatePicker(dps);
 		pnlFecha.add(dcFin);
@@ -193,20 +204,20 @@ public class Reporteria extends JInternalFrame {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				if ("date".equals(arg0.getPropertyName())) {
 					dcFin.clear();
-					dps.setDateRangeLimits(dcInicio.getDate(),LocalDate.now());
+					dps.setDateRangeLimits(dcInicio.getDate(), LocalDate.now());
 				}
 			}
 		});
-		
+
 		dps.setDateRangeLimits(null, LocalDate.now());
 
 		btnGenerar = new JButton(new ImageIcon("img/settings.png"));
 		contenedor.add(btnGenerar);
 		btnGenerar.setOpaque(false);
 		btnGenerar.setBorderPainted(false);
-		btnGenerar.setToolTipText("GENERAR");
 		btnGenerar.setContentAreaFilled(false);
 		btnGenerar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnGenerar.setToolTipText("GENERAR");
 		btnGenerar.setBounds(1106, 331, 70, 70);
 		btnGenerar.addActionListener(new ActionListener() {
 			@Override
@@ -219,6 +230,40 @@ public class Reporteria extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				MostrarReporteSeparacion();
+			}
+		});
+
+		btnEstadisticoVenta = new JButton();
+		btnEstadisticoVenta.setText("ESTADÍSTICO VENTAS");
+		btnEstadisticoVenta.setBounds(10, 336, 272, 70);
+		contenedor.add(btnEstadisticoVenta);
+		btnEstadisticoVenta.setOpaque(false);
+		btnEstadisticoVenta.setBorderPainted(false);
+		btnEstadisticoVenta.setContentAreaFilled(false);
+		btnEstadisticoVenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnEstadisticoVenta.setFont(new java.awt.Font("Segoe UI", 1, 12));
+		btnEstadisticoVenta.setHorizontalAlignment(SwingConstants.LEFT);
+		btnEstadisticoVenta.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MostrarEstadisticoVentas();
+			}
+		});
+
+		btnEstadisticoEmpeno = new JButton();
+		btnEstadisticoEmpeno.setText("ESTADÍSTICO EMPEÑOS");
+		btnEstadisticoEmpeno.setBounds(10, 417, 272, 70);
+		contenedor.add(btnEstadisticoEmpeno);
+		btnEstadisticoEmpeno.setOpaque(false);
+		btnEstadisticoEmpeno.setBorderPainted(false);
+		btnEstadisticoEmpeno.setContentAreaFilled(false);
+		btnEstadisticoEmpeno.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnEstadisticoEmpeno.setFont(new java.awt.Font("Segoe UI", 1, 12));
+		btnEstadisticoEmpeno.setHorizontalAlignment(SwingConstants.LEFT);
+		btnEstadisticoEmpeno.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 
@@ -305,6 +350,23 @@ public class Reporteria extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	public void MostrarEstadisticoVentas() {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("SEDE", Principal.SEDE.getDescripcion());
+			params.put("INICIO", String.valueOf(dcInicio.getDate()));
+			params.put("FIN", String.valueOf(dcFin.getDate()));
+			params.put("FECHAS", GenerarFiltroFechas());
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptStdVentas.jasper");
+			JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
+			JasperViewer viewer = new JasperViewer(print, false);
+			viewer.show();
+			viewer.toFront();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String GenerarFiltroFechas() {
 		String criteria = null;
@@ -386,5 +448,4 @@ public class Reporteria extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
-
 }

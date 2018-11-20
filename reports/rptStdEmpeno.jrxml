@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptStdEmpeno" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9418d838-93d5-4703-8833-9b7f53720fe5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+	<subDataset name="dsEmpeno" uuid="bd1c4581-d6a8-4295-96f2-42d134ed5ed4">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT YEAR(FECHA_CONTRATO) ANHO, UPPER(DATE_FORMAT(FECHA_CONTRATO,'%M')) MES,
+ PRESTAMO_ID, 
+ P.DESCRIPCION, COUNT(1) TOTAL FROM CONTRATO C
+INNER JOIN PRESTAMO P ON C.PRESTAMO_ID = P.ID
+WHERE FECHA_CONTRATO BETWEEN '2018-01-01' AND '2018-11-20'
+GROUP BY YEAR(FECHA_CONTRATO), MONTH(FECHA_CONTRATO),PRESTAMO_ID
+ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
+		</queryString>
+		<field name="ANHO" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="ANHO"/>
+		</field>
+		<field name="MES" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="MES"/>
+		</field>
+		<field name="PRESTAMO_ID" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="PRESTAMO_ID"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="DESCRIPCION" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="DESCRIPCION"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+		</field>
+		<field name="TOTAL" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="TOTAL"/>
+		</field>
+		<variable name="TOTAL_EMP" class="java.lang.Integer" incrementType="Column" calculation="Sum">
+			<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[SELECT YEAR(FECHA_CONTRATO) ANHO, UPPER(DATE_FORMAT(FECHA_CONTRATO,'%M')) MES,
+ PRESTAMO_ID, 
+ P.DESCRIPCION, COUNT(1) TOTAL FROM CONTRATO C
+INNER JOIN PRESTAMO P ON C.PRESTAMO_ID = P.ID
+WHERE FECHA_CONTRATO BETWEEN '2018-01-01' AND '2018-11-20'
+GROUP BY YEAR(FECHA_CONTRATO), MONTH(FECHA_CONTRATO),PRESTAMO_ID
+ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
+	</queryString>
+	<field name="ANHO" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ANHO"/>
+	</field>
+	<field name="MES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MES"/>
+	</field>
+	<field name="PRESTAMO_ID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="PRESTAMO_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="DESCRIPCION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DESCRIPCION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+	</field>
+	<field name="TOTAL" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="502" splitType="Stretch">
+			<stackedBarChart>
+				<chart evaluationTime="Report" theme="eye.candy.sixties">
+					<reportElement x="0" y="0" width="750" height="502" uuid="c5f469dc-4314-4ec9-834c-140ecfd4a5f3"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="dsEmpeno" uuid="b3f42a70-1211-4bf7-83e2-807dd132a32b">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{DESCRIPCION}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{MES}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{TOTAL}]]></valueExpression>
+						<labelExpression><![CDATA[$F{TOTAL} + ""]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="true" isShowTickMarks="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</stackedBarChart>
+		</band>
+	</summary>
+</jasperReport>
