@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptStdVentas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="60b39f74-96de-4cdb-9675-762956723a7f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptStdVentas" pageWidth="1191" pageHeight="842" orientation="Landscape" columnWidth="1151" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="60b39f74-96de-4cdb-9675-762956723a7f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<subDataset name="dsVentas" uuid="46f233ff-2805-47be-9071-db996fbe2d17">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
@@ -62,18 +53,45 @@ ORDER BY ANHO]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	<title>
+		<band height="70">
+			<textField>
+				<reportElement x="170" y="30" width="368" height="20" uuid="30d37975-50ac-47b5-b42c-5368f581afa0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="0" width="368" height="30" uuid="e66fd974-5ac2-445c-a9b6-25c8c6a3b066"/>
+				<textElement verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE ESTADÍSTICO DE VENTAS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="159" height="70" uuid="04d9c9a9-913e-4c7d-9470-aace5a0a1789"/>
+				<imageExpression><![CDATA["img/logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="170" y="50" width="368" height="20" uuid="aa27213e-d05c-4f77-8eee-56f124f8d726"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
 	<summary>
-		<band height="353" splitType="Stretch">
+		<band height="510" splitType="Stretch">
 			<barChart>
 				<chart evaluationTime="Report" theme="eye.candy.sixties">
-					<reportElement x="0" y="0" width="800" height="353" uuid="5dceb32c-5e17-4dbc-a675-72d6a0acdb96"/>
+					<reportElement x="0" y="10" width="1150" height="500" uuid="5dceb32c-5e17-4dbc-a675-72d6a0acdb96"/>
 					<chartTitle>
-						<titleExpression><![CDATA["ESTADÍSTICO DE VENTAS DESDE" +
+						<titleExpression><![CDATA["DESDE" +
 new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{INICIO})).toUpperCase()  + " HASTA" + new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{FIN})).toUpperCase()]]></titleExpression>
 					</chartTitle>
-					<chartSubtitle>
-						<subtitleExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></subtitleExpression>
-					</chartSubtitle>
+					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
@@ -100,11 +118,22 @@ new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").pars
 					<itemLabel/>
 					<categoryAxisLabelExpression><![CDATA["MESES"]]></categoryAxisLabelExpression>
 					<categoryAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Calibri" size="18"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="10"/>
+							</tickLabelFont>
+						</axisFormat>
 					</categoryAxisFormat>
 					<valueAxisLabelExpression><![CDATA["VENTAS CONCRETADAS"]]></valueAxisLabelExpression>
 					<valueAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Calibri" size="18" isStrikeThrough="false"/>
+							</labelFont>
+						</axisFormat>
 					</valueAxisFormat>
 				</barPlot>
 			</barChart>

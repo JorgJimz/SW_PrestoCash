@@ -1,22 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptStdEmpeno" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9418d838-93d5-4703-8833-9b7f53720fe5">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptStdEmpeno" pageWidth="3370" pageHeight="2384" orientation="Landscape" columnWidth="3330" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9418d838-93d5-4703-8833-9b7f53720fe5">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#0088FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#E6F3FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005299">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="dsEmpeno" uuid="bd1c4581-d6a8-4295-96f2-42d134ed5ed4">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Prestocash"/>
+		<parameter name="INICIO" class="java.lang.String"/>
+		<parameter name="FIN" class="java.lang.String"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT YEAR(FECHA_CONTRATO) ANHO, UPPER(DATE_FORMAT(FECHA_CONTRATO,'%M')) MES,
+			<![CDATA[SELECT YEAR(FECHA_CONTRATO) ANHO, DATE_FORMAT(FECHA_CONTRATO,'%c') NRO_MES,
+UPPER(DATE_FORMAT(FECHA_CONTRATO,'%M')) MES,
  PRESTAMO_ID, 
  P.DESCRIPCION, COUNT(1) TOTAL FROM CONTRATO C
 INNER JOIN PRESTAMO P ON C.PRESTAMO_ID = P.ID
-WHERE FECHA_CONTRATO BETWEEN '2018-01-01' AND '2018-11-20'
+WHERE FECHA_CONTRATO BETWEEN  $P{INICIO}  AND  $P{FIN} 
 GROUP BY YEAR(FECHA_CONTRATO), MONTH(FECHA_CONTRATO),PRESTAMO_ID
 ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
 		</queryString>
 		<field name="ANHO" class="java.lang.Integer">
 			<property name="com.jaspersoft.studio.field.label" value="ANHO"/>
+		</field>
+		<field name="NRO_MES" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="NRO_MES"/>
 		</field>
 		<field name="MES" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="MES"/>
@@ -36,17 +87,24 @@ ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
 			<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
 		</variable>
 	</subDataset>
+	<parameter name="INICIO" class="java.lang.String"/>
+	<parameter name="FIN" class="java.lang.String"/>
+	<parameter name="SEDE" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT YEAR(FECHA_CONTRATO) ANHO, UPPER(DATE_FORMAT(FECHA_CONTRATO,'%M')) MES,
+		<![CDATA[SELECT YEAR(FECHA_CONTRATO) ANHO, DATE_FORMAT(FECHA_CONTRATO,'%c') NRO_MES,
+ UPPER(DATE_FORMAT(FECHA_CONTRATO,'%M')) MES,
  PRESTAMO_ID, 
  P.DESCRIPCION, COUNT(1) TOTAL FROM CONTRATO C
 INNER JOIN PRESTAMO P ON C.PRESTAMO_ID = P.ID
-WHERE FECHA_CONTRATO BETWEEN '2018-01-01' AND '2018-11-20'
+WHERE FECHA_CONTRATO BETWEEN  $P{INICIO}  AND  $P{FIN} 
 GROUP BY YEAR(FECHA_CONTRATO), MONTH(FECHA_CONTRATO),PRESTAMO_ID
 ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
 	</queryString>
 	<field name="ANHO" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="ANHO"/>
+	</field>
+	<field name="NRO_MES" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="NRO_MES"/>
 	</field>
 	<field name="MES" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="MES"/>
@@ -65,18 +123,56 @@ ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	<title>
+		<band height="79">
+			<textField>
+				<reportElement x="170" y="30" width="368" height="20" uuid="cc4dcb27-22f8-4e17-9f0a-8e5bb0cce1b2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="50" width="368" height="20" uuid="82517123-8be1-4ad6-b9c3-d79b9e4af5e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="0" width="368" height="30" uuid="0159e8ba-12c8-4152-b538-5e7daacd48c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE ESTADÍSTICO DE EMPEÑOS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="159" height="70" uuid="40db97d7-a041-4814-86e8-7401d88a2127"/>
+				<imageExpression><![CDATA["img/logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
 	<summary>
-		<band height="502" splitType="Stretch">
+		<band height="510" splitType="Stretch">
 			<stackedBarChart>
 				<chart evaluationTime="Report" theme="eye.candy.sixties">
-					<reportElement x="0" y="0" width="750" height="502" uuid="c5f469dc-4314-4ec9-834c-140ecfd4a5f3"/>
-					<chartTitle/>
+					<reportElement x="0" y="10" width="750" height="370" uuid="6106c295-2e0d-4964-a714-b861a9bd103c"/>
+					<chartTitle>
+						<titleExpression><![CDATA["DE" +
+new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{INICIO})).toUpperCase()  + " HASTA" + new SimpleDateFormat(" MMM yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{FIN})).toUpperCase()]]></titleExpression>
+					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="dsEmpeno" uuid="b3f42a70-1211-4bf7-83e2-807dd132a32b">
+						<datasetRun subDataset="dsEmpeno" uuid="d2f1fee4-8c20-45fc-8b9c-dac2375f99f5">
+							<datasetParameter name="INICIO">
+								<datasetParameterExpression><![CDATA[$P{INICIO}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="FIN">
+								<datasetParameterExpression><![CDATA[$P{FIN}]]></datasetParameterExpression>
+							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
@@ -90,14 +186,147 @@ ORDER BY ANHO, MONTH(FECHA_CONTRATO), PRESTAMO_ID]]>
 				<barPlot isShowLabels="true" isShowTickLabels="true" isShowTickMarks="true">
 					<plot/>
 					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA["MESES"]]></categoryAxisLabelExpression>
 					<categoryAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Calibri" size="18"/>
+							</labelFont>
+						</axisFormat>
 					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["NÚMERO DE EMPEÑOS"]]></valueAxisLabelExpression>
 					<valueAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Calibri" size="18"/>
+							</labelFont>
+						</axisFormat>
 					</valueAxisFormat>
 				</barPlot>
 			</stackedBarChart>
+			<crosstab>
+				<reportElement x="0" y="390" width="750" height="60" uuid="5ae5d62f-cd45-455e-9dd8-9a06144f6d00">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="dsEmpeno" uuid="5137312e-1eb8-4bf1-8ed8-4f03032c5487">
+							<datasetParameter name="INICIO">
+								<datasetParameterExpression><![CDATA[$P{INICIO}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="FIN">
+								<datasetParameterExpression><![CDATA[$P{FIN}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<rowGroup name="ANHO" width="60" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{ANHO}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="c77159db-c8d2-4118-9f95-a47fa59c752f"/>
+								<textElement>
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{ANHO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="761387ed-8837-4d50-8673-f27ae9ebfa48"/>
+								<textElement>
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="NRO_MES" height="20" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{NRO_MES}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="288a092d-557a-46a5-a3ae-c54fd1d26616"/>
+								<textElement>
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[(new java.text.DateFormatSymbols().getShortMonths()[$V{NRO_MES}-1]).toUpperCase()]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="e7540568-2c09-41d7-83e1-725454bc1671"/>
+								<textElement>
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<text><![CDATA[Total NRO_MES]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="TOTAL_MEASURE" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{TOTAL}]]></measureExpression>
+				</measure>
+				<crosstabCell width="60" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" uuid="b573a8a0-dbaa-4991-9847-90648dffc85f"/>
+							<textElement>
+								<font fontName="Calibri" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{TOTAL_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="NRO_MES">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="519f62db-3c68-4cbf-b1a6-825e714e4b96"/>
+							<textElement>
+								<font fontName="Calibri" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{TOTAL_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="ANHO">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="3fc26b9b-904c-4c0b-97db-acba74347e1c"/>
+							<textElement>
+								<font fontName="Calibri" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{TOTAL_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="ANHO" columnTotalGroup="NRO_MES">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="d9b0d24d-e6d0-4fcd-8e18-3be93f4cf118"/>
+							<textElement>
+								<font fontName="Calibri" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{TOTAL_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
 		</band>
 	</summary>
 </jasperReport>

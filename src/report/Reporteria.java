@@ -50,16 +50,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import view.Principal;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "serial", "deprecation" })
 public class Reporteria extends JInternalFrame {
 
@@ -233,7 +223,7 @@ public class Reporteria extends JInternalFrame {
 			}
 		});
 
-		btnEstadisticoVenta = new JButton();
+		btnEstadisticoVenta = new JButton(new ImageIcon("img/sale-report.png"));
 		btnEstadisticoVenta.setText("ESTADÍSTICO VENTAS");
 		btnEstadisticoVenta.setBounds(10, 336, 272, 70);
 		contenedor.add(btnEstadisticoVenta);
@@ -250,7 +240,7 @@ public class Reporteria extends JInternalFrame {
 			}
 		});
 
-		btnEstadisticoEmpeno = new JButton();
+		btnEstadisticoEmpeno = new JButton(new ImageIcon("img/pie-chart.png"));
 		btnEstadisticoEmpeno.setText("ESTADÍSTICO EMPEÑOS");
 		btnEstadisticoEmpeno.setBounds(10, 417, 272, 70);
 		contenedor.add(btnEstadisticoEmpeno);
@@ -263,7 +253,7 @@ public class Reporteria extends JInternalFrame {
 		btnEstadisticoEmpeno.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				MostrarEstadisticoEmpeno();
 			}
 		});
 
@@ -357,8 +347,23 @@ public class Reporteria extends JInternalFrame {
 			params.put("SEDE", Principal.SEDE.getDescripcion());
 			params.put("INICIO", String.valueOf(dcInicio.getDate()));
 			params.put("FIN", String.valueOf(dcFin.getDate()));
-			params.put("FECHAS", GenerarFiltroFechas());
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptStdVentas.jasper");
+			JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
+			JasperViewer viewer = new JasperViewer(print, false);
+			viewer.show();
+			viewer.toFront();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void MostrarEstadisticoEmpeno() {
+		try {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("SEDE", Principal.SEDE.getDescripcion());
+			params.put("INICIO", String.valueOf(dcInicio.getDate()));
+			params.put("FIN", String.valueOf(dcFin.getDate()));
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptStdEmpeno.jasper");
 			JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
 			JasperViewer viewer = new JasperViewer(print, false);
 			viewer.show();
