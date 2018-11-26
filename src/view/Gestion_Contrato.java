@@ -9,8 +9,16 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -1247,7 +1255,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnReimpresion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ImprimirFormato();
+				//ImprimirFormato();
+				ImprimirTicketPago();
 			}
 		});
 
@@ -1699,6 +1708,25 @@ public class Gestion_Contrato extends JInternalFrame {
 			e.printStackTrace();
 		}
 		dispose();
+	}
+	
+	public void ImprimirTicketPago() {
+		String[] lines = new String[] { "line 1", "line 2", "line 2" };
+	      Path path = Paths.get("logs/outputfile.txt");
+	      try (BufferedWriter br = Files.newBufferedWriter(path,
+	            Charset.defaultCharset(), StandardOpenOption.CREATE)) {
+	         Arrays.stream(lines).forEach((s) -> {
+	            try {
+	               br.write(s);
+	               br.newLine();
+	            } catch (IOException e) {
+	               throw new UncheckedIOException(e);
+	            }
+
+	         });
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
 	}
 
 }
