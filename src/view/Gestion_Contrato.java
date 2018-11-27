@@ -10,8 +10,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
@@ -21,6 +19,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +59,7 @@ import common.EditorC;
 import common.EditorIM;
 import common.JIconTextField;
 import common.JTranslucentPane;
+import common.NumberToLetter;
 import common.RenderC;
 import common.RenderHC;
 import common.RenderIM;
@@ -1019,7 +1019,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoInteres.setActionCommand("I");
 		rbPagoInteres.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				contrato.setOperacion("PAGAR SÓLO INTERESES");
+				contrato.setOperacion("PAGO SÓLO INTERESES");
 				if (contrato.getCuotas().compareTo(BigDecimal.ZERO) == 0) {
 					contrato.setInteresTotal(contrato.getInteresMensual());
 				}
@@ -1039,7 +1039,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoInteresMora.setActionCommand("IM");
 		rbPagoInteresMora.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				contrato.setOperacion("PAGAR INTERESES + MORA");
+				contrato.setOperacion("PAGO INTERESES + MORA");
 				if (contrato.getCuotas().compareTo(BigDecimal.ZERO) == 0) {
 					contrato.setInteresTotal(contrato.getInteresMensual());
 				}
@@ -1060,7 +1060,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbPagoMora.setBounds(12, 140, 197, 30);
 		rbPagoMora.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				contrato.setOperacion("PAGAR SÓLO MORA");
+				contrato.setOperacion("PAGO SÓLO MORA");
 				lblTotalAPagar.setText(String.valueOf(contrato.getMoraTotal()));
 				btnPagar.setEnabled(true);
 			}
@@ -1096,7 +1096,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		});
 		rbAbonarCapital.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				contrato.setOperacion("ABONAR AL CAPITAL");
+				contrato.setOperacion("ABONO AL CAPITAL");
 				btnPagar.setEnabled(true);
 			}
 		});
@@ -1126,7 +1126,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		});
 		rbCancelarContrato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				contrato.setOperacion("PAGAR TODO");
+				contrato.setOperacion("PAGO TOTAL");
 				CalcularInteres();
 				CalcularMoras();
 				BigDecimal total = contrato.getCapital().add(contrato.getInteresTotal()).add(contrato.getMoraTotal())
@@ -1255,8 +1255,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnReimpresion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ImprimirFormato();
-				ImprimirTicketPago();
+				ImprimirFormato();
 			}
 		});
 
@@ -1688,7 +1687,8 @@ public class Gestion_Contrato extends JInternalFrame {
 				break;
 			}
 			if (proceed) {
-				new ContratoController().GestionarContrato(contrato, ingreso);
+				// new ContratoController().GestionarContrato(contrato, ingreso);
+				ImprimirTicketPago(pago);
 				dispose();
 			}
 		} catch (Exception e) {
@@ -1696,9 +1696,9 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public void ImprimirFormato() {		
+	public void ImprimirFormato() {
 		ArrayList<Contrato> arreglo_contrato = new ArrayList<Contrato>();
-		arreglo_contrato.add(contrato);		
+		arreglo_contrato.add(contrato);
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/contrato.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,
@@ -1709,24 +1709,49 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 		dispose();
 	}
-	
-	public void ImprimirTicketPago() {
-		String[] lines = new String[] { "line 1", "line 2", "line 2" };
-	      Path path = Paths.get("logs/outputfile.txt");
-	      try (BufferedWriter br = Files.newBufferedWriter(path,
-	            Charset.defaultCharset(), StandardOpenOption.CREATE)) {
-	         Arrays.stream(lines).forEach((s) -> {
-	            try {
-	               br.write(s);
-	               br.newLine();
-	            } catch (IOException e) {
-	               throw new UncheckedIOException(e);
-	            }
 
-	         });
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
+	public void ImprimirTicketPago(Pago p) {
+		Path path = Paths.get("logs/ticket.txt");
+		try (BufferedWriter br = Files.newBufferedWriter(path, Charset.defaultCharset(), StandardOpenOption.CREATE)) {
+			br.write("PRESTOCASH " + Principal.SEDE.getDescripcion());
+			br.newLine();
+			br.write(Principal.SEDE.getDireccion());
+			br.newLine();
+			br.write("---------------------------------------------");
+			br.newLine();
+			br.write("FECHA: " + LocalDateTime.now());
+			br.newLine();
+			br.write("---------------------------------------------");
+			br.newLine();
+			br.newLine();
+			br.write("CLIENTE\t\t:\t" + contrato.getCliente().getNombreCompleto());
+			br.newLine();
+			br.write("D.I.\t\t:\t" + contrato.getCliente().getDocumento());
+			br.newLine();
+			br.write("TELÉFONO\t:\t" + contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2());
+			br.newLine();
+			br.write("DIRECCIÓN\t:\t" + contrato.getCliente().getDistrito());
+			br.newLine();
+			br.write("---------------------------------------------");
+			br.newLine();
+			br.write("CONTRATO\t:\t" + contrato.getFlag() + "-" + contrato.getNumero());
+			br.newLine();
+			br.write(contrato.getOperacion() + " [" + p.getDescripcion()+  "]");
+			br.newLine();
+			br.write("CAPITAL\t\t:\t" + p.getCapital());
+			br.newLine();
+			br.write("INTERÉS\t\t:\t" + p.getInteres());
+			br.newLine();
+			br.write("MORA\t\t:\t" + p.getMora());
+			br.newLine();
+			br.write("TOTAL\t\t:\t" + p.getCapital().add(p.getInteres()).add(p.getMora()));
+			br.newLine();
+			br.write(new NumberToLetter().convertir(String.valueOf(p.getCapital().add(p.getInteres()).add(p.getMora())),
+					true, "SOLES"));
+			br.newLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

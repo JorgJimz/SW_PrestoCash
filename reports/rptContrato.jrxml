@@ -46,12 +46,22 @@
 		<parameter name="ESTADOS" class="java.util.List"/>
 		<parameter name="FECHAS" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
+			<![CDATA[SELECT DISTINCT TEMP.ID, TEMP.PRESTAMO, TEMP.FLAG, TEMP.NUMERO,
+TEMP.FECHA_CONTRATO, TEMP.FECHA_VENCIMIENTO, TEMP.FECHA_REMATE,
+COALESCE(MAX(PG.FECHA_PAGO) OVER (PARTITION BY TEMP.ID),'-')AS VENCIMIENTO_ANTERIOR,
+DATEDIFF(NOW(),TEMP.FECHA_VENCIMIENTO) AS VENCIDOS,
+COALESCE(DATEDIFF(NOW(),MAX(PG.FECHA_PAGO) OVER (PARTITION BY TEMP.ID)),'-') AS VENCIDO_ULTIMO_PAGO,
+TEMP.CAPITAL, 
+TEMP.INTERES_MENSUAL, TEMP.ESTADO_CONTRATO, TEMP.COD_ARTICULO, TEMP.CANTIDAD,
+TEMP.ARTICULO, TEMP.MARCA, TEMP.MODELO, TEMP.TASACION, TEMP.ESTADO_ARTICULO, TEMP.PRECIO_VENTA,
+COALESCE(MAX(CC.FECHA) OVER (PARTITION BY TEMP.COD_ARTICULO),'-') AS ULTIMO_CARGO, COALESCE(S.DESCRIPCION,(SELECT DESCRIPCION FROM sede WHERE PRINCIPAL = 'SI')) AS UBICACION,
+TEMP.CLIENTE, TEMP.DOCUMENTO, TEMP.T_DOCUMENTO, TEMP.TELEFONO
+FROM (SELECT C.ID, C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
 C.FECHA_CONTRATO, C.FECHA_VENCIMIENTO, C.FECHA_REMATE,
-EC.DESCRIPCION AS ESTADO, 
-A.DESCRIPCION AS ARTICULO, A.MARCA, A.MODELO,
-DC.TASACION,
-K.NOMBRES, K.PATERNO, K.MATERNO, K.DOCUMENTO, K.T_DOCUMENTO, K.TLF1, K.TLF2,
+EC.DESCRIPCION AS ESTADO_CONTRATO, A.ID AS COD_ARTICULO,
+A.DESCRIPCION AS ARTICULO, A.MARCA, A.MODELO, A.PRECIO_VENTA,
+DC.TASACION, DC.CANTIDAD, EA.DESCRIPCION ESTADO_ARTICULO,
+CONCAT(K.NOMBRES,' ', K.PATERNO,' ', K.MATERNO) AS CLIENTE, K.T_DOCUMENTO, K.DOCUMENTO, CONCAT(K.TLF1,'/',K.TLF2) AS TELEFONO,
 P.DESCRIPCION AS PRESTAMO
 FROM contrato C 
 	INNER JOIN detalle_contrato DC ON C.ID = DC.CONTRATO_ID 
@@ -59,26 +69,31 @@ FROM contrato C
 	INNER JOIN cliente K ON C.CLIENTE_ID = K.ID
 	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
 	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID
+	INNER JOIN e_articulo EA ON A.E_ARTICULO_ID = EA.ID	
+) AS TEMP
+LEFT JOIN pago PG ON TEMP.ID = PG.CONTRATO_ID
+LEFT JOIN detalle_cargo DK ON TEMP.COD_ARTICULO = DK.ARTICULO_ID AND TEMP.ID = DK.CONTRATO_ID
+LEFT JOIN cargo CC ON DK.CARGO_ID = CC.ID
+LEFT JOIN sede S ON DK.SEDE_ID = S.ID
 WHERE 
-$X{IN,EC.DESCRIPCION,ESTADOS}
+$X{IN,TEMP.ESTADO_CONTRATO,ESTADOS}
 AND
-$X{IN,P.DESCRIPCION,PRESTAMOS}
+$X{IN,TEMP.PRESTAMO,PRESTAMOS}
 $P!{FECHAS}]]>
 		</queryString>
+		<field name="ID" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="PRESTAMO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="PRESTAMO"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+		</field>
 		<field name="FLAG" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
 		</field>
 		<field name="NUMERO" class="java.lang.Integer">
 			<property name="com.jaspersoft.studio.field.label" value="NUMERO"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
-		</field>
-		<field name="CAPITAL" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.label" value="CAPITAL"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
-		</field>
-		<field name="INTERES_MENSUAL" class="java.math.BigDecimal">
-			<property name="com.jaspersoft.studio.field.label" value="INTERES_MENSUAL"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
 		</field>
 		<field name="FECHA_CONTRATO" class="java.lang.String">
@@ -93,9 +108,31 @@ $P!{FECHAS}]]>
 			<property name="com.jaspersoft.studio.field.label" value="FECHA_REMATE"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
 		</field>
-		<field name="ESTADO" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="ESTADO"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="e_contrato"/>
+		<field name="VENCIMIENTO_ANTERIOR" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="VENCIMIENTO_ANTERIOR"/>
+		</field>
+		<field name="VENCIDOS" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="VENCIDOS"/>
+		</field>
+		<field name="VENCIDO_ULTIMO_PAGO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="VENCIDO_ULTIMO_PAGO"/>
+		</field>
+		<field name="CAPITAL" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="CAPITAL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="INTERES_MENSUAL" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="INTERES_MENSUAL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+		</field>
+		<field name="ESTADO_CONTRATO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ESTADO_CONTRATO"/>
+		</field>
+		<field name="COD_ARTICULO" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="COD_ARTICULO"/>
+		</field>
+		<field name="CANTIDAD" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="CANTIDAD"/>
 		</field>
 		<field name="ARTICULO" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="ARTICULO"/>
@@ -113,17 +150,20 @@ $P!{FECHAS}]]>
 			<property name="com.jaspersoft.studio.field.label" value="TASACION"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_contrato"/>
 		</field>
-		<field name="NOMBRES" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="NOMBRES"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		<field name="ESTADO_ARTICULO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ESTADO_ARTICULO"/>
 		</field>
-		<field name="PATERNO" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="PATERNO"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		<field name="PRECIO_VENTA" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="PRECIO_VENTA"/>
 		</field>
-		<field name="MATERNO" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="MATERNO"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+		<field name="ULTIMO_CARGO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ULTIMO_CARGO"/>
+		</field>
+		<field name="UBICACION" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="UBICACION"/>
+		</field>
+		<field name="CLIENTE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="CLIENTE"/>
 		</field>
 		<field name="DOCUMENTO" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="DOCUMENTO"/>
@@ -133,17 +173,8 @@ $P!{FECHAS}]]>
 			<property name="com.jaspersoft.studio.field.label" value="T_DOCUMENTO"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
 		</field>
-		<field name="TLF1" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="TLF1"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
-		</field>
-		<field name="TLF2" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="TLF2"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
-		</field>
-		<field name="PRESTAMO" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="PRESTAMO"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+		<field name="TELEFONO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="TELEFONO"/>
 		</field>
 	</subDataset>
 	<parameter name="FECHAS" class="java.lang.String"/>
@@ -151,11 +182,22 @@ $P!{FECHAS}]]>
 	<parameter name="ESTADOS" class="java.util.List"/>
 	<parameter name="SEDE" class="java.lang.String" isForPrompting="false"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
-EC.DESCRIPCION AS ESTADO, 
-A.DESCRIPCION AS ARTICULO, A.MARCA, A.MODELO,
-DC.TASACION,
-K.NOMBRES, K.PATERNO, K.MATERNO, K.DOCUMENTO, K.T_DOCUMENTO, K.TLF1, K.TLF2,
+		<![CDATA[SELECT DISTINCT TEMP.ID, TEMP.PRESTAMO, TEMP.FLAG, TEMP.NUMERO,
+TEMP.FECHA_CONTRATO, TEMP.FECHA_VENCIMIENTO, TEMP.FECHA_REMATE,
+COALESCE(MAX(PG.FECHA_PAGO) OVER (PARTITION BY TEMP.ID),'-')AS VENCIMIENTO_ANTERIOR,
+DATEDIFF(NOW(),TEMP.FECHA_VENCIMIENTO) AS VENCIDOS,
+COALESCE(DATEDIFF(NOW(),MAX(PG.FECHA_PAGO) OVER (PARTITION BY TEMP.ID)),'-') AS VENCIDO_ULTIMO_PAGO,
+TEMP.CAPITAL, 
+TEMP.INTERES_MENSUAL, TEMP.ESTADO_CONTRATO, TEMP.COD_ARTICULO, TEMP.CANTIDAD,
+TEMP.ARTICULO, TEMP.MARCA, TEMP.MODELO, TEMP.TASACION, TEMP.ESTADO_ARTICULO, TEMP.PRECIO_VENTA,
+COALESCE(MAX(CC.FECHA) OVER (PARTITION BY TEMP.COD_ARTICULO),'-') AS ULTIMO_CARGO, COALESCE(S.DESCRIPCION,(SELECT DESCRIPCION FROM sede WHERE PRINCIPAL = 'SI')) AS UBICACION,
+TEMP.CLIENTE, TEMP.DOCUMENTO, TEMP.T_DOCUMENTO, TEMP.TELEFONO
+FROM (SELECT C.ID, C.FLAG, C.NUMERO, C.CAPITAL, C.INTERES_MENSUAL, 
+C.FECHA_CONTRATO, C.FECHA_VENCIMIENTO, C.FECHA_REMATE,
+EC.DESCRIPCION AS ESTADO_CONTRATO, A.ID AS COD_ARTICULO,
+A.DESCRIPCION AS ARTICULO, A.MARCA, A.MODELO, A.PRECIO_VENTA,
+DC.TASACION, DC.CANTIDAD, EA.DESCRIPCION ESTADO_ARTICULO,
+CONCAT(K.NOMBRES,' ', K.PATERNO,' ', K.MATERNO) AS CLIENTE, K.T_DOCUMENTO, K.DOCUMENTO, CONCAT(K.TLF1,'/',K.TLF2) AS TELEFONO,
 P.DESCRIPCION AS PRESTAMO
 FROM contrato C 
 	INNER JOIN detalle_contrato DC ON C.ID = DC.CONTRATO_ID 
@@ -163,12 +205,25 @@ FROM contrato C
 	INNER JOIN cliente K ON C.CLIENTE_ID = K.ID
 	INNER JOIN e_contrato EC ON C.E_CONTRATO_ID = EC.ID
 	INNER JOIN prestamo P ON C.PRESTAMO_ID = P.ID
+	INNER JOIN e_articulo EA ON A.E_ARTICULO_ID = EA.ID	
+) AS TEMP
+LEFT JOIN pago PG ON TEMP.ID = PG.CONTRATO_ID
+LEFT JOIN detalle_cargo DK ON TEMP.COD_ARTICULO = DK.ARTICULO_ID AND TEMP.ID = DK.CONTRATO_ID
+LEFT JOIN cargo CC ON DK.CARGO_ID = CC.ID
+LEFT JOIN sede S ON DK.SEDE_ID = S.ID
 WHERE 
-$X{IN,EC.DESCRIPCION,ESTADOS}
+$X{IN,TEMP.ESTADO_CONTRATO,ESTADOS}
 AND
-$X{IN,P.DESCRIPCION,PRESTAMOS}
+$X{IN,TEMP.PRESTAMO,PRESTAMOS}
 $P!{FECHAS}]]>
 	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+	</field>
+	<field name="PRESTAMO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PRESTAMO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+	</field>
 	<field name="FLAG" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="FLAG"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
@@ -176,6 +231,24 @@ $P!{FECHAS}]]>
 	<field name="NUMERO" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="NUMERO"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
+	</field>
+	<field name="FECHA_CONTRATO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FECHA_CONTRATO"/>
+	</field>
+	<field name="FECHA_VENCIMIENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FECHA_VENCIMIENTO"/>
+	</field>
+	<field name="FECHA_REMATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FECHA_REMATE"/>
+	</field>
+	<field name="VENCIMIENTO_ANTERIOR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VENCIMIENTO_ANTERIOR"/>
+	</field>
+	<field name="VENCIDOS" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="VENCIDOS"/>
+	</field>
+	<field name="VENCIDO_ULTIMO_PAGO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VENCIDO_ULTIMO_PAGO"/>
 	</field>
 	<field name="CAPITAL" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="CAPITAL"/>
@@ -185,9 +258,14 @@ $P!{FECHAS}]]>
 		<property name="com.jaspersoft.studio.field.label" value="INTERES_MENSUAL"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="contrato"/>
 	</field>
-	<field name="ESTADO" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="ESTADO"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="e_contrato"/>
+	<field name="ESTADO_CONTRATO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ESTADO_CONTRATO"/>
+	</field>
+	<field name="COD_ARTICULO" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="COD_ARTICULO"/>
+	</field>
+	<field name="CANTIDAD" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="CANTIDAD"/>
 	</field>
 	<field name="ARTICULO" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="ARTICULO"/>
@@ -205,17 +283,20 @@ $P!{FECHAS}]]>
 		<property name="com.jaspersoft.studio.field.label" value="TASACION"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="detalle_contrato"/>
 	</field>
-	<field name="NOMBRES" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="NOMBRES"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="ESTADO_ARTICULO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ESTADO_ARTICULO"/>
 	</field>
-	<field name="PATERNO" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="PATERNO"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="PRECIO_VENTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="PRECIO_VENTA"/>
 	</field>
-	<field name="MATERNO" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="MATERNO"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="ULTIMO_CARGO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ULTIMO_CARGO"/>
+	</field>
+	<field name="UBICACION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="UBICACION"/>
+	</field>
+	<field name="CLIENTE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CLIENTE"/>
 	</field>
 	<field name="DOCUMENTO" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="DOCUMENTO"/>
@@ -225,17 +306,8 @@ $P!{FECHAS}]]>
 		<property name="com.jaspersoft.studio.field.label" value="T_DOCUMENTO"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
 	</field>
-	<field name="TLF1" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="TLF1"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
-	</field>
-	<field name="TLF2" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="TLF2"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
-	</field>
-	<field name="PRESTAMO" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="PRESTAMO"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="prestamo"/>
+	<field name="TELEFONO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TELEFONO"/>
 	</field>
 	<variable name="TOTAL" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{NUMERO}]]></variableExpression>
@@ -329,7 +401,7 @@ $P!{FECHAS}]]>
 							<textField>
 								<reportElement x="0" y="0" width="67" height="30" uuid="6b8b2bec-3242-4f7e-8804-54ae3ff0110a"/>
 								<textElement textAlignment="Left"/>
-								<textFieldExpression><![CDATA[$F{ESTADO}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{ESTADO_CONTRATO}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -350,7 +422,7 @@ $P!{FECHAS}]]>
 								<textElement textAlignment="Left">
 									<font size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{NOMBRES}.split(" ")[0] + " " + $F{PATERNO}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -388,7 +460,7 @@ $P!{FECHAS}]]>
 							<textField>
 								<reportElement x="0" y="0" width="55" height="30" uuid="cbd52294-89bd-4e4a-85fa-9db5cd4daaef"/>
 								<textElement textAlignment="Left"/>
-								<textFieldExpression><![CDATA[$F{TLF1} + " / " + $F{TLF2}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{TELEFONO}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
