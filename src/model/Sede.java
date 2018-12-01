@@ -30,6 +30,14 @@ public class Sede implements Serializable {
 
 	private String principal;
 
+	@Column(name = "TELEFONO_1")
+	private String telefono1;
+
+	@Column(name = "TELEFONO_2")
+	private String telefono2;
+
+	private String email;
+
 	// bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy = "sede")
 	private List<DetalleCargo> detalleCargos;
@@ -99,6 +107,30 @@ public class Sede implements Serializable {
 
 	public void setTSede(String tSede) {
 		this.tSede = tSede;
+	}
+
+	public String getTelefono1() {
+		return telefono1;
+	}
+
+	public void setTelefono1(String telefono1) {
+		this.telefono1 = telefono1;
+	}
+
+	public String getTelefono2() {
+		return telefono2;
+	}
+
+	public void setTelefono2(String telefono2) {
+		this.telefono2 = telefono2;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public List<DetalleCargo> getDetalleCargos() {

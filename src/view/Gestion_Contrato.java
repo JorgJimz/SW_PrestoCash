@@ -1687,7 +1687,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				break;
 			}
 			if (proceed) {
-				// new ContratoController().GestionarContrato(contrato, ingreso);
+				new ContratoController().GestionarContrato(contrato, ingreso);
 				ImprimirTicketPago(pago);
 				dispose();
 			}
@@ -1717,9 +1717,11 @@ public class Gestion_Contrato extends JInternalFrame {
 			br.newLine();
 			br.write(Principal.SEDE.getDireccion());
 			br.newLine();
-			br.write("---------------------------------------------");
+			br.write("TELÉFONOS:" + Principal.SEDE.getTelefono1() + "/" + Principal.SEDE.getTelefono2());
 			br.newLine();
-			br.write("FECHA: " + LocalDateTime.now());
+			br.write("---------------------------------------------");
+			br.newLine(); 	
+			br.write("FECHA: " + Constantes.formatoDiaHora.format(LocalDateTime.now()));
 			br.newLine();
 			br.write("---------------------------------------------");
 			br.newLine();

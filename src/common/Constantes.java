@@ -147,6 +147,7 @@ public class Constantes {
 	public static DateTimeFormatter formatoLocal = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	public static DateTimeFormatter formatoSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM");
+	public static DateTimeFormatter formatoDiaHora = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
 
 	public static SimpleDateFormat formatoSQL_2 = new SimpleDateFormat("yyyy-MM-dd");
 
