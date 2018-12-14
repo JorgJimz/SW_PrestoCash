@@ -153,6 +153,8 @@ public class Contrato implements Serializable {
 	@PostLoad
 	public void procesarCamposCalculados() {
 		try {
+			interesMensual = Utiles
+					.redondearCentimos(interesMensual);
 			interesDiario = Utiles
 					.redondearCentimos(interesMensual.divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP));
 			LocalDate hoy = LocalDate.now();
