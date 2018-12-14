@@ -83,6 +83,8 @@ import model.Mora;
 import model.Pago;
 import model.Sede;
 import model.Seguimiento;
+import model.Separacion;
+import model.Venta;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
@@ -1280,7 +1282,6 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlSucesos.setVisible(true);
 		switch (k.getEContrato().getId()) {
 		case 6:
-			// CANCELADO
 			Pago cancelacion = k.getPagos().stream().filter(Constantes.predicadoPago).findFirst().orElse(Pago.DEFAULT);
 			BigDecimal montoCancelacion = cancelacion.getCapital().add(cancelacion.getInteres())
 					.add(cancelacion.getMora());
@@ -1289,49 +1290,30 @@ public class Gestion_Contrato extends JInternalFrame {
 					+ " </h3>" + "<h3>IMPORTE: " + montoCancelacion + "</h3>" + "</center>" + "</html>");
 			break;
 		case 9:
-			// VITRINA
-			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>EN VITRINA</h1>" + "<h3>DÍA: "
-					+ /*
-						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
-						 * ))).toUpperCase() +
-						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */ "</h3>" + "</center>"
-					+ "</html>");
+			edpMensajeSuceso
+					.setText("<html>" + "<center>" + "<h1 style='color:red'>EN VITRINA</h1>" + "<h3>DÍA: "
+							+ Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion()))
+									.toUpperCase()
+							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
+							+ "</html>");
 			break;
 		case 10:
-			// SEPARADO
-			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>SEPARADO</h1>" + "<h3>DÍA: "
-					+ /*
-						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
-						 * ))).toUpperCase() +
-						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */ "</h3>" + "</center>"
-					+ "</html>");
+			CargarSeparaciones();
 			break;
 		case 11:
-			// REMATADO
-			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>REMATADO</h1>" + "<h3>DÍA: "
-					+ /*
-						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
-						 * ))).toUpperCase() +
-						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */"</h3>" + "</center>"
-					+ "</html>");
+			CargarRemates();
 			break;
 		case 12:
-			// USO OFICINA
-			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>ANULADO</h1>" + "<h3>DÍA: "
-					+ /*
-						 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
-						 * ))).toUpperCase() +
-						 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */"</h3>" + "</center>"
-					+ "</html>");
+			edpMensajeSuceso
+					.setText("<html>" + "<center>" + "<h1 style='color:red'>ANULADO</h1>" + "<h3>FECHA: "
+							+ Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion()))
+									.toUpperCase()
+							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
+							+ "</html>");
 			break;
 		case 13:
-			// VITRINA (SP)
-			edpMensajeSuceso.setText("<html>" + "<center>" + "<h1 style='color:red'>PARA VITRINA (SP)</h1>"
-					+ "<h3>DÍA: " + /*
-									 * Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion(
-									 * ))).toUpperCase() +
-									 */ " </h3>" + "<h3>USUARIO: " + /* contrato.getUsuarioModificacion() + */ "</h3>"
-					+ "</center>" + "</html>");
+			edpMensajeSuceso.setText(
+					"<html>" + "<center>" + "<h1 style='color:red'>PARA VITRINA [SIN PRECIO]</h1></center></html>");
 			break;
 		default:
 			edpMensajeSuceso
@@ -1378,6 +1360,40 @@ public class Gestion_Contrato extends JInternalFrame {
 					dc.getTasacion().setScale(2, RoundingMode.HALF_UP), dc.getArticulo().getEArticulo(), ubicacion,
 					dc.getArticulo().getEArticulo().getId() });
 		}
+	}
+
+	public void CargarSeparaciones() {
+		StringBuffer sbs = new StringBuffer("");
+		BigDecimal cnSp = BigDecimal.ZERO;
+		for (DetalleContrato dc : contrato.getDetalleContratos()) {
+			for (Separacion s : dc.getArticulo().getSeparacions()) {
+				sbs.append(
+						"ARTÍCULO: " + s.getArticulo().getDescripcion() + " " + s.getArticulo().getMarca() + "<br/>");
+				sbs.append("FECHA: " + Constantes.formatoLocal.format(LocalDate.parse(s.getFecha())).toUpperCase()
+						+ "<br/>");
+				cnSp = cnSp.add(s.getImporte());
+			}
+			sbs.append("TOTAL: " + cnSp + "<br/>");
+			sbs.append("<hr/>");
+		}
+		edpMensajeSuceso
+				.setText("<html><center><h1 style='color:red'>SEPARADO</h1></center><h5>" + sbs + "</h5></html>");
+	}
+
+	public void CargarRemates() {
+		StringBuffer sbs = new StringBuffer("");
+		for (DetalleContrato dc : contrato.getDetalleContratos()) {
+			for (Venta v : dc.getArticulo().getVentas()) {
+				sbs.append(
+						"ARTÍCULO: " + v.getArticulo().getDescripcion() + " " + v.getArticulo().getMarca() + "<br/>");
+				sbs.append("FECHA: " + Constantes.formatoLocal.format(LocalDate.parse(v.getFecha())).toUpperCase()
+						+ "<br/>");
+				sbs.append("IMPORTE: " + v.getImporte() + "<br/>");
+			}
+			sbs.append("<hr/>");
+		}
+		edpMensajeSuceso
+				.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>" + sbs + "</h5></html>");
 	}
 
 	public void CargarSeguimiento() {
@@ -1720,7 +1736,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			br.write("TELÉFONOS:" + Principal.SEDE.getTelefono1() + "/" + Principal.SEDE.getTelefono2());
 			br.newLine();
 			br.write("---------------------------------------------");
-			br.newLine(); 	
+			br.newLine();
 			br.write("FECHA: " + Constantes.formatoDiaHora.format(LocalDateTime.now()));
 			br.newLine();
 			br.write("---------------------------------------------");
@@ -1738,7 +1754,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			br.newLine();
 			br.write("CONTRATO\t:\t" + contrato.getFlag() + "-" + contrato.getNumero());
 			br.newLine();
-			br.write(contrato.getOperacion() + " [" + p.getDescripcion()+  "]");
+			br.write(contrato.getOperacion() + " [" + p.getDescripcion() + "]");
 			br.newLine();
 			br.write("CAPITAL\t\t:\t" + p.getCapital());
 			br.newLine();
