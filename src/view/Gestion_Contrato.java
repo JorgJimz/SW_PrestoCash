@@ -9,14 +9,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -46,6 +44,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
@@ -1652,6 +1651,7 @@ public class Gestion_Contrato extends JInternalFrame {
 										+ limite + " días",
 								JOptionPane.WARNING_MESSAGE);
 					}
+
 				} else {
 					Utiles.Mensaje("Ingrese el importe.", JOptionPane.ERROR_MESSAGE);
 				}
@@ -1703,10 +1703,13 @@ public class Gestion_Contrato extends JInternalFrame {
 				break;
 			}
 			if (proceed) {
-				new ContratoController().GestionarContrato(contrato, ingreso);
+				// new ContratoController().GestionarContrato(contrato, ingreso);
 				ImprimirTicketPago(pago);
-				dispose();
+				// dispose();
 			}
+		} catch (NoSuchElementException e) {
+			Utiles.Mensaje("Debe tener como mínimo un pago realizado para poder realizar un abono.",
+					JOptionPane.WARNING_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1727,46 +1730,41 @@ public class Gestion_Contrato extends JInternalFrame {
 	}
 
 	public void ImprimirTicketPago(Pago p) {
-		Path path = Paths.get("logs/ticket.txt");
-		try (BufferedWriter br = Files.newBufferedWriter(path, Charset.defaultCharset(), StandardOpenOption.CREATE)) {
-			br.write("PRESTOCASH " + Principal.SEDE.getDescripcion());
-			br.newLine();
-			br.write(Principal.SEDE.getDireccion());
-			br.newLine();
-			br.write("TELÉFONOS:" + Principal.SEDE.getTelefono1() + "/" + Principal.SEDE.getTelefono2());
-			br.newLine();
-			br.write("---------------------------------------------");
-			br.newLine();
-			br.write("FECHA: " + Constantes.formatoDiaHora.format(LocalDateTime.now()));
-			br.newLine();
-			br.write("---------------------------------------------");
-			br.newLine();
-			br.newLine();
-			br.write("CLIENTE\t\t:\t" + contrato.getCliente().getNombreCompleto());
-			br.newLine();
-			br.write("D.I.\t\t:\t" + contrato.getCliente().getDocumento());
-			br.newLine();
-			br.write("TELÉFONO\t:\t" + contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2());
-			br.newLine();
-			br.write("DIRECCIÓN\t:\t" + contrato.getCliente().getDistrito());
-			br.newLine();
-			br.write("---------------------------------------------");
-			br.newLine();
-			br.write("CONTRATO\t:\t" + contrato.getFlag() + "-" + contrato.getNumero());
-			br.newLine();
-			br.write(contrato.getOperacion() + " [" + p.getDescripcion() + "]");
-			br.newLine();
-			br.write("CAPITAL\t\t:\t" + p.getCapital());
-			br.newLine();
-			br.write("INTERÉS\t\t:\t" + p.getInteres());
-			br.newLine();
-			br.write("MORA\t\t:\t" + p.getMora());
-			br.newLine();
-			br.write("TOTAL\t\t:\t" + p.getCapital().add(p.getInteres()).add(p.getMora()));
-			br.newLine();
-			br.write(new NumberToLetter().convertir(String.valueOf(p.getCapital().add(p.getInteres()).add(p.getMora())),
-					true, "SOLES"));
-			br.newLine();
+		try {
+			StringBuffer output = new StringBuffer();
+			output.append("PRESTOCASH " + Principal.SEDE.getDescripcion() + "\n");
+			output.append(Principal.SEDE.getDireccion() + "\n");
+			output.append("TELÉFONOS:" + Principal.SEDE.getTelefono1() + "/" + Principal.SEDE.getTelefono2() + "\n");
+			output.append("-----------------------------------------------------------------------" + "\n");
+			output.append("FECHA: " + Constantes.formatoDiaHora.format(LocalDateTime.now()) + "\n");
+			output.append("-----------------------------------------------------------------------" + "\n");
+			output.append("CLIENTE:\n");
+			output.append(contrato.getCliente().getNombreCompleto() + "\n");
+			output.append("D.I.\t: " + contrato.getCliente().getDocumento() + "\n");
+			output.append(
+					"TELÉFONO\t: " + contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2() + "\n");
+			// output.append("DIRECCIÓN\t:\t" + contrato.getCliente().getDistrito()+ "\n");
+			output.append("-----------------------------------------------------------------------" + "\n");
+			output.append("CONTRATO\t: " + contrato.getFlag() + "-" + contrato.getNumero() + "\n");
+			output.append(contrato.getOperacion() + " [" + p.getDescripcion() + "]" + "\n");
+			output.append("CAPITAL\t: " + p.getCapital() + "\n");
+			output.append("INTERÉS\t: " + p.getInteres() + "\n");
+			output.append("MORA\t: " + p.getMora() + "\n");
+			output.append("TOTAL\t: " + p.getCapital().add(p.getInteres()).add(p.getMora()) + "\n");
+			output.append(new NumberToLetter().convertir(
+					String.valueOf(p.getCapital().add(p.getInteres()).add(p.getMora())), true, "SOLES") + "\n");
+			int margin = 0;
+			JTextPane jtp = new JTextPane();
+			jtp.setText(String.valueOf(output));
+			jtp.setFont(new Font(Font.SANS_SERIF, 0, 8));
+			PrinterJob printerJob = PrinterJob.getPrinterJob();
+			PageFormat pageFormat = printerJob.defaultPage();
+			Paper paper = new Paper();
+			paper.setImageableArea(margin, margin, paper.getWidth() - margin * 2, paper.getHeight() - margin * 2);
+			pageFormat.setPaper(paper);
+			pageFormat.setOrientation(PageFormat.PORTRAIT);
+			printerJob.setPrintable(jtp.getPrintable(null, null), pageFormat);
+			printerJob.print();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
