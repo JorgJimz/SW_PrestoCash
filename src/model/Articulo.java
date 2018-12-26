@@ -28,7 +28,11 @@ public class Articulo implements Serializable {
 	@Column(name = "CAPITAL_CONTRATO")
 	private BigDecimal capitalContrato;
 
-	private String contrato;
+	@Column(name = "NUMERO_CONTRATO")
+	private String numeroContrato;
+
+	@Column(name = "FLAG_CONTRATO")
+	private String flagContrato;
 
 	private String descripcion;
 
@@ -118,12 +122,20 @@ public class Articulo implements Serializable {
 		this.capitalContrato = capitalContrato;
 	}
 
-	public String getContrato() {
-		return this.contrato;
+	public String getNumeroContrato() {
+		return numeroContrato;
 	}
 
-	public void setContrato(String contrato) {
-		this.contrato = contrato;
+	public void setNumeroContrato(String numeroContrato) {
+		this.numeroContrato = numeroContrato;
+	}
+
+	public String getFlagContrato() {
+		return flagContrato;
+	}
+
+	public void setFlagContrato(String flagContrato) {
+		this.flagContrato = flagContrato;
 	}
 
 	public String getDescripcion() {
