@@ -1702,9 +1702,9 @@ public class Gestion_Contrato extends JInternalFrame {
 				break;
 			}
 			if (proceed) {
-				// new ContratoController().GestionarContrato(contrato, ingreso);
+				new ContratoController().GestionarContrato(contrato, ingreso);
 				ImprimirTicketPago(pago);
-				// dispose();
+				dispose();
 			}
 		} catch (NoSuchElementException e) {
 			Utiles.Mensaje("Debe tener como mínimo un pago realizado para poder realizar un abono.",

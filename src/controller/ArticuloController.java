@@ -175,7 +175,7 @@ public class ArticuloController {
 		try {
 			Query q = em
 					.createQuery(
-							"SELECT a FROM Articulo a WHERE a.EArticulo.id = 5 AND a.precioVenta > 0",
+							"SELECT a FROM Articulo a WHERE a.EArticulo.id = 5 AND a.precioVenta > 0 ORDER BY a.contrato",
 							Articulo.class);
 			l = q.getResultList();
 		} catch (Exception e) {
