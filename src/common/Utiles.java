@@ -81,7 +81,6 @@ public class Utiles {
 
 	public static boolean Validar(Container pnl) {
 		boolean val = true;
-
 		for (Object o : pnl.getComponents()) {
 			if (o instanceof JIconTextField && !(o instanceof JXSearchField)) {
 				if (((JIconTextField) o).getText().equals("")) {
@@ -202,8 +201,9 @@ public class Utiles {
 			if (hoy.isAfter(gcPost)) {
 				c.setEContrato(new EContrato(EContrato.VITRINA_SP));
 				for (DetalleContrato dc : c.getDetalleContratos()) {
-					if (dc.getArticulo().getEArticulo().getId() != EArticulo.VITRINA) {
-						dc.getArticulo().getEArticulo().setId(EArticulo.VITRINA);
+					if (dc.getArticulo().getEArticulo().getId() != EArticulo.VITRINA
+							|| dc.getArticulo().getEArticulo().getId() != EArticulo.SIN_PRECIO) {
+						dc.getArticulo().getEArticulo().setId(EArticulo.SIN_PRECIO);
 						dc.getArticulo().setContrato(c.getFlag() + "-" + c.getNumero());
 						dc.getArticulo().setCapitalContrato(c.getCapital());
 						dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));

@@ -866,8 +866,7 @@ public class Gestion_Contrato extends JInternalFrame {
 							DetalleCargo detalle_cargo = new DetalleCargo();
 							detalle_cargo.setContrato(contrato);
 							Articulo articulo = new ArticuloController().ObtenerArticulo(
-									Integer.parseInt(DetalleContratoModel.getValueAt(i, 0).toString()));
-							articulo.setExEArticulo(articulo.getEArticulo());
+									Integer.parseInt(DetalleContratoModel.getValueAt(i, 0).toString()));							
 							articulo.setEArticulo(new EArticulo(4, "CON CARGO"));
 							detalle_cargo.setArticulo(articulo);
 							Sede sede = new Sede();

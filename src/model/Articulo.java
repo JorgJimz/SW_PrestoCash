@@ -70,9 +70,6 @@ public class Articulo implements Serializable {
 	@Transient
 	private String documentoCliente;
 
-	@Transient
-	private EArticulo exEArticulo;
-
 	// bi-directional many-to-one association to EArticulo
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "E_ARTICULO_ID")
@@ -367,12 +364,9 @@ public class Articulo implements Serializable {
 		this.documentoCliente = documentoCliente;
 	}
 
-	public EArticulo getExEArticulo() {
-		return exEArticulo;
-	}
-
-	public void setExEArticulo(EArticulo exEArticulo) {
-		this.exEArticulo = exEArticulo;
+	@Override
+	public String toString() {
+		return String.format("{0} {1} {2}", descripcion, marca, modelo);
 	}
 
 }

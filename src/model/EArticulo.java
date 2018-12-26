@@ -14,7 +14,8 @@ import java.util.List;
 public class EArticulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int VITRINA = 5;
-	
+	public static final int SIN_PRECIO = 9;
+	public static final int FUNDIDO = 11;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

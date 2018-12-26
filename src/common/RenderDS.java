@@ -10,8 +10,8 @@ import javax.swing.table.TableCellRenderer;
 
 public class RenderDS implements TableCellRenderer {
 
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
 
 		JLabel e = new JLabel();
 		e.setOpaque(true);
@@ -20,12 +20,10 @@ public class RenderDS implements TableCellRenderer {
 
 		table.getColumn("ID").setMaxWidth(50);
 		table.getColumn("CONTRATO").setMaxWidth(100);
-		table.getColumn("ARTÍCULO").setMaxWidth(440);
-		table.getColumn("DESTINO").setMaxWidth(200);
-
+		table.getColumn("PRENDA").setMaxWidth(440);
 		if (isSelected) {
 			e.setBackground(Color.ORANGE);
-		}		
+		}
 
 		return e;
 
