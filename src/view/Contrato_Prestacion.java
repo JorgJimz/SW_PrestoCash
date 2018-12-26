@@ -791,7 +791,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 			articulo.setEArticulo(new EArticulo(1));
 			articulo.setFechaCreacion(String.valueOf(LocalDate.now()));
 			articulo.setUsuarioCreacion(Principal.LOGGED.getLogin());
-			articulo.setContrato(lblNumeroContrato.getText());
+			String strContrato = lblNumeroContrato.getText();
+			articulo.setFlagContrato(strContrato.split("-")[0]);
+			articulo.setNumeroContrato(Integer.parseInt(strContrato.split("-")[1]));
 			articulo.setCapitalContrato(new BigDecimal(txtTasacion.getText()));
 
 			DetalleContrato detalle_contrato = new DetalleContrato();

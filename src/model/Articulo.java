@@ -29,7 +29,7 @@ public class Articulo implements Serializable {
 	private BigDecimal capitalContrato;
 
 	@Column(name = "NUMERO_CONTRATO")
-	private String numeroContrato;
+	private int numeroContrato;
 
 	@Column(name = "FLAG_CONTRATO")
 	private String flagContrato;
@@ -122,11 +122,11 @@ public class Articulo implements Serializable {
 		this.capitalContrato = capitalContrato;
 	}
 
-	public String getNumeroContrato() {
+	public int getNumeroContrato() {
 		return numeroContrato;
 	}
 
-	public void setNumeroContrato(String numeroContrato) {
+	public void setNumeroContrato(int numeroContrato) {
 		this.numeroContrato = numeroContrato;
 	}
 

@@ -306,7 +306,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		for (Fundicion f : detalle) {
 			FundicionModel.addRow(new Object[] {
 					f.getId(),
-					f.getArticulo().getContrato(),
+					f.getArticulo().getFlagContrato() + "-" + f.getArticulo().getNumeroContrato(),
 					f.getArticulo().getDescripcion() + " "
 							+ f.getArticulo().getMarca(),
 					f.getArticulo().getModelo() });

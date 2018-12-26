@@ -100,7 +100,8 @@ public class ArticuloController {
 			List<Articulo> l = q.getResultList();
 			Constantes.VitrinaModel.setRowCount(0);
 			for (Articulo a : l) {
-				Constantes.VitrinaModel.addRow(new Object[] { a.getContrato(),
+				Constantes.VitrinaModel.addRow(new Object[] {
+						a.getFlagContrato() + "-" + a.getNumeroContrato(),
 						a.getId(), a.getDescripcion(), a.getMarca(),
 						a.getModelo(), a.getObs(), a.getCapitalContrato(),
 						a.getPrecioVenta(), a.getEArticulo().getId() });
@@ -175,7 +176,7 @@ public class ArticuloController {
 		try {
 			Query q = em
 					.createQuery(
-							"SELECT a FROM Articulo a WHERE a.EArticulo.id = 5 AND a.precioVenta > 0 ORDER BY a.contrato",
+							"SELECT a FROM Articulo a WHERE a.EArticulo.id = 5 AND a.precioVenta > 0 ORDER BY a.flagContrato, a.numeroContrato",
 							Articulo.class);
 			l = q.getResultList();
 		} catch (Exception e) {

@@ -204,7 +204,8 @@ public class Utiles {
 					if (dc.getArticulo().getEArticulo().getId() != EArticulo.VITRINA
 							|| dc.getArticulo().getEArticulo().getId() != EArticulo.SIN_PRECIO) {
 						dc.getArticulo().getEArticulo().setId(EArticulo.SIN_PRECIO);
-						dc.getArticulo().setContrato(c.getFlag() + "-" + c.getNumero());
+						dc.getArticulo().setFlagContrato(c.getFlag());
+						dc.getArticulo().setNumeroContrato(c.getNumero());
 						dc.getArticulo().setCapitalContrato(c.getCapital());
 						dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 						dc.getArticulo().setUsuarioModificacion("AUTO UPD");
