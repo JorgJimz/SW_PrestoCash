@@ -55,9 +55,6 @@
 		<field name="capitalContrato" class="java.math.BigDecimal">
 			<fieldDescription><![CDATA[capitalContrato]]></fieldDescription>
 		</field>
-		<field name="contrato" class="java.lang.String">
-			<fieldDescription><![CDATA[contrato]]></fieldDescription>
-		</field>
 		<field name="modelo" class="java.lang.String">
 			<fieldDescription><![CDATA[modelo]]></fieldDescription>
 		</field>
@@ -66,6 +63,12 @@
 		</field>
 		<field name="fechaModificacion" class="java.lang.String">
 			<fieldDescription><![CDATA[fechaModificacion]]></fieldDescription>
+		</field>
+		<field name="flagContrato" class="java.lang.String">
+			<fieldDescription><![CDATA[flagContrato]]></fieldDescription>
+		</field>
+		<field name="numeroContrato" class="java.lang.Integer">
+			<fieldDescription><![CDATA[numeroContrato]]></fieldDescription>
 		</field>
 		<variable name="GANANCIA" class="java.math.BigDecimal" incrementType="Report" calculation="Sum">
 			<variableExpression><![CDATA[$F{precioVenta}.subtract($F{capitalContrato})]]></variableExpression>
@@ -81,9 +84,6 @@
 	</field>
 	<field name="obs" class="java.lang.String">
 		<fieldDescription><![CDATA[obs]]></fieldDescription>
-	</field>
-	<field name="contrato" class="java.lang.String">
-		<fieldDescription><![CDATA[contrato]]></fieldDescription>
 	</field>
 	<field name="modelo" class="java.lang.String">
 		<fieldDescription><![CDATA[modelo]]></fieldDescription>
@@ -103,8 +103,14 @@
 	<field name="fechaModificacion" class="java.lang.String">
 		<fieldDescription><![CDATA[fechaModificacion]]></fieldDescription>
 	</field>
+	<field name="flagContrato" class="java.lang.String">
+		<fieldDescription><![CDATA[flagContrato]]></fieldDescription>
+	</field>
+	<field name="numeroContrato" class="java.lang.Integer">
+		<fieldDescription><![CDATA[numeroContrato]]></fieldDescription>
+	</field>
 	<variable name="TOTAL" class="java.lang.Integer" incrementType="Report" calculation="Count">
-		<variableExpression><![CDATA[$F{contrato}]]></variableExpression>
+		<variableExpression><![CDATA[$F{numeroContrato}]]></variableExpression>
 	</variable>
 	<variable name="GANANCIA" class="java.math.BigDecimal">
 		<variableExpression><![CDATA[$F{precioVenta}.subtract($F{capitalContrato})]]></variableExpression>
@@ -155,7 +161,7 @@
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{contrato}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{flagContrato}+ "-" + $F{numeroContrato}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
