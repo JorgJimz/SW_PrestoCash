@@ -157,12 +157,12 @@ public class Multi_Cargo extends JInternalFrame {
 		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		tbArticulos = new JTable();
 		tbArticulos.setModel(ArticulosMultiCargoModel);
+		tbArticulos.setDefaultRenderer(Object.class, new RenderCA());
 		ContratoId_Column = tbArticulos.getColumnModel().getColumn(0);
 		ArticuloId_Column = tbArticulos.getColumnModel().getColumn(2);
 		tbArticulos.getColumnModel().removeColumn(ContratoId_Column);
 		tbArticulos.getColumnModel().removeColumn(ArticuloId_Column);
 		tbArticulos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		tbArticulos.setDefaultRenderer(Object.class, new RenderCA());
 		spArticulos.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(25);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));

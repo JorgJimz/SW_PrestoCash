@@ -20,7 +20,8 @@ public class RenderDS implements TableCellRenderer {
 
 		table.getColumn("ID").setMaxWidth(50);
 		table.getColumn("CONTRATO").setMaxWidth(100);
-		table.getColumn("PRENDA").setMaxWidth(440);
+		table.getColumn("ARTÍCULO").setMaxWidth(440);
+		table.getColumn("DESTINO").setMaxWidth(200);
 		if (isSelected) {
 			e.setBackground(Color.ORANGE);
 		}
