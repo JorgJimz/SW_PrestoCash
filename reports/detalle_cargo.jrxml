@@ -44,7 +44,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ARTICULO]]></text>
 			</staticText>
@@ -57,7 +57,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DESTINO]]></text>
 			</staticText>
@@ -70,7 +70,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ESTADO]]></text>
 			</staticText>
@@ -83,7 +83,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="13" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CONTRATO]]></text>
 			</staticText>
@@ -100,7 +100,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
 			</textField>
@@ -113,7 +113,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{contrato}.getFlag() + "-" + $F{contrato}.getNumero()]]></textFieldExpression>
 			</textField>
@@ -126,7 +126,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sede}.getDescripcion()]]></textFieldExpression>
 			</textField>
@@ -139,9 +139,9 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{articulo}.getExEArticulo().getDescripcion()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{articulo}.getEArticulo().getDescripcion()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -150,7 +150,7 @@
 			<textField>
 				<reportElement x="0" y="0" width="515" height="23" uuid="ff76e8dc-059a-425e-976c-941be2a674f1"/>
 				<textElement verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["TOTAL DE PRENDAS ENVIADAS: "+$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>

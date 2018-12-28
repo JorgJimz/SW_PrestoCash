@@ -16,6 +16,7 @@ public class EArticulo implements Serializable {
 	public static final int VITRINA = 5;
 	public static final int SIN_PRECIO = 9;
 	public static final int FUNDIDO = 11;
+	public static final int ACTIVO = 1;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

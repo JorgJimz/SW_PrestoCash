@@ -1312,6 +1312,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		case 13:
 			edpMensajeSuceso.setText(
 					"<html>" + "<center>" + "<h1 style='color:red'>PARA VITRINA [SIN PRECIO]</h1></center></html>");
+			btnReimpresion.setForeground(Color.WHITE);
+			edpMensajeSuceso.add(btnReimpresion);
 			break;
 		default:
 			edpMensajeSuceso
@@ -1582,7 +1584,6 @@ public class Gestion_Contrato extends JInternalFrame {
 				break;
 			case "M":
 				PagarMoras();
-
 				pago.setDescripcion("MORA");
 				pago.setCapital(BigDecimal.ZERO);
 				pago.setInteres(BigDecimal.ZERO);
@@ -1598,7 +1599,6 @@ public class Gestion_Contrato extends JInternalFrame {
 				Utiles.Mensaje("Mora(s) pagada(s). Sin modificaciones en el estado del Contrato.",
 						JOptionPane.INFORMATION_MESSAGE);
 				proceed = true;
-
 				break;
 			case "IM":
 				pago.setDescripcion(meses_renovar + "% + M");
@@ -1696,7 +1696,7 @@ public class Gestion_Contrato extends JInternalFrame {
 						.add(contrato.getMoraTotal().add(contrato.getProrrateo()).add(contrato.getProrrateoMora())));
 				ingreso.setOtro(BigDecimal.ZERO);
 				ingreso.setTipo("PAG");
-				contrato.setEContrato(new EContrato(6));
+				contrato.setEContrato(new EContrato(EContrato.CANCELADO));
 				Utiles.Mensaje("Contrato cancelado.", JOptionPane.INFORMATION_MESSAGE);
 				proceed = true;
 				break;
@@ -1742,7 +1742,6 @@ public class Gestion_Contrato extends JInternalFrame {
 			output.append("D.I.\t: " + contrato.getCliente().getDocumento() + "\n");
 			output.append(
 					"TELÉFONO\t: " + contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2() + "\n");
-			// output.append("DIRECCIÓN\t:\t" + contrato.getCliente().getDistrito()+ "\n");
 			output.append("-----------------------------------------------------------------------" + "\n");
 			output.append("CONTRATO\t: " + contrato.getFlag() + "-" + contrato.getNumero() + "\n");
 			output.append(contrato.getOperacion() + " [" + p.getDescripcion() + "]" + "\n");

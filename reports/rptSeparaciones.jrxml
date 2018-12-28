@@ -55,7 +55,7 @@
 						<textElement verticalAlignment="Middle">
 							<font size="12" isBold="true"/>
 						</textElement>
-						<textFieldExpression><![CDATA["[" + $F{articulo}.getContrato() + "] " + $F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
+						<textFieldExpression><![CDATA["[" + $F{articulo}.getFlagContrato() + "-" + $F{articulo}.getNumeroContrato() + "] " + $F{articulo}.getDescripcion() + " " + $F{articulo}.getMarca() + " " + $F{articulo}.getModelo()]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement x="501" y="0" width="75" height="24" uuid="6f0ccd17-2265-40ba-9df9-9bcc881ba5e5"/>

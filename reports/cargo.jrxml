@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cargo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="477" leftMargin="70" rightMargin="48" topMargin="48" bottomMargin="48" uuid="1de26dec-a9c3-4867-bfd1-03c50eb23634">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cargo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1de26dec-a9c3-4867-bfd1-03c50eb23634">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.unit." value="cm"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<parameter name="SEDE" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[]]>
@@ -37,21 +28,21 @@
 			<staticText>
 				<reportElement x="0" y="0" width="180" height="49" uuid="383ef1cf-d591-43b4-823e-3111118fc6a2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="36" isBold="true"/>
+					<font size="31" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CARGO]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="0" y="50" width="555" height="30" uuid="188e5b6f-3ac5-402c-9656-66931170e690"/>
 				<textElement verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["FECHA: " + new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date()).toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="17" width="375" height="32" uuid="3716ca7b-0a49-492f-945a-7f03d8ed9a2f"/>
 				<textElement textAlignment="Right">
-					<font size="20" isBold="true"/>
+					<font size="17" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["PRESTOCASH " + $P{SEDE}]]></textFieldExpression>
 			</textField>
@@ -76,46 +67,46 @@
 	<summary>
 		<band height="120">
 			<staticText>
-				<reportElement x="1" y="100" width="180" height="20" uuid="aa82395b-2982-4384-8b1b-936d3ab8a989"/>
+				<reportElement x="41" y="100" width="180" height="20" uuid="aa82395b-2982-4384-8b1b-936d3ab8a989"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ENTREGUÉ CONFORME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="201" y="100" width="160" height="20" uuid="31afde88-4ba2-4363-b872-954b0efe3e5a"/>
+				<reportElement x="241" y="100" width="160" height="20" uuid="31afde88-4ba2-4363-b872-954b0efe3e5a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TRANSPORTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="381" y="100" width="174" height="20" uuid="ffb0e14b-4d78-40fe-8430-6af82dd27989"/>
+				<reportElement x="421" y="100" width="174" height="20" uuid="ffb0e14b-4d78-40fe-8430-6af82dd27989"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RECIBÍ CONFORME]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="30" width="555" height="20" uuid="09faf88e-4d1b-4fe6-94c0-7161f89fb630"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["OBSERVACIÓN: " + $F{obs}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="10" width="555" height="20" uuid="a761f3f7-e01e-4c72-b68f-991604ea57fe"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["TRANSPORTADO POR: " + $F{transportista}]]></textFieldExpression>
 			</textField>

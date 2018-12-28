@@ -21,7 +21,7 @@
 		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 	</variable>
 	<variable name="TOTAL_PRENDA" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{articulo}.getContrato()]]></variableExpression>
+		<variableExpression><![CDATA[$F{articulo}.getNumeroContrato()]]></variableExpression>
 	</variable>
 	<background>
 		<band/>
@@ -199,7 +199,7 @@
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{articulo}.getContrato()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{articulo}.getFlagContrato()+ "-" + $F{articulo}.getNumeroContrato()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="0" width="380" height="30" uuid="c58ef46a-d9cd-432b-8489-1fb640461b07"/>

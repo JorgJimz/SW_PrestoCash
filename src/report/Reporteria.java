@@ -42,6 +42,7 @@ import model.Separacion;
 import model.Venta;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -324,6 +325,7 @@ public class Reporteria extends JInternalFrame {
 				params.put("ESTADOS", o1[1]);
 				params.put("PRESTAMOS", o2[1]);
 				params.put("FECHAS", GenerarFiltroFechas());
+				params.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 				JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptContrato.jasper");
 				JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
 				JasperViewer viewer = new JasperViewer(print, false);
@@ -347,6 +349,7 @@ public class Reporteria extends JInternalFrame {
 			params.put("SEDE", Principal.SEDE.getDescripcion());
 			params.put("INICIO", String.valueOf(dcInicio.getDate()));
 			params.put("FIN", String.valueOf(dcFin.getDate()));
+			params.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptStdVentas.jasper");
 			JasperPrint print = JasperFillManager.fillReport(reporte, params, MySQLConexion.getConexion());
 			JasperViewer viewer = new JasperViewer(print, false);
@@ -391,7 +394,7 @@ public class Reporteria extends JInternalFrame {
 	public void MostrarReporteRemate() {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
-
+		params.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 		List<Venta> remates = new VentaController().ListarVentas(dcInicio.getDate(), dcFin.getDate());
 		List<Venta> separacionesFinalizadas = new VentaController()
 				.ListarSeparaciones(Separacion.FINALIZADA, dcInicio.getDate(), dcFin.getDate()).stream().map(s -> {
@@ -425,6 +428,7 @@ public class Reporteria extends JInternalFrame {
 	public void MostrarReporteSeparacion() {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
+		params.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptSeparaciones.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params, new JRBeanCollectionDataSource(
@@ -442,6 +446,7 @@ public class Reporteria extends JInternalFrame {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("DS_VITRINA", new JRBeanCollectionDataSource(new ArticuloController().CargarReporteVitrina()));
 		params.put("SEDE", Principal.SEDE.getDescripcion());
+		params.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 		try {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptVitrina.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params, new JREmptyDataSource());

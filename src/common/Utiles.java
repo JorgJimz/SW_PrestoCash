@@ -228,6 +228,14 @@ public class Utiles {
 
 			else {
 				c.setEContrato(new EContrato(EContrato.ACTIVO));
+				for (DetalleContrato dc : c.getDetalleContratos()) {
+					dc.getArticulo().getEArticulo().setId(EArticulo.ACTIVO);
+					dc.getArticulo().setFlagContrato(c.getFlag());
+					dc.getArticulo().setNumeroContrato(c.getNumero());
+					dc.getArticulo().setCapitalContrato(c.getCapital());
+					dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
+					dc.getArticulo().setUsuarioModificacion("AUTO UPD");
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(c.getNumero());

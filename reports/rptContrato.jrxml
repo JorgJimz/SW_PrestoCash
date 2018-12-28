@@ -12,6 +12,10 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="182"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="810"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="834"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="152"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -79,7 +83,8 @@ WHERE
 $X{IN,TEMP.ESTADO_CONTRATO,ESTADOS}
 AND
 $X{IN,TEMP.PRESTAMO,PRESTAMOS}
-$P!{FECHAS}]]>
+$P!{FECHAS}
+ORDER BY FLAG, NUMERO]]>
 		</queryString>
 		<field name="ID" class="java.lang.Integer">
 			<property name="com.jaspersoft.studio.field.label" value="ID"/>
@@ -215,7 +220,8 @@ WHERE
 $X{IN,TEMP.ESTADO_CONTRATO,ESTADOS}
 AND
 $X{IN,TEMP.PRESTAMO,PRESTAMOS}
-$P!{FECHAS}]]>
+$P!{FECHAS}
+ORDER BY FLAG, NUMERO]]>
 	</queryString>
 	<field name="ID" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>

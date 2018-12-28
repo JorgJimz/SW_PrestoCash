@@ -268,7 +268,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{articulo}.getContrato()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{articulo}.getFlagContrato() + "-" + $F{articulo}.getNumeroContrato()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="618" y="0" width="40" height="20" uuid="194ffe19-adb5-431e-ab97-7c5d8c1705c6"/>

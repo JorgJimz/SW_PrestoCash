@@ -218,6 +218,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Utiles.Limpiar(contenedor);
 						Utiles.Mensaje("Artículo actualizado.",
 								JOptionPane.INFORMATION_MESSAGE);
+						btnGrabar.setEnabled(true);
 					} else {
 						Utiles.Mensaje("Complete el formulario.",
 								JOptionPane.WARNING_MESSAGE);
@@ -310,6 +311,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 							.toString());
 					txtPrecioInterno.setText(tbArticulos.getValueAt(fila, 9)
 							.toString());
+					btnGrabar.setEnabled(false);
 					btnActualizar.setEnabled(true);
 					btnEliminar.setEnabled(true);
 				}
