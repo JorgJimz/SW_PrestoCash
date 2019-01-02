@@ -351,8 +351,27 @@ ORDER BY FLAG, NUMERO]]>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="40" uuid="43f52246-ca47-4d54-bb85-94449261152f">
+					<jr:column width="40" uuid="b9f16440-d775-400c-951a-2e090d0d24ad">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="1e15898c-08f7-4145-97a9-16e2d4223aa5"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="30" uuid="906bb59a-9e9d-47c2-9319-def832cb86e1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="43f52246-ca47-4d54-bb85-94449261152f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -368,14 +387,14 @@ ORDER BY FLAG, NUMERO]]>
 							<textField>
 								<reportElement x="0" y="0" width="40" height="30" uuid="c4b0f084-b0e6-4fb9-b782-4c6311cbd2bc"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
-									<font size="9" isBold="true"/>
+									<font size="10" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{FLAG} + "-" + $F{NUMERO}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="2f5c5aff-4ecb-4065-a6c4-410570638139">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -398,7 +417,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="23ec80af-e40b-4eb4-b0a6-e09f25163c03">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -419,7 +438,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="190" uuid="7d9316fb-85e3-463f-95f7-d32a34e53649">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -442,7 +461,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="286975d0-5f28-4ced-8939-5cfbda0c80aa">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -463,7 +482,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="80" uuid="13b765f6-f7b4-4399-b93e-36526cfc880a">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -484,7 +503,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="ecef9d7b-4b12-489f-a4f2-79396de1885f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -505,7 +524,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="250" uuid="284fb708-1e1f-4919-b136-0fa92a7532aa">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -528,7 +547,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="d218ba59-c25c-4152-8144-9d12de318218">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -549,7 +568,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="e9b315b4-539d-4c46-a5fa-28b672f2a4af">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -570,7 +589,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="30b907c3-6606-4463-85ac-d476ca7ebaf2">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -591,7 +610,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="ca023397-8968-40fc-8900-3a9db8f593a2">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -614,7 +633,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="e54c1ed6-3858-4937-a4c8-f51b9c267fb8">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -637,7 +656,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="80" uuid="f234076a-fae5-488e-ad1b-f2335c5c21af">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -660,7 +679,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="80" uuid="a2e7e728-7d35-4493-9464-30ca74ecb3cb">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -680,7 +699,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="a15832cf-abc0-4daf-8aed-d8870ab3865d">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column17"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -700,7 +719,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="40" uuid="502f4c24-4f39-4115-8947-8100d75d2484">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column17"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column18"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -720,7 +739,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60" uuid="c9844635-9e07-464e-900a-a3c8ebdd2be5">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column18"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column19"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>
@@ -743,7 +762,7 @@ ORDER BY FLAG, NUMERO]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="0aada2c8-edab-4654-a867-bcb22a3b2e72">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column19"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column20"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 							<staticText>

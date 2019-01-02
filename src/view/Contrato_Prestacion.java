@@ -147,7 +147,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		Utiles.LimpiarModelos();
 
 		cliente = c;
-		// prestamo = new Prestamo();
 		contrato = new Contrato();
 		contrato.setFechaContrato(String.valueOf(LocalDate.now()));
 		contrato.setFechaVencimiento(String.valueOf(LocalDate.now().plusMonths(1)));
@@ -212,6 +211,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				lblInteres.setText(k.getValor() + "%");
 				lblNumeroContrato.setText(String.valueOf(k.getExtraValor()) + "-" + String
 						.valueOf(new ContratoController().ObtenerCorrelativo(String.valueOf(k.getExtraValor()))));
+				txtMarca.setText(Principal.SEDE.getFlagOro().equalsIgnoreCase(String.valueOf(k.getExtraValor()))? "ORO":"");
 
 			}
 		});
@@ -445,7 +445,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtModelo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtModelo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtModelo.setForeground(new java.awt.Color(0, 64, 128));
-		txtModelo.setBorder(BorderFactory.createTitledBorder(null, "MODELO", TitledBorder.DEFAULT_JUSTIFICATION,
+		txtModelo.setBorder(BorderFactory.createTitledBorder(null, "MODELO / GRAMAJE", TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 

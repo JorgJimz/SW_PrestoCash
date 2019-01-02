@@ -758,7 +758,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		txtAbono.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (Utiles.Validar(contenedor)) {
-					BigDecimal abono = new BigDecimal(txtAbono.getText());
+					BigDecimal abono = new BigDecimal(txtAbono.getText().trim());
 					lblCapital.setText(String.valueOf(contrato.getCapital().subtract(abono)));
 
 					BigDecimal neoInteres = contrato.getCapital().subtract(abono)
@@ -1626,6 +1626,11 @@ public class Gestion_Contrato extends JInternalFrame {
 					Pago ultimoPago = Collections.max(contrato.getPagos(), Constantes.PagoComparator);
 					long limite = ChronoUnit.DAYS.between(LocalDate.parse(ultimoPago.getFechaPago()), LocalDate.now());
 					if (limite <= 5) {
+						pago.setDescripcion("ABONO AL CAPITAL");
+						pago.setCapital(new BigDecimal(txtAbono.getText()));
+						pago.setInteres(BigDecimal.ZERO);
+						pago.setMora(BigDecimal.ZERO);
+						pago.setFechaPago(LocalDate.now().toString());
 						Abono abono = new Abono();
 						abono.setFecha(String.valueOf(LocalDate.now()));
 						abono.setArqCapital(contrato.getCapital());

@@ -70,6 +70,9 @@
 		<field name="numeroContrato" class="java.lang.Integer">
 			<fieldDescription><![CDATA[numeroContrato]]></fieldDescription>
 		</field>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[id]]></fieldDescription>
+		</field>
 		<variable name="GANANCIA" class="java.math.BigDecimal" incrementType="Report" calculation="Sum">
 			<variableExpression><![CDATA[$F{precioVenta}.subtract($F{capitalContrato})]]></variableExpression>
 		</variable>
@@ -165,13 +168,35 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="290" uuid="77222dc6-dee1-46a7-800f-b44273883616">
+					<jr:column width="40" uuid="9a7882e5-5a68-4a69-9d96-869b6d01f971">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="290" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="149c85d1-ea9d-4760-ae41-d4175c0390ee">
-									<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="32b8f9a6-fdcf-4564-9102-3ce3b73a007e"/>
-								</reportElement>
+								<reportElement mode="Opaque" x="0" y="0" width="40" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="188e11d1-3886-496d-bb8e-cfb2d7605d7d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="20" uuid="ed8e6520-d57b-44eb-82d6-1ea973425dfe"/>
+								<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="290" uuid="77222dc6-dee1-46a7-800f-b44273883616">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="290" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="5e0d9556-9ee4-4b2d-b581-6faf11da47b1"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -193,7 +218,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="100" uuid="b708a6fa-0d78-460f-9a42-f986d080adf1">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="100" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="81d1da50-72d7-4189-aabd-21b1a33f4a00"/>
@@ -218,7 +243,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="100" uuid="293bf8ee-4a87-4772-a0db-4b04aa4a1ab0">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="100" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="4a995a36-3ffa-4948-b6da-5a05762becfc">
@@ -245,7 +270,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="80" uuid="51407371-d611-45a3-8112-3b29cf23b1b2">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="80" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="118976f0-5abd-425b-964b-f6d7697152d2">
@@ -275,7 +300,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="e0ab90ce-e2f1-4169-b38c-a048a357c2c7">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="30" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="da32e292-30f0-4f51-9bba-6df6d27ce758">
