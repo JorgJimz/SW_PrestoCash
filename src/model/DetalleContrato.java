@@ -42,6 +42,9 @@ public class DetalleContrato implements Serializable {
 	@Transient
 	private String observacionArticuloJasper;
 
+	@Transient
+	private String alphaId;
+
 	public DetalleContrato() {
 	}
 
@@ -99,6 +102,14 @@ public class DetalleContrato implements Serializable {
 
 	public String getObservacionArticuloJasper() {
 		return observacionArticuloJasper;
+	}
+
+	public String getAlphaId() {
+		return alphaId;
+	}
+
+	public void setAlphaId(String alphaId) {
+		this.alphaId = alphaId;
 	}
 
 }

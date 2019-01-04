@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -38,7 +37,9 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.jdesktop.swingx.JXTitledSeparator;
 
 import common.ComboItem;
@@ -119,6 +120,22 @@ public class Contrato_Prestacion extends JInternalFrame {
 	List<DetalleContrato> detalle = new ArrayList<DetalleContrato>();
 	Vector<Component> order = new Vector<Component>(9);
 
+	public static DefaultTableModel ContratoModel = new DefaultTableModel(null,
+			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			if (colIndex == 4 || colIndex == 5)
+				return true;
+			return false;
+		}
+	};
+
+	public static DefaultTableModel ArticuloModel = new DefaultTableModel(null,
+			new String[] { "CÓDIGO", "DESCRIPCIÓN", "MARCA", "MODELO", "OBSERVACIONES", "TASACIÓN" }) {
+		public boolean isCellEditable(int rowIndex, int colIndex) {
+			return false;
+		}
+	};
+
 	private JScrollPane spArticulo;
 	private JTable tbArticulos;
 
@@ -144,8 +161,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 	}
 
 	public Contrato_Prestacion(Cliente c) throws SQLException {
-		Utiles.LimpiarModelos();
-
+		LimpiarModelos();
 		cliente = c;
 		contrato = new Contrato();
 		contrato.setFechaContrato(String.valueOf(LocalDate.now()));
@@ -211,7 +227,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 				lblInteres.setText(k.getValor() + "%");
 				lblNumeroContrato.setText(String.valueOf(k.getExtraValor()) + "-" + String
 						.valueOf(new ContratoController().ObtenerCorrelativo(String.valueOf(k.getExtraValor()))));
-				txtMarca.setText(Principal.SEDE.getFlagOro().equalsIgnoreCase(String.valueOf(k.getExtraValor()))? "ORO":"");
+				txtMarca.setText(
+						Principal.SEDE.getFlagOro().equalsIgnoreCase(String.valueOf(k.getExtraValor())) ? "ORO" : "");
 
 			}
 		});
@@ -327,21 +344,21 @@ public class Contrato_Prestacion extends JInternalFrame {
 		tbContratos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbContratos.getTableHeader().setForeground(new Color(181, 0, 0));
 		spContrato.setViewportView(tbContratos);
-		tbContratos.setModel(Constantes.ContratoModel);
+		tbContratos.setModel(ContratoModel);
 		tbContratos.getModel().addTableModelListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int fila = tbContratos.getSelectedRow();
-					int codigo = Integer.parseInt(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 0)));
+					int codigo = Integer.parseInt(String.valueOf(ContratoModel.getValueAt(fila, 0)));
 					for (DetalleContrato dc : detalle) {
 						if (dc.getId() == codigo) {
-							dc.getArticulo()
-									.setDescripcion(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 1)));
-							dc.getArticulo().setMarca(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 2)));
-							dc.getArticulo().setModelo(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 3)));
-							dc.getArticulo().setObs(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 4)));
-							dc.setTasacion(
-									new BigDecimal(String.valueOf(Constantes.ContratoModel.getValueAt(fila, 5))));
+							dc.getArticulo().setDescripcion(String.valueOf(ContratoModel.getValueAt(fila, 1)));
+							dc.getArticulo().setMarca(String.valueOf(ContratoModel.getValueAt(fila, 2)));
+							dc.getArticulo().setModelo(String.valueOf(ContratoModel.getValueAt(fila, 3)));
+							dc.getArticulo().setObs(String.valueOf(ContratoModel.getValueAt(fila, 4)).trim());
+							dc.getArticulo().setCapitalContrato(
+									new BigDecimal(String.valueOf(ContratoModel.getValueAt(fila, 5)).trim()));
+							dc.setTasacion(new BigDecimal(String.valueOf(ContratoModel.getValueAt(fila, 5)).trim()));
 						}
 					}
 					ListarDetalle();
@@ -445,9 +462,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 		txtModelo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtModelo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtModelo.setForeground(new java.awt.Color(0, 64, 128));
-		txtModelo.setBorder(BorderFactory.createTitledBorder(null, "MODELO / GRAMAJE", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
-				new java.awt.Color(0, 128, 0)));
+		txtModelo.setBorder(BorderFactory.createTitledBorder(null, "MODELO / GRAMAJE",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtMarca = new JIconTextField();
 		contenedor.add(txtMarca);
@@ -524,15 +541,15 @@ public class Contrato_Prestacion extends JInternalFrame {
 						contrato.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
 						contrato.setCliente(cliente);
 						contrato.setNumero(Integer.parseInt(lblNumeroContrato.getText().split("-")[1]));
-						contrato.setEContrato(new EContrato(1));
+						contrato.setEContrato(new EContrato(EContrato.ACTIVO));
 						contrato.setFechaCreacion(String.valueOf(LocalDate.now()));
 						contrato.setUsuarioCreacion(Principal.LOGGED.getLogin());
 						for (DetalleContrato dc : detalle) {
 							dc.setContrato(contrato);
 							dc.setCantidad(dc.getCantidad());
 							dc.setTasacion(dc.getTasacion());
-							contrato.getDetalleContratos().add(dc);
 						}
+						contrato.setDetalleContratos(detalle);
 						String articulos = detalle.stream().map(a -> a.getArticulo().getDescripcion())
 								.collect(Collectors.joining(", "));
 						Egreso egreso = new Egreso();
@@ -542,7 +559,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 						egreso.setTipo("EMP");
 						egreso.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
 						new ContratoController().GenerarContrato(contrato, egreso);
-						Utiles.LimpiarModelos();
+						LimpiarModelos();
 						Utiles.Mensaje("¡Contrato generado!", JOptionPane.INFORMATION_MESSAGE);
 						ImprimirFormato();
 					} catch (Exception e) {
@@ -643,13 +660,12 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial.setHorizontalAlignment(SwingConstants.LEFT);
 		btnHistorial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (new ArticuloController().ObtenerHistorial(Constantes.ArticuloModel, cliente.getId())
-						.getRowCount() != 0) {
+				if (new ArticuloController().ObtenerHistorial(ArticuloModel, cliente.getId()).getRowCount() != 0) {
 					btnHistorial.setVisible(false);
 					btnRegresar.setVisible(true);
 					spContrato.setVisible(false);
 					spArticulo.setVisible(true);
-					tbArticulos.setModel(Constantes.ArticuloModel);
+					tbArticulos.setModel(ArticuloModel);
 				} else {
 					Utiles.Mensaje("Sin historial.", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -670,28 +686,27 @@ public class Contrato_Prestacion extends JInternalFrame {
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
-		tbArticulos.setModel(Constantes.ArticuloModel);
+		tbArticulos.setModel(ArticuloModel);
 		tbArticulos.setRowHeight(30);
 		tbArticulos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					int fila = tbArticulos.getSelectedRow();
-					Articulo articulo = new Articulo();
-					articulo.setId(Integer.parseInt(String.valueOf(tbArticulos.getValueAt(fila, 0))));
-					articulo.setDescripcion(String.valueOf(tbArticulos.getValueAt(fila, 1)));
-					articulo.setMarca(String.valueOf(tbArticulos.getValueAt(fila, 2)));
-					articulo.setModelo(String.valueOf(tbArticulos.getValueAt(fila, 3)));
-					articulo.setSerie("POR COMPLETAR");
-					articulo.setEArticulo(new EArticulo(1));
-					articulo.setObs(String.valueOf(tbArticulos.getValueAt(fila, 4)));
+					Articulo articulo = new ArticuloController()
+							.ObtenerArticulo(Integer.parseInt(String.valueOf(tbArticulos.getValueAt(fila, 0))));
+					articulo.setEArticulo(new EArticulo(EArticulo.ACTIVO));
+					articulo.setFlagContrato(lblNumeroContrato.getText().split("-")[0]);
+					articulo.setNumeroContrato(Integer.parseInt(lblNumeroContrato.getText().split("-")[1]));
+					articulo.setCapitalContrato(new BigDecimal(String.valueOf(tbArticulos.getValueAt(fila, 5))));
 
 					DetalleContrato detalle_contrato = new DetalleContrato();
-					detalle_contrato.setId(new Random().nextInt(100));
+					detalle_contrato.setAlphaId(RandomStringUtils.randomAlphabetic(5));
 					detalle_contrato.setContrato(contrato);
 					detalle_contrato.setArticulo(articulo);
 					detalle_contrato.setArticuloJasper(
 							articulo.getDescripcion() + " " + articulo.getMarca() + " " + articulo.getModelo());
 					detalle_contrato.setObservacionArticuloJasper(articulo.getObs() + " " + txtEn.getText());
+
 					detalle_contrato.setCantidad(1);
 					detalle_contrato.setTasacion(new BigDecimal(String.valueOf(tbArticulos.getValueAt(fila, 5))));
 
@@ -791,13 +806,15 @@ public class Contrato_Prestacion extends JInternalFrame {
 			articulo.setEArticulo(new EArticulo(1));
 			articulo.setFechaCreacion(String.valueOf(LocalDate.now()));
 			articulo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+			articulo.setPrecioVenta(BigDecimal.ZERO);
+			articulo.setPrecioInterno(BigDecimal.ZERO);
 			String strContrato = lblNumeroContrato.getText();
 			articulo.setFlagContrato(strContrato.split("-")[0]);
 			articulo.setNumeroContrato(Integer.parseInt(strContrato.split("-")[1]));
 			articulo.setCapitalContrato(new BigDecimal(txtTasacion.getText()));
 
 			DetalleContrato detalle_contrato = new DetalleContrato();
-			detalle_contrato.setId(new Random().nextInt(100));
+			detalle_contrato.setAlphaId(RandomStringUtils.randomAlphabetic(3));
 			detalle_contrato.setContrato(contrato);
 			detalle_contrato.setArticulo(articulo);
 			detalle_contrato.setArticuloJasper(
@@ -817,9 +834,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 	public void QuitarDetalle() {
 		try {
 			int fila = tbContratos.getSelectedRow();
-			int codigo = Integer.parseInt(String.valueOf(tbContratos.getValueAt(fila, 0)));
+			String codigo = String.valueOf(tbContratos.getValueAt(fila, 0));
 			for (DetalleContrato dc : detalle) {
-				if (dc.getId() == codigo) {
+				if (dc.getAlphaId().equals(codigo)) {
 					detalle.remove(dc);
 					break;
 				}
@@ -830,12 +847,12 @@ public class Contrato_Prestacion extends JInternalFrame {
 	}
 
 	public void ListarDetalle() {
-		Constantes.ContratoModel.setRowCount(0);
+		ContratoModel.setRowCount(0);
 		BigDecimal capital = BigDecimal.ZERO;
 
 		for (DetalleContrato dc : detalle) {
-			Constantes.ContratoModel
-					.addRow(new Object[] { dc.getId(), dc.getArticulo().getDescripcion(), dc.getArticulo().getMarca(),
+			ContratoModel.addRow(
+					new Object[] { dc.getAlphaId(), dc.getArticulo().getDescripcion(), dc.getArticulo().getMarca(),
 							dc.getArticulo().getModelo(), dc.getArticulo().getObs(), dc.getTasacion() });
 			capital = capital.add(dc.getTasacion());
 		}
@@ -851,7 +868,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		BigDecimal total = capital.add(interes);
 
 		tbContratos.setRowHeight(30);
-		tbContratos.setModel(Constantes.ContratoModel);
+		tbContratos.setModel(ContratoModel);
 		lblCapital.setText(String.valueOf(capital.setScale(2, RoundingMode.HALF_UP)));
 		lblInteresCalculado.setText(String.valueOf(interes));
 		lblTotal.setText(String.valueOf(total));
@@ -869,5 +886,10 @@ public class Contrato_Prestacion extends JInternalFrame {
 			e.printStackTrace();
 		}
 		dispose();
+	}
+
+	public void LimpiarModelos() {
+		ContratoModel.setRowCount(0);
+		ArticuloModel.setRowCount(0);
 	}
 }

@@ -866,7 +866,7 @@ public class Gestion_Contrato extends JInternalFrame {
 							DetalleCargo detalle_cargo = new DetalleCargo();
 							detalle_cargo.setContrato(contrato);
 							Articulo articulo = new ArticuloController().ObtenerArticulo(
-									Integer.parseInt(DetalleContratoModel.getValueAt(i, 0).toString()));							
+									Integer.parseInt(DetalleContratoModel.getValueAt(i, 0).toString()));
 							articulo.setEArticulo(new EArticulo(4, "CON CARGO"));
 							detalle_cargo.setArticulo(articulo);
 							Sede sede = new Sede();
@@ -1661,7 +1661,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				}
 				break;
 			case "AN":
-				contrato.setEContrato(new EContrato(14));
+				contrato.setEContrato(new EContrato(EContrato.ANULADO));
 				contrato.setUsuarioModificacion(Principal.LOGGED.getLogin());
 				contrato.setFechaModificacion(String.valueOf(LocalDate.now()));
 				Utiles.Mensaje("Contrato Anulado.", JOptionPane.INFORMATION_MESSAGE);
@@ -1678,11 +1678,10 @@ public class Gestion_Contrato extends JInternalFrame {
 
 				for (DetalleContrato dc : contrato.getDetalleContratos()) {
 					Articulo a = dc.getArticulo();
-					a.setEArticulo(new EArticulo(8));
+					a.setEArticulo(new EArticulo(EArticulo.BAJA));
 					a.setUsuarioModificacion(Principal.LOGGED.getLogin());
 					a.setFechaModificacion(String.valueOf(LocalDate.now()));
 				}
-
 				new ContratoController().ActualizarContrato(contrato);
 
 				dispose();
@@ -1702,6 +1701,12 @@ public class Gestion_Contrato extends JInternalFrame {
 				ingreso.setOtro(BigDecimal.ZERO);
 				ingreso.setTipo("PAG");
 				contrato.setEContrato(new EContrato(EContrato.CANCELADO));
+				for (DetalleContrato dc : contrato.getDetalleContratos()) {
+					Articulo a = dc.getArticulo();
+					a.setEArticulo(new EArticulo(EArticulo.LIBRE));
+					a.setUsuarioModificacion(Principal.LOGGED.getLogin());
+					a.setFechaModificacion(String.valueOf(LocalDate.now()));
+				}
 				Utiles.Mensaje("Contrato cancelado.", JOptionPane.INFORMATION_MESSAGE);
 				proceed = true;
 				break;

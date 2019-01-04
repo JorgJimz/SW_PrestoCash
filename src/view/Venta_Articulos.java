@@ -9,8 +9,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.InternalFrameAdapter;
@@ -40,6 +45,7 @@ import org.jdesktop.swingx.search.SearchFactory;
 
 import common.Constantes;
 import common.JIconTextField;
+import common.NumberToLetter;
 import common.Utiles;
 import controller.ArticuloController;
 import controller.ClienteController;
@@ -48,6 +54,7 @@ import model.Articulo;
 import model.Cliente;
 import model.EArticulo;
 import model.Ingreso;
+import model.Pago;
 import model.Separacion;
 import model.Venta;
 
@@ -717,7 +724,6 @@ public class Venta_Articulos extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Utiles.Validar(pnlRemate)) {
 					int row = tbArticulos.getSelectedRow();
-
 					Venta venta = new Venta();
 					venta.setFecha(String.valueOf(LocalDate.now()));
 					venta.setImporte(new BigDecimal(String.valueOf(tbArticulos.getValueAt(row, 7))));
@@ -725,7 +731,7 @@ public class Venta_Articulos extends JInternalFrame {
 					venta.setCliente(cliente);
 					venta.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					venta.setFechaCreacion(String.valueOf(LocalDate.now()));
-					articulo.setEArticulo(new EArticulo(3));
+					articulo.setEArticulo(new EArticulo(EArticulo.REMATADO));
 					venta.setArticulo(articulo);
 
 					Ingreso ingreso = new Ingreso();
@@ -750,6 +756,7 @@ public class Venta_Articulos extends JInternalFrame {
 					btnSeparar.setEnabled(true);
 					btnBuscar.setEnabled(true);
 					btnRegistrarCliente.setEnabled(true);
+					spArticulos.setSize(spArticulos.getWidth(), 500);
 					new ArticuloController().CargarVitrina();
 
 					Utiles.Mensaje("Venta realizada satisfactoriamente", JOptionPane.INFORMATION_MESSAGE);
@@ -803,6 +810,46 @@ public class Venta_Articulos extends JInternalFrame {
 				btnRegistrarCliente.doClick();
 			}
 
+		}
+	}
+	
+	public void ImprimirTicketPago(Pago p) {
+		try {
+			StringBuffer output = new StringBuffer();
+			output.append("PRESTOCASH " + Principal.SEDE.getDescripcion() + "\n");
+			output.append(Principal.SEDE.getDireccion() + "\n");
+			output.append("TELÉFONOS:" + Principal.SEDE.getTelefono1() + "/" + Principal.SEDE.getTelefono2() + "\n");
+			output.append("-----------------------------------------------------------------------" + "\n");
+			output.append("FECHA: " + Constantes.formatoDiaHora.format(LocalDateTime.now()) + "\n");
+			output.append("-----------------------------------------------------------------------" + "\n");
+			output.append("CLIENTE:\n");
+			output.append(cliente.getNombreCompleto() + "\n");
+			output.append("D.I.\t: " + cliente.getDocumento() + "\n");
+			output.append(
+					"TELÉFONO\t: " + cliente.getTlf1() + " / " + cliente.getTlf2() + "\n");
+			output.append("-----------------------------------------------------------------------" + "\n");
+			//output.append("CONTRATO\t: " + contrato.getFlag() + "-" + contrato.getNumero() + "\n");
+			//output.append(contrato.getOperacion() + " [" + p.getDescripcion() + "]" + "\n");
+			output.append("CAPITAL\t: " + p.getCapital() + "\n");
+			output.append("INTERÉS\t: " + p.getInteres() + "\n");
+			output.append("MORA\t: " + p.getMora() + "\n");
+			output.append("TOTAL\t: " + p.getCapital().add(p.getInteres()).add(p.getMora()) + "\n");
+			output.append(new NumberToLetter().convertir(
+					String.valueOf(p.getCapital().add(p.getInteres()).add(p.getMora())), true, "SOLES") + "\n");
+			int margin = 0;
+			JTextPane jtp = new JTextPane();
+			jtp.setText(String.valueOf(output));
+			jtp.setFont(new Font(Font.SANS_SERIF, 0, 8));
+			PrinterJob printerJob = PrinterJob.getPrinterJob();
+			PageFormat pageFormat = printerJob.defaultPage();
+			Paper paper = new Paper();
+			paper.setImageableArea(margin, margin, paper.getWidth() - margin * 2, paper.getHeight() - margin * 2);
+			pageFormat.setPaper(paper);
+			pageFormat.setOrientation(PageFormat.PORTRAIT);
+			printerJob.setPrintable(jtp.getPrintable(null, null), pageFormat);
+			printerJob.print();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

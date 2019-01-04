@@ -219,6 +219,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Utiles.Mensaje("Artículo actualizado.",
 								JOptionPane.INFORMATION_MESSAGE);
 						btnGrabar.setEnabled(true);
+						btnActualizar.setEnabled(false);
 					} else {
 						Utiles.Mensaje("Complete el formulario.",
 								JOptionPane.WARNING_MESSAGE);
