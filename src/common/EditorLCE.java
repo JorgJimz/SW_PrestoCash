@@ -31,14 +31,23 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 	public EditorLCE() {
 		txt = new JTextField();
 		txt.setFont(new Font("Segoe UI", 1, 16));
-		cbo = new JComboBox<ComboItem>(new DefaultComboBoxModel(new ComboItem[] { new ComboItem(1, "ALQUILER", ""),
-				new ComboItem(2, "AGUA", ""), new ComboItem(3, "LUZ", ""), new ComboItem(4, "TELEFONO", ""),
-				new ComboItem(5, "SERVICIO",""), new ComboItem(6, "PLANILLA", ""), new ComboItem(7, "DEVOLUCION", ""),
-				new ComboItem(8, "DESCARGO", "PRINTABLE", "reports/descargo_caja.jasper"), new ComboItem(9, "AJUSTE", ""), new ComboItem(10, "OTROS GASTOS", ""),
-				new ComboItem(11, "COMPRA ORO", "PRINTABLE") }));		
+		cbo = new JComboBox<ComboItem>(new DefaultComboBoxModel(
+				new ComboItem[] {
+						new ComboItem(1, "ALQUILER", ""),
+						new ComboItem(2, "AGUA", ""),
+						new ComboItem(3, "LUZ", ""),
+						new ComboItem(4, "TELEFONO", ""),
+						new ComboItem(5, "SERVICIO", ""),
+						new ComboItem(6, "PLANILLA", ""),
+						new ComboItem(7, "DEVOLUCION", ""),
+						new ComboItem(8, "DESCARGO", "PRINTABLE",
+								"reports/descargo_caja.jasper"),
+						new ComboItem(9, "AJUSTE", ""),
+						new ComboItem(10, "OTROS GASTOS", "") }));
 		cbo.setRenderer(new IconComboBoxRenderer());
 
-		cbo_moneda = new JComboBox<String>(new DefaultComboBoxModel(new String[] { "SOLES", "DÓLARES" }));
+		cbo_moneda = new JComboBox<String>(new DefaultComboBoxModel(
+				new String[] { "SOLES", "DÓLARES" }));
 		cbo_moneda.setFont(new Font("Segoe UI", 1, 16));
 
 		editores = new DefaultCellEditor[3];
@@ -62,17 +71,21 @@ public class EditorLCE extends AbstractCellEditor implements TableCellEditor {
 		}
 	}
 
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value,
+			boolean isSelected, int row, int column) {
 		if (column == 1) {
 			f = JCOMBOBOX;
-			return editores[JCOMBOBOX].getTableCellEditorComponent(table, value, isSelected, row, column);
+			return editores[JCOMBOBOX].getTableCellEditorComponent(table,
+					value, isSelected, row, column);
 		}
 		if (column == 3) {
 			f = JCOMBOBOX_MONEDA;
-			return editores[JCOMBOBOX_MONEDA].getTableCellEditorComponent(table, value, isSelected, row, column);
+			return editores[JCOMBOBOX_MONEDA].getTableCellEditorComponent(
+					table, value, isSelected, row, column);
 		} else if (column == 0 || column == 2) {
 			f = JTEXTFIELD;
-			return editores[JTEXTFIELD].getTableCellEditorComponent(table, value, isSelected, row, column);
+			return editores[JTEXTFIELD].getTableCellEditorComponent(table,
+					value, isSelected, row, column);
 		} else {
 			return null;
 		}
