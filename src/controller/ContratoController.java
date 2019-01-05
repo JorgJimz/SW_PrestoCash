@@ -164,7 +164,7 @@ public class ContratoController {
 		EntityManager em = emf.createEntityManager();
 		List<Contrato> l = null;
 		try {
-			l = em.createQuery("SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12) AND c.id = 8913", Contrato.class)
+			l = em.createQuery("SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)", Contrato.class)
 					.getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);

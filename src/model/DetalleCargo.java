@@ -1,33 +1,37 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="detalle_cargo")
-@NamedQuery(name="DetalleCargo.findAll", query="SELECT d FROM DetalleCargo d")
+@Table(name = "detalle_cargo")
+@NamedQuery(name = "DetalleCargo.findAll", query = "SELECT d FROM DetalleCargo d")
 public class DetalleCargo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	//bi-directional many-to-one association to Articulo
-	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
+	// bi-directional many-to-one association to Articulo
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Articulo articulo;
 
-	//bi-directional many-to-one association to Cargo
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Cargo
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cargo cargo;
 
-	//bi-directional many-to-one association to Contrato
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Contrato
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
 
-	//bi-directional many-to-one association to Sede
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Sede
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Sede sede;
+
+	@Transient
+	private String alphaId;
 
 	public DetalleCargo() {
 	}
@@ -70,6 +74,14 @@ public class DetalleCargo implements Serializable {
 
 	public void setSede(Sede sede) {
 		this.sede = sede;
+	}
+
+	public String getAlphaId() {
+		return alphaId;
+	}
+
+	public void setAlphaId(String alphaId) {
+		this.alphaId = alphaId;
 	}
 
 }
