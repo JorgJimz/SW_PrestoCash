@@ -349,9 +349,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int fila = tbContratos.getSelectedRow();
-					int codigo = Integer.parseInt(String.valueOf(ContratoModel.getValueAt(fila, 0)));
+					String codigo = String.valueOf(ContratoModel.getValueAt(fila, 0));
 					for (DetalleContrato dc : detalle) {
-						if (dc.getId() == codigo) {
+						if (dc.getAlphaId().equals(codigo)) {
 							dc.getArticulo().setDescripcion(String.valueOf(ContratoModel.getValueAt(fila, 1)));
 							dc.getArticulo().setMarca(String.valueOf(ContratoModel.getValueAt(fila, 2)));
 							dc.getArticulo().setModelo(String.valueOf(ContratoModel.getValueAt(fila, 3)));
