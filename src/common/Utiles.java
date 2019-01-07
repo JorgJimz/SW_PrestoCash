@@ -195,9 +195,15 @@ public class Utiles {
 			if (hoy.isAfter(gcPost)) {
 				c.setEContrato(new EContrato(EContrato.VITRINA_SP));
 				for (DetalleContrato dc : c.getDetalleContratos()) {
-					if (dc.getArticulo().getEArticulo().getId() != EArticulo.VITRINA
-							&& dc.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0) {
+					if (dc.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0) {
 						dc.getArticulo().getEArticulo().setId(EArticulo.SIN_PRECIO);
+						dc.getArticulo().setFlagContrato(c.getFlag());
+						dc.getArticulo().setNumeroContrato(c.getNumero());
+						dc.getArticulo().setCapitalContrato(c.getCapital());
+						dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
+						dc.getArticulo().setUsuarioModificacion("AUTO UPD");
+					}else{
+						dc.getArticulo().getEArticulo().setId(EArticulo.VITRINA);
 						dc.getArticulo().setFlagContrato(c.getFlag());
 						dc.getArticulo().setNumeroContrato(c.getNumero());
 						dc.getArticulo().setCapitalContrato(c.getCapital());
@@ -236,7 +242,7 @@ public class Utiles {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(c.getNumero());
+			e.printStackTrace();
 		}
 	}
 }
