@@ -389,8 +389,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnEditarCliente.setContentAreaFilled(false);
 		btnEditarCliente.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnEditarCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEditarCliente.setHorizontalAlignment(SwingConstants.LEFT);
+		btnEditarCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));		
 		btnEditarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(txtDni.getText());

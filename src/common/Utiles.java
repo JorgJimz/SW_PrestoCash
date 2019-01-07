@@ -21,26 +21,31 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import org.jdesktop.swingx.JXSearchField;
-
-import com.toedter.calendar.JDateChooser;
-
-import controller.ClienteController;
 import model.Cliente;
 import model.Contrato;
-import model.DetalleContrato;
 import model.EArticulo;
 import model.EContrato;
+
+import org.jdesktop.swingx.JXSearchField;
+
 import view.Contrato_Prestacion;
 import view.Principal;
 import view.Venta_Articulos;
 
+import com.toedter.calendar.JDateChooser;
+
+import controller.ClienteController;
+
 public class Utiles {
-	public static void MostrarOperaciones(String documento, JInternalFrame internal) {
+	public static void MostrarOperaciones(String documento,
+			JInternalFrame internal) {
 		try {
-			String[] botones = new String[] { "Contrato de Prestación", "Venta / Separación", "Ninguna" };
-			int opc = JOptionPane.showOptionDialog(null, "¿Qué operación deseas realizar?", "Seleccionar",
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+			String[] botones = new String[] { "Contrato de Prestación",
+					"Venta / Separación", "Ninguna" };
+			int opc = JOptionPane.showOptionDialog(null,
+					"¿Qué operación deseas realizar?", "Seleccionar",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 			if (opc == 0) {
 				Cliente k = new ClienteController().BuscarCliente(documento);
 				Contrato_Prestacion contrato = new Contrato_Prestacion(k);
@@ -57,7 +62,8 @@ public class Utiles {
 	}
 
 	public static void Mensaje(String s, int type) {
-		JOptionPane.showMessageDialog(null, "<html><h3>" + s + "</h3></html>", "Mensaje del Sistema", type);
+		JOptionPane.showMessageDialog(null, "<html><h3>" + s + "</h3></html>",
+				"Mensaje del Sistema", type);
 	}
 
 	public static boolean ValidarTabla(JTable tabla) {
@@ -74,8 +80,10 @@ public class Utiles {
 
 	public static BigDecimal redondearCentimos(BigDecimal param) {
 		BigDecimal Tick = new BigDecimal("0.10");
-		BigDecimal formattedNumber = param.divide(Tick, 9, RoundingMode.HALF_EVEN);
-		formattedNumber = formattedNumber.setScale(0, RoundingMode.HALF_UP).multiply(Tick);
+		BigDecimal formattedNumber = param.divide(Tick, 9,
+				RoundingMode.HALF_EVEN);
+		formattedNumber = formattedNumber.setScale(0, RoundingMode.HALF_UP)
+				.multiply(Tick);
 		return formattedNumber;
 	}
 
@@ -86,25 +94,31 @@ public class Utiles {
 				if (((JIconTextField) o).getText().equals("")) {
 					val = false;
 					((JIconTextField) o).setOpaque(false);
-					TitledBorder titledBorder = (TitledBorder) ((JIconTextField) o).getBorder();
+					TitledBorder titledBorder = (TitledBorder) ((JIconTextField) o)
+							.getBorder();
 					titledBorder.setTitleColor(new Color(200, 0, 0));
-					titledBorder.setBorder(new LineBorder(new Color(200, 0, 0), 2));
-					((JIconTextField) o).setIcon(new ImageIcon("img/alerta.png"));
+					titledBorder.setBorder(new LineBorder(new Color(200, 0, 0),
+							2));
+					((JIconTextField) o)
+							.setIcon(new ImageIcon("img/alerta.png"));
 					((JIconTextField) o).setOrientation(SwingConstants.LEFT);
 					((JIconTextField) o).requestFocus();
 					pnl.repaint();
 				} else {
 					((JIconTextField) o).setOpaque(false);
-					TitledBorder titledBorder = (TitledBorder) ((JIconTextField) o).getBorder();
+					TitledBorder titledBorder = (TitledBorder) ((JIconTextField) o)
+							.getBorder();
 					titledBorder.setTitleColor(new Color(0, 128, 0));
-					titledBorder.setBorder(new LineBorder(new Color(0, 128, 0), 2));
+					titledBorder.setBorder(new LineBorder(new Color(0, 128, 0),
+							2));
 					((JIconTextField) o).setIcon(null);
 					pnl.repaint();
 				}
 			}
 			if (o instanceof JScrollPane && !(o instanceof JXSearchField)) {
 				if (((JScrollPane) o).getViewport().getView() instanceof JTextArea) {
-					JTextArea innerTextArea = (JTextArea) ((JScrollPane) o).getViewport().getView();
+					JTextArea innerTextArea = (JTextArea) ((JScrollPane) o)
+							.getViewport().getView();
 					if (innerTextArea.getText().equals("")) {
 						innerTextArea.setOpaque(true);
 						innerTextArea.setBackground(Color.RED);
@@ -140,7 +154,8 @@ public class Utiles {
 			}
 			if (o instanceof JScrollPane) {
 				if (o instanceof JTextArea) {
-					JTextArea a = (JTextArea) ((JScrollPane) o).getViewport().getView();
+					JTextArea a = (JTextArea) ((JScrollPane) o).getViewport()
+							.getView();
 					a.setText("");
 					a.setBackground(Color.WHITE);
 				}
@@ -161,7 +176,8 @@ public class Utiles {
 				((JRadioButton) o).setEnabled(false);
 			}
 			if (o instanceof JScrollPane) {
-				JTextArea txt = (JTextArea) ((JScrollPane) o).getViewport().getView();
+				JTextArea txt = (JTextArea) ((JScrollPane) o).getViewport()
+						.getView();
 				txt.setEnabled(false);
 			}
 			if (o instanceof JButton) {
@@ -189,57 +205,80 @@ public class Utiles {
 	public static void DetectarEstado(Contrato c) {
 		try {
 			LocalDate hoy = LocalDate.now();
-			LocalDate gcPre = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).minusDays(Constantes.RANGO_PRE);
-			LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).plusDays(Constantes.RANGO_POST);
+			LocalDate gcPre = LocalDate.parse(c.getFechaVencimiento())
+					.plusMonths(1).minusDays(Constantes.RANGO_PRE);
+			LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento())
+					.plusMonths(1).plusDays(Constantes.RANGO_POST);
 			LocalDate gcRem = LocalDate.parse(c.getFechaRemate());
 			if (hoy.isAfter(gcPost)) {
 				c.setEContrato(new EContrato(EContrato.VITRINA_SP));
-				for (DetalleContrato dc : c.getDetalleContratos()) {
-					if (dc.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0) {
-						dc.getArticulo().getEArticulo().setId(EArticulo.SIN_PRECIO);
-						dc.getArticulo().setFlagContrato(c.getFlag());
-						dc.getArticulo().setNumeroContrato(c.getNumero());
-						dc.getArticulo().setCapitalContrato(c.getCapital());
-						dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-						dc.getArticulo().setUsuarioModificacion("AUTO UPD");
-					}else{
-						dc.getArticulo().getEArticulo().setId(EArticulo.VITRINA);
-						dc.getArticulo().setFlagContrato(c.getFlag());
-						dc.getArticulo().setNumeroContrato(c.getNumero());
-						dc.getArticulo().setCapitalContrato(c.getCapital());
-						dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-						dc.getArticulo().setUsuarioModificacion("AUTO UPD");
-					}
-				}
-			} else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost) || hoy.isEqual(gcPost)) {
+				c.getDetalleContratos()
+						.forEach(
+								item -> {
+									int neoEstado = item.getArticulo()
+											.getPrecioVenta()
+											.compareTo(BigDecimal.ZERO) == 0 ? EArticulo.SIN_PRECIO
+											: EArticulo.VITRINA;
+									item.getArticulo().setEArticulo(
+											new EArticulo(neoEstado));
+									item.getArticulo().setFlagContrato(
+											c.getFlag());
+									item.getArticulo().setNumeroContrato(
+											c.getNumero());
+									item.getArticulo().setCapitalContrato(
+											item.getTasacion());
+									item.getArticulo().setFechaModificacion(
+											String.valueOf(LocalDate.now()));
+									item.getArticulo().setUsuarioModificacion(
+											"AUTO UPD");
+								});
+			} else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost)
+					|| hoy.isEqual(gcPost)) {
 				c.setEContrato(new EContrato(EContrato.POST));
-				for (DetalleContrato dc : c.getDetalleContratos()) {
-					dc.getArticulo().getEArticulo().setId(EArticulo.ACTIVO);
-					dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-					dc.getArticulo().setUsuarioModificacion("AUTO UPD");
-				}
-			} else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre) && hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
+				c.getDetalleContratos().forEach(
+						item -> {
+							item.getArticulo().setEArticulo(
+									new EArticulo(EArticulo.ACTIVO));
+							item.getArticulo().setFechaModificacion(
+									String.valueOf(LocalDate.now()));
+							item.getArticulo().setUsuarioModificacion(
+									"AUTO UPD");
+						});
+			} else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre)
+					&& hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
 				c.setEContrato(new EContrato(EContrato.PRE));
-				for (DetalleContrato dc : c.getDetalleContratos()) {
-					dc.getArticulo().getEArticulo().setId(EArticulo.ACTIVO);
-					dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-					dc.getArticulo().setUsuarioModificacion("AUTO UPD");
-				}
+				c.getDetalleContratos().forEach(
+						item -> {
+							item.getArticulo().setEArticulo(
+									new EArticulo(EArticulo.ACTIVO));
+							item.getArticulo().setFechaModificacion(
+									String.valueOf(LocalDate.now()));
+							item.getArticulo().setUsuarioModificacion(
+									"AUTO UPD");
+						});
 			} else if (hoy.isAfter(LocalDate.parse(c.getFechaVencimiento()))
 					&& !hoy.isEqual(LocalDate.parse(c.getFechaVencimiento()))) {
 				c.setEContrato(new EContrato(EContrato.VENCIDO));
-				for (DetalleContrato dc : c.getDetalleContratos()) {
-					dc.getArticulo().getEArticulo().setId(EArticulo.ACTIVO);
-					dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-					dc.getArticulo().setUsuarioModificacion("AUTO UPD");
-				}
+				c.getDetalleContratos().forEach(
+						item -> {
+							item.getArticulo().setEArticulo(
+									new EArticulo(EArticulo.ACTIVO));
+							item.getArticulo().setFechaModificacion(
+									String.valueOf(LocalDate.now()));
+							item.getArticulo().setUsuarioModificacion(
+									"AUTO UPD");
+						});
 			} else {
 				c.setEContrato(new EContrato(EContrato.ACTIVO));
-				for (DetalleContrato dc : c.getDetalleContratos()) {
-					dc.getArticulo().getEArticulo().setId(EArticulo.ACTIVO);
-					dc.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-					dc.getArticulo().setUsuarioModificacion("AUTO UPD");
-				}
+				c.getDetalleContratos().forEach(
+						item -> {
+							item.getArticulo().setEArticulo(
+									new EArticulo(EArticulo.ACTIVO));
+							item.getArticulo().setFechaModificacion(
+									String.valueOf(LocalDate.now()));
+							item.getArticulo().setUsuarioModificacion(
+									"AUTO UPD");
+						});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
