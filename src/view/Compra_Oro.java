@@ -36,7 +36,6 @@ import controller.ClienteController;
 import controller.CompraController;
 import model.Cliente;
 import model.Compra;
-import model.Contrato;
 import model.Egreso;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -163,11 +162,11 @@ public class Compra_Oro extends JInternalFrame {
 
 		txtDetalle = new JTextArea();
 		spDetalle.setViewportView(txtDetalle);
-		txtDetalle.setFont(new java.awt.Font("Segoe UI", 1, 22));
+		txtDetalle.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtDetalle.setForeground(new java.awt.Color(0, 64, 128));
 		txtDetalle.setPreferredSize(new java.awt.Dimension(608, 194));
 
-		txtPesoBruto = new JTextField();
+		txtPesoBruto = new JIconTextField();
 		contenedor.add(txtPesoBruto);
 		txtPesoBruto.setBounds(10, 320, 278, 60);
 		txtPesoBruto.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -177,7 +176,7 @@ public class Compra_Oro extends JInternalFrame {
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
 				new java.awt.Color(0, 128, 0)));
 
-		txtTotal = new JTextField();
+		txtTotal = new JIconTextField();
 		contenedor.add(txtTotal);
 		txtTotal.setBounds(298, 320, 278, 60);
 		txtTotal.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -199,7 +198,11 @@ public class Compra_Oro extends JInternalFrame {
 		btnFinalizar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				RegistrarCompra();
+				if (Utiles.Validar(contenedor)) {
+					RegistrarCompra();
+				} else {
+					Utiles.Mensaje("Completa el formulario.", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -323,9 +326,10 @@ public class Compra_Oro extends JInternalFrame {
 					c.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					new ClienteController().RegistrarCliente(c);
 					Utiles.Limpiar(pnlRegistro);
-					Utiles.Mensaje("Comprador Registrado.", JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Mensaje("¡Cliente Registrado!", JOptionPane.INFORMATION_MESSAGE);
 					txtDni.setText(c.getDocumento());
 					BuscarCliente(c.getDocumento());
+					btnRegistrarCliente.doClick();
 				} else {
 					Utiles.Mensaje("Complete el formulario.", JOptionPane.WARNING_MESSAGE);
 				}
@@ -377,6 +381,7 @@ public class Compra_Oro extends JInternalFrame {
 					txtDniCliente.setText(txtDni.getText());
 					txtDni.setText("");
 					btnRegistrarCliente.doClick();
+					txtPaterno.requestFocus();
 				}
 			} else {
 				Utiles.Mensaje("Ingresa un número de D.N.I. válido", JOptionPane.WARNING_MESSAGE);

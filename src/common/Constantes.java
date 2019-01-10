@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Articulo;
 import model.Asistencia;
 import model.DetalleContrato;
+import model.EArticulo;
 import model.Egreso;
 import model.Pago;
 import view.Principal;
@@ -167,6 +168,13 @@ public class Constantes {
 		@Override
 		public boolean test(Pago p) {
 			return p.getDescripcion().equalsIgnoreCase("CANCELACIÓN");
+		}
+	};
+
+	public static Predicate<DetalleContrato> predicadoConversorVitrina = new Predicate<DetalleContrato>() {
+		@Override
+		public boolean test(DetalleContrato dc) {
+			return dc.getArticulo().getEArticulo().getId() == EArticulo.VITRINA;
 		}
 	};
 

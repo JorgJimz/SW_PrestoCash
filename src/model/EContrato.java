@@ -27,6 +27,7 @@ public class EContrato implements Serializable {
 	public static final int PRE = 4;
 	public static final int CANCELADO = 6;
 	public static final int POST = 7;
+	public static final int VITRINA = 9;
 	public static final int VITRINA_SP = 13;
 	public static final int ANULADO = 14;
 

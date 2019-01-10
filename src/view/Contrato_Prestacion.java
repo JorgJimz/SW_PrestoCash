@@ -450,7 +450,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		contenedor.add(txtDescripcion);
 		txtDescripcion.setBounds(69, 199, 326, 60);
 		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtDescripcion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtDescripcion.setForeground(new java.awt.Color(0, 64, 128));
 		txtDescripcion.setBorder(BorderFactory.createTitledBorder(null, "DESCRIPCIÓN",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
@@ -460,7 +459,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		contenedor.add(txtModelo);
 		txtModelo.setBounds(587, 199, 180, 60);
 		txtModelo.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtModelo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtModelo.setForeground(new java.awt.Color(0, 64, 128));
 		txtModelo.setBorder(BorderFactory.createTitledBorder(null, "MODELO / GRAMAJE",
 				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
