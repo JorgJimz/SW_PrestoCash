@@ -15,6 +15,7 @@ public class EArticulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int ACTIVO = 1;
+	public static final int SEPARADO = 2;	
 	public static final int REMATADO = 3;
 	public static final int VITRINA = 5;
 	public static final int LIBRE = 6;

@@ -194,11 +194,9 @@ public class Utiles {
 			LocalDate gcPost = LocalDate.parse(c.getFechaVencimiento()).plusMonths(1).plusDays(Constantes.RANGO_POST);
 			LocalDate gcRem = LocalDate.parse(c.getFechaRemate());
 			if (hoy.isAfter(gcPost)) {
-
 				int totalDetalle = c.getDetalleContratos().size();
 				c.setEContrato(new EContrato(EContrato.VITRINA_SP));
 				c.getDetalleContratos().forEach(item -> {
-					System.out.println(item.getArticulo().getId());
 					int neoEstado = item.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0
 							? EArticulo.SIN_PRECIO
 							: EArticulo.VITRINA;
