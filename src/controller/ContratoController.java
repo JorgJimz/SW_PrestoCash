@@ -23,7 +23,8 @@ import model.Seguimiento;
 public class ContratoController {
 
 	public Contrato GenerarContrato(Contrato c, Egreso e) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -43,7 +44,8 @@ public class ContratoController {
 	}
 
 	public void ActualizarContratos(List<Contrato> listado) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -63,11 +65,13 @@ public class ContratoController {
 	}
 
 	public Contrato CargarContrato(String flag, int numero) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		Contrato c = null;
 		try {
-			Query q = em.createQuery("SELECT c FROM Contrato c WHERE c.flag = :f AND c.numero = :c");
+			Query q = em
+					.createQuery("SELECT c FROM Contrato c WHERE c.flag = :f AND c.numero = :c");
 			q.setParameter("f", flag);
 			q.setParameter("c", numero);
 			c = (Contrato) q.getSingleResult();
@@ -84,11 +88,13 @@ public class ContratoController {
 	}
 
 	public Long ObtenerCorrelativo(String flag) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		Long a = new Long(0);
 		try {
-			Query q = em.createQuery("SELECT COALESCE(MAX(c.numero),0)+1 FROM Contrato c WHERE c.flag = :f");
+			Query q = em
+					.createQuery("SELECT COALESCE(MAX(c.numero),0)+1 FROM Contrato c WHERE c.flag = :f");
 			q.setParameter("f", flag);
 			a = (Long) q.getSingleResult();
 		} catch (Exception e) {
@@ -102,7 +108,8 @@ public class ContratoController {
 	}
 
 	public Contrato GestionarContrato(Contrato c, Ingreso i) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -122,7 +129,8 @@ public class ContratoController {
 	}
 
 	public Contrato ActualizarContrato(Contrato c) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -141,7 +149,8 @@ public class ContratoController {
 	}
 
 	public Seguimiento GrabarSeguimiento(Seguimiento s) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -160,12 +169,14 @@ public class ContratoController {
 	}
 
 	public List<Contrato> ListarContratosVigentes() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<Contrato> l = null;
 		try {
-			l = em.createQuery("SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12)", Contrato.class)
-					.getResultList();
+			l = em.createQuery(
+					"SELECT c FROM Contrato c WHERE c.EContrato.id NOT IN (6,9,10,11,12,14)",
+					Contrato.class).getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
@@ -177,11 +188,13 @@ public class ContratoController {
 	}
 
 	public List<EContrato> ListarEstadosContrato() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		List<EContrato> l = null;
 		try {
-			l = em.createNamedQuery("EContrato.findAll", EContrato.class).getResultList();
+			l = em.createNamedQuery("EContrato.findAll", EContrato.class)
+					.getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
@@ -192,28 +205,39 @@ public class ContratoController {
 		return l;
 	}
 
-	public int BuscarContratosPorCliente(int id, boolean except, String flag, int numero) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+	public int BuscarContratosPorCliente(int id, boolean except, String flag,
+			int numero) {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
 		String e = "";
 		int f = 0;
 		try {
 			if (except) {
-				e = " AND CONCAT(c.flag,'-',c.numero) <> '" + flag + "-" + numero + "'";
+				e = " AND CONCAT(c.flag,'-',c.numero) <> '" + flag + "-"
+						+ numero + "'";
 			}
-			Query q = em.createQuery("SELECT c FROM Contrato c WHERE c.cliente.id = :i" + e, Contrato.class);
+			Query q = em.createQuery(
+					"SELECT c FROM Contrato c WHERE c.cliente.id = :i" + e,
+					Contrato.class);
 			q.setParameter("i", id);
 			List<Contrato> l = q.getResultList();
 			Constantes.HistorialModel.setRowCount(0);
 			for (Contrato c : l) {
-				if (Arrays.stream(Constantes.ESTADOS_ALERTA).anyMatch(c.getEContrato().getDescripcion()::contains)) {
+				if (Arrays.stream(Constantes.ESTADOS_ALERTA).anyMatch(
+						c.getEContrato().getDescripcion()::contains)) {
 					f++;
 				}
-				String articulos = c.getDetalleContratos().stream().map(a -> a.getArticulo().getDescripcion())
-						.collect(Collectors.joining(", ")).replaceFirst(",(?=[^,]+$)", " Y");
-				Constantes.HistorialModel.addRow(new Object[] { c.getFlag() + "-" + c.getNumero(), c.getFechaContrato(),
-						c.getFechaVencimiento(), c.getFechaRemate(), c.getEContrato().getDescripcion(), articulos,
-						c.getPrestamo().getDescripcion(), c.getCapital() });
+				String articulos = c.getDetalleContratos().stream()
+						.map(a -> a.getArticulo().getDescripcion())
+						.collect(Collectors.joining(", "))
+						.replaceFirst(",(?=[^,]+$)", " Y");
+				Constantes.HistorialModel.addRow(new Object[] {
+						c.getFlag() + "-" + c.getNumero(),
+						c.getFechaContrato(), c.getFechaVencimiento(),
+						c.getFechaRemate(), c.getEContrato().getDescripcion(),
+						articulos, c.getPrestamo().getDescripcion(),
+						c.getCapital() });
 			}
 		} catch (Exception ex) {
 			Logger.RegistrarIncidencia(ex);

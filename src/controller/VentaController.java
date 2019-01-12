@@ -71,7 +71,8 @@ public class VentaController {
 			q.setParameter("s", s);
 			q.setParameter("c", c.getId());
 			q.setParameter("a", a.getId());
-			q.executeUpdate();
+			q.executeUpdate();			
+			em.merge(a);
 			tx.commit();
 			m = new String[] { "Separación finalizada.", String.valueOf(JOptionPane.INFORMATION_MESSAGE) };
 		} catch (Exception e1) {

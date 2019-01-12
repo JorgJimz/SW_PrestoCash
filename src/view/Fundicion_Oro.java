@@ -37,6 +37,7 @@ import model.Articulo;
 import model.Contrato;
 import model.DetalleContrato;
 import model.EArticulo;
+import model.EContrato;
 import model.Fundicion;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -263,6 +264,12 @@ public class Fundicion_Oro extends JInternalFrame {
 			Articulo aAsociado = new ArticuloController()
 					.ObtenerArticulo(articuloId);
 			aAsociado.setEArticulo(new EArticulo(EArticulo.FUNDIDO));
+			Contrato cAsociado = new ContratoController().CargarContrato(
+					aAsociado.getFlagContrato(), aAsociado.getNumeroContrato());
+			cAsociado.setEContrato(new EContrato(EContrato.FUNDIDO));
+			cAsociado.setFechaModificacion(String.valueOf(LocalDate.now()));
+			cAsociado.setUsuarioModificacion(Principal.LOGGED.getLogin());
+			aAsociado.setContrato(cAsociado);
 			Fundicion f = new Fundicion();
 			f.setId(new Random().nextInt(100));
 			f.setFecha(String.valueOf(LocalDate.now()));
@@ -306,7 +313,8 @@ public class Fundicion_Oro extends JInternalFrame {
 		for (Fundicion f : detalle) {
 			FundicionModel.addRow(new Object[] {
 					f.getId(),
-					f.getArticulo().getFlagContrato() + "-" + f.getArticulo().getNumeroContrato(),
+					f.getArticulo().getFlagContrato() + "-"
+							+ f.getArticulo().getNumeroContrato(),
 					f.getArticulo().getDescripcion() + " "
 							+ f.getArticulo().getMarca(),
 					f.getArticulo().getModelo() });

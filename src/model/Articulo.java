@@ -74,6 +74,9 @@ public class Articulo implements Serializable {
 	@Transient
 	private String documentoCliente;
 
+	@Transient
+	private Contrato contrato;
+
 	// bi-directional many-to-one association to EArticulo
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "E_ARTICULO_ID")
@@ -374,6 +377,14 @@ public class Articulo implements Serializable {
 
 	public void setDocumentoCliente(String documentoCliente) {
 		this.documentoCliente = documentoCliente;
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 	@Override
