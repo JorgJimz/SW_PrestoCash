@@ -12,6 +12,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -158,8 +160,9 @@ public class Login extends JFrame {
 	public Usuario IniciarSesion() {
 		Usuario user = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
 		if (Objects.nonNull(user)) {
-			Asistencia ga = user.getAsistencias().stream().filter(Constantes.predicadoAsistencia(String.valueOf(LocalDate.now())))
-					.findFirst().orElse(Asistencia.DEFAULT);
+			Asistencia ga = user.getAsistencias().stream()
+					.filter(Constantes.predicadoAsistencia(String.valueOf(LocalDate.now()))).findFirst()
+					.orElse(Asistencia.DEFAULT);
 			if (Objects.isNull(ga)) {
 				Asistencia a = new Asistencia();
 				a.setFecha(String.valueOf(LocalDate.now()));
@@ -205,10 +208,18 @@ public class Login extends JFrame {
 		pbActualizacion.setVisible(true);
 		jLabel1.setVisible(true);
 		pbActualizacion.setIndeterminate(true);
-		List<Contrato> l = new ContratoController().ListarContratosVigentes();
-		for (Contrato c : l) {
+		List<Contrato> lVigentes = new ContratoController().ListarContratosVigentes();
+		for (Contrato c : lVigentes) {
 			Utiles.DetectarEstado(c);
 		}
+
+		List<Contrato> lNoVigentes = new ContratoController().ListarContratosNoVigentes();
+		for (Contrato c : lNoVigentes) {
+			Utiles.ActualizacionContrato(c);
+		}
+
+		List<Contrato> l = Stream.concat(lVigentes.stream(), lNoVigentes.stream()).collect(Collectors.toList());
+
 		new ContratoController().ActualizarContratos(l);
 		DesplegarSistema();
 	}
