@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -46,10 +45,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 
 import common.Utiles;
+
 import controller.ArticuloController;
 import controller.ContratoController;
 
@@ -271,7 +272,7 @@ public class Fundicion_Oro extends JInternalFrame {
 			cAsociado.setUsuarioModificacion(Principal.LOGGED.getLogin());
 			aAsociado.setContrato(cAsociado);
 			Fundicion f = new Fundicion();
-			f.setId(new Random().nextInt(100));
+			f.setAlphaId(RandomStringUtils.randomAlphabetic(5));
 			f.setFecha(String.valueOf(LocalDate.now()));
 			f.setArticulo(aAsociado);
 			f.setFechaCreacion(String.valueOf(LocalDate.now()));
@@ -295,10 +296,10 @@ public class Fundicion_Oro extends JInternalFrame {
 						"Confirmación", JOptionPane.YES_NO_OPTION);
 		if (opc == JOptionPane.YES_OPTION) {
 			int fila = tbFundicion.getSelectedRow();
-			int SelectedId = Integer.parseInt(FundicionModel
-					.getValueAt(fila, 0).toString());
+			String SelectedId = String.valueOf(FundicionModel.getValueAt(fila,
+					0));
 			for (Fundicion f : detalle) {
-				if (f.getId() == SelectedId) {
+				if (f.getAlphaId().equals(SelectedId)) {
 					detalle.remove(f);
 					break;
 				}
@@ -312,7 +313,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		BigDecimal cF = BigDecimal.ZERO;
 		for (Fundicion f : detalle) {
 			FundicionModel.addRow(new Object[] {
-					f.getId(),
+					f.getAlphaId(),
 					f.getArticulo().getFlagContrato() + "-"
 							+ f.getArticulo().getNumeroContrato(),
 					f.getArticulo().getDescripcion() + " "

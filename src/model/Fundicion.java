@@ -13,6 +13,9 @@ public class Fundicion implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Transient
+	private String alphaId;
+
 	private String fecha;
 
 	// bi-directional many-to-one association to Articulo
@@ -66,5 +69,13 @@ public class Fundicion implements Serializable {
 
 	public void setUsuarioCreacion(String usuarioCreacion) {
 		this.usuarioCreacion = usuarioCreacion;
+	}
+
+	public String getAlphaId() {
+		return alphaId;
+	}
+
+	public void setAlphaId(String alphaId) {
+		this.alphaId = alphaId;
 	}
 }
