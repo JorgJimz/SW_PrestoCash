@@ -216,6 +216,15 @@ public class Utiles {
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
+			} else if(c.getEContrato().getId() == EContrato.REMATADO) {
+				c.getDetalleContratos().forEach(item -> {
+					item.getArticulo().setEArticulo(new EArticulo(EArticulo.REMATADO));
+					item.getArticulo().setFlagContrato(c.getFlag());
+					item.getArticulo().setNumeroContrato(c.getNumero());
+					item.getArticulo().setCapitalContrato(item.getTasacion());
+					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
+					item.getArticulo().setUsuarioModificacion("UPD CNT");
+				});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
