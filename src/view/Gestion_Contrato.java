@@ -1281,12 +1281,11 @@ public class Gestion_Contrato extends JInternalFrame {
 						int idPago = Integer.parseInt(String.valueOf(tbPagos.getValueAt(tbPagos.getSelectedRow(), 0)));
 						Pago p = contrato.getPagos().stream().filter(Constantes.predicadoBuscarPago(idPago)).findFirst()
 								.orElse(Pago.DEFAULT);
-						ImprimirTicketPago(p);
-						Utiles.Mensaje("Imprimiendo Pago...", JOptionPane.WARNING_MESSAGE);
+						ImprimirTicketPago(p);						
 					} else if (i == 4) {
 						pType = "Abono";
 						int idAbono = Integer
-								.parseInt(String.valueOf(tbAbonos.getValueAt(tbPagos.getSelectedRow(), 0)));
+								.parseInt(String.valueOf(tbAbonos.getValueAt(tbAbonos.getSelectedRow(), 0)));
 						Abono a = contrato.getAbonos().stream().filter(Constantes.predicadoBuscarAbono(idAbono))
 								.findFirst().orElse(Abono.DEFAULT);
 						Pago p = new Pago();
@@ -1295,7 +1294,6 @@ public class Gestion_Contrato extends JInternalFrame {
 						p.setInteres(BigDecimal.ZERO);
 						p.setMora(BigDecimal.ZERO);
 						ImprimirTicketPago(p);
-						Utiles.Mensaje("Imprimiendo Abono ...", JOptionPane.WARNING_MESSAGE);
 					} else {
 						Utiles.Mensaje("Seleccione algún Pago u Abono ...", JOptionPane.WARNING_MESSAGE);
 					}
