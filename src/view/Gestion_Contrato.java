@@ -1274,7 +1274,9 @@ public class Gestion_Contrato extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int idPago = Integer.parseInt(String.valueOf(tbPagos.getValueAt(tbPagos.getSelectedRow(), 0)));
-				Pago p = new pagocon
+				Pago p = contrato.getPagos().stream().filter(Constantes.predicadoBuscarPago(idPago)).findFirst()
+						.orElse(Pago.DEFAULT);
+				ImprimirTicketPago(p);
 			}
 		});
 
@@ -1740,7 +1742,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 			if (proceed) {
 				new ContratoController().GestionarContrato(contrato, ingreso);
-				// ImprimirTicketPago(pago);
+				ImprimirTicketPago(pago);
 				dispose();
 			}
 		} catch (NoSuchElementException e) {

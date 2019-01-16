@@ -194,5 +194,9 @@ public class Constantes {
 			return (p instanceof JLabel && ((JLabel) p).getBackground() == Color.WHITE) ? true : false;
 		}
 	};
+	
+	public static Predicate<Pago> predicadoBuscarPago(int id) {
+		return p -> p.getId() == id;
+	};
 
 }
