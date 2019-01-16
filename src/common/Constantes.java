@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
+import model.Abono;
 import model.Articulo;
 import model.Asistencia;
 import model.DetalleContrato;
@@ -194,9 +195,13 @@ public class Constantes {
 			return (p instanceof JLabel && ((JLabel) p).getBackground() == Color.WHITE) ? true : false;
 		}
 	};
-	
+
 	public static Predicate<Pago> predicadoBuscarPago(int id) {
 		return p -> p.getId() == id;
+	};
+
+	public static Predicate<Abono> predicadoBuscarAbono(int id) {
+		return a -> a.getId() == id;
 	};
 
 }

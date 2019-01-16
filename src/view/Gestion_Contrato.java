@@ -1273,10 +1273,35 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnReimpresionPago.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int idPago = Integer.parseInt(String.valueOf(tbPagos.getValueAt(tbPagos.getSelectedRow(), 0)));
-				Pago p = contrato.getPagos().stream().filter(Constantes.predicadoBuscarPago(idPago)).findFirst()
-						.orElse(Pago.DEFAULT);
-				ImprimirTicketPago(p);
+				String pType = "";
+				try {
+					int i = tpContrato.getSelectedIndex();
+					if (i == 2) {
+						pType = "Pago";
+						int idPago = Integer.parseInt(String.valueOf(tbPagos.getValueAt(tbPagos.getSelectedRow(), 0)));
+						Pago p = contrato.getPagos().stream().filter(Constantes.predicadoBuscarPago(idPago)).findFirst()
+								.orElse(Pago.DEFAULT);
+						ImprimirTicketPago(p);
+						Utiles.Mensaje("Imprimiendo Pago...", JOptionPane.WARNING_MESSAGE);
+					} else if (i == 4) {
+						pType = "Abono";
+						int idAbono = Integer
+								.parseInt(String.valueOf(tbAbonos.getValueAt(tbPagos.getSelectedRow(), 0)));
+						Abono a = contrato.getAbonos().stream().filter(Constantes.predicadoBuscarAbono(idAbono))
+								.findFirst().orElse(Abono.DEFAULT);
+						Pago p = new Pago();
+						p.setDescripcion("ABONO AL CAPITAL");
+						p.setCapital(a.getArqCapital().subtract(a.getNeoCapital()));
+						p.setInteres(BigDecimal.ZERO);
+						p.setMora(BigDecimal.ZERO);
+						ImprimirTicketPago(p);
+						Utiles.Mensaje("Imprimiendo Abono ...", JOptionPane.WARNING_MESSAGE);
+					} else {
+						Utiles.Mensaje("Seleccione algún Pago u Abono ...", JOptionPane.WARNING_MESSAGE);
+					}
+				} catch (ArrayIndexOutOfBoundsException e2) {
+					Utiles.Mensaje(String.format("Debe seleccionar un %s...", pType), JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -1505,10 +1530,10 @@ public class Gestion_Contrato extends JInternalFrame {
 	public void CargarAbonos() {
 		Constantes.AbonoModel.setRowCount(0);
 		for (Abono a : contrato.getAbonos()) {
-			Constantes.AbonoModel
-					.addRow(new Object[] { Constantes.formatoLocal.format(LocalDate.parse(a.getFecha())).toUpperCase(),
-							a.getArqCapital(), a.getArqInteres(), a.getArqCapital().subtract(a.getNeoCapital()),
-							a.getNeoCapital(), a.getNeoInteres() });
+			Constantes.AbonoModel.addRow(new Object[] { a.getId(),
+					Constantes.formatoLocal.format(LocalDate.parse(a.getFecha())).toUpperCase(), a.getArqCapital(),
+					a.getArqInteres(), a.getArqCapital().subtract(a.getNeoCapital()), a.getNeoCapital(),
+					a.getNeoInteres() });
 		}
 	}
 
@@ -1783,7 +1808,7 @@ public class Gestion_Contrato extends JInternalFrame {
 					"TELÉFONO\t: " + contrato.getCliente().getTlf1() + " / " + contrato.getCliente().getTlf2() + "\n");
 			output.append("-----------------------------------------------------------------------" + "\n");
 			output.append("CONTRATO\t: " + contrato.getFlag() + "-" + contrato.getNumero() + "\n");
-			output.append(contrato.getOperacion() + " [" + p.getDescripcion() + "]" + "\n");
+			output.append(p.getDescripcion() + "\n");
 			output.append("CAPITAL\t: " + p.getCapital() + "\n");
 			output.append("INTERÉS\t: " + p.getInteres() + "\n");
 			output.append("MORA\t: " + p.getMora() + "\n");

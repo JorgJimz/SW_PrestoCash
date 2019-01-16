@@ -21,20 +21,18 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import model.Cliente;
-import model.Contrato;
-import model.EArticulo;
-import model.EContrato;
-
 import org.jdesktop.swingx.JXSearchField;
-
-import view.Contrato_Prestacion;
-import view.Principal;
-import view.Venta_Articulos;
 
 import com.toedter.calendar.JDateChooser;
 
 import controller.ClienteController;
+import model.Cliente;
+import model.Contrato;
+import model.EArticulo;
+import model.EContrato;
+import view.Contrato_Prestacion;
+import view.Principal;
+import view.Venta_Articulos;
 
 public class Utiles {
 	public static void MostrarOperaciones(String documento, JInternalFrame internal) {
@@ -216,7 +214,7 @@ public class Utiles {
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
-			} else if(c.getEContrato().getId() == EContrato.REMATADO) {
+			} else if (c.getEContrato().getId() == EContrato.REMATADO) {
 				c.getDetalleContratos().forEach(item -> {
 					item.getArticulo().setEArticulo(new EArticulo(EArticulo.REMATADO));
 					item.getArticulo().setFlagContrato(c.getFlag());
@@ -294,4 +292,5 @@ public class Utiles {
 			e.printStackTrace();
 		}
 	}
+
 }

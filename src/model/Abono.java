@@ -13,30 +13,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name="Abono.findAll", query="SELECT a FROM Abono a")
+@NamedQuery(name = "Abono.findAll", query = "SELECT a FROM Abono a")
 public class Abono implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final Abono DEFAULT = null;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="ARQ_CAPITAL")
+	@Column(name = "ARQ_CAPITAL")
 	private BigDecimal arqCapital;
 
-	@Column(name="ARQ_INTERES")
+	@Column(name = "ARQ_INTERES")
 	private BigDecimal arqInteres;
 
 	private String fecha;
 
-	@Column(name="NEO_CAPITAL")
+	@Column(name = "NEO_CAPITAL")
 	private BigDecimal neoCapital;
 
-	@Column(name="NEO_INTERES")
+	@Column(name = "NEO_INTERES")
 	private BigDecimal neoInteres;
 
-	//bi-directional many-to-one association to Contrato
-	@ManyToOne(fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Contrato
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
 
 	public Abono() {
