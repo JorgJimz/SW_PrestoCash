@@ -81,8 +81,7 @@ public class Multi_Cargo extends JInternalFrame {
 	TableColumn ArticuloId_Column;
 	TableColumn ContratoId_Column;
 
-	public DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(
-			null,
+	public DefaultTableModel ArticulosMultiCargoModel = new DefaultTableModel(null,
 			new String[] { "CID", "CONTRATO", "AID", "ARTÍCULO", "ESTADO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
@@ -113,8 +112,7 @@ public class Multi_Cargo extends JInternalFrame {
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
-				int option = JOptionPane.showConfirmDialog(null,
-						"<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
+				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
 						JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					dispose();
@@ -131,12 +129,10 @@ public class Multi_Cargo extends JInternalFrame {
 		txtNumeroContrato = new JXSearchField();
 		contenedor.add(txtNumeroContrato);
 		txtNumeroContrato.setBounds(693, 22, 384, 60);
-		txtNumeroContrato
-				.setPrompt("Digite, luego presione ENTER o clic en la LUPA");
-		txtNumeroContrato.setBorder(BorderFactory.createTitledBorder(null,
-				"NÚMERO DE CONTRATO", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",
-						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtNumeroContrato.setPrompt("Digite, luego presione ENTER o clic en la LUPA");
+		txtNumeroContrato.setBorder(BorderFactory.createTitledBorder(null, "NÚMERO DE CONTRATO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 		txtNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		txtNumeroContrato.setForeground(new java.awt.Color(0, 64, 128));
 		txtNumeroContrato.setSearchMode(SearchMode.REGULAR);
@@ -150,8 +146,7 @@ public class Multi_Cargo extends JInternalFrame {
 		spArticulos = new JScrollPane();
 		contenedor.add(spArticulos);
 		spArticulos.setBounds(693, 95, 596, 542);
-		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		tbArticulos = new JTable();
 		tbArticulos.setModel(ArticulosMultiCargoModel);
@@ -164,8 +159,7 @@ public class Multi_Cargo extends JInternalFrame {
 		spArticulos.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(25);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		tbArticulos.getTableHeader().setFont(
-				new Font("Segoe UI", Font.BOLD, 16));
+		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbArticulos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -178,8 +172,7 @@ public class Multi_Cargo extends JInternalFrame {
 		spCargo = new JScrollPane();
 		contenedor.add(spCargo);
 		spCargo.setBounds(12, 95, 662, 388);
-		spCargo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spCargo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spCargo.setBackground(new java.awt.Color(255, 255, 255));
 
 		tbCargo = new JTable();
@@ -198,14 +191,11 @@ public class Multi_Cargo extends JInternalFrame {
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int fila = tbCargo.getSelectedRow();
-					int SelectedId = Integer.parseInt(MultiCargoModel
-							.getValueAt(fila, 0).toString());
+					String SelectedId = String.valueOf(MultiCargoModel.getValueAt(fila, 0).toString());
 					for (DetalleCargo dc : detalle) {
-						if (dc.getId() == SelectedId) {
-							Sede s = new Sede(((ComboItem) MultiCargoModel
-									.getValueAt(fila, 3)).getId());
-							s.setDescripcion(((ComboItem) MultiCargoModel
-									.getValueAt(fila, 3)).getDescripcion());
+						if (dc.getAlphaId().equals(SelectedId)) {
+							Sede s = new Sede(((ComboItem) MultiCargoModel.getValueAt(fila, 3)).getId());
+							s.setDescripcion(((ComboItem) MultiCargoModel.getValueAt(fila, 3)).getDescripcion());
 							dc.setSede(s);
 						}
 					}
@@ -214,8 +204,7 @@ public class Multi_Cargo extends JInternalFrame {
 		});
 		tbCargo.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_DELETE
-						|| e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+				if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
 					QuitarArticulo();
 				}
 			}
@@ -239,14 +228,10 @@ public class Multi_Cargo extends JInternalFrame {
 					if (detalle.size() > 0) {
 						if (ValidarDestinos()) {
 							cargo.setFecha(String.valueOf(LocalDate.now()));
-							cargo.setTransportista(txtTransportista.getText()
-									.trim().toUpperCase());
-							cargo.setObs(txtObservaciones.getText().trim()
-									.toUpperCase());
-							cargo.setUsuarioCreacion(Principal.LOGGED
-									.getLogin());
-							cargo.setFechaCreacion(String.valueOf(LocalDate
-									.now()));
+							cargo.setTransportista(txtTransportista.getText().trim().toUpperCase());
+							cargo.setObs(txtObservaciones.getText().trim().toUpperCase());
+							cargo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+							cargo.setFechaCreacion(String.valueOf(LocalDate.now()));
 							cargo.setDetalleCargos(detalle);
 							new CargoController().GenerarCargo(cargo);
 							Utiles.Mensaje(
@@ -255,18 +240,14 @@ public class Multi_Cargo extends JInternalFrame {
 							ImprimirCargo(cargo, true);
 							dispose();
 						} else {
-							Utiles.Mensaje(
-									"Una o más prendas no tienen destino. Por favor, verifique.",
+							Utiles.Mensaje("Una o más prendas no tienen destino. Por favor, verifique.",
 									JOptionPane.WARNING_MESSAGE);
 						}
 					} else {
-						Utiles.Mensaje(
-								"Agregue como mínimo un artículo al cargo.",
-								JOptionPane.WARNING_MESSAGE);
+						Utiles.Mensaje("Agregue como mínimo un artículo al cargo.", JOptionPane.WARNING_MESSAGE);
 					}
 				} else {
-					Utiles.Mensaje("Complete el formulario.",
-							JOptionPane.WARNING_MESSAGE);
+					Utiles.Mensaje("Complete el formulario.", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -274,26 +255,22 @@ public class Multi_Cargo extends JInternalFrame {
 		txtTransportista = new JIconTextField();
 		contenedor.add(txtTransportista);
 		txtTransportista.setBounds(12, 500, 413, 60);
-		txtTransportista.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtTransportista.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtTransportista.setEnabled(false);
 		txtTransportista.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtTransportista.setBorder(BorderFactory.createTitledBorder(null,
-				"TRANSPORTADO POR", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",
-						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtTransportista.setBorder(BorderFactory.createTitledBorder(null, "TRANSPORTADO POR",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtObservaciones = new JIconTextField();
 		contenedor.add(txtObservaciones);
 		txtObservaciones.setBounds(12, 577, 413, 60);
 		txtObservaciones.setEnabled(false);
-		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtObservaciones.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtObservaciones.setBorder(BorderFactory.createTitledBorder(null,
-				"OBSERVACIONES", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",
-						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtObservaciones.setBorder(BorderFactory.createTitledBorder(null, "OBSERVACIONES",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		btnImprimir = new JButton(new ImageIcon("img/printer.png"));
 		contenedor.add(btnImprimir);
@@ -309,8 +286,7 @@ public class Multi_Cargo extends JInternalFrame {
 		btnImprimir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Cargo c = new CargoController().ConsultarCargo(Integer
-						.parseInt(txtNumeroCargo.getText()));
+				Cargo c = new CargoController().ConsultarCargo(Integer.parseInt(txtNumeroCargo.getText()));
 				ImprimirCargo(c, false);
 			}
 		});
@@ -320,12 +296,10 @@ public class Multi_Cargo extends JInternalFrame {
 		txtNumeroCargo.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		txtNumeroCargo.setForeground(new java.awt.Color(0, 64, 128));
 		txtNumeroCargo.setSearchMode(SearchMode.REGULAR);
-		txtNumeroCargo
-				.setPrompt("Digite, luego presione ENTER o clic en la LUPA");
-		txtNumeroCargo.setBorder(BorderFactory.createTitledBorder(null,
-				"NÚMERO DE CARGO", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",
-						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtNumeroCargo.setPrompt("Digite, luego presione ENTER o clic en la LUPA");
+		txtNumeroCargo.setBorder(BorderFactory.createTitledBorder(null, "NÚMERO DE CARGO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 		txtNumeroCargo.setBounds(12, 22, 442, 60);
 		txtNumeroCargo.addActionListener(new ActionListener() {
 			@Override
@@ -343,8 +317,7 @@ public class Multi_Cargo extends JInternalFrame {
 		btnMas.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnMas.setOpaque(false);
 		btnMas.setEnabled(false);
-		btnMas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnMas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnMas.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnMas.setBounds(1089, 12, 200, 70);
 		btnMas.addActionListener(new ActionListener() {
@@ -400,12 +373,9 @@ public class Multi_Cargo extends JInternalFrame {
 	public void ListarCargo() {
 		MultiCargoModel.setRowCount(0);
 		for (DetalleCargo dc : detalle) {
-			MultiCargoModel.addRow(new Object[] {
-					dc.getAlphaId(),
-					dc.getContrato().getFlag() + "-"
-							+ dc.getContrato().getNumero(),
-					dc.getArticulo().getDescripcion(),
-					dc.getSede().getDescripcion() });
+			MultiCargoModel.addRow(
+					new Object[] { dc.getAlphaId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
+							dc.getArticulo().getDescripcion(), dc.getSede().getDescripcion() });
 		}
 		tbCargo.setModel(MultiCargoModel);
 		btnMenos.setEnabled(detalle.size() > 0);
@@ -415,17 +385,13 @@ public class Multi_Cargo extends JInternalFrame {
 	public void ConsultarCargo() {
 		if (!txtNumeroCargo.getText().trim().equalsIgnoreCase("")) {
 			MultiCargoModel.setRowCount(0);
-			Cargo c = new CargoController().ConsultarCargo(Integer
-					.parseInt(txtNumeroCargo.getText()));
+			Cargo c = new CargoController().ConsultarCargo(Integer.parseInt(txtNumeroCargo.getText()));
 			if (Objects.nonNull(c)) {
 				btnImprimir.setEnabled(true);
 				for (DetalleCargo dc : c.getDetalleCargos()) {
-					MultiCargoModel.addRow(new Object[] {
-							dc.getId(),
-							dc.getContrato().getFlag() + "-"
-									+ dc.getContrato().getNumero(),
-							dc.getArticulo().getDescripcion(),
-							dc.getSede().getDescripcion() });
+					MultiCargoModel.addRow(
+							new Object[] { dc.getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
+									dc.getArticulo().getDescripcion(), dc.getSede().getDescripcion() });
 				}
 				tbCargo.setModel(MultiCargoModel);
 			} else {
@@ -433,21 +399,16 @@ public class Multi_Cargo extends JInternalFrame {
 			}
 		} else {
 			txtNumeroCargo.requestFocus();
-			Utiles.Mensaje("Ingrese un número de cargo.",
-					JOptionPane.WARNING_MESSAGE);
+			Utiles.Mensaje("Ingrese un número de cargo.", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
 	public void AgregarArticulo() {
 		int fila = tbArticulos.getSelectedRow();
-		int contratoId = Integer.parseInt(ArticulosMultiCargoModel.getValueAt(
-				fila, 0).toString());
-		String flagNumero = ArticulosMultiCargoModel.getValueAt(fila, 1)
-				.toString();
-		int articuloId = Integer.parseInt(ArticulosMultiCargoModel.getValueAt(
-				fila, 2).toString());
-		boolean exists = detalle.stream().anyMatch(
-				t -> t.getArticulo().getId() == articuloId);
+		int contratoId = Integer.parseInt(ArticulosMultiCargoModel.getValueAt(fila, 0).toString());
+		String flagNumero = ArticulosMultiCargoModel.getValueAt(fila, 1).toString();
+		int articuloId = Integer.parseInt(ArticulosMultiCargoModel.getValueAt(fila, 2).toString());
+		boolean exists = detalle.stream().anyMatch(t -> t.getArticulo().getId() == articuloId);
 		if (!exists) {
 			btnMenos.setEnabled(true);
 			btnImprimir.setEnabled(false);
@@ -457,8 +418,7 @@ public class Multi_Cargo extends JInternalFrame {
 			cAsociado.setId(contratoId);
 			cAsociado.setFlag(flagNumero.split("-")[0]);
 			cAsociado.setNumero(Integer.parseInt(flagNumero.split("-")[1]));
-			Articulo aAsociado = new ArticuloController()
-					.ObtenerArticulo(articuloId);
+			Articulo aAsociado = new ArticuloController().ObtenerArticulo(articuloId);
 			DetalleCargo dcc = new DetalleCargo();
 			dcc.setAlphaId(RandomStringUtils.randomAlphabetic(5));
 			dcc.setContrato(cAsociado);
@@ -473,21 +433,17 @@ public class Multi_Cargo extends JInternalFrame {
 			txtNumeroContrato.requestFocus();
 			ListarCargo();
 		} else {
-			Utiles.Mensaje("Esta prenda ya ha sido agregada al cargo actual.",
-					JOptionPane.WARNING_MESSAGE);
+			Utiles.Mensaje("Esta prenda ya ha sido agregada al cargo actual.", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
 	public void QuitarArticulo() {
-		int opc = JOptionPane
-				.showConfirmDialog(
-						null,
-						"<html><h3>¿Está seguro de retirar el artículo seleccionado del Cargo?</h3></html>",
-						"Confirmación", JOptionPane.YES_NO_OPTION);
+		int opc = JOptionPane.showConfirmDialog(null,
+				"<html><h3>¿Está seguro de retirar el artículo seleccionado del Cargo?</h3></html>", "Confirmación",
+				JOptionPane.YES_NO_OPTION);
 		if (opc == JOptionPane.YES_OPTION) {
 			int fila = tbCargo.getSelectedRow();
-			String SelectedId = String.valueOf(MultiCargoModel.getValueAt(fila,
-					0));
+			String SelectedId = String.valueOf(MultiCargoModel.getValueAt(fila, 0));
 			for (DetalleCargo dc : detalle) {
 				if (dc.getAlphaId().equals(SelectedId)) {
 					detalle.remove(dc);
@@ -510,33 +466,26 @@ public class Multi_Cargo extends JInternalFrame {
 
 	public void ObtenerDetalleContrato(String contrato) {
 		if (!contrato.isEmpty()) {
-			Contrato cn = new ContratoController().CargarContrato(
-					contrato.split("-")[0],
+			Contrato cn = new ContratoController().CargarContrato(contrato.split("-")[0],
 					Integer.parseInt(contrato.split("-")[1]));
 			if (Objects.nonNull(cn)) {
 				ArticulosMultiCargoModel.setRowCount(0);
 				for (DetalleContrato dc : cn.getDetalleContratos()) {
 					ArticulosMultiCargoModel.addRow(new Object[] {
-							dc.getContrato().getId(),
-							dc.getContrato().getFlag() + "-"
-									+ dc.getContrato().getNumero(),
-							dc.getArticulo().getId(),
-							dc.getArticulo().getDescripcion() + " "
-									+ dc.getArticulo().getMarca() + " "
-									+ dc.getArticulo().getModelo(),
+							dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
+							dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " "
+									+ dc.getArticulo().getMarca() + " " + dc.getArticulo().getModelo(),
 							dc.getArticulo().getEArticulo().getDescripcion() });
 				}
 				tbArticulos.setModel(ArticulosMultiCargoModel);
 				btnMas.setEnabled(true);
 			} else {
-				Utiles.Mensaje(String.format(
-						"El contrato %s no existe. Por favor, verificar.",
-						contrato), JOptionPane.INFORMATION_MESSAGE);
+				Utiles.Mensaje(String.format("El contrato %s no existe. Por favor, verificar.", contrato),
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 
 		} else {
-			Utiles.Mensaje("Ingrese Número de Contrato ...",
-					JOptionPane.INFORMATION_MESSAGE);
+			Utiles.Mensaje("Ingrese Número de Contrato ...", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -546,10 +495,9 @@ public class Multi_Cargo extends JInternalFrame {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 		try {
-			JasperReport reporte = (JasperReport) JRLoader
-					.loadObjectFromFile("reports/cargo.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,
-					params, new JRBeanCollectionDataSource(arreglo_cargo));
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/cargo.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
+					new JRBeanCollectionDataSource(arreglo_cargo));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();
