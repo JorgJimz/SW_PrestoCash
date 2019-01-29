@@ -593,7 +593,7 @@ public class Venta_Articulos extends JInternalFrame {
 					Separacion separacion = new Separacion();
 					separacion.setFecha(String.valueOf(LocalDate.now()));
 					separacion.setPrecioVenta(articulo.getPrecioVenta());
-					separacion.setStatus(Separacion.ACTIVA);
+					
 					separacion.setCliente(cliente);
 					separacion.setImporte(new BigDecimal(txtMonto.getText()));
 					separacion.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -606,6 +606,7 @@ public class Venta_Articulos extends JInternalFrame {
 					BigDecimal diff = articulo.getPrecioVenta().subtract(totalFecha.add(separacion.getImporte()));
 
 					if (diff.compareTo(BigDecimal.ZERO) == 0) {
+						separacion.setStatus(Separacion.FINALIZADA);
 						articulo.setEArticulo(new EArticulo(3));
 						ingreso.setTipo("SEP #" + nSep + " (R)");
 						ingreso.setCapital(articulo.getCapitalContrato());
@@ -633,8 +634,10 @@ public class Venta_Articulos extends JInternalFrame {
 						ingreso.setOtro(separacion.getImporte());
 						ingreso.setMoneda("SOLES");
 						contrato.setEContrato(new EContrato(EContrato.EN_PROCESO));
+						separacion.setStatus(Separacion.ACTIVA);
 					}
 
+					
 					separacion.setArticulo(articulo);
 					new VentaController().GenerarSeparacion(separacion, ingreso);
 					new ContratoController().ActualizarContrato(contrato);

@@ -20,6 +20,8 @@ public class Separacion implements Serializable {
 	public static final int LIBERADA = 0;
 	public static final int ACTIVA = 1;
 	public static final int FINALIZADA = 2;
+	
+	public static final Separacion DEFAULT = null;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
