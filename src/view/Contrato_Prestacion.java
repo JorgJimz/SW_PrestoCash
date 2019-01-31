@@ -390,7 +390,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnEditarCliente.setContentAreaFilled(false);
 		btnEditarCliente.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEditarCliente.setHorizontalAlignment(SwingConstants.LEFT);
-		btnEditarCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));		
+		btnEditarCliente.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnEditarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Mantenimiento_Clientes mc = new Mantenimiento_Clientes(txtDni.getText());
@@ -468,7 +468,6 @@ public class Contrato_Prestacion extends JInternalFrame {
 		contenedor.add(txtMarca);
 		txtMarca.setBounds(401, 199, 180, 60);
 		txtMarca.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		txtMarca.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		txtMarca.setForeground(new java.awt.Color(0, 64, 128));
 		txtMarca.setBorder(BorderFactory.createTitledBorder(null, "MARCA", TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),

@@ -113,7 +113,9 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JLabel lblCapital;
 	private JComboBox cboAlmacen;
 	private JButton btnCargo;
-	private JLabel lblId3;
+	private JTextField txtEmail;
+	private JTextField txtTlf2;
+	private JTextField txtTlf1;
 	private JButton btnReimpresion;
 	private JButton btnReimpresionPago;
 	private JRadioButton rbAnularContrato;
@@ -808,7 +810,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		pnlSeguimientoContainer = new JPanel();
 		contenedor.add(pnlSeguimientoContainer);
-		pnlSeguimientoContainer.setBounds(555, 339, 683, 285);
+		pnlSeguimientoContainer.setBounds(555, 339, 683, 330);
 		pnlSeguimientoContainer.setLayout(null);
 		pnlSeguimientoContainer.setVisible(false);
 
@@ -934,12 +936,13 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlSeguimientoContainer.setOpaque(false);
 		btnGrabarSeguimiento.setOpaque(false);
 		btnGrabarSeguimiento.setBorderPainted(false);
-		btnGrabarSeguimiento.setToolTipText("Registrar llamada");
+		btnGrabarSeguimiento.setText("GRABAR LLAMADA");
 		btnGrabarSeguimiento.setContentAreaFilled(false);
 		btnGrabarSeguimiento.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnGrabarSeguimiento.setBounds(594, 92, 85, 70);
-		btnGrabarSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnGrabarSeguimiento.setBounds(5, 178, 256, 70);
+		btnGrabarSeguimiento.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnGrabarSeguimiento.setHorizontalAlignment(SwingConstants.LEFT);
+		btnGrabarSeguimiento.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		btnGrabarSeguimiento.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -960,12 +963,13 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnRegresar.setOpaque(false);
 		btnRegresar.setBorderPainted(false);
 		btnRegresar.setContentAreaFilled(false);
-		btnRegresar.setToolTipText("Regresar");
+		btnRegresar.setText("REGRESAR");
 		btnRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		pnlSeguimientoContainer.add(btnRegresar);
-		btnRegresar.setBounds(597, 173, 85, 70);
-		btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 20));
+		btnRegresar.setBounds(5, 252, 256, 70);
+		btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnRegresar.setHorizontalAlignment(SwingConstants.LEFT);
+		btnRegresar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		btnRegresar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -976,23 +980,23 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		spDetalleSeguimiento = new JScrollPane();
 		pnlSeguimientoContainer.add(spDetalleSeguimiento);
-		spDetalleSeguimiento.setBounds(5, 59, 637, 222);
+		spDetalleSeguimiento.setBounds(284, 50, 360, 260);
 		txtDetalleSeguimiento = new JTextArea();
 		pnlSeguimientoContainer.add(txtDetalleSeguimiento);
 		spDetalleSeguimiento.setViewportView(txtDetalleSeguimiento);
 		spDetalleSeguimiento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		txtDetalleSeguimiento.setFont(new java.awt.Font("Segoe UI", 0, 20));
+		txtDetalleSeguimiento.setFont(new java.awt.Font("Segoe UI", 0, 16));
 
 		rbEntrante = new JRadioButton();
 		pnlSeguimientoContainer.add(rbEntrante);
 		rbgSeguimiento.add(rbEntrante);
 		rbEntrante.setText("ENTRANTE");
 		rbEntrante.setOpaque(false);
-		rbEntrante.setBounds(346, 13, 158, 32);
+		rbEntrante.setBounds(284, 11, 143, 32);
 		rbEntrante.setActionCommand("I");
-		rbEntrante.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbEntrante.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbEntrante.setForeground(new java.awt.Color(0, 128, 0));
-		rbEntrante.setHorizontalAlignment(SwingConstants.CENTER);
+		rbEntrante.setHorizontalAlignment(SwingConstants.LEFT);
 
 		rbSaliente = new JRadioButton();
 		rbSaliente.setOpaque(false);
@@ -1000,17 +1004,37 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbgSeguimiento.add(rbSaliente);
 		rbSaliente.setText("SALIENTE");
 		rbSaliente.setActionCommand("O");
-		rbSaliente.setBounds(525, 13, 158, 32);
-		rbSaliente.setFont(new java.awt.Font("Segoe UI", 1, 18));
+		rbSaliente.setBounds(501, 11, 143, 32);
+		rbSaliente.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		rbSaliente.setForeground(new java.awt.Color(0, 128, 0));
-		rbSaliente.setHorizontalAlignment(SwingConstants.CENTER);
+		rbSaliente.setHorizontalAlignment(SwingConstants.LEFT);
 
-		lblId3 = new JLabel();
-		pnlSeguimientoContainer.add(lblId3);
-		lblId3.setText("RESULTADO DE LA LLAMADA");
-		lblId3.setForeground(new java.awt.Color(0, 128, 255));
-		lblId3.setFont(new java.awt.Font("Segoe UI", 1, 20));
-		lblId3.setBounds(5, 12, 329, 32);
+		txtTlf1 = new JTextField(contrato.getCliente().getTlf1());
+		txtTlf1.setEditable(false);
+		txtTlf1.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		pnlSeguimientoContainer.add(txtTlf1);
+		txtTlf1.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 1", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+		txtTlf1.setBounds(5, 9, 256, 50);
+
+		txtTlf2 = new JTextField(contrato.getCliente().getTlf2());
+		txtTlf2.setEditable(false);
+		txtTlf2.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		pnlSeguimientoContainer.add(txtTlf2);
+		txtTlf2.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 2", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+		txtTlf2.setBounds(5, 70, 256, 49);
+
+		txtEmail = new JTextField(contrato.getCliente().getEmail());
+		txtEmail.setEditable(false);
+		txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 16));
+		pnlSeguimientoContainer.add(txtEmail);
+		txtEmail.setBorder(BorderFactory.createTitledBorder(null, "E-MAIL", TitledBorder.DEFAULT_JUSTIFICATION,
+				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", Font.BOLD, 12),
+				new java.awt.Color(0, 128, 0)));
+		txtEmail.setBounds(5, 128, 256, 50);
 
 		rbPagoInteres = new JRadioButton();
 		pnlOperacionContainer.add(rbPagoInteres);
@@ -1222,7 +1246,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnCargo = new JButton(new ImageIcon("img/cargo.png"));
 		pnlOperacionContainer.add(btnCargo, JLayeredPane.DEFAULT_LAYER);
 		btnCargo.setText("NUEVO CARGO");
-		btnCargo.setBounds(445, 170, 218, 70);
+		btnCargo.setBounds(450, 170, 218, 70);
 		btnCargo.setOpaque(false);
 		btnCargo.setBorderPainted(false);
 		btnCargo.setContentAreaFilled(false);
@@ -1265,7 +1289,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		btnReimpresionPago = new JButton(new ImageIcon("img/ticket.png"));
 		pnlOperacionContainer.add(btnReimpresionPago, JLayeredPane.DEFAULT_LAYER);
 		btnReimpresionPago.setText("IMPRIMIR PAGO");
-		btnReimpresionPago.setBounds(445, 245, 250, 70);
+		btnReimpresionPago.setBounds(450, 245, 250, 70);
 		btnReimpresionPago.setOpaque(false);
 		btnReimpresionPago.setBorderPainted(false);
 		btnReimpresionPago.setContentAreaFilled(false);
@@ -1326,9 +1350,10 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlSucesos.setVisible(true);
 		switch (k.getEContrato().getId()) {
 		case EContrato.EN_PROCESO:
-			CargarSeparaciones();
-			CargarRemates();
-			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>EN PROCESO</h1></center></html>");
+			String separaciones = CargarSeparaciones();
+			String remates = CargarRemates();
+			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>EN PROCESO</h1></center><h5>" + separaciones
+					+ "<br/>" + remates + "</h5></html>");
 			break;
 		case EContrato.FUNDIDO:
 			edpMensajeSuceso
@@ -1355,10 +1380,12 @@ public class Gestion_Contrato extends JInternalFrame {
 							+ "</html>");
 			break;
 		case 10:
-			CargarSeparaciones();
+			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>SEPARADO</h1></center><h5>"
+					+ CargarSeparaciones() + "</h5></html>");
 			break;
 		case EContrato.REMATADO:
-			CargarRemates();
+			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>" + CargarRemates()
+					+ "</h5></html>");
 			break;
 		case EContrato.USO_OFICINA:
 			edpMensajeSuceso
@@ -1421,7 +1448,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public void CargarSeparaciones() {
+	public String CargarSeparaciones() {
 		StringBuffer sbs = new StringBuffer("");
 		BigDecimal cnSp = BigDecimal.ZERO;
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
@@ -1435,11 +1462,11 @@ public class Gestion_Contrato extends JInternalFrame {
 			sbs.append("TOTAL: " + cnSp + "<br/>");
 			sbs.append("<hr/>");
 		}
-		edpMensajeSuceso
-				.setText("<html><center><h1 style='color:red'>SEPARADO</h1></center><h5>" + sbs + "</h5></html>");
+
+		return String.valueOf(sbs);
 	}
 
-	public void CargarRemates() {
+	public String CargarRemates() {
 		StringBuffer sbs = new StringBuffer("");
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
 			for (Venta v : dc.getArticulo().getVentas()) {
@@ -1464,8 +1491,9 @@ public class Gestion_Contrato extends JInternalFrame {
 				sbs.append("<hr/>");
 			}
 		}
-		edpMensajeSuceso
-				.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>" + sbs + "</h5></html>");
+
+		return String.valueOf(sbs);
+
 	}
 
 	public void CargarSeguimiento() {

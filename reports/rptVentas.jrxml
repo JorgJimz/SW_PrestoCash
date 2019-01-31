@@ -46,20 +46,26 @@
 	<field name="modalidad" class="java.lang.String">
 		<fieldDescription><![CDATA[modalidad]]></fieldDescription>
 	</field>
-	<variable name="TOTAL_CAPITAL" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+	<variable name="TOTAL_CAPITAL" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{articulo}.getCapitalContrato()]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 	</variable>
-	<variable name="TOTAL_GANANCIA" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+	<variable name="TOTAL_GANANCIA" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe}.subtract($F{articulo}.getCapitalContrato())]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
 	</variable>
-	<variable name="TOTAL_PV" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+	<variable name="TOTAL_PV" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{articulo}.getPrecioVenta()]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="V_TOTAL_VENTA" class="java.math.BigDecimal" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$F{fecha}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="71" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<image>
 				<reportElement x="0" y="0" width="159" height="70" uuid="8604ba16-a411-43f3-a43a-4a727127a48f"/>
@@ -85,6 +91,32 @@
 					<font size="12" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE, dd MMMM yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="560" y="10" width="140" height="20" backcolor="rgba(255, 153, 0, 0.5882353)" uuid="055360e6-8bd3-415e-848f-4610082420d7"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL VENTAS]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="560" y="30" width="140" height="20" uuid="f04fc80c-206c-405f-8e97-10260b49ade3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_TOTAL_VENTA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
