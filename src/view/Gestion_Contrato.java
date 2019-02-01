@@ -1330,7 +1330,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		});
 
 		CargarInformacionContrato();
-		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD).contains(contrato.getEContrato().getId())) {
+		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_CONTRATO).contains(contrato.getEContrato().getId())) {
 			ActivarPerspectivaInactivo(contrato);
 		}
 	}

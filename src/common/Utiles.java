@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -239,15 +240,18 @@ public class Utiles {
 				int totalDetalle = c.getDetalleContratos().size();
 				c.setEContrato(new EContrato(EContrato.VITRINA_SP));
 				c.getDetalleContratos().forEach(item -> {
-					int neoEstado = item.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0
-							&& item.getArticulo().getEArticulo().getId() != EArticulo.BAJA ? EArticulo.SIN_PRECIO
-									: EArticulo.VITRINA;
-					item.getArticulo().setEArticulo(new EArticulo(neoEstado));
-					item.getArticulo().setFlagContrato(c.getFlag());
-					item.getArticulo().setNumeroContrato(c.getNumero());
-					item.getArticulo().setCapitalContrato(item.getTasacion());
-					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
-					item.getArticulo().setUsuarioModificacion("AUTO UPD");
+					if (!Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_ARTICULO)
+							.contains(item.getArticulo().getEArticulo().getId())) {
+						int neoEstado = item.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0
+								&& item.getArticulo().getEArticulo().getId() != EArticulo.BAJA ? EArticulo.SIN_PRECIO
+										: EArticulo.VITRINA;
+						item.getArticulo().setEArticulo(new EArticulo(neoEstado));
+						item.getArticulo().setFlagContrato(c.getFlag());
+						item.getArticulo().setNumeroContrato(c.getNumero());
+						item.getArticulo().setCapitalContrato(item.getTasacion());
+						item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
+						item.getArticulo().setUsuarioModificacion("AUTO UPD");
+					}
 				});
 
 				int conteoVitrina = (int) c.getDetalleContratos().stream().filter(Constantes.predicadoConversorVitrina)
