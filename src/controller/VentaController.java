@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import common.Logger;
 import model.Articulo;
 import model.Cliente;
+import model.Compra;
 import model.Ingreso;
 import model.Separacion;
 import model.Venta;
@@ -108,6 +109,29 @@ public class VentaController {
 		}
 		return l;
 	}
+	
+
+	public List<Compra> ListarCompraOro(LocalDate inicio, LocalDate fin) {
+		String i = Objects.isNull(inicio) ? null : String.valueOf(inicio);
+		String f = Objects.isNull(fin) ? null : String.valueOf(fin);
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
+		List<Compra> l = null;
+		try {
+			l = em.createQuery(
+					"SELECT c FROM Compra c WHERE c.fecha BETWEEN COALESCE(:i,c.fecha) AND COALESCE(:f,c.fecha)",
+					Compra.class).setParameter("i", i).setParameter("f", f)
+					.getResultList();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+		return l;
+	}
+
 
 	public List<Venta> ListarVentas(LocalDate inicio, LocalDate fin) {
 		String i = Objects.isNull(inicio) ? null : String.valueOf(inicio);

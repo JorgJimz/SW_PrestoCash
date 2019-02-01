@@ -51,6 +51,19 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import view.Principal;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 @SuppressWarnings({ "serial", "deprecation" })
 public class Reporteria extends JInternalFrame {
 
@@ -62,6 +75,7 @@ public class Reporteria extends JInternalFrame {
 	private DatePicker dcInicio;
 	private JPanel pnlFecha;
 	private JButton btnGenerar;
+	private JButton btnReporteCompraOro;
 	private JPanel pnlEContrato;
 	private JButton btnReporteSeparacion;
 	private JButton btnReporteRemates;
@@ -143,6 +157,22 @@ public class Reporteria extends JInternalFrame {
 		btnReporteSeparacion.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnReporteSeparacion.setFont(new java.awt.Font("Segoe UI", 1, 12));
 		btnReporteSeparacion.setHorizontalAlignment(SwingConstants.LEFT);
+
+		btnReporteCompraOro = new JButton(new ImageIcon("img/coins.png"));
+		btnReporteCompraOro.setText("COMPRA DE ORO");
+		contenedor.add(btnReporteCompraOro);
+		btnReporteCompraOro.setHorizontalAlignment(SwingConstants.LEFT);
+		btnReporteCompraOro.setContentAreaFilled(false);
+		btnReporteCompraOro.setBorderPainted(false);
+		btnReporteCompraOro.setFont(new java.awt.Font("Segoe UI", 1, 12));
+		btnReporteCompraOro.setOpaque(false);
+		btnReporteCompraOro.setBounds(10, 498, 272, 70);
+		btnReporteCompraOro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnReporteCompraOro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				MostrarReporteCompraOro();
+			}
+		});
 
 		pnlTPrestamo = new JPanel(new GridLayout(3, 2, 10, 10));
 		contenedor.add(pnlTPrestamo);
@@ -342,7 +372,7 @@ public class Reporteria extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void MostrarEstadisticoVentas() {
 		try {
 			HashMap<String, Object> params = new HashMap<String, Object>();
@@ -359,7 +389,7 @@ public class Reporteria extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void MostrarEstadisticoEmpeno() {
 		try {
 			HashMap<String, Object> params = new HashMap<String, Object>();
@@ -433,6 +463,23 @@ public class Reporteria extends JInternalFrame {
 			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptSeparaciones.jasper");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params, new JRBeanCollectionDataSource(
 					new VentaController().ListarSeparaciones(Separacion.ACTIVA, dcInicio.getDate(), dcFin.getDate())));
+			JasperViewer viewer = new JasperViewer(jasperPrint, false);
+			viewer.show();
+			viewer.toFront();
+		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
+			e.printStackTrace();
+		}
+	}
+	
+	public void MostrarReporteCompraOro() {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("SEDE", Principal.SEDE.getDescripcion());
+		params.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
+		try {
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptCompraOro.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params, new JRBeanCollectionDataSource(
+					new VentaController().ListarCompraOro(dcInicio.getDate(), dcFin.getDate())));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();
