@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -46,6 +47,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -194,6 +196,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JPanel pnlHistorial;
 	private JScrollPane spHistorial;
 	private JTable tbHistorial;
+	private JScrollPane spMensajeSuceso;
 
 	TableColumn cargoColumn;
 	TableColumn vctoColumn;
@@ -822,13 +825,16 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlCargoContainer.setVisible(false);
 
 		edpMensajeSuceso = new JEditorPane("text/html", "");
-		pnlSucesos.add(edpMensajeSuceso);
 		edpMensajeSuceso.setOpaque(false);
 		edpMensajeSuceso.setEditable(false);
 		edpMensajeSuceso.setBackground(null);
 		edpMensajeSuceso.setBounds(0, 0, 682, 330);
 		edpMensajeSuceso.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		edpMensajeSuceso.setForeground(Color.WHITE);
+
+		spMensajeSuceso = new JScrollPane(edpMensajeSuceso);
+		spMensajeSuceso.setBounds(0, 0, 682, 330);
+		pnlSucesos.add(spMensajeSuceso);
 
 		cboAlmacen = new JComboBox();
 		pnlCargoContainer.add(cboAlmacen);
@@ -1333,6 +1339,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_CONTRATO).contains(contrato.getEContrato().getId())) {
 			ActivarPerspectivaInactivo(contrato);
 		}
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				spMensajeSuceso.getViewport().setViewPosition(new Point(0, 0));
+			}
+		});
 	}
 
 	public void CargarInformacionContrato() {
@@ -1350,8 +1362,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlSucesos.setVisible(true);
 		switch (k.getEContrato().getId()) {
 		case EContrato.EN_PROCESO:
-			String separaciones = CargarSeparaciones();
-			String remates = CargarRemates();
+			String separaciones = CargarSeparaciones(true);
+			String remates = CargarRemates(true);
 			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>EN PROCESO</h1></center><h5>" + separaciones
 					+ "<br/>" + remates + "</h5></html>");
 			break;
@@ -1379,13 +1391,9 @@ public class Gestion_Contrato extends JInternalFrame {
 							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
 							+ "</html>");
 			break;
-		case 10:
-			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>SEPARADO</h1></center><h5>"
-					+ CargarSeparaciones() + "</h5></html>");
-			break;
 		case EContrato.REMATADO:
-			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>" + CargarRemates()
-					+ "</h5></html>");
+			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>"
+					+ CargarRemates(false) + "</h5></html>");
 			break;
 		case EContrato.USO_OFICINA:
 			edpMensajeSuceso
@@ -1448,30 +1456,42 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public String CargarSeparaciones() {
+	public String CargarSeparaciones(boolean glosa) {
 		StringBuffer sbs = new StringBuffer("");
 		BigDecimal cnSp = BigDecimal.ZERO;
+		BigDecimal pV = BigDecimal.ZERO;
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
-			for (Separacion s : dc.getArticulo().getSeparacions()) {
-				sbs.append(
-						"ARTÍCULO: " + s.getArticulo().getDescripcion() + " " + s.getArticulo().getMarca() + "<br/>");
+			for (int i = 0; i < dc.getArticulo().getSeparacions().size(); i++) {
+				Separacion s = dc.getArticulo().getSeparacions().get(i);
+				if (glosa) {
+					sbs.append("<span style=\"color:aqua\">SEPARACIÓN #" + (i + 1) + "</span> <br/>");
+				}
+				sbs.append("ARTÍCULO: " + "[" + s.getArticulo().getId() + "] " + s.getArticulo().getDescripcion() + " "
+						+ s.getArticulo().getMarca() + "<br/>");
 				sbs.append("FECHA: " + Constantes.formatoLocal.format(LocalDate.parse(s.getFecha())).toUpperCase()
 						+ "<br/>");
+				sbs.append("IMPORTE: " + s.getImporte() + "<br/>");
+				sbs.append("<br/>");
+				pV = s.getPrecioVenta();
 				cnSp = cnSp.add(s.getImporte());
 			}
-			sbs.append("TOTAL: " + cnSp + "<br/>");
+			sbs.append("********************************************************************************** <br/>");
+			sbs.append("<span style=\"color:yellow\">TOTAL: " + cnSp + " DE " + pV + "</span><br/>");
 			sbs.append("<hr/>");
 		}
 
 		return String.valueOf(sbs);
 	}
 
-	public String CargarRemates() {
+	public String CargarRemates(boolean glosa) {
 		StringBuffer sbs = new StringBuffer("");
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
 			for (Venta v : dc.getArticulo().getVentas()) {
-				sbs.append(
-						"ARTÍCULO: " + v.getArticulo().getDescripcion() + " " + v.getArticulo().getMarca() + "<br/>");
+				if (glosa) {
+					sbs.append("<span style=\"color:aqua\">REMATE</span> <br/>");
+				}
+				sbs.append("ARTÍCULO: " + "[" + v.getArticulo().getId() + "] " + v.getArticulo().getDescripcion() + " "
+						+ v.getArticulo().getMarca() + "<br/>");
 				sbs.append("FECHA: " + Constantes.formatoLocal.format(LocalDate.parse(v.getFecha())).toUpperCase()
 						+ "<br/>");
 				sbs.append("IMPORTE: " + v.getImporte() + "<br/>");
