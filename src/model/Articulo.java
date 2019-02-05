@@ -102,6 +102,9 @@ public class Articulo implements Serializable {
 	@OneToMany(mappedBy = "articulo")
 	private List<Venta> ventas;
 
+	@Transient
+	private String detallePago;
+
 	public Articulo() {
 	}
 
@@ -385,6 +388,14 @@ public class Articulo implements Serializable {
 
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
+	}
+
+	public String getDetallePago() {
+		return detallePago;
+	}
+
+	public void setDetallePago(String detallePago) {
+		this.detallePago = detallePago;
 	}
 
 	@Override
