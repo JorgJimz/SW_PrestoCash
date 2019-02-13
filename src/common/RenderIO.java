@@ -24,7 +24,7 @@ public class RenderIO implements TableCellRenderer {
 
 		if (value instanceof Object) {
 			e.setText(value.toString());
-			e.setFont(new Font("Segoe UI", Font.BOLD, 20));
+			e.setFont(new Font("Segoe UI", Font.BOLD, 16));
 			if (value.toString().equalsIgnoreCase("I")) {
 				e.setText("LLAMADA ENTRANTE");
 				e.setIcon(new ImageIcon("img/in.png"));

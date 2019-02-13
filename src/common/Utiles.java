@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -105,46 +107,56 @@ public class Utiles {
 			if (o instanceof JScrollPane && !(o instanceof JXSearchField)) {
 				if (((JScrollPane) o).getViewport().getView() instanceof JTextArea) {
 					JTextArea innerTextArea = (JTextArea) ((JScrollPane) o).getViewport().getView();
-					if (innerTextArea.getText().equals("")) {
+					if (innerTextArea.getText().isEmpty()) {
 						innerTextArea.setOpaque(true);
 						innerTextArea.setBackground(Color.RED);
-						innerTextArea.setForeground(Color.WHITE);
+						innerTextArea.setForeground(Color.GRAY);
 						val = false;
 					} else {
 						innerTextArea.setOpaque(false);
 						innerTextArea.setBackground(Color.WHITE);
-						innerTextArea.setForeground(Color.BLACK);
+						innerTextArea.setForeground(Color.GRAY);
 					}
 				}
 			}
-			if (o instanceof JRadioButton && !(o instanceof JXSearchField)) {
-				if (!((JRadioButton) o).isSelected()) {
-					((JRadioButton) o).setForeground(Color.RED);
-					((JRadioButton) o).requestFocus();
-					val = false;
-				} else {
-					((JRadioButton) o).setForeground(new Color(0, 128, 0));
-				}
-			}
-
 		}
 		return val;
+	}
+
+	public static boolean ValidarGrupos(ButtonGroup bg) {
+		boolean flag = true;
+		if (Objects.isNull(bg.getSelection())) {
+			for (int i = 1; i <= bg.getButtonCount(); i++) {
+				JRadioButton rd = (JRadioButton) bg.getElements().nextElement();
+				rd.setForeground(Color.RED);
+				flag = false;
+			}
+		} else {
+			for (int i = 1; i <= bg.getButtonCount(); i++) {
+				JRadioButton rd = (JRadioButton) bg.getElements().nextElement();
+				rd.setForeground(new java.awt.Color(0, 128, 0));
+				flag = true;
+			}
+		}
+		return flag;
 	}
 
 	public static void Limpiar(Container contenedor) {
 		for (Object o : contenedor.getComponents()) {
 			if (o instanceof JTextField) {
-				((JTextField) o).setText("");
-				((JTextField) o).setForeground(new java.awt.Color(0, 64, 128));
-				((JTextField) o).setBackground(Color.WHITE);
+				if (!((JTextField) o).getName().endsWith("_HOLD")) {
+					((JTextField) o).setText("");
+					((JTextField) o).setForeground(new java.awt.Color(0, 64, 128));
+					((JTextField) o).setBackground(Color.WHITE);
+				}
 			}
 			if (o instanceof JScrollPane) {
-				if (o instanceof JTextArea) {
+				if (((JScrollPane) o).getViewport().getView() instanceof JTextArea) {
 					JTextArea a = (JTextArea) ((JScrollPane) o).getViewport().getView();
 					a.setText("");
 					a.setBackground(Color.WHITE);
+					a.setForeground(Color.GRAY);
 				}
-
 			}
 		}
 	}
