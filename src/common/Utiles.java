@@ -144,7 +144,7 @@ public class Utiles {
 	public static void Limpiar(Container contenedor) {
 		for (Object o : contenedor.getComponents()) {
 			if (o instanceof JTextField) {
-				if (!((JTextField) o).getName().endsWith("_HOLD")) {
+				if (Objects.nonNull(((JTextField) o).getName()) && !((JTextField) o).getName().endsWith("_HOLD")) {
 					((JTextField) o).setText("");
 					((JTextField) o).setForeground(new java.awt.Color(0, 64, 128));
 					((JTextField) o).setBackground(Color.WHITE);
