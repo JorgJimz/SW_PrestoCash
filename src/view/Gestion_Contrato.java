@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -46,6 +47,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -194,6 +196,7 @@ public class Gestion_Contrato extends JInternalFrame {
 	private JPanel pnlHistorial;
 	private JScrollPane spHistorial;
 	private JTable tbHistorial;
+	private JScrollPane spMensajeSuceso;
 
 	TableColumn cargoColumn;
 	TableColumn vctoColumn;
@@ -296,7 +299,8 @@ public class Gestion_Contrato extends JInternalFrame {
 						}
 					}
 					contrato.setMoraTotal(total.add(contrato.getMoraActual()));
-					lblTotalMora.setText(String.valueOf(total.add(contrato.getMoraActual())));
+					lblTotalMora.setText(
+							String.valueOf(total.add(contrato.getMoraActual().add(contrato.getProrrateoMora()))));
 					lblMoraAnterior.setText(String.valueOf(total));
 					rbPagoMora.doClick();
 				}
@@ -458,7 +462,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		tbSeguimiento.setModel(Constantes.SeguimientoModel);
 		tbSeguimiento.setDefaultRenderer(Object.class, new RenderIO());
 		tbSeguimiento.setRowHeight(25);
-		tbSeguimiento.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tbSeguimiento.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbSeguimiento.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbSeguimiento.getTableHeader().setForeground(new Color(181, 0, 0));
 		spSeguimiento.setPreferredSize(new java.awt.Dimension(1204, 229));
@@ -579,7 +583,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblTotalMora = new JLabel();
 		pnlCalculos.add(lblTotalMora);
 		lblTotalMora.setText("0.00");
-		lblTotalMora.setBounds(426, 576, 120, 32);
+		lblTotalMora.setBounds(426, 627, 120, 32);
 		lblTotalMora.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblTotalMora.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblTotalMora.setBackground(Color.WHITE);
@@ -589,7 +593,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		jLabel15 = new JLabel();
 		pnlCalculos.add(jLabel15);
 		jLabel15.setText("MORA TOTAL");
-		jLabel15.setBounds(264, 578, 123, 32);
+		jLabel15.setBounds(264, 627, 156, 32);
 		jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		jLabel15.setForeground(new java.awt.Color(0, 128, 0));
 
@@ -598,7 +602,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		jLabel19.setText("MORA PRORRATEO");
 		jLabel19.setForeground(new java.awt.Color(0, 128, 0));
 		jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 16));
-		jLabel19.setBounds(264, 627, 156, 32);
+		jLabel19.setBounds(264, 578, 155, 32);
 
 		lblMoraProrrateo = new JLabel(String.valueOf(contrato.getProrrateoMora()));
 		pnlCalculos.add(lblMoraProrrateo);
@@ -607,7 +611,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblMoraProrrateo.setBackground(Color.WHITE);
 		lblMoraProrrateo.setFont(new java.awt.Font("Segoe UI", 1, 20));
 		lblMoraProrrateo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-		lblMoraProrrateo.setBounds(426, 627, 120, 32);
+		lblMoraProrrateo.setBounds(426, 576, 120, 32);
 
 		jLabel7 = new JLabel();
 		pnlCalculos.add(jLabel7);
@@ -822,13 +826,16 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlCargoContainer.setVisible(false);
 
 		edpMensajeSuceso = new JEditorPane("text/html", "");
-		pnlSucesos.add(edpMensajeSuceso);
 		edpMensajeSuceso.setOpaque(false);
 		edpMensajeSuceso.setEditable(false);
 		edpMensajeSuceso.setBackground(null);
 		edpMensajeSuceso.setBounds(0, 0, 682, 330);
 		edpMensajeSuceso.setFont(new java.awt.Font("Segoe UI", 1, 24));
 		edpMensajeSuceso.setForeground(Color.WHITE);
+
+		spMensajeSuceso = new JScrollPane(edpMensajeSuceso);
+		spMensajeSuceso.setBounds(0, 0, 682, 330);
+		pnlSucesos.add(spMensajeSuceso);
 
 		cboAlmacen = new JComboBox();
 		pnlCargoContainer.add(cboAlmacen);
@@ -947,12 +954,19 @@ public class Gestion_Contrato extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (Utiles.Validar(pnlSeguimientoContainer)) {
-					Seguimiento seguimiento = new Seguimiento();
-					seguimiento.setFecha(LocalDate.now().toString());
-					seguimiento.setObs(txtDetalleSeguimiento.getText());
-					seguimiento.setTipo(rbgSeguimiento.getSelection().getActionCommand());
-					seguimiento.setContrato(contrato);
-					new ContratoController().GrabarSeguimiento(seguimiento);
+					if (Utiles.ValidarGrupos(rbgSeguimiento)) {
+						Seguimiento seguimiento = new Seguimiento();
+						seguimiento.setFecha(LocalDate.now().toString());
+						seguimiento.setObs(txtDetalleSeguimiento.getText());
+						seguimiento.setTipo(rbgSeguimiento.getSelection().getActionCommand());
+						seguimiento.setContrato(contrato);
+						new ContratoController().GrabarSeguimiento(seguimiento);
+						Utiles.Mensaje("LLamada registrada.", JOptionPane.INFORMATION_MESSAGE);
+						Utiles.Limpiar(pnlSeguimientoContainer);
+						rbgSeguimiento.clearSelection();
+					} else {
+						Utiles.Mensaje("Seleccione tipo de llamada.", JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
 					Utiles.Mensaje("Ingrese detalle de la llamada.", JOptionPane.ERROR_MESSAGE);
 				}
@@ -1010,6 +1024,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		rbSaliente.setHorizontalAlignment(SwingConstants.LEFT);
 
 		txtTlf1 = new JTextField(contrato.getCliente().getTlf1());
+		txtTlf1.setName("txtTlf1_HOLD");
 		txtTlf1.setEditable(false);
 		txtTlf1.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		pnlSeguimientoContainer.add(txtTlf1);
@@ -1020,6 +1035,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		txtTlf2 = new JTextField(contrato.getCliente().getTlf2());
 		txtTlf2.setEditable(false);
+		txtTlf2.setName("txtTlf2_HOLD");
 		txtTlf2.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		pnlSeguimientoContainer.add(txtTlf2);
 		txtTlf2.setBorder(BorderFactory.createTitledBorder(null, "TELÉFONO 2", TitledBorder.DEFAULT_JUSTIFICATION,
@@ -1029,6 +1045,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 		txtEmail = new JTextField(contrato.getCliente().getEmail());
 		txtEmail.setEditable(false);
+		txtEmail.setName("txtEmail_HOLD");
 		txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		pnlSeguimientoContainer.add(txtEmail);
 		txtEmail.setBorder(BorderFactory.createTitledBorder(null, "E-MAIL", TitledBorder.DEFAULT_JUSTIFICATION,
@@ -1333,6 +1350,12 @@ public class Gestion_Contrato extends JInternalFrame {
 		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_CONTRATO).contains(contrato.getEContrato().getId())) {
 			ActivarPerspectivaInactivo(contrato);
 		}
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				spMensajeSuceso.getViewport().setViewPosition(new Point(0, 0));
+			}
+		});
 	}
 
 	public void CargarInformacionContrato() {
@@ -1350,8 +1373,8 @@ public class Gestion_Contrato extends JInternalFrame {
 		pnlSucesos.setVisible(true);
 		switch (k.getEContrato().getId()) {
 		case EContrato.EN_PROCESO:
-			String separaciones = CargarSeparaciones();
-			String remates = CargarRemates();
+			String separaciones = CargarSeparaciones(true);
+			String remates = CargarRemates(true);
 			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>EN PROCESO</h1></center><h5>" + separaciones
 					+ "<br/>" + remates + "</h5></html>");
 			break;
@@ -1379,13 +1402,9 @@ public class Gestion_Contrato extends JInternalFrame {
 							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
 							+ "</html>");
 			break;
-		case 10:
-			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>SEPARADO</h1></center><h5>"
-					+ CargarSeparaciones() + "</h5></html>");
-			break;
 		case EContrato.REMATADO:
-			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>" + CargarRemates()
-					+ "</h5></html>");
+			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>"
+					+ CargarRemates(false) + "</h5></html>");
 			break;
 		case EContrato.USO_OFICINA:
 			edpMensajeSuceso
@@ -1448,30 +1467,42 @@ public class Gestion_Contrato extends JInternalFrame {
 		}
 	}
 
-	public String CargarSeparaciones() {
+	public String CargarSeparaciones(boolean glosa) {
 		StringBuffer sbs = new StringBuffer("");
 		BigDecimal cnSp = BigDecimal.ZERO;
+		BigDecimal pV = BigDecimal.ZERO;
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
-			for (Separacion s : dc.getArticulo().getSeparacions()) {
-				sbs.append(
-						"ARTÍCULO: " + s.getArticulo().getDescripcion() + " " + s.getArticulo().getMarca() + "<br/>");
+			for (int i = 0; i < dc.getArticulo().getSeparacions().size(); i++) {
+				Separacion s = dc.getArticulo().getSeparacions().get(i);
+				if (glosa) {
+					sbs.append("<span style=\"color:aqua\">SEPARACIÓN #" + (i + 1) + "</span> <br/>");
+				}
+				sbs.append("ARTÍCULO: " + "[" + s.getArticulo().getId() + "] " + s.getArticulo().getDescripcion() + " "
+						+ s.getArticulo().getMarca() + "<br/>");
 				sbs.append("FECHA: " + Constantes.formatoLocal.format(LocalDate.parse(s.getFecha())).toUpperCase()
 						+ "<br/>");
+				sbs.append("IMPORTE: " + s.getImporte() + "<br/>");
+				sbs.append("<br/>");
+				pV = s.getPrecioVenta();
 				cnSp = cnSp.add(s.getImporte());
 			}
-			sbs.append("TOTAL: " + cnSp + "<br/>");
+			sbs.append("********************************************************************************** <br/>");
+			sbs.append("<span style=\"color:yellow\">TOTAL: " + cnSp + " DE " + pV + "</span><br/>");
 			sbs.append("<hr/>");
 		}
 
 		return String.valueOf(sbs);
 	}
 
-	public String CargarRemates() {
+	public String CargarRemates(boolean glosa) {
 		StringBuffer sbs = new StringBuffer("");
 		for (DetalleContrato dc : contrato.getDetalleContratos()) {
 			for (Venta v : dc.getArticulo().getVentas()) {
-				sbs.append(
-						"ARTÍCULO: " + v.getArticulo().getDescripcion() + " " + v.getArticulo().getMarca() + "<br/>");
+				if (glosa) {
+					sbs.append("<span style=\"color:aqua\">REMATE</span> <br/>");
+				}
+				sbs.append("ARTÍCULO: " + "[" + v.getArticulo().getId() + "] " + v.getArticulo().getDescripcion() + " "
+						+ v.getArticulo().getMarca() + "<br/>");
 				sbs.append("FECHA: " + Constantes.formatoLocal.format(LocalDate.parse(v.getFecha())).toUpperCase()
 						+ "<br/>");
 				sbs.append("IMPORTE: " + v.getImporte() + "<br/>");
@@ -1561,7 +1592,7 @@ public class Gestion_Contrato extends JInternalFrame {
 			contrato.setMoraAnterior(mora_anterior);
 			contrato.setMoraTotal(contrato.getMoraActual().add(contrato.getMoraAnterior()));
 			lblMoraAnterior.setText(String.valueOf(mora_anterior));
-			lblTotalMora.setText(String.valueOf(contrato.getMoraTotal()));
+			lblTotalMora.setText(String.valueOf(contrato.getMoraTotal().add(contrato.getProrrateoMora())));
 
 			rbPagoInteresMora.setEnabled((contrato.getMoraActual().compareTo(BigDecimal.ZERO) == 0
 					&& contrato.getMoraAnterior().compareTo(BigDecimal.ZERO) == 0) ? false : true);
