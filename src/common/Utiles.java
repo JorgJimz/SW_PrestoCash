@@ -225,6 +225,7 @@ public class Utiles {
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
 			}else if (c.getEContrato().getId() == EContrato.VITRINA){
+				c.getDetalleContratos().forEach(item -> {
 					item.getArticulo().setEArticulo(new EArticulo(EArticulo.VITRINA));
 					item.getArticulo().setFlagContrato(c.getFlag());
 					item.getArticulo().setNumeroContrato(c.getNumero());
