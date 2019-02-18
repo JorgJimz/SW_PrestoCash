@@ -26,8 +26,10 @@ import model.Pago;
 import model.Separacion;
 import view.Principal;
 
-@SuppressWarnings({ "rawtypes", "unchecked", "serial" })
+@SuppressWarnings({ "rawtypes", "unchecked", "serial", "unused" })
 public class Constantes {
+
+	public static final String URI_WS = "http://localhost:8090";
 
 	public static BigDecimal PRIMERA_MORA = new BigDecimal(0.30).setScale(2, RoundingMode.HALF_UP);
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
