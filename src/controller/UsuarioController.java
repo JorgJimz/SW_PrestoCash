@@ -16,7 +16,6 @@ import common.Logger;
 import model.Asistencia;
 import model.Perfil;
 import model.Usuario;
-import ws.implementacion.UsuarioService;
 
 public class UsuarioController {
 
@@ -57,24 +56,22 @@ public class UsuarioController {
 	}
 
 	public Usuario Login(Usuario x) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
+		EntityManager em = emf.createEntityManager();
 		Usuario u = null;
 		try {
-			u = new UsuarioService().iniciarSesion(x);
+			Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.login= :l AND u.password= :p AND u.status=1");
+			q.setParameter("l", x.getLogin());
+			q.setParameter("p", x.getPassword());
+			u = (Usuario) q.getSingleResult();
 		} catch (Exception e) {
+			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
 		}
 		return u;
-		/*
-		 * EntityManagerFactory emf =
-		 * Persistence.createEntityManagerFactory("PrestoCashContext"); EntityManager em
-		 * = emf.createEntityManager(); Usuario u = null; try { Query q = em.
-		 * createQuery("SELECT u FROM Usuario u WHERE u.login= :l AND u.password= :p AND u.status=1"
-		 * ); q.setParameter("l", x.getLogin()); q.setParameter("p", x.getPassword()); u
-		 * = (Usuario) q.getSingleResult(); } catch (Exception e) {
-		 * Logger.RegistrarIncidencia(e); e.printStackTrace(); } finally { em.close();
-		 * emf.close(); } return u;
-		 */
-
 	}
 
 	public DefaultTableModel ListarUsuarios(DefaultTableModel model) {

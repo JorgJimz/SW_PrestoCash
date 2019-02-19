@@ -12,12 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import common.Header;
 
 @Entity
 @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	public static final Usuario DEFAULT = null;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -58,6 +61,9 @@ public class Usuario implements Serializable {
 	// bi-directional many-to-one association to Asistencia
 	@OneToMany(mappedBy = "usuario")
 	private List<Asistencia> asistencias;
+
+	@Transient
+	private Header header;
 
 	public Usuario() {
 	}
@@ -191,6 +197,14 @@ public class Usuario implements Serializable {
 		asistencia.setUsuario(null);
 
 		return asistencia;
+	}
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
 	}
 
 	public String getDocumento() {
