@@ -9,11 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -32,11 +29,9 @@ import javax.swing.border.TitledBorder;
 import common.Constantes;
 import common.MyFocusTraversalPolicy;
 import common.Utiles;
-import controller.ContratoController;
-import controller.UsuarioController;
 import model.Asistencia;
-import model.Contrato;
 import model.Usuario;
+import ws.implementacion.UsuarioService;
 
 @SuppressWarnings({ "deprecation", "serial" })
 public class Login extends JFrame {
@@ -45,13 +40,11 @@ public class Login extends JFrame {
 	private JButton btnIngreso;
 	private JPasswordField txtPassword;
 	private JLabel lblLogo;
-	private JLabel jLabel1;
+	private JLabel lblStatusLogin;
 	private JProgressBar pbActualizacion;
 
 	Thread hilo;
 	Vector<Component> order = new Vector<Component>(3);
-	Usuario u;
-	boolean requiereActualizacion = new UsuarioController().RequiereActualizacion();
 
 	public Login() {
 		this.setVisible(true);
@@ -122,13 +115,13 @@ public class Login extends JFrame {
 		pbActualizacion.setBounds(15, 278, 380, 20);
 		pbActualizacion.setVisible(false);
 
-		jLabel1 = new JLabel();
-		getContentPane().add(jLabel1);
-		jLabel1.setText("ACTUALIZANDO CONTRATOS, POR FAVOR, ESPERE UN MOMENTO ...");
-		jLabel1.setBounds(12, 304, 385, 16);
-		jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12));
-		jLabel1.setForeground(new java.awt.Color(255, 0, 0));
-		jLabel1.setVisible(false);
+		lblStatusLogin = new JLabel();
+		getContentPane().add(lblStatusLogin);
+		lblStatusLogin.setText("SOLICITANDO ACCESO, POR FAVOR, ESPERE UN MOMENTO ...");
+		lblStatusLogin.setBounds(12, 304, 385, 16);
+		lblStatusLogin.setFont(new java.awt.Font("Segoe UI", 1, 12));
+		lblStatusLogin.setForeground(new java.awt.Color(255, 0, 0));
+		lblStatusLogin.setVisible(false);
 
 		this.setLocationRelativeTo(null);
 
@@ -141,24 +134,17 @@ public class Login extends JFrame {
 	}
 
 	public void Logueo() {
-		u = IniciarSesion();
-		if (Objects.nonNull(u)) {
-			if (requiereActualizacion) {
-				Runnable miRunnable = new Runnable() {
-					public void run() {
-						ActualizacionAutomatica();
-					}
-				};
-				hilo = new Thread(miRunnable);
-				hilo.start();
-			} else {
-				DesplegarSistema();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				IniciarSesion();
 			}
-		}
+		}).start();
 	}
 
 	public Usuario IniciarSesion() {
-		Usuario user = new UsuarioController().Login(new Usuario(txtUsuario.getText(), txtPassword.getText()));
+		ShowRequestStatus(true);
+		Usuario user = new UsuarioService().IniciarSesion(new Usuario(txtUsuario.getText(), txtPassword.getText()));
 		if (Objects.nonNull(user)) {
 			Asistencia ga = user.getAsistencias().stream()
 					.filter(Constantes.predicadoAsistencia(String.valueOf(LocalDate.now()))).findFirst()
@@ -170,17 +156,30 @@ public class Login extends JFrame {
 				a.setHoraIngreso(String.valueOf(LocalTime.now()));
 				a.setObs("");
 				a.setUsuario(user);
-				Asistencia nuevaAsistencia = new UsuarioController().MarcarAsistencia(a);
+				Asistencia nuevaAsistencia = new UsuarioService().MarcarAsistencia(a);
 				Utiles.Mensaje("Se grabó asistencia.", JOptionPane.INFORMATION_MESSAGE);
 				user.getAsistencias().add(nuevaAsistencia);
 			}
+			DesplegarSistema(user);
 		} else {
+			ShowRequestStatus(false);
 			Utiles.Mensaje("Usuario y/ Contraseña incorrecto(s)", JOptionPane.WARNING_MESSAGE);
 		}
 		return user;
 	}
 
-	public void DesplegarSistema() {
+	public void ShowRequestStatus(boolean flag) {
+		if (flag) {
+			this.setSize(415, 360);
+		} else {
+			this.setSize(415, 320);
+		}
+		pbActualizacion.setVisible(flag);
+		lblStatusLogin.setVisible(flag);
+		pbActualizacion.setIndeterminate(flag);
+	}
+
+	public void DesplegarSistema(Usuario u) {
 		pbActualizacion.setIndeterminate(false);
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -203,25 +202,20 @@ public class Login extends JFrame {
 		}
 	}
 
-	public void ActualizacionAutomatica() {
-		this.setSize(415, 360);
-		pbActualizacion.setVisible(true);
-		jLabel1.setVisible(true);
-		pbActualizacion.setIndeterminate(true);
-		List<Contrato> lVigentes = new ContratoController().ListarContratosVigentes();
-		for (Contrato c : lVigentes) {
-			Utiles.DetectarEstado(c);
-		}
-
-		List<Contrato> lNoVigentes = new ContratoController().ListarContratosNoVigentes();
-		for (Contrato c : lNoVigentes) {
-			Utiles.ActualizacionContrato(c);
-		}
-
-		List<Contrato> l = Stream.concat(lVigentes.stream(), lNoVigentes.stream()).collect(Collectors.toList());
-
-		new ContratoController().ActualizarContratos(l);
-		DesplegarSistema();
-	}
+	// Proceso Automaticazado por DB mediante Jobs - Java Server Prestocash
+	/*
+	 * public void ActualizacionAutomatica() { List<Contrato> lVigentes = new
+	 * ContratoController().ListarContratosVigentes(); for (Contrato c : lVigentes)
+	 * { Utiles.DetectarEstado(c); }
+	 * 
+	 * List<Contrato> lNoVigentes = new
+	 * ContratoController().ListarContratosNoVigentes(); for (Contrato c :
+	 * lNoVigentes) { Utiles.ActualizacionContrato(c); }
+	 * 
+	 * List<Contrato> l = Stream.concat(lVigentes.stream(),
+	 * lNoVigentes.stream()).collect(Collectors.toList());
+	 * 
+	 * new ContratoController().ActualizarContratos(l); DesplegarSistema(); }
+	 */
 
 }

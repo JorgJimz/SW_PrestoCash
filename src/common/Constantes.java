@@ -29,7 +29,7 @@ import view.Principal;
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class Constantes {
 
-	public static final String URI_WS = "http://localhost:8090";	
+	public static final String URI_WS = "http://localhost:8090";
 
 	public static BigDecimal PRIMERA_MORA = new BigDecimal(0.30).setScale(2, RoundingMode.HALF_UP);
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
@@ -40,9 +40,14 @@ public class Constantes {
 	public static final int RANGO_POST = 15;
 
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
+
 	public static final Integer[] ESTADOS_INACTIVIDAD_CONTRATO = new Integer[] { EContrato.EN_PROCESO,
 			EContrato.FUNDIDO, EContrato.CANCELADO, EContrato.VITRINA, 10, EContrato.REMATADO, EContrato.USO_OFICINA,
 			EContrato.VITRINA_SP, EContrato.ANULADO };
+
+	public static final Integer[] ESTADOS_NO_VIGENCIA_CONTRATO = new Integer[] { EContrato.EN_PROCESO,
+			EContrato.FUNDIDO, EContrato.CANCELADO, EContrato.VITRINA, 10, EContrato.REMATADO, EContrato.USO_OFICINA,
+			EContrato.ANULADO };
 
 	public static final Integer[] ESTADOS_INACTIVIDAD_ARTICULO = new Integer[] { EArticulo.BAJA, EArticulo.FUNDIDO,
 			EArticulo.LIBRE, EArticulo.REMATADO, EArticulo.SEPARADO };

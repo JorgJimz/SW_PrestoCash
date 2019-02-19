@@ -51,7 +51,7 @@ public class Principal extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("dollar.png")).getImage());
 		Principal.LOGGED = user;
-		Principal.SEDE = new LibroCajaController().ObtenerSedePrincipal();
+		Principal.SEDE = user.getSede();
 		this.setTitle("USUARIO: " + user.getNombres() + " " + user.getPaterno() + " - PRESTOCASH "
 				+ Principal.SEDE.getDescripcion());
 		dskPrincipal = new JDesktopPane();

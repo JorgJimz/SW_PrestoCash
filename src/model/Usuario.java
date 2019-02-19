@@ -62,6 +62,9 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario")
 	private List<Asistencia> asistencias;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Sede sede;
+
 	@Transient
 	private Header header;
 
@@ -213,6 +216,14 @@ public class Usuario implements Serializable {
 
 	public void setDocumento(String documento) {
 		this.documento = documento;
+	}
+
+	public Sede getSede() {
+		return sede;
+	}
+
+	public void setSede(Sede sede) {
+		this.sede = sede;
 	}
 
 }

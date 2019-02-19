@@ -1,6 +1,7 @@
 package ws.implementacion;
 
 import common.Constantes;
+import common.NullOnEmptyConverterFactory;
 import model.Asistencia;
 import model.Usuario;
 import retrofit2.Call;
@@ -10,14 +11,15 @@ import ws.interfaz.IUsuarioService;
 
 public class UsuarioService {
 
-	public Usuario iniciarSesion(Usuario u) {		
+	public Usuario IniciarSesion(Usuario u) {
 		try {
 			Retrofit retrofit = new Retrofit.Builder().baseUrl(Constantes.URI_WS)
+					.addConverterFactory(new NullOnEmptyConverterFactory())
 					.addConverterFactory(GsonConverterFactory.create()).build();
 			IUsuarioService usuarioService = retrofit.create(IUsuarioService.class);
 			Call<Usuario> user = usuarioService.IniciarSesion(u);
-			return user.execute().body();			
-		} catch (Exception e) {			
+			return user.execute().body();
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Usuario.DEFAULT;
 		}

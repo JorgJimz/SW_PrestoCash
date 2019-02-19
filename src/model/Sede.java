@@ -25,10 +25,8 @@ public class Sede implements Serializable {
 
 	private String status;
 
-	@Column(name = "T_SEDE")
-	private String tSede;
-
-	private String principal;
+	@Column(name = "TIPO_SEDE")
+	private String tipoSede;
 
 	@Column(name = "TELEFONO_1")
 	private String telefono1;
@@ -37,6 +35,9 @@ public class Sede implements Serializable {
 	private String telefono2;
 
 	private String email;
+
+	@OneToMany(mappedBy = "sede", fetch = FetchType.LAZY)
+	private List<Usuario> usuarios;
 
 	// bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy = "sede")
@@ -101,12 +102,12 @@ public class Sede implements Serializable {
 		this.status = status;
 	}
 
-	public String getTSede() {
-		return this.tSede;
+	public String getTipoSede() {
+		return tipoSede;
 	}
 
-	public void setTSede(String tSede) {
-		this.tSede = tSede;
+	public void setTipoSede(String tipoSede) {
+		this.tipoSede = tipoSede;
 	}
 
 	public String getTelefono1() {
@@ -177,17 +178,31 @@ public class Sede implements Serializable {
 		return prestamo;
 	}
 
-	public String getPrincipal() {
-		return principal;
-	}
-
-	public void setPrincipal(String principal) {
-		this.principal = principal;
-	}
-
 	@Override
 	public String toString() {
 		return descripcion;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Usuario addUsuario(Usuario usuario) {
+		getUsuarios().add(usuario);
+		usuario.setSede(this);
+
+		return usuario;
+	}
+
+	public Usuario removeUsuario(Usuario usuario) {
+		getUsuarios().remove(usuario);
+		usuario.setSede(null);
+
+		return usuario;
 	}
 
 }
