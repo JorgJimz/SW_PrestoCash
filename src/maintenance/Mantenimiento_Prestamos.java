@@ -118,7 +118,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 					prestamo.setInteres(new BigDecimal(txtInteres.getText()));
 					prestamo.setSede(((Sede) cboSede.getSelectedItem()));
 					prestamo.setFlag(txtTipo.getText().toUpperCase());
-					prestamo.setTMora(String.valueOf(cboTipoMora.getSelectedItem()));
+					prestamo.setTipoMora(String.valueOf(cboTipoMora.getSelectedItem()));
 					prestamo.setMora(String.valueOf(mora));
 					prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
 					prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -153,7 +153,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 					prestamo.setInteres(new BigDecimal(txtInteres.getText()));
 					prestamo.setSede(((Sede) cboSede.getSelectedItem()));
 					prestamo.setFlag(txtTipo.getText().toUpperCase());
-					prestamo.setTMora(String.valueOf(cboTipoMora.getSelectedItem()));
+					prestamo.setTipoMora(String.valueOf(cboTipoMora.getSelectedItem()));
 					prestamo.setMora(String.valueOf(mora));
 					prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
 					prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
@@ -230,7 +230,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		Constantes.PrestamoModel.setRowCount(0);
 		for (Prestamo p : new PrestamoController().ListarPrestamos()) {
 			Constantes.PrestamoModel.addRow(
-					new Object[] { p.getId(), p.getDescripcion(), p.getInteres(), p.getTMora(), p.getMora(), p.getFlag()
+					new Object[] { p.getId(), p.getDescripcion(), p.getInteres(), p.getTipoMora(), p.getMora(), p.getFlag()
 
 					});
 		}

@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a")
 public class Articulo implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	public static final Articulo DEFAULT = null;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

@@ -47,10 +47,6 @@ import common.Constantes;
 import common.JIconTextField;
 import common.MyFocusTraversalPolicy;
 import common.Utiles;
-import controller.ArticuloController;
-import controller.ClienteController;
-import controller.ContratoController;
-import controller.PrestamoController;
 import maintenance.Mantenimiento_Clientes;
 import model.Articulo;
 import model.Cliente;
@@ -66,6 +62,9 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
+import ws.implementacion.ArticuloService;
+import ws.implementacion.ClienteService;
+import ws.implementacion.ContratoService;
 
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Contrato_Prestacion extends JInternalFrame {
@@ -145,7 +144,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					"<html><h3>Ingrese el número de D.N.I. del Cliente para generar un Contrato de Prestación.</h3></html>",
 					"");
 			if (Objects.nonNull(docCliente)) {
-				Cliente c = new ClienteController().BuscarCliente(docCliente);
+				Cliente c = new ClienteService().BuscarCliente(docCliente);
 				if (Objects.isNull(c)) {
 					Utiles.Mensaje(
 							"No existe ningún Cliente registrado con tal número de documento, regístrelo primero.",
@@ -208,7 +207,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		cboTipoPrestamo = new JComboBox();
 		contenedor.add(cboTipoPrestamo);
-		new PrestamoController().CargarPrestamos().forEach(ci -> cboTipoPrestamo.addItem(ci));
+		Utiles.ConversorComboItem(new ContratoService().CargarPrestamos(Principal.LOGGED.getSede().getId(), 1))
+				.forEach(ci -> cboTipoPrestamo.addItem(ci));
 		cboTipoPrestamo.setBounds(12, 70, 176, 30);
 		cboTipoPrestamo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		cboTipoPrestamo.setEditable(true);
@@ -225,8 +225,8 @@ public class Contrato_Prestacion extends JInternalFrame {
 				prestamo.setInteres(new BigDecimal(String.valueOf(k.getValor())));
 				prestamo.setFlag(String.valueOf(k.getExtraValor()));
 				lblInteres.setText(k.getValor() + "%");
-				lblNumeroContrato.setText(String.valueOf(k.getExtraValor()) + "-" + String
-						.valueOf(new ContratoController().ObtenerCorrelativo(String.valueOf(k.getExtraValor()))));
+				lblNumeroContrato.setText(String.valueOf(k.getExtraValor()) + "-"
+						+ new ContratoService().ObtenerCorrelativo(String.valueOf(k.getExtraValor())));				
 				txtMarca.setText(
 						Principal.SEDE.getFlagOro().equalsIgnoreCase(String.valueOf(k.getExtraValor())) ? "ORO" : "");
 
@@ -555,7 +555,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 						egreso.setImporte(contrato.getCapital());
 						egreso.setTipo("EMP");
 						egreso.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
-						new ContratoController().GenerarContrato(contrato, egreso);
+						new ContratoService().GenerarContrato(contrato, egreso);
 						LimpiarModelos();
 						Utiles.Mensaje("¡Contrato generado!", JOptionPane.INFORMATION_MESSAGE);
 						ImprimirFormato();
@@ -657,11 +657,17 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnHistorial.setHorizontalAlignment(SwingConstants.LEFT);
 		btnHistorial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (new ArticuloController().ObtenerHistorial(ArticuloModel, cliente.getId()).getRowCount() != 0) {
+				List<Articulo> lHistorialArticulo = new ArticuloService().ObtenerHistorial(cliente.getId());
+				if (Objects.nonNull(lHistorialArticulo)) {
 					btnHistorial.setVisible(false);
 					btnRegresar.setVisible(true);
 					spContrato.setVisible(false);
 					spArticulo.setVisible(true);
+					ArticuloModel.setRowCount(0);
+					for (Articulo a : lHistorialArticulo) {
+						ArticuloModel.addRow(new Object[] { a.getId(), a.getDescripcion(), a.getMarca(), a.getModelo(),
+								a.getObs(), a.getCapitalContrato() });
+					}
 					tbArticulos.setModel(ArticuloModel);
 				} else {
 					Utiles.Mensaje("Sin historial.", JOptionPane.INFORMATION_MESSAGE);
@@ -689,7 +695,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					int fila = tbArticulos.getSelectedRow();
-					Articulo articulo = new ArticuloController()
+					Articulo articulo = new ArticuloService()
 							.ObtenerArticulo(Integer.parseInt(String.valueOf(tbArticulos.getValueAt(fila, 0))));
 					articulo.setEArticulo(new EArticulo(EArticulo.ACTIVO));
 					articulo.setFlagContrato(lblNumeroContrato.getText().split("-")[0]);

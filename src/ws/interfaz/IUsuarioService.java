@@ -9,10 +9,10 @@ import retrofit2.http.POST;
 
 public interface IUsuarioService {
 	@Headers({ "Accept: application/json" })
-	@POST("v1/login")
+	@POST("v1/usuario/login")
 	Call<Usuario> IniciarSesion(@Body Usuario u);
 	
 	@Headers({ "Accept: application/json" })
-	@POST("v1/asistencia")
+	@POST("v1/usuario/asistencia")
 	Call<Asistencia> MarcarAsistencia(@Body Asistencia u);
 }

@@ -22,6 +22,8 @@ import javax.persistence.Transient;
 public class Prestamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final Prestamo DEFAULT = null;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -40,8 +42,8 @@ public class Prestamo implements Serializable {
 
 	private String mora;
 
-	@Column(name = "T_MORA")
-	private String tMora;
+	@Column(name = "TIPO_MORA")
+	private String tipoMora;
 
 	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
@@ -56,13 +58,13 @@ public class Prestamo implements Serializable {
 	// bi-directional many-to-one association to Sede
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Sede sede;
-	
+
 	@Transient
 	private BigDecimal porcentaje;
 
 	public Prestamo() {
 	}
-	
+
 	@PostLoad
 	public void procesarCamposCalculados() {
 		porcentaje = interes.divide(new BigDecimal(100)).setScale(2, RoundingMode.HALF_UP);
@@ -124,12 +126,12 @@ public class Prestamo implements Serializable {
 		this.mora = mora;
 	}
 
-	public String getTMora() {
-		return this.tMora;
+	public String getTipoMora() {
+		return tipoMora;
 	}
 
-	public void setTMora(String tMora) {
-		this.tMora = tMora;
+	public void setTipoMora(String tipoMora) {
+		this.tipoMora = tipoMora;
 	}
 
 	public String getUsuarioCreacion() {
@@ -185,7 +187,5 @@ public class Prestamo implements Serializable {
 	public void setPorcentaje(BigDecimal porcentaje) {
 		this.porcentaje = porcentaje;
 	}
-	
-	
 
 }

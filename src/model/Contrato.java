@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c")
 public class Contrato implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	public static final Contrato DEFAULT = null;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -153,8 +153,7 @@ public class Contrato implements Serializable {
 	@PostLoad
 	public void procesarCamposCalculados() {
 		try {
-			interesMensual = Utiles
-					.redondearCentimos(interesMensual);
+			interesMensual = Utiles.redondearCentimos(interesMensual);
 			interesDiario = Utiles
 					.redondearCentimos(interesMensual.divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP));
 			LocalDate hoy = LocalDate.now();
@@ -186,7 +185,7 @@ public class Contrato implements Serializable {
 				prorrateo = interesDiario.multiply(diasResiduo);
 			}
 
-			if (prestamo.getTMora().equals("%")) {
+			if (prestamo.getTipoMora().equals("%")) {
 				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
 					moraActual = interesMensual.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);

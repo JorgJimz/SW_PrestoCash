@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -33,6 +35,7 @@ import model.Cliente;
 import model.Contrato;
 import model.EArticulo;
 import model.EContrato;
+import model.Prestamo;
 import view.Contrato_Prestacion;
 import view.Principal;
 import view.Venta_Articulos;
@@ -72,6 +75,17 @@ public class Utiles {
 			}
 		}
 		return true;
+	}
+	
+	public static List<ComboItem> ConversorComboItem(List<Prestamo> lPrestamo) {
+		return lPrestamo.stream().map(p -> {
+			ComboItem ci = new ComboItem();
+			ci.setId(p.getId());
+			ci.setDescripcion(p.getDescripcion());
+			ci.setValor(p.getInteres());
+			ci.setExtraValor(p.getFlag());
+			return ci;
+		}).collect(Collectors.toList());
 	}
 
 	public static BigDecimal redondearCentimos(BigDecimal param) {
