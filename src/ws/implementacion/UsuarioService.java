@@ -18,10 +18,12 @@ public class UsuarioService {
 					.addConverterFactory(GsonConverterFactory.create()).build();
 			IUsuarioService usuarioService = retrofit.create(IUsuarioService.class);
 			Call<Usuario> user = usuarioService.IniciarSesion(u);
-			return user.execute().body();
+			Usuario uLogged = user.execute().body();
+			uLogged.getAsistencias().stream().forEach(usr -> usr.setUsuario(new Usuario(uLogged.getId())));
+			return uLogged;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Usuario.DEFAULT;
+			return new Usuario(e);
 		}
 	}
 
@@ -34,7 +36,7 @@ public class UsuarioService {
 			return asistencia.execute().body();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Asistencia.DEFAULT;
+			return new Asistencia(e);
 		}
 	}
 }

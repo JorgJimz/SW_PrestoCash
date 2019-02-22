@@ -41,8 +41,8 @@ import javax.swing.table.DefaultTableModel;
 import model.Articulo;
 import model.Cliente;
 import model.Contrato;
-import model.EArticulo;
-import model.EContrato;
+import model.EstadoArticulo;
+import model.EstadoContrato;
 import model.Ingreso;
 import model.Separacion;
 import model.Venta;
@@ -648,7 +648,7 @@ public class Venta_Articulos extends JInternalFrame {
 
 					if (diff.compareTo(BigDecimal.ZERO) == 0) {
 						separacion.setStatus(Separacion.FINALIZADA);
-						articulo.setEArticulo(new EArticulo(EArticulo.REMATADO));
+						articulo.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.REMATADO));
 						articulo.setFechaModificacion(String.valueOf(LocalDate
 								.now()));
 						articulo.setUsuarioModificacion("REM");
@@ -672,17 +672,17 @@ public class Venta_Articulos extends JInternalFrame {
 									.filter(Constantes.predicadoConversorRemSep)
 									.count();
 							if (qDetalle == qRemSep) {
-								contrato.setEContrato(new EContrato(
-										EContrato.REMATADO));
+								contrato.setEstadoContrato(new EstadoContrato(
+										EstadoContrato.REMATADO));
 							} else {
-								contrato.setEContrato(new EContrato(
-										EContrato.EN_PROCESO));
+								contrato.setEstadoContrato(new EstadoContrato(
+										EstadoContrato.EN_PROCESO));
 							}
 							new ContratoController()
 									.ActualizarContrato(contrato);
 						}
 					} else {
-						articulo.setEArticulo(new EArticulo(EArticulo.SEPARADO));
+						articulo.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.SEPARADO));
 						articulo.setFechaModificacion(String.valueOf(LocalDate
 								.now()));
 						articulo.setUsuarioModificacion("SEP");
@@ -693,8 +693,8 @@ public class Venta_Articulos extends JInternalFrame {
 						ingreso.setOtro(separacion.getImporte());
 						ingreso.setMoneda("SOLES");
 						if (Objects.nonNull(contrato)) {
-							contrato.setEContrato(new EContrato(
-									EContrato.EN_PROCESO));
+							contrato.setEstadoContrato(new EstadoContrato(
+									EstadoContrato.EN_PROCESO));
 							new ContratoController()
 									.ActualizarContrato(contrato);
 						}
@@ -823,7 +823,7 @@ public class Venta_Articulos extends JInternalFrame {
 					venta.setCliente(cliente);
 					venta.setUsuarioCreacion(Principal.LOGGED.getLogin());
 					venta.setFechaCreacion(String.valueOf(LocalDate.now()));
-					articulo.setEArticulo(new EArticulo(EArticulo.REMATADO));
+					articulo.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.REMATADO));
 					articulo.setFechaModificacion(String.valueOf(LocalDate
 							.now()));
 					articulo.setUsuarioModificacion("REM");
@@ -855,11 +855,11 @@ public class Venta_Articulos extends JInternalFrame {
 								.filter(Constantes.predicadoConversorRemSep)
 								.count();
 						if (qDetalle == qRemSep) {
-							contrato.setEContrato(new EContrato(
-									EContrato.REMATADO));
+							contrato.setEstadoContrato(new EstadoContrato(
+									EstadoContrato.REMATADO));
 						} else {
-							contrato.setEContrato(new EContrato(
-									EContrato.EN_PROCESO));
+							contrato.setEstadoContrato(new EstadoContrato(
+									EstadoContrato.EN_PROCESO));
 						}
 						new ContratoController().ActualizarContrato(contrato);
 					}

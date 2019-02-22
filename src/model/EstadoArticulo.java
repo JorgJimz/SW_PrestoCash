@@ -9,13 +9,13 @@ import common.Utiles;
 import java.util.List;
 
 @Entity
-@Table(name = "e_articulo")
-@NamedQuery(name = "EArticulo.findAll", query = "SELECT e FROM EArticulo e")
-public class EArticulo implements Serializable {
+@Table(name = "estado_articulo")
+@NamedQuery(name = "EstadoArticulo.findAll", query = "SELECT e FROM EstadoArticulo e")
+public class EstadoArticulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int ACTIVO = 1;
-	public static final int SEPARADO = 2;	
+	public static final int SEPARADO = 2;
 	public static final int REMATADO = 3;
 	public static final int VITRINA = 5;
 	public static final int LIBRE = 6;
@@ -37,17 +37,17 @@ public class EArticulo implements Serializable {
 	private Color foreground;
 
 	// bi-directional many-to-one association to Articulo
-	@OneToMany(mappedBy = "EArticulo")
+	@OneToMany(mappedBy = "estadoArticulo")
 	private List<Articulo> articulos;
 
-	public EArticulo() {
+	public EstadoArticulo() {
 	}
 
-	public EArticulo(int id) {
+	public EstadoArticulo(int id) {
 		this.id = id;
 	}
 
-	public EArticulo(int id, String descripcion) {
+	public EstadoArticulo(int id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;
 	}
@@ -93,14 +93,14 @@ public class EArticulo implements Serializable {
 
 	public Articulo addArticulo(Articulo articulo) {
 		getArticulos().add(articulo);
-		articulo.setEArticulo(this);
+		articulo.setEstadoArticulo(this);
 
 		return articulo;
 	}
 
 	public Articulo removeArticulo(Articulo articulo) {
 		getArticulos().remove(articulo);
-		articulo.setEArticulo(null);
+		articulo.setEstadoArticulo(null);
 
 		return articulo;
 	}

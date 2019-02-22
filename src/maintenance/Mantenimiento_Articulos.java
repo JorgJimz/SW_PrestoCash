@@ -29,7 +29,7 @@ import common.JIconTextField;
 import common.Utiles;
 import controller.ArticuloController;
 import model.Articulo;
-import model.EArticulo;
+import model.EstadoArticulo;
 import view.Principal;
 
 @SuppressWarnings("serial")
@@ -156,7 +156,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						a.setNumeroContrato(Integer.parseInt(txtContratoAsociado.getText()));
 						a.setCapitalContrato(new BigDecimal(txtCapital
 								.getText()));
-						a.setEArticulo(new EArticulo(5));
+						a.setEstadoArticulo(new EstadoArticulo(5));
 						a.setFechaCreacion(String.valueOf(LocalDate.now()));
 						a.setUsuarioCreacion(Principal.LOGGED.getLogin());
 						new ArticuloController().RegistrarArticulo(a);
@@ -212,7 +212,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 								.getText()));
 						a.setFechaModificacion(String.valueOf(LocalDate.now()));
 						a.setUsuarioModificacion(Principal.LOGGED.getLogin());
-						a.setEArticulo(new EArticulo(5));
+						a.setEstadoArticulo(new EstadoArticulo(5));
 						new ArticuloController().RegistrarArticulo(a);
 						ListarArticulos();
 						Utiles.Limpiar(contenedor);
@@ -250,7 +250,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				Articulo a = new Articulo();
 				a.setId(Integer.parseInt(txtId.getText()));
-				a.setEArticulo(new EArticulo(8));
+				a.setEstadoArticulo(new EstadoArticulo(8));
 				new ArticuloController().RegistrarArticulo(a);
 			}
 		});
@@ -413,7 +413,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 					a.getSerie(), a.getObs(),
 					a.getFlagContrato() + "-" + a.getNumeroContrato(),
 					a.getCapitalContrato(), a.getPrecioVenta(),
-					a.getPrecioInterno(), a.getEArticulo().getDescripcion() });
+					a.getPrecioInterno(), a.getEstadoArticulo().getDescripcion() });
 		}
 		tbArticulos.setModel(MtoArticuloModel);
 	}

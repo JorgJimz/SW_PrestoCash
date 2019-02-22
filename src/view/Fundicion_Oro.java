@@ -35,8 +35,8 @@ import javax.swing.table.TableColumn;
 import model.Articulo;
 import model.Contrato;
 import model.DetalleContrato;
-import model.EArticulo;
-import model.EContrato;
+import model.EstadoArticulo;
+import model.EstadoContrato;
 import model.Fundicion;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -70,9 +70,8 @@ public class Fundicion_Oro extends JInternalFrame {
 
 	TableColumn ArticuloId_Column;
 
-	public DefaultTableModel ArticuloFundicionModel = new DefaultTableModel(
-			null, new String[] { "CONTRATO", "AID", "PRENDA", "GRAMAJE",
-					"ESTADO" }) {
+	public DefaultTableModel ArticuloFundicionModel = new DefaultTableModel(null,
+			new String[] { "CONTRATO", "AID", "PRENDA", "GRAMAJE", "ESTADO" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
 		}
@@ -100,8 +99,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		this.addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
-				int option = JOptionPane.showConfirmDialog(null,
-						"<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
+				int option = JOptionPane.showConfirmDialog(null, "<html><h3><b>¿Salir?</b></h3></html>", "Confirmación",
 						JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					dispose();
@@ -118,12 +116,10 @@ public class Fundicion_Oro extends JInternalFrame {
 		txtNumeroContrato = new JXSearchField();
 		contenedor.add(txtNumeroContrato);
 		txtNumeroContrato.setBounds(12, 22, 465, 60);
-		txtNumeroContrato
-				.setPrompt("Digite, luego presione ENTER o clic en la LUPA");
-		txtNumeroContrato.setBorder(BorderFactory.createTitledBorder(null,
-				"NÚMERO DE CONTRATO", TitledBorder.DEFAULT_JUSTIFICATION,
-				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",
-						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
+		txtNumeroContrato.setPrompt("Digite, luego presione ENTER o clic en la LUPA");
+		txtNumeroContrato.setBorder(BorderFactory.createTitledBorder(null, "NÚMERO DE CONTRATO",
+				TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 		txtNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		txtNumeroContrato.setForeground(new java.awt.Color(0, 64, 128));
 		txtNumeroContrato.setSearchMode(SearchMode.REGULAR);
@@ -137,8 +133,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		spArticulos = new JScrollPane();
 		contenedor.add(spArticulos);
 		spArticulos.setBounds(12, 94, 630, 209);
-		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spArticulos.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spArticulos.setBackground(new java.awt.Color(255, 255, 255));
 		tbArticulos = new JTable();
 		tbArticulos.setModel(ArticuloFundicionModel);
@@ -148,8 +143,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		spArticulos.setViewportView(tbArticulos);
 		tbArticulos.setRowHeight(25);
 		tbArticulos.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		tbArticulos.getTableHeader().setFont(
-				new Font("Segoe UI", Font.BOLD, 16));
+		tbArticulos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbArticulos.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbArticulos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -172,17 +166,12 @@ public class Fundicion_Oro extends JInternalFrame {
 		btnGrabar.setBounds(451, 584, 190, 70);
 		btnGrabar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int option = JOptionPane
-						.showConfirmDialog(
-								null,
-								"<html><h3><b>Se procederá con la Fundición, este proceso es irreversible ... ¿Desea continuar?</b></h3></html>",
-								"Confirmar Fundición",
-								JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null,
+						"<html><h3><b>Se procederá con la Fundición, este proceso es irreversible ... ¿Desea continuar?</b></h3></html>",
+						"Confirmar Fundición", JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					if (new ArticuloController().FundirOro(detalle)) {
-						Utiles.Mensaje(
-								"Proceso de fundición finalizado con éxito.",
-								JOptionPane.INFORMATION_MESSAGE);
+						Utiles.Mensaje("Proceso de fundición finalizado con éxito.", JOptionPane.INFORMATION_MESSAGE);
 						ImprimirReporte();
 						dispose();
 					}
@@ -193,8 +182,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		spFundicion = new JScrollPane();
 		contenedor.add(spFundicion);
 		spFundicion.setBounds(12, 315, 630, 257);
-		spFundicion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		spFundicion.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		spFundicion.setBackground(new java.awt.Color(255, 255, 255));
 		tbFundicion = new JTable();
 		spFundicion.setViewportView(tbFundicion);
@@ -202,13 +190,11 @@ public class Fundicion_Oro extends JInternalFrame {
 		tbFundicion.putClientProperty("terminateEditOnFocusLost", true);
 		tbFundicion.setRowHeight(25);
 		tbFundicion.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		tbFundicion.getTableHeader().setFont(
-				new Font("Segoe UI", Font.BOLD, 16));
+		tbFundicion.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 		tbFundicion.getTableHeader().setForeground(new Color(181, 0, 0));
 		tbFundicion.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_DELETE
-						|| e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+				if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
 					QuitarPrenda();
 				}
 			}
@@ -221,8 +207,7 @@ public class Fundicion_Oro extends JInternalFrame {
 		btnMas.setFont(new java.awt.Font("Segoe UI", 1, 14));
 		btnMas.setOpaque(false);
 		btnMas.setEnabled(false);
-		btnMas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				new java.awt.Color(0, 0, 0)));
+		btnMas.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		btnMas.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnMas.setBounds(489, 12, 70, 70);
 		btnMas.addActionListener(new ActionListener() {
@@ -257,17 +242,14 @@ public class Fundicion_Oro extends JInternalFrame {
 
 	public void AgregarPrenda() {
 		int fila = tbArticulos.getSelectedRow();
-		int articuloId = Integer.parseInt(ArticuloFundicionModel.getValueAt(
-				fila, 1).toString());
-		boolean exists = detalle.stream().anyMatch(
-				t -> t.getArticulo().getId() == articuloId);
+		int articuloId = Integer.parseInt(ArticuloFundicionModel.getValueAt(fila, 1).toString());
+		boolean exists = detalle.stream().anyMatch(t -> t.getArticulo().getId() == articuloId);
 		if (!exists) {
-			Articulo aAsociado = new ArticuloController()
-					.ObtenerArticulo(articuloId);
-			aAsociado.setEArticulo(new EArticulo(EArticulo.FUNDIDO));
-			Contrato cAsociado = new ContratoController().CargarContrato(
-					aAsociado.getFlagContrato(), aAsociado.getNumeroContrato());
-			cAsociado.setEContrato(new EContrato(EContrato.FUNDIDO));
+			Articulo aAsociado = new ArticuloController().ObtenerArticulo(articuloId);
+			aAsociado.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.FUNDIDO));
+			Contrato cAsociado = new ContratoController().CargarContrato(aAsociado.getFlagContrato(),
+					aAsociado.getNumeroContrato());
+			cAsociado.setEstadoContrato(new EstadoContrato(EstadoContrato.FUNDIDO));
 			cAsociado.setFechaModificacion(String.valueOf(LocalDate.now()));
 			cAsociado.setUsuarioModificacion(Principal.LOGGED.getLogin());
 			aAsociado.setContrato(cAsociado);
@@ -283,21 +265,17 @@ public class Fundicion_Oro extends JInternalFrame {
 			txtNumeroContrato.setText("");
 			txtNumeroContrato.requestFocus();
 		} else {
-			Utiles.Mensaje("Esta prenda ya ha sido agregada al cargo actual.",
-					JOptionPane.WARNING_MESSAGE);
+			Utiles.Mensaje("Esta prenda ya ha sido agregada al cargo actual.", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
 	public void QuitarPrenda() {
-		int opc = JOptionPane
-				.showConfirmDialog(
-						null,
-						"<html><h3>¿Está seguro de retirar el artículo seleccionado del Cargo?</h3></html>",
-						"Confirmación", JOptionPane.YES_NO_OPTION);
+		int opc = JOptionPane.showConfirmDialog(null,
+				"<html><h3>¿Está seguro de retirar el artículo seleccionado del Cargo?</h3></html>", "Confirmación",
+				JOptionPane.YES_NO_OPTION);
 		if (opc == JOptionPane.YES_OPTION) {
 			int fila = tbFundicion.getSelectedRow();
-			String SelectedId = String.valueOf(FundicionModel.getValueAt(fila,
-					0));
+			String SelectedId = String.valueOf(FundicionModel.getValueAt(fila, 0));
 			for (Fundicion f : detalle) {
 				if (f.getAlphaId().equals(SelectedId)) {
 					detalle.remove(f);
@@ -312,56 +290,43 @@ public class Fundicion_Oro extends JInternalFrame {
 		FundicionModel.setRowCount(0);
 		BigDecimal cF = BigDecimal.ZERO;
 		for (Fundicion f : detalle) {
-			FundicionModel.addRow(new Object[] {
-					f.getAlphaId(),
-					f.getArticulo().getFlagContrato() + "-"
-							+ f.getArticulo().getNumeroContrato(),
-					f.getArticulo().getDescripcion() + " "
-							+ f.getArticulo().getMarca(),
-					f.getArticulo().getModelo() });
+			FundicionModel.addRow(new Object[] { f.getAlphaId(),
+					f.getArticulo().getFlagContrato() + "-" + f.getArticulo().getNumeroContrato(),
+					f.getArticulo().getDescripcion() + " " + f.getArticulo().getMarca(), f.getArticulo().getModelo() });
 			cF = cF.add(new BigDecimal(f.getArticulo().getModelo()));
 		}
 		tbFundicion.setModel(FundicionModel);
 		btnMenos.setEnabled(detalle.size() > 0);
 		btnGrabar.setEnabled(detalle.size() > 0);
-		lblTotalGramaje.setText(String.format("TOTAL A FUNDIR: %s GRAMOS.",
-				String.valueOf(cF)));
+		lblTotalGramaje.setText(String.format("TOTAL A FUNDIR: %s GRAMOS.", String.valueOf(cF)));
 	}
 
 	public void ObtenerDetalleContrato(String contrato) {
 		if (!contrato.isEmpty()) {
 			String flag = contrato.split("-")[0];
 			if (Principal.SEDE.getFlagOro().equalsIgnoreCase(flag)) {
-				Contrato cn = new ContratoController().CargarContrato(flag,
-						Integer.parseInt(contrato.split("-")[1]));
+				Contrato cn = new ContratoController().CargarContrato(flag, Integer.parseInt(contrato.split("-")[1]));
 				if (Objects.nonNull(cn)) {
 					ArticuloFundicionModel.setRowCount(0);
 					for (DetalleContrato dc : cn.getDetalleContratos()) {
 						ArticuloFundicionModel.addRow(new Object[] {
-								dc.getContrato().getFlag() + "-"
-										+ dc.getContrato().getNumero(),
+								dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
 								dc.getArticulo().getId(),
-								dc.getArticulo().getDescripcion() + " "
-										+ dc.getArticulo().getMarca(),
-								dc.getArticulo().getModelo(),
-								dc.getArticulo().getEArticulo()
-										.getDescripcion() });
+								dc.getArticulo().getDescripcion() + " " + dc.getArticulo().getMarca(),
+								dc.getArticulo().getModelo(), dc.getArticulo().getEstadoArticulo().getDescripcion() });
 					}
 					tbArticulos.setModel(ArticuloFundicionModel);
 					btnMas.setEnabled(true);
 				} else {
-					Utiles.Mensaje(String.format(
-							"El contrato %s no existe. Por favor, verificar.",
-							contrato), JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Mensaje(String.format("El contrato %s no existe. Por favor, verificar.", contrato),
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 			} else {
-				Utiles.Mensaje(String.format(
-						"Ingrese un contrato de ORO para su fundición.",
-						contrato), JOptionPane.INFORMATION_MESSAGE);
+				Utiles.Mensaje(String.format("Ingrese un contrato de ORO para su fundición.", contrato),
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			Utiles.Mensaje("Ingrese Número de Contrato ...",
-					JOptionPane.INFORMATION_MESSAGE);
+			Utiles.Mensaje("Ingrese Número de Contrato ...", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -369,10 +334,9 @@ public class Fundicion_Oro extends JInternalFrame {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("SEDE", Principal.SEDE.getDescripcion());
 		try {
-			JasperReport reporte = (JasperReport) JRLoader
-					.loadObjectFromFile("reports/rptFundicion.jasper");
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,
-					params, new JRBeanCollectionDataSource(detalle));
+			JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reports/rptFundicion.jasper");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, params,
+					new JRBeanCollectionDataSource(detalle));
 			JasperViewer viewer = new JasperViewer(jasperPrint, false);
 			viewer.show();
 			viewer.toFront();

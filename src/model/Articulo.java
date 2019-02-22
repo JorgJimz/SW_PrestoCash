@@ -79,8 +79,8 @@ public class Articulo implements Serializable {
 
 	// bi-directional many-to-one association to EArticulo
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "E_ARTICULO_ID")
-	private EArticulo EArticulo;
+	@JoinColumn(name = "ESTADO_ARTICULO_ID")
+	private EstadoArticulo estadoArticulo;
 
 	// bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy = "articulo")
@@ -232,12 +232,12 @@ public class Articulo implements Serializable {
 		this.usuarioModificacion = usuarioModificacion;
 	}
 
-	public EArticulo getEArticulo() {
-		return this.EArticulo;
+	public EstadoArticulo getEstadoArticulo() {
+		return estadoArticulo;
 	}
 
-	public void setEArticulo(EArticulo EArticulo) {
-		this.EArticulo = EArticulo;
+	public void setEstadoArticulo(EstadoArticulo estadoArticulo) {
+		this.estadoArticulo = estadoArticulo;
 	}
 
 	public List<DetalleCargo> getDetalleCargos() {

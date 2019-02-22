@@ -33,8 +33,8 @@ import com.toedter.calendar.JDateChooser;
 import controller.ClienteController;
 import model.Cliente;
 import model.Contrato;
-import model.EArticulo;
-import model.EContrato;
+import model.EstadoArticulo;
+import model.EstadoContrato;
 import model.Prestamo;
 import view.Contrato_Prestacion;
 import view.Principal;
@@ -76,7 +76,7 @@ public class Utiles {
 		}
 		return true;
 	}
-	
+
 	public static List<ComboItem> ConversorComboItem(List<Prestamo> lPrestamo) {
 		return lPrestamo.stream().map(p -> {
 			ComboItem ci = new ComboItem();
@@ -214,45 +214,45 @@ public class Utiles {
 
 	public static void ActualizacionContrato(Contrato c) {
 		try {
-			if (c.getEContrato().getId() == EContrato.CANCELADO) {
+			if (c.getEstadoContrato().getId() == EstadoContrato.CANCELADO) {
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.LIBRE));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.LIBRE));
 					item.getArticulo().setFlagContrato(c.getFlag());
 					item.getArticulo().setNumeroContrato(c.getNumero());
 					item.getArticulo().setCapitalContrato(item.getTasacion());
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
-			} else if (c.getEContrato().getId() == EContrato.FUNDIDO) {
+			} else if (c.getEstadoContrato().getId() == EstadoContrato.FUNDIDO) {
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.FUNDIDO));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.FUNDIDO));
 					item.getArticulo().setFlagContrato(c.getFlag());
 					item.getArticulo().setNumeroContrato(c.getNumero());
 					item.getArticulo().setCapitalContrato(item.getTasacion());
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
-			} else if (c.getEContrato().getId() == EContrato.ANULADO) {
+			} else if (c.getEstadoContrato().getId() == EstadoContrato.ANULADO) {
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.BAJA));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.BAJA));
 					item.getArticulo().setFlagContrato(c.getFlag());
 					item.getArticulo().setNumeroContrato(c.getNumero());
 					item.getArticulo().setCapitalContrato(item.getTasacion());
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
-			} else if (c.getEContrato().getId() == EContrato.REMATADO) {
+			} else if (c.getEstadoContrato().getId() == EstadoContrato.REMATADO) {
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.REMATADO));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.REMATADO));
 					item.getArticulo().setFlagContrato(c.getFlag());
 					item.getArticulo().setNumeroContrato(c.getNumero());
 					item.getArticulo().setCapitalContrato(item.getTasacion());
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("UPD CNT");
 				});
-			}else if (c.getEContrato().getId() == EContrato.VITRINA){
+			} else if (c.getEstadoContrato().getId() == EstadoContrato.VITRINA) {
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.VITRINA));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.VITRINA));
 					item.getArticulo().setFlagContrato(c.getFlag());
 					item.getArticulo().setNumeroContrato(c.getNumero());
 					item.getArticulo().setCapitalContrato(item.getTasacion());
@@ -273,14 +273,15 @@ public class Utiles {
 			LocalDate gcRem = LocalDate.parse(c.getFechaRemate());
 			if (hoy.isAfter(gcPost)) {
 				int totalDetalle = c.getDetalleContratos().size();
-				c.setEContrato(new EContrato(EContrato.VITRINA_SP));
+				c.setEstadoContrato(new EstadoContrato(EstadoContrato.VITRINA_SP));
 				c.getDetalleContratos().forEach(item -> {
 					if (!Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_ARTICULO)
-							.contains(item.getArticulo().getEArticulo().getId())) {
+							.contains(item.getArticulo().getEstadoArticulo().getId())) {
 						int neoEstado = item.getArticulo().getPrecioVenta().compareTo(BigDecimal.ZERO) == 0
-								&& item.getArticulo().getEArticulo().getId() != EArticulo.BAJA ? EArticulo.SIN_PRECIO
-										: EArticulo.VITRINA;
-						item.getArticulo().setEArticulo(new EArticulo(neoEstado));
+								&& item.getArticulo().getEstadoArticulo().getId() != EstadoArticulo.BAJA
+										? EstadoArticulo.SIN_PRECIO
+										: EstadoArticulo.VITRINA;
+						item.getArticulo().setEstadoArticulo(new EstadoArticulo(neoEstado));
 						item.getArticulo().setFlagContrato(c.getFlag());
 						item.getArticulo().setNumeroContrato(c.getNumero());
 						item.getArticulo().setCapitalContrato(item.getTasacion());
@@ -292,37 +293,37 @@ public class Utiles {
 				int conteoVitrina = (int) c.getDetalleContratos().stream().filter(Constantes.predicadoConversorVitrina)
 						.count();
 				if (totalDetalle == conteoVitrina) {
-					c.setEContrato(new EContrato(EContrato.VITRINA));
+					c.setEstadoContrato(new EstadoContrato(EstadoContrato.VITRINA));
 				} else {
-					c.setEContrato(new EContrato(EContrato.VITRINA_SP));
+					c.setEstadoContrato(new EstadoContrato(EstadoContrato.VITRINA_SP));
 				}
 
 			} else if (hoy.isAfter(gcRem) && hoy.isBefore(gcPost) || hoy.isEqual(gcPost)) {
-				c.setEContrato(new EContrato(EContrato.POST));
+				c.setEstadoContrato(new EstadoContrato(EstadoContrato.POST));
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.ACTIVO));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.ACTIVO));
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("AUTO UPD");
 				});
 			} else if (hoy.isAfter(gcPre) || hoy.isEqual(gcPre) && hoy.isBefore(gcRem) || hoy.isEqual(gcRem)) {
-				c.setEContrato(new EContrato(EContrato.PRE));
+				c.setEstadoContrato(new EstadoContrato(EstadoContrato.PRE));
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.ACTIVO));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.ACTIVO));
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("AUTO UPD");
 				});
 			} else if (hoy.isAfter(LocalDate.parse(c.getFechaVencimiento()))
 					&& !hoy.isEqual(LocalDate.parse(c.getFechaVencimiento()))) {
-				c.setEContrato(new EContrato(EContrato.VENCIDO));
+				c.setEstadoContrato(new EstadoContrato(EstadoContrato.VENCIDO));
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.ACTIVO));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.ACTIVO));
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("AUTO UPD");
 				});
 			} else {
-				c.setEContrato(new EContrato(EContrato.ACTIVO));
+				c.setEstadoContrato(new EstadoContrato(EstadoContrato.ACTIVO));
 				c.getDetalleContratos().forEach(item -> {
-					item.getArticulo().setEArticulo(new EArticulo(EArticulo.ACTIVO));
+					item.getArticulo().setEstadoArticulo(new EstadoArticulo(EstadoArticulo.ACTIVO));
 					item.getArticulo().setFechaModificacion(String.valueOf(LocalDate.now()));
 					item.getArticulo().setUsuarioModificacion("AUTO UPD");
 				});

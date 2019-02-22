@@ -2,8 +2,8 @@ package ws.interfaz;
 
 import java.util.List;
 
+import common.MultiBody;
 import model.Contrato;
-import model.Egreso;
 import model.Prestamo;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,5 +23,5 @@ public interface IContratoService {
 
 	@Headers({ "Accept: application/json" })
 	@POST("v1/contrato/generar")
-	Call<Contrato> GenerarContrato(@Body Contrato c, @Body Egreso e);
+	Call<Contrato> GenerarContrato(@Body MultiBody mb);
 }

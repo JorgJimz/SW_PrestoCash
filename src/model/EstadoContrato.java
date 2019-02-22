@@ -17,9 +17,9 @@ import javax.persistence.Transient;
 import common.Utiles;
 
 @Entity
-@Table(name = "e_contrato")
-@NamedQuery(name = "EContrato.findAll", query = "SELECT e FROM EContrato e")
-public class EContrato implements Serializable {
+@Table(name = "estado_contrato")
+@NamedQuery(name = "EstadoContrato.findAll", query = "SELECT e FROM EstadoContrato e")
+public class EstadoContrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int ACTIVO = 1;
@@ -44,7 +44,7 @@ public class EContrato implements Serializable {
 	private String valor;
 
 	// bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy = "EContrato")
+	@OneToMany(mappedBy = "estadoContrato")
 	private List<Contrato> contratos;
 
 	@Transient
@@ -53,14 +53,14 @@ public class EContrato implements Serializable {
 	@Transient
 	private Color foreground;
 
-	public EContrato() {
+	public EstadoContrato() {
 	}
 
-	public EContrato(int id) {
+	public EstadoContrato(int id) {
 		this.id = id;
 	}
 
-	public EContrato(int id, String descripcion) {
+	public EstadoContrato(int id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;
 	}
@@ -106,14 +106,14 @@ public class EContrato implements Serializable {
 
 	public Contrato addContrato(Contrato contrato) {
 		getContratos().add(contrato);
-		contrato.setEContrato(this);
+		contrato.setEstadoContrato(this);
 
 		return contrato;
 	}
 
 	public Contrato removeContrato(Contrato contrato) {
 		getContratos().remove(contrato);
-		contrato.setEContrato(null);
+		contrato.setEstadoContrato(null);
 
 		return contrato;
 	}

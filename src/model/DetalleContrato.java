@@ -14,6 +14,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import common.Exclude;
+
 @Entity
 @Table(name = "detalle_contrato")
 @NamedQuery(name = "DetalleContrato.findAll", query = "SELECT d FROM DetalleContrato d")
@@ -34,6 +36,7 @@ public class DetalleContrato implements Serializable {
 
 	// bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Exclude
 	private Contrato contrato;
 
 	@Transient

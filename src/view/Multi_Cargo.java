@@ -475,7 +475,7 @@ public class Multi_Cargo extends JInternalFrame {
 							dc.getContrato().getId(), dc.getContrato().getFlag() + "-" + dc.getContrato().getNumero(),
 							dc.getArticulo().getId(), dc.getArticulo().getDescripcion() + " "
 									+ dc.getArticulo().getMarca() + " " + dc.getArticulo().getModelo(),
-							dc.getArticulo().getEArticulo().getDescripcion() });
+							dc.getArticulo().getEstadoArticulo().getDescripcion() });
 				}
 				tbArticulos.setModel(ArticulosMultiCargoModel);
 				btnMas.setEnabled(true);

@@ -71,6 +71,14 @@ public class Usuario implements Serializable {
 	public Usuario() {
 	}
 
+	public Usuario(int id) {
+		this.id = id;
+	}
+
+	public Usuario(Exception e) {
+		header = new Header(e);
+	}
+
 	public Usuario(String login, String password) {
 		this.login = login;
 		this.password = password;

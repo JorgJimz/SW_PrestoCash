@@ -14,7 +14,7 @@ import javax.persistence.Query;
 import common.Constantes;
 import common.Logger;
 import model.Contrato;
-import model.EContrato;
+import model.EstadoContrato;
 import model.Egreso;
 import model.Ingreso;
 import model.Seguimiento;
@@ -193,12 +193,12 @@ public class ContratoController {
 		return l;
 	}
 
-	public List<EContrato> ListarEstadosContrato() {
+	public List<EstadoContrato> ListarEstadosContrato() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PrestoCashContext");
 		EntityManager em = emf.createEntityManager();
-		List<EContrato> l = null;
+		List<EstadoContrato> l = null;
 		try {
-			l = em.createNamedQuery("EContrato.findAll", EContrato.class).getResultList();
+			l = em.createNamedQuery("EContrato.findAll", EstadoContrato.class).getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
@@ -223,13 +223,13 @@ public class ContratoController {
 			List<Contrato> l = q.getResultList();
 			Constantes.HistorialModel.setRowCount(0);
 			for (Contrato c : l) {
-				if (Arrays.stream(Constantes.ESTADOS_ALERTA).anyMatch(c.getEContrato().getDescripcion()::contains)) {
+				if (Arrays.stream(Constantes.ESTADOS_ALERTA).anyMatch(c.getEstadoContrato().getDescripcion()::contains)) {
 					f++;
 				}
 				String articulos = c.getDetalleContratos().stream().map(a -> a.getArticulo().getDescripcion())
 						.collect(Collectors.joining(", ")).replaceFirst(",(?=[^,]+$)", " Y");
 				Constantes.HistorialModel.addRow(new Object[] { c.getFlag() + "-" + c.getNumero(), c.getFechaContrato(),
-						c.getFechaVencimiento(), c.getFechaRemate(), c.getEContrato().getDescripcion(), articulos,
+						c.getFechaVencimiento(), c.getFechaRemate(), c.getEstadoContrato().getDescripcion(), articulos,
 						c.getPrestamo().getDescripcion(), c.getCapital() });
 			}
 		} catch (Exception ex) {

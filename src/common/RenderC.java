@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import model.EArticulo;
+import model.EstadoArticulo;
 
 public class RenderC implements TableCellRenderer {
 
@@ -26,7 +26,7 @@ public class RenderC implements TableCellRenderer {
 		}
 
 		if (column == 6) {
-			EArticulo ea = (EArticulo) value;
+			EstadoArticulo ea = (EstadoArticulo) value;
 			e.setText(ea.getDescripcion());
 			e.setBackground(ea.getBackground());
 			e.setForeground(ea.getForeground());

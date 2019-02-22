@@ -19,8 +19,8 @@ import model.Abono;
 import model.Articulo;
 import model.Asistencia;
 import model.DetalleContrato;
-import model.EArticulo;
-import model.EContrato;
+import model.EstadoArticulo;
+import model.EstadoContrato;
 import model.Egreso;
 import model.Pago;
 import model.Separacion;
@@ -30,6 +30,9 @@ import view.Principal;
 public class Constantes {
 
 	public static final String URI_WS = "http://localhost:8090";
+
+	public static boolean OK = true;
+	public static boolean ERROR = false;
 
 	public static BigDecimal PRIMERA_MORA = new BigDecimal(0.30).setScale(2, RoundingMode.HALF_UP);
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
@@ -41,16 +44,16 @@ public class Constantes {
 
 	public static final String[] ESTADOS_ALERTA = new String[] { "VENCIDO", "PRE", "POST", "VITRINA", "VITRINA (SP)" };
 
-	public static final Integer[] ESTADOS_INACTIVIDAD_CONTRATO = new Integer[] { EContrato.EN_PROCESO,
-			EContrato.FUNDIDO, EContrato.CANCELADO, EContrato.VITRINA, 10, EContrato.REMATADO, EContrato.USO_OFICINA,
-			EContrato.VITRINA_SP, EContrato.ANULADO };
+	public static final Integer[] ESTADOS_INACTIVIDAD_CONTRATO = new Integer[] { EstadoContrato.EN_PROCESO,
+			EstadoContrato.FUNDIDO, EstadoContrato.CANCELADO, EstadoContrato.VITRINA, 10, EstadoContrato.REMATADO, EstadoContrato.USO_OFICINA,
+			EstadoContrato.VITRINA_SP, EstadoContrato.ANULADO };
 
-	public static final Integer[] ESTADOS_NO_VIGENCIA_CONTRATO = new Integer[] { EContrato.EN_PROCESO,
-			EContrato.FUNDIDO, EContrato.CANCELADO, EContrato.VITRINA, 10, EContrato.REMATADO, EContrato.USO_OFICINA,
-			EContrato.ANULADO };
+	public static final Integer[] ESTADOS_NO_VIGENCIA_CONTRATO = new Integer[] { EstadoContrato.EN_PROCESO,
+			EstadoContrato.FUNDIDO, EstadoContrato.CANCELADO, EstadoContrato.VITRINA, 10, EstadoContrato.REMATADO, EstadoContrato.USO_OFICINA,
+			EstadoContrato.ANULADO };
 
-	public static final Integer[] ESTADOS_INACTIVIDAD_ARTICULO = new Integer[] { EArticulo.BAJA, EArticulo.FUNDIDO,
-			EArticulo.LIBRE, EArticulo.REMATADO, EArticulo.SEPARADO };
+	public static final Integer[] ESTADOS_INACTIVIDAD_ARTICULO = new Integer[] { EstadoArticulo.BAJA, EstadoArticulo.FUNDIDO,
+			EstadoArticulo.LIBRE, EstadoArticulo.REMATADO, EstadoArticulo.SEPARADO };
 
 	public static DefaultTableModel HistorialModel = new DefaultTableModel(null,
 			new String[] { "CONTRATO", "INICIO", "VENCIMIENTO", "REMATE", "ESTADO", "ARTICULO", "TIPO", "VALOR" }) {
@@ -189,15 +192,15 @@ public class Constantes {
 	public static Predicate<DetalleContrato> predicadoConversorVitrina = new Predicate<DetalleContrato>() {
 		@Override
 		public boolean test(DetalleContrato dc) {
-			return dc.getArticulo().getEArticulo().getId() == EArticulo.VITRINA;
+			return dc.getArticulo().getEstadoArticulo().getId() == EstadoArticulo.VITRINA;
 		}
 	};
 
 	public static Predicate<DetalleContrato> predicadoConversorRemSep = new Predicate<DetalleContrato>() {
 		@Override
 		public boolean test(DetalleContrato dc) {
-			return dc.getArticulo().getEArticulo().getId() == EArticulo.SEPARADO
-					|| dc.getArticulo().getEArticulo().getId() == EArticulo.REMATADO;
+			return dc.getArticulo().getEstadoArticulo().getId() == EstadoArticulo.SEPARADO
+					|| dc.getArticulo().getEstadoArticulo().getId() == EstadoArticulo.REMATADO;
 		}
 	};
 

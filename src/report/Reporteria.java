@@ -36,7 +36,7 @@ import controller.ArticuloController;
 import controller.ContratoController;
 import controller.PrestamoController;
 import controller.VentaController;
-import model.EContrato;
+import model.EstadoContrato;
 import model.Prestamo;
 import model.Separacion;
 import model.Venta;
@@ -294,7 +294,7 @@ public class Reporteria extends JInternalFrame {
 	}
 
 	public void CargarEstadosContrato() {
-		List<EContrato> l = new ContratoController().ListarEstadosContrato();
+		List<EstadoContrato> l = new ContratoController().ListarEstadosContrato();
 		l.forEach(ec -> {
 			JCheckBox chk = new JCheckBox();
 			chk.setFont(new java.awt.Font("Segoe UI", 1, 14));

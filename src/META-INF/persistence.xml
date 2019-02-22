@@ -14,8 +14,8 @@
 		<class>model.Contrato</class>
 		<class>model.DetalleCargo</class>
 		<class>model.DetalleContrato</class>
-		<class>model.EArticulo</class>
-		<class>model.EContrato</class>
+		<class>model.EstadoArticulo</class>
+		<class>model.EstadoContrato</class>
 		<class>model.Egreso</class>
 		<class>model.Fundicion</class>
 		<class>model.Ingreso</class>

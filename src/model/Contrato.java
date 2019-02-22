@@ -73,33 +73,33 @@ public class Contrato implements Serializable {
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
-	@OneToMany(mappedBy = "contrato")
-	private List<Abono> abonos;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "E_CONTRATO_ID")
-	private EContrato EContrato;
+	@JoinColumn(name = "ESTADO_CONTRATO_ID")
+	private EstadoContrato estadoContrato;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Prestamo prestamo;
 
+	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)	
+	transient private List<DetalleContrato> detalleContratos;
+	
 	@OneToMany(mappedBy = "contrato")
-	private List<DetalleCargo> detalleCargos;
+	transient private List<DetalleCargo> detalleCargos;
 
 	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
-	private List<DetalleContrato> detalleContratos;
-
-	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
-	private List<Mora> moras;
+	transient private List<Mora> moras;
 
 	@OneToMany(mappedBy = "contrato")
-	private List<Pago> pagos;
+	transient private List<Pago> pagos;
 
 	@OneToMany(mappedBy = "contrato")
-	private List<Seguimiento> seguimientos;
+	transient private List<Seguimiento> seguimientos;
+
+	@OneToMany(mappedBy = "contrato")
+	transient private List<Abono> abonos;
 
 	@Transient
 	private BigDecimal interesDiario;
@@ -404,12 +404,12 @@ public class Contrato implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public EContrato getEContrato() {
-		return this.EContrato;
+	public EstadoContrato getEstadoContrato() {
+		return estadoContrato;
 	}
 
-	public void setEContrato(EContrato EContrato) {
-		this.EContrato = EContrato;
+	public void setEstadoContrato(EstadoContrato estadoContrato) {
+		this.estadoContrato = estadoContrato;
 	}
 
 	public Prestamo getPrestamo() {

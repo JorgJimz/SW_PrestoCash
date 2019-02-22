@@ -27,7 +27,7 @@ import common.JIconTextField;
 import common.Utiles;
 import controller.ArticuloController;
 import model.Articulo;
-import model.EArticulo;
+import model.EstadoArticulo;
 
 @SuppressWarnings("serial")
 public class Registro_Articulo extends JInternalFrame {
@@ -151,7 +151,7 @@ public class Registro_Articulo extends JInternalFrame {
 						a.setNumeroContrato(Integer.parseInt(txtContratoAsociado.getText()));
 						a.setCapitalContrato(new BigDecimal(txtCapital
 								.getText()));
-						a.setEArticulo(new EArticulo(5));
+						a.setEstadoArticulo(new EstadoArticulo(5));
 						a.setFechaCreacion(String.valueOf(LocalDate.now()));
 						a.setUsuarioCreacion(Principal.LOGGED.getLogin());
 						new ArticuloController().RegistrarArticulo(a);
@@ -302,7 +302,7 @@ public class Registro_Articulo extends JInternalFrame {
 					a.getSerie(), a.getObs(),
 					a.getFlagContrato() + "-" + a.getNumeroContrato(),
 					a.getCapitalContrato(), a.getPrecioVenta(),
-					a.getPrecioInterno(), a.getEArticulo().getDescripcion() });
+					a.getPrecioInterno(), a.getEstadoArticulo().getDescripcion() });
 		}
 		tbArticulos.setModel(MtoArticuloModel);
 	}

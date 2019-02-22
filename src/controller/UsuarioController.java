@@ -105,7 +105,7 @@ public class UsuarioController {
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
 			e.printStackTrace();
-			tx.rollback();
+			//tx.rollback();
 		} finally {
 			em.close();
 			emf.close();

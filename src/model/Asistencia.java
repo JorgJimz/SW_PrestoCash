@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
+
+import common.Header;
 
 @Entity
 @NamedQuery(name = "Asistencia.findAll", query = "SELECT a FROM Asistencia a")
@@ -35,11 +38,18 @@ public class Asistencia implements Serializable {
 
 	private String obs;
 
+	@Transient
+	private Header header;
+
 	// bi-directional many-to-one association to Usuario
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)	
 	private Usuario usuario;
 
 	public Asistencia() {
+	}
+
+	public Asistencia(Exception e) {
+		header = new Header(e);
 	}
 
 	public int getId() {
@@ -98,4 +108,11 @@ public class Asistencia implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
+	}
 }

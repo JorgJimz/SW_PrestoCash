@@ -52,8 +52,8 @@ import model.Articulo;
 import model.Cliente;
 import model.Contrato;
 import model.DetalleContrato;
-import model.EArticulo;
-import model.EContrato;
+import model.EstadoArticulo;
+import model.EstadoContrato;
 import model.Egreso;
 import model.Prestamo;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -538,7 +538,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 						contrato.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
 						contrato.setCliente(cliente);
 						contrato.setNumero(Integer.parseInt(lblNumeroContrato.getText().split("-")[1]));
-						contrato.setEContrato(new EContrato(EContrato.ACTIVO));
+						contrato.setEstadoContrato(new EstadoContrato(EstadoContrato.ACTIVO));
 						contrato.setFechaCreacion(String.valueOf(LocalDate.now()));
 						contrato.setUsuarioCreacion(Principal.LOGGED.getLogin());
 						for (DetalleContrato dc : detalle) {
@@ -697,7 +697,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 					int fila = tbArticulos.getSelectedRow();
 					Articulo articulo = new ArticuloService()
 							.ObtenerArticulo(Integer.parseInt(String.valueOf(tbArticulos.getValueAt(fila, 0))));
-					articulo.setEArticulo(new EArticulo(EArticulo.ACTIVO));
+					articulo.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.ACTIVO));
 					articulo.setFlagContrato(lblNumeroContrato.getText().split("-")[0]);
 					articulo.setNumeroContrato(Integer.parseInt(lblNumeroContrato.getText().split("-")[1]));
 					articulo.setCapitalContrato(new BigDecimal(String.valueOf(tbArticulos.getValueAt(fila, 5))));
@@ -806,7 +806,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 			articulo.setModelo(txtModelo.getText().toUpperCase());
 			articulo.setSerie(txtSerie.getText().toUpperCase());
 			articulo.setObs(txtObservaciones.getText().toUpperCase());
-			articulo.setEArticulo(new EArticulo(1));
+			articulo.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.ACTIVO));
 			articulo.setFechaCreacion(String.valueOf(LocalDate.now()));
 			articulo.setUsuarioCreacion(Principal.LOGGED.getLogin());
 			articulo.setPrecioVenta(BigDecimal.ZERO);

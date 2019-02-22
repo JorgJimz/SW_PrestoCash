@@ -60,8 +60,8 @@ import model.Cargo;
 import model.Contrato;
 import model.DetalleCargo;
 import model.DetalleContrato;
-import model.EArticulo;
-import model.EContrato;
+import model.EstadoArticulo;
+import model.EstadoContrato;
 import model.Egreso;
 import model.Ingreso;
 import model.Mora;
@@ -307,14 +307,14 @@ public class Gestion_Contrato extends JInternalFrame {
 			}
 		});
 
-		lblEstado = new JLabel(String.valueOf(contrato.getEContrato().getDescripcion()));
+		lblEstado = new JLabel(String.valueOf(contrato.getEstadoContrato().getDescripcion()));
 		contenedor.add(lblEstado);
 		lblEstado.setBounds(259, 11, 191, 32);
 		lblEstado.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
 		lblEstado.setFont(new java.awt.Font("Segoe UI", 1, 18));
 		lblEstado.setOpaque(true);
-		lblEstado.setBackground(contrato.getEContrato().getBackground());
-		lblEstado.setForeground(contrato.getEContrato().getForeground());
+		lblEstado.setBackground(contrato.getEstadoContrato().getBackground());
+		lblEstado.setForeground(contrato.getEstadoContrato().getForeground());
 		lblEstado.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblNumeroContrato = new JLabel(contrato.getFlag() + "-" + String.format("%04d", contrato.getNumero()));
@@ -879,7 +879,7 @@ public class Gestion_Contrato extends JInternalFrame {
 							detalle_cargo.setContrato(contrato);
 							Articulo articulo = new ArticuloController().ObtenerArticulo(
 									Integer.parseInt(DetalleContratoModel.getValueAt(i, 0).toString()));
-							articulo.setEArticulo(new EArticulo(4, "CON CARGO"));
+							articulo.setEstadoArticulo(new EstadoArticulo(4, "CON CARGO"));
 							detalle_cargo.setArticulo(articulo);
 							Sede sede = new Sede();
 							sede.setId(((ComboItem) cboAlmacen.getSelectedItem()).getId());
@@ -1347,7 +1347,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		});
 
 		CargarInformacionContrato();
-		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_CONTRATO).contains(contrato.getEContrato().getId())) {
+		if (Arrays.asList(Constantes.ESTADOS_INACTIVIDAD_CONTRATO).contains(contrato.getEstadoContrato().getId())) {
 			ActivarPerspectivaInactivo(contrato);
 		}
 
@@ -1371,14 +1371,14 @@ public class Gestion_Contrato extends JInternalFrame {
 
 	public void ActivarPerspectivaInactivo(Contrato k) {
 		pnlSucesos.setVisible(true);
-		switch (k.getEContrato().getId()) {
-		case EContrato.EN_PROCESO:
+		switch (k.getEstadoContrato().getId()) {
+		case EstadoContrato.EN_PROCESO:
 			String separaciones = CargarSeparaciones(true);
 			String remates = CargarRemates(true);
 			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>EN PROCESO</h1></center><h5>" + separaciones
 					+ "<br/>" + remates + "</h5></html>");
 			break;
-		case EContrato.FUNDIDO:
+		case EstadoContrato.FUNDIDO:
 			edpMensajeSuceso
 					.setText("<html>" + "<center>" + "<h1 style='color:red'>FUNDIDO</h1>" + "<h3>FECHA: "
 							+ Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion()))
@@ -1386,7 +1386,7 @@ public class Gestion_Contrato extends JInternalFrame {
 							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
 							+ "</html>");
 			break;
-		case EContrato.CANCELADO:
+		case EstadoContrato.CANCELADO:
 			Pago cancelacion = k.getPagos().stream().filter(Constantes.predicadoPago).findFirst().orElse(Pago.DEFAULT);
 			BigDecimal montoCancelacion = cancelacion.getCapital().add(cancelacion.getInteres())
 					.add(cancelacion.getMora());
@@ -1394,7 +1394,7 @@ public class Gestion_Contrato extends JInternalFrame {
 					+ Constantes.formatoLocal.format(LocalDate.parse(cancelacion.getFechaPago())).toUpperCase()
 					+ " </h3>" + "<h3>IMPORTE: " + montoCancelacion + "</h3>" + "</center>" + "</html>");
 			break;
-		case EContrato.VITRINA:
+		case EstadoContrato.VITRINA:
 			edpMensajeSuceso
 					.setText("<html>" + "<center>" + "<h1 style='color:red'>EN VITRINA</h1>" + "<h3>DÍA: "
 							+ Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion()))
@@ -1402,11 +1402,11 @@ public class Gestion_Contrato extends JInternalFrame {
 							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
 							+ "</html>");
 			break;
-		case EContrato.REMATADO:
+		case EstadoContrato.REMATADO:
 			edpMensajeSuceso.setText("<html><center><h1 style='color:red'>REMATADO</h1></center><h5>"
 					+ CargarRemates(false) + "</h5></html>");
 			break;
-		case EContrato.USO_OFICINA:
+		case EstadoContrato.USO_OFICINA:
 			edpMensajeSuceso
 					.setText("<html>" + "<center>" + "<h1 style='color:red'>ANULADO</h1>" + "<h3>FECHA: "
 							+ Constantes.formatoLocal.format(LocalDate.parse(contrato.getFechaModificacion()))
@@ -1414,7 +1414,7 @@ public class Gestion_Contrato extends JInternalFrame {
 							+ " </h3>" + "<h3>USUARIO: " + contrato.getUsuarioModificacion() + "</h3>" + "</center>"
 							+ "</html>");
 			break;
-		case EContrato.VITRINA_SP:
+		case EstadoContrato.VITRINA_SP:
 			edpMensajeSuceso.setText(
 					"<html>" + "<center>" + "<h1 style='color:red'>PARA VITRINA [SIN PRECIO]</h1></center></html>");
 			btnReimpresion.setForeground(Color.WHITE);
@@ -1462,8 +1462,8 @@ public class Gestion_Contrato extends JInternalFrame {
 
 			DetalleContratoModel.addRow(new Object[] { dc.getArticulo().getId(), dc.getArticulo().getDescripcion(),
 					dc.getArticulo().getMarca(), dc.getArticulo().getModelo(), dc.getArticulo().getObs(),
-					dc.getTasacion().setScale(2, RoundingMode.HALF_UP), dc.getArticulo().getEArticulo(), ubicacion,
-					dc.getArticulo().getEArticulo().getId() });
+					dc.getTasacion().setScale(2, RoundingMode.HALF_UP), dc.getArticulo().getEstadoArticulo(), ubicacion,
+					dc.getArticulo().getEstadoArticulo().getId() });
 		}
 	}
 
@@ -1792,7 +1792,7 @@ public class Gestion_Contrato extends JInternalFrame {
 				}
 				break;
 			case "AN":
-				contrato.setEContrato(new EContrato(EContrato.ANULADO));
+				contrato.setEstadoContrato(new EstadoContrato(EstadoContrato.ANULADO));
 				contrato.setUsuarioModificacion(Principal.LOGGED.getLogin());
 				contrato.setFechaModificacion(String.valueOf(LocalDate.now()));
 				Utiles.Mensaje("Contrato Anulado.", JOptionPane.INFORMATION_MESSAGE);
@@ -1809,7 +1809,7 @@ public class Gestion_Contrato extends JInternalFrame {
 
 				for (DetalleContrato dc : contrato.getDetalleContratos()) {
 					Articulo a = dc.getArticulo();
-					a.setEArticulo(new EArticulo(EArticulo.BAJA));
+					a.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.BAJA));
 					a.setUsuarioModificacion(Principal.LOGGED.getLogin());
 					a.setFechaModificacion(String.valueOf(LocalDate.now()));
 				}
@@ -1831,10 +1831,10 @@ public class Gestion_Contrato extends JInternalFrame {
 						.add(contrato.getMoraTotal().add(contrato.getProrrateo()).add(contrato.getProrrateoMora())));
 				ingreso.setOtro(BigDecimal.ZERO);
 				ingreso.setTipo("PAG");
-				contrato.setEContrato(new EContrato(EContrato.CANCELADO));
+				contrato.setEstadoContrato(new EstadoContrato(EstadoContrato.CANCELADO));
 				for (DetalleContrato dc : contrato.getDetalleContratos()) {
 					Articulo a = dc.getArticulo();
-					a.setEArticulo(new EArticulo(EArticulo.LIBRE));
+					a.setEstadoArticulo(new EstadoArticulo(EstadoArticulo.LIBRE));
 					a.setUsuarioModificacion(Principal.LOGGED.getLogin());
 					a.setFechaModificacion(String.valueOf(LocalDate.now()));
 				}
