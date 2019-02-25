@@ -181,7 +181,7 @@ public class ArticuloController {
 			tx.begin();
 			for (Fundicion x : f) {
 				em.merge(x);
-				em.merge(x.getArticulo().getContrato());
+				em.merge(x.getArticulo().getContratoAsociado());
 			}
 			tx.commit();
 			flag = true;

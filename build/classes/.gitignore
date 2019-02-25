@@ -1,9 +1,9 @@
-/META-INF/
-/common/
-/controller/
+/META-INF
+/common
+/controller
 /dollar.png
-/maintenance/
-/model/
-/report/
-/view/
-/ws/
+/maintenance
+/model
+/report
+/view
+/ws

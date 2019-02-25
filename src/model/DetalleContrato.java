@@ -14,7 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import common.Exclude;
+import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "detalle_contrato")
@@ -24,19 +24,20 @@ public class DetalleContrato implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	private int cantidad;
 
+	@Expose
 	private BigDecimal tasacion;
 
-	// bi-directional many-to-one association to Articulo
+	@Expose
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Articulo articulo;
 
-	// bi-directional many-to-one association to Contrato
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Exclude
 	private Contrato contrato;
 
 	@Transient

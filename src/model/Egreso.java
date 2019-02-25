@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @NamedQuery(name = "Egreso.findAll", query = "SELECT e FROM Egreso e")
 public class Egreso implements Serializable {
@@ -22,15 +24,19 @@ public class Egreso implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	private String descripcion;
 
+	@Expose
 	private BigDecimal importe;
 
+	@Expose
 	private String tipo;
 
-	private String moneda;
+	@Expose private String moneda;
 
 	@Transient
 	private String importeTexto;
@@ -38,7 +44,7 @@ public class Egreso implements Serializable {
 	@Transient
 	private String comprobante;
 
-	// bi-directional many-to-one association to LibroCaja
+	@Expose
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "LIBRO_CAJA_ID")
 	private LibroCaja libroCaja;

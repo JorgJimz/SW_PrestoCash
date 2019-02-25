@@ -556,9 +556,9 @@ public class Contrato_Prestacion extends JInternalFrame {
 						egreso.setTipo("EMP");
 						egreso.setMoneda(String.valueOf(cboTipoMoneda.getSelectedItem()));
 						new ContratoService().GenerarContrato(contrato, egreso);
-						LimpiarModelos();
+						/*LimpiarModelos();
 						Utiles.Mensaje("¡Contrato generado!", JOptionPane.INFORMATION_MESSAGE);
-						ImprimirFormato();
+						ImprimirFormato();*/
 					} catch (Exception e) {
 						e.printStackTrace();
 						Utiles.Mensaje("Error. No se pudo completar la operación.", JOptionPane.ERROR_MESSAGE);

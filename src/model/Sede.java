@@ -37,15 +37,15 @@ public class Sede implements Serializable {
 	private String email;
 
 	@OneToMany(mappedBy = "sede", fetch = FetchType.LAZY)
-	private List<Usuario> usuarios;
+	transient private List<Usuario> usuarios;
 
 	// bi-directional many-to-one association to DetalleCargo
 	@OneToMany(mappedBy = "sede")
-	private List<DetalleCargo> detalleCargos;
+	transient private List<DetalleCargo> detalleCargos;
 
 	// bi-directional many-to-one association to Prestamo
 	@OneToMany(mappedBy = "sede")
-	private List<Prestamo> prestamos;
+	transient private List<Prestamo> prestamos;
 
 	public Sede() {
 	}

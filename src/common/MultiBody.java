@@ -1,10 +1,15 @@
 package common;
 
+import com.google.gson.annotations.Expose;
+
 import model.Contrato;
 import model.Egreso;
 
 public class MultiBody {
+	@Expose
 	private Contrato contrato;
+
+	@Expose
 	private Egreso egreso;
 
 	public Contrato getContrato() {

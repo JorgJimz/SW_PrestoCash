@@ -16,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a")
 public class Articulo implements Serializable {
@@ -23,43 +25,58 @@ public class Articulo implements Serializable {
 	public static final Articulo DEFAULT = null;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	@Column(name = "CAPITAL_CONTRATO")
 	private BigDecimal capitalContrato;
 
 	@Column(name = "NUMERO_CONTRATO")
+	@Expose
 	private int numeroContrato;
 
 	@Column(name = "FLAG_CONTRATO")
+	@Expose
 	private String flagContrato;
 
+	@Expose
 	private String descripcion;
 
 	@Column(name = "FECHA_CREACION")
+	@Expose
 	private String fechaCreacion;
 
 	@Column(name = "FECHA_MODIFICACION")
+	@Expose
 	private String fechaModificacion;
 
+	@Expose
 	private String marca;
 
+	@Expose
 	private String modelo;
 
+	@Expose
 	private String obs;
 
 	@Column(name = "PRECIO_INTERNO")
+	@Expose
 	private BigDecimal precioInterno;
 
 	@Column(name = "PRECIO_VENTA")
+	@Expose
 	private BigDecimal precioVenta;
 
+	@Expose
 	private String serie;
 
 	@Column(name = "USUARIO_CREACION")
+	@Expose
 	private String usuarioCreacion;
 
 	@Column(name = "USUARIO_MODIFICACION")
+	@Expose
 	private String usuarioModificacion;
 
 	@Transient
@@ -75,30 +92,25 @@ public class Articulo implements Serializable {
 	private String documentoCliente;
 
 	@Transient
-	private Contrato contrato;
+	private Contrato contratoAsociado;
 
-	// bi-directional many-to-one association to EArticulo
+	@Expose
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ESTADO_ARTICULO_ID")
 	private EstadoArticulo estadoArticulo;
 
-	// bi-directional many-to-one association to DetalleCargo
-	@OneToMany(mappedBy = "articulo")
-	private List<DetalleCargo> detalleCargos;
-
-	// bi-directional many-to-one association to DetalleContrato
 	@OneToMany(mappedBy = "articulo")
 	private List<DetalleContrato> detalleContratos;
 
-	// bi-directional many-to-one association to Fundicion
+	@OneToMany(mappedBy = "articulo")
+	private List<DetalleCargo> detalleCargos;
+
 	@OneToMany(mappedBy = "articulo")
 	private List<Fundicion> fundicions;
 
-	// bi-directional many-to-one association to Separacion
 	@OneToMany(mappedBy = "articulo")
 	private List<Separacion> separacions;
 
-	// bi-directional many-to-one association to Venta
 	@OneToMany(mappedBy = "articulo")
 	private List<Venta> ventas;
 
@@ -382,12 +394,12 @@ public class Articulo implements Serializable {
 		this.documentoCliente = documentoCliente;
 	}
 
-	public Contrato getContrato() {
-		return contrato;
+	public Contrato getContratoAsociado() {
+		return contratoAsociado;
 	}
 
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
+	public void setContratoAsociado(Contrato contratoAsociado) {
+		this.contratoAsociado = contratoAsociado;
 	}
 
 	public String getDetallePago() {

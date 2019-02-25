@@ -25,81 +25,102 @@ import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
-import common.Constantes;
-import common.Utiles;
+import com.google.gson.annotations.Expose;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import common.Constantes;
+import common.Utiles;
 
 @Entity
 @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c")
 public class Contrato implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final Contrato DEFAULT = null;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	private BigDecimal capital;
 
+	@Expose
 	@Column(name = "FECHA_CONTRATO")
 	private String fechaContrato;
 
+	@Expose
 	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
+	@Expose
 	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
+	@Expose
 	@Column(name = "FECHA_REMATE")
 	private String fechaRemate;
 
+	@Expose
 	@Column(name = "FECHA_VENCIMIENTO")
 	private String fechaVencimiento;
 
+	@Expose
 	private String flag;
 
+	@Expose
 	@Column(name = "INTERES_MENSUAL")
 	private BigDecimal interesMensual;
 
+	@Expose
 	private String moneda;
 
+	@Expose
 	private int numero;
 
+	@Expose
 	private String obs;
 
+	@Expose
 	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
+	@Expose
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
+	@Expose
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
+	@Expose
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ESTADO_CONTRATO_ID")
 	private EstadoContrato estadoContrato;
 
+	@Expose
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Prestamo prestamo;
 
-	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)	
-	transient private List<DetalleContrato> detalleContratos;
-	
+	@Expose
+	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
+	private List<DetalleContrato> detalleContratos;
+
 	@OneToMany(mappedBy = "contrato")
-	transient private List<DetalleCargo> detalleCargos;
+	private List<DetalleCargo> detalleCargos;
 
 	@OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
-	transient private List<Mora> moras;
+	private List<Mora> moras;
 
 	@OneToMany(mappedBy = "contrato")
-	transient private List<Pago> pagos;
+	private List<Pago> pagos;
 
 	@OneToMany(mappedBy = "contrato")
-	transient private List<Seguimiento> seguimientos;
+	private List<Seguimiento> seguimientos;
 
 	@OneToMany(mappedBy = "contrato")
-	transient private List<Abono> abonos;
+	private List<Abono> abonos;
 
 	@Transient
 	private BigDecimal interesDiario;
@@ -154,33 +175,41 @@ public class Contrato implements Serializable {
 	public void procesarCamposCalculados() {
 		try {
 			interesMensual = Utiles.redondearCentimos(interesMensual);
-			interesDiario = Utiles
-					.redondearCentimos(interesMensual.divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP));
+			interesDiario = Utiles.redondearCentimos(interesMensual.divide(
+					BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP));
 			LocalDate hoy = LocalDate.now();
 			LocalDate vencimiento = LocalDate.parse(fechaVencimiento);
 			diaFinal = BigDecimal.valueOf(vencimiento.lengthOfMonth());
 			long diff = ChronoUnit.DAYS.between(vencimiento, hoy);
 			if (diff <= 0) {
-				Pago p = pagos.stream().sorted(Comparator.comparing(Pago::getFechaVencimiento).reversed()).findFirst()
-						.orElse(Pago.DEFAULT);
+				Pago p = pagos
+						.stream()
+						.sorted(Comparator.comparing(Pago::getFechaVencimiento)
+								.reversed()).findFirst().orElse(Pago.DEFAULT);
 				if (Objects.isNull(p)) {
-					diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal.valueOf(diff);
-					cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
+					diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal
+							.valueOf(diff);
+					cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal,
+							0, RoundingMode.FLOOR));
 					diasResiduo = diasExcedidos.remainder(diaFinal);
 					prorrateo = interesDiario.multiply(diasResiduo);
 				} else {
-					diasExcedidos = new BigDecimal(
-							ChronoUnit.DAYS.between(LocalDate.parse(p.getFechaVencimiento()), LocalDate.now()));
+					diasExcedidos = new BigDecimal(ChronoUnit.DAYS.between(
+							LocalDate.parse(p.getFechaVencimiento()),
+							LocalDate.now()));
 
-					diasExcedidos = (diasExcedidos.compareTo(BigDecimal.ZERO) == -1) ? BigDecimal.ZERO : diasExcedidos;
+					diasExcedidos = (diasExcedidos.compareTo(BigDecimal.ZERO) == -1) ? BigDecimal.ZERO
+							: diasExcedidos;
 
 					cuotas = BigDecimal.ZERO;
 					diasResiduo = diasExcedidos;
 					prorrateo = interesDiario.multiply(diasResiduo);
 				}
 			} else {
-				diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal.valueOf(diff);
-				cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0, RoundingMode.FLOOR));
+				diasExcedidos = (diff < 0) ? BigDecimal.ZERO : BigDecimal
+						.valueOf(diff);
+				cuotas = BigDecimal.ONE.add(diasExcedidos.divide(diaFinal, 0,
+						RoundingMode.FLOOR));
 				diasResiduo = diasExcedidos.remainder(diaFinal);
 				prorrateo = interesDiario.multiply(diasResiduo);
 			}
@@ -188,34 +217,47 @@ public class Contrato implements Serializable {
 			if (prestamo.getTipoMora().equals("%")) {
 				if (cuotas.intValue() == 1 && diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
-					moraActual = interesMensual.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
-					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
+					moraActual = interesMensual.multiply(
+							Constantes.PRIMERA_MORA).setScale(2,
+							RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
-				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() == 0) {
+				} else if (cuotas.intValue() == 2
+						&& diasResiduo.intValue() == 0) {
 					moraRespuesta = "SÍ";
-					moraActual = interesMensual.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
-					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
+					moraActual = interesMensual.multiply(
+							Constantes.PRIMERA_MORA).setScale(2,
+							RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
 					moraRespuesta = "SÍ";
-					moraActual = interesMensual.multiply(new BigDecimal(2)).multiply(Constantes.SEGUNDA_MORA)
+					moraActual = interesMensual.multiply(new BigDecimal(2))
+							.multiply(Constantes.SEGUNDA_MORA)
 							.setScale(2, RoundingMode.HALF_UP);
-					prorrateoMora = prorrateo.multiply(Constantes.SEGUNDA_MORA).setScale(2, RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.SEGUNDA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() >= 2) {
 					moraRespuesta = "SÍ";
-					moraActual = (interesMensual.multiply(cuotas)).multiply(Constantes.SEGUNDA_MORA).setScale(2,
+					moraActual = (interesMensual.multiply(cuotas)).multiply(
+							Constantes.SEGUNDA_MORA).setScale(2,
 							RoundingMode.HALF_UP);
-					prorrateoMora = prorrateo.multiply(Constantes.SEGUNDA_MORA).setScale(2, RoundingMode.HALF_UP);
+					prorrateoMora = prorrateo.multiply(Constantes.SEGUNDA_MORA)
+							.setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.SEGUNDA_MORA;
 					moraColor = Color.RED;
 				} else {
 					moraRespuesta = "NO";
-					moraActual = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
-					prorrateoMora = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+					moraActual = BigDecimal.ZERO.setScale(2,
+							RoundingMode.HALF_UP);
+					prorrateoMora = BigDecimal.ZERO.setScale(2,
+							RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.MORA_CERO;
 					moraColor = new Color(0, 128, 0);
 				}
@@ -227,7 +269,8 @@ public class Contrato implements Serializable {
 					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
-				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() == 0) {
+				} else if (cuotas.intValue() == 2
+						&& diasResiduo.intValue() == 0) {
 					moraRespuesta = "SÍ";
 					moraActual = Constantes.MORA_SOLES;
 					prorrateoMora = BigDecimal.ZERO;
@@ -235,13 +278,16 @@ public class Contrato implements Serializable {
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
 					moraRespuesta = "SÍ";
-					moraActual = Constantes.MORA_SOLES.multiply(new BigDecimal(2)).setScale(2, RoundingMode.HALF_UP);
+					moraActual = Constantes.MORA_SOLES.multiply(
+							new BigDecimal(2))
+							.setScale(2, RoundingMode.HALF_UP);
 					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;
 				} else if (cuotas.intValue() >= 2) {
 					moraRespuesta = "SÍ";
-					moraActual = Constantes.MORA_SOLES.multiply(cuotas).setScale(2, RoundingMode.HALF_UP);
+					moraActual = Constantes.MORA_SOLES.multiply(cuotas)
+							.setScale(2, RoundingMode.HALF_UP);
 					prorrateoMora = BigDecimal.ZERO;
 					moraPorcentaje = Constantes.MORA_SOLES;
 					moraColor = Color.RED;

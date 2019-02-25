@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 @Entity
@@ -12,50 +14,68 @@ public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int INACTIVO = 0;
 	public static final int ACTIVO = 1;
-	
+
 	public static final Cliente DEFAULT = null;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	@Column(name = "CATEGORIA_ID")
 	private String categoriaId;
 
+	@Expose
 	private String direccion;
 
+	@Expose
 	private String distrito;
 
+	@Expose
 	private String documento;
 
+	@Expose
 	private String email;
 
+	@Expose
 	@Column(name = "FECHA_CREACION")
 	private String fechaCreacion;
 
+	@Expose
 	@Column(name = "FECHA_MODIFICACION")
 	private String fechaModificacion;
 
+	@Expose
 	private String materno;
 
+	@Expose
 	private String nombres;
 
+	@Expose
 	private String obs;
 
+	@Expose
 	private String paterno;
 
+	@Expose
 	private int status;
 
 	@Column(name = "T_DOCUMENTO")
+	@Expose
 	private String tDocumento;
 
+	@Expose
 	private String tlf1;
 
+	@Expose
 	private String tlf2;
 
+	@Expose
 	@Column(name = "USUARIO_CREACION")
 	private String usuarioCreacion;
 
+	@Expose
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 

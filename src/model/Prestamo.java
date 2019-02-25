@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @NamedQuery(name = "Prestamo.findAll", query = "SELECT p FROM Prestamo p")
 public class Prestamo implements Serializable {
@@ -26,8 +28,10 @@ public class Prestamo implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	private String descripcion;
 
 	@Column(name = "FECHA_CREACION")
@@ -52,12 +56,12 @@ public class Prestamo implements Serializable {
 	private String usuarioModificacion;
 
 	// bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy = "prestamo")
-	private List<Contrato> contratos;
+	@OneToMany(mappedBy = "prestamo")	
+	transient private List<Contrato> contratos;
 
 	// bi-directional many-to-one association to Sede
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Sede sede;
+	transient private Sede sede;
 
 	@Transient
 	private BigDecimal porcentaje;

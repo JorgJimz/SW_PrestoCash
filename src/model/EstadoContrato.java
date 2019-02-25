@@ -14,6 +14,8 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
+
 import common.Utiles;
 
 @Entity
@@ -37,15 +39,17 @@ public class EstadoContrato implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	private String descripcion;
 
 	private String valor;
 
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "estadoContrato")
-	private List<Contrato> contratos;
+	transient private List<Contrato> contratos;
 
 	@Transient
 	private Color background;

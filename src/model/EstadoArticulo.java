@@ -2,7 +2,10 @@ package model;
 
 import java.awt.Color;
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.google.gson.annotations.Expose;
 
 import common.Utiles;
 
@@ -24,8 +27,10 @@ public class EstadoArticulo implements Serializable {
 	public static final int FUNDIDO = 11;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int id;
 
+	@Expose
 	private String descripcion;
 
 	private String valor;
@@ -38,7 +43,7 @@ public class EstadoArticulo implements Serializable {
 
 	// bi-directional many-to-one association to Articulo
 	@OneToMany(mappedBy = "estadoArticulo")
-	private List<Articulo> articulos;
+	transient private List<Articulo> articulos;
 
 	public EstadoArticulo() {
 	}
