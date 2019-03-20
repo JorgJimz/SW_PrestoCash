@@ -32,7 +32,6 @@ import org.jdesktop.swingx.JXTitledSeparator;
 import common.Constantes;
 import common.JIconTextField;
 import common.Utiles;
-import controller.ClienteController;
 import controller.CompraController;
 import model.Cliente;
 import model.Compra;
@@ -43,6 +42,7 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
+import ws.implementacion.ClienteService;
 
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class Compra_Oro extends JInternalFrame {
@@ -324,7 +324,7 @@ public class Compra_Oro extends JInternalFrame {
 					c.setStatus(Cliente.ACTIVO);
 					c.setFechaCreacion(String.valueOf(LocalDate.now()));
 					c.setUsuarioCreacion(Principal.LOGGED.getLogin());
-					new ClienteController().RegistrarCliente(c);
+					new ClienteService().RegistrarCliente(c);
 					Utiles.Limpiar(pnlRegistro);
 					Utiles.Mensaje("¡Cliente Registrado!", JOptionPane.INFORMATION_MESSAGE);
 					txtDni.setText(c.getDocumento());
@@ -371,7 +371,7 @@ public class Compra_Oro extends JInternalFrame {
 	public void BuscarCliente(String dni) {
 		try {
 			if (!txtDni.getText().isEmpty()) {
-				cliente = new ClienteController().BuscarCliente(dni);
+				cliente = new ClienteService().BuscarCliente(dni);
 				if (Objects.nonNull(cliente)) {
 					txtCliente_F.setText(cliente.getNombreCompleto());
 					txtDireccion_F.setText(cliente.getDireccion() + " " + cliente.getDistrito());
