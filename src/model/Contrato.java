@@ -193,13 +193,13 @@ public class Contrato implements Serializable {
 					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
-				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() == 0) {
+				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() >= 0 && diasResiduo.intValue() <= 5) {
 					moraRespuesta = "SÍ";
 					moraActual = interesMensual.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
 					prorrateoMora = prorrateo.multiply(Constantes.PRIMERA_MORA).setScale(2, RoundingMode.HALF_UP);
 					moraPorcentaje = Constantes.PRIMERA_MORA;
 					moraColor = Color.RED;
-				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 0) {
+				} else if (cuotas.intValue() == 2 && diasResiduo.intValue() > 5) {
 					moraRespuesta = "SÍ";
 					moraActual = interesMensual.multiply(new BigDecimal(2)).multiply(Constantes.SEGUNDA_MORA)
 							.setScale(2, RoundingMode.HALF_UP);
