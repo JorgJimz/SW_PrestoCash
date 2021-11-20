@@ -217,18 +217,22 @@ public class Contrato_Prestacion extends JInternalFrame {
 		cboTipoPrestamo.setForeground(new java.awt.Color(0, 64, 128));
 		cboTipoPrestamo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				btnHistorial.setEnabled(true);
 				ComboItem k = (ComboItem) cboTipoPrestamo.getSelectedItem();
-				prestamo = new Prestamo();
-				prestamo.setId(k.getId());
-				prestamo.setDescripcion(k.getDescripcion());
-				prestamo.setInteres(new BigDecimal(String.valueOf(k.getValor())));
-				prestamo.setFlag(String.valueOf(k.getExtraValor()));
-				lblInteres.setText(k.getValor() + "%");
-				lblNumeroContrato.setText(String.valueOf(k.getExtraValor()) + "-" + String
-						.valueOf(new ContratoController().ObtenerCorrelativo(String.valueOf(k.getExtraValor()))));
-				txtMarca.setText(
-						Principal.SEDE.getFlagOro().equalsIgnoreCase(String.valueOf(k.getExtraValor())) ? "ORO" : "");
+				if(k.getId() != 0){
+					btnHistorial.setEnabled(true);				
+					prestamo = new Prestamo();
+					prestamo.setId(k.getId());
+					prestamo.setDescripcion(k.getDescripcion());
+					prestamo.setInteres(new BigDecimal(String.valueOf(k.getValor())));
+					prestamo.setFlag(String.valueOf(k.getExtraValor()));
+					lblInteres.setText(k.getValor() + "%");
+					lblNumeroContrato.setText(String.valueOf(k.getExtraValor()) + "-" + String
+							.valueOf(new ContratoController().ObtenerCorrelativo(String.valueOf(k.getExtraValor()))));
+					txtMarca.setText(
+							Principal.SEDE.getFlagOro().equalsIgnoreCase(String.valueOf(k.getExtraValor())) ? "ORO" : "");
+				}else{
+					prestamo = null;
+				}			
 
 			}
 		});
@@ -448,6 +452,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 
 		txtDescripcion = new JIconTextField();
 		contenedor.add(txtDescripcion);
+		txtDescripcion.setName("txtDescripcion");
 		txtDescripcion.setBounds(69, 199, 326, 60);
 		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtDescripcion.setForeground(new java.awt.Color(0, 64, 128));
@@ -456,6 +461,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtModelo = new JIconTextField();
+		txtModelo.setName("txtModelo");
 		contenedor.add(txtModelo);
 		txtModelo.setBounds(587, 199, 180, 60);
 		txtModelo.setFont(new java.awt.Font("Segoe UI", 1, 16));
@@ -465,6 +471,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtMarca = new JIconTextField();
+		txtMarca.setName("txtMarca");
 		contenedor.add(txtMarca);
 		txtMarca.setBounds(401, 199, 180, 60);
 		txtMarca.setFont(new java.awt.Font("Segoe UI", 1, 16));
@@ -479,6 +486,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		lblReferencia.setVisible(false);
 
 		txtTasacion = new JIconTextField();
+		txtTasacion.setName("txtTasacion");
 		contenedor.add(txtTasacion);
 		txtTasacion.setBounds(773, 275, 180, 60);
 		txtTasacion.setFont(new java.awt.Font("Segoe UI", 1, 16));
@@ -529,7 +537,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		btnGrabar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnGrabar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (tbContratos.getRowCount() > 0) {
+				if (tbContratos.getRowCount() > 0 && prestamo != null) {
 					try {
 						contrato.setCapital(new BigDecimal(lblCapital.getText()));
 						contrato.setInteresMensual(new BigDecimal(lblInteresCalculado.getText()));
@@ -616,6 +624,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		jLabel11.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		txtCantidad = new JIconTextField();
+		txtCantidad.setName("txtCantidad");
 		contenedor.add(txtCantidad);
 		txtCantidad.setBounds(11, 199, 52, 60);
 		txtCantidad.setFont(new java.awt.Font("Segoe UI", 1, 16));
@@ -625,6 +634,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Color(0, 128, 0)));
 
 		txtObservaciones = new JIconTextField();
+		txtObservaciones.setName("txtObservaciones");
 		contenedor.add(txtObservaciones);
 		txtObservaciones.setBounds(11, 275, 570, 60);
 		txtObservaciones.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -635,6 +645,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 				new java.awt.Font("Segoe UI", Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtEn = new JIconTextField();
+		txtEn.setName("txtEn");
 		contenedor.add(txtEn);
 		txtEn.setBounds(587, 275, 180, 60);
 		txtEn.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 0, 0)));
@@ -670,6 +681,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		});
 
 		txtSerie = new JIconTextField();
+		txtSerie.setName("txtSerie");
 		contenedor.add(txtSerie);
 		txtSerie.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtSerie.setForeground(new java.awt.Color(0, 64, 128));

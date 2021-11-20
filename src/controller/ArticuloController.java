@@ -47,7 +47,7 @@ public class ArticuloController {
 		EntityManager em = emf.createEntityManager();
 		List<Articulo> l = null;
 		try {
-			l = em.createQuery("SELECT a FROM Articulo a ORDER BY a.id DESC",
+			l = em.createQuery("SELECT a FROM Articulo a WHERE a.EArticulo.id <> 8 ORDER BY a.id DESC",
 					Articulo.class).getResultList();
 		} catch (Exception e) {
 			Logger.RegistrarIncidencia(e);
