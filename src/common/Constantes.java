@@ -98,7 +98,7 @@ public class Constantes {
 
 	public static ComboBoxModel MonedaModel = new DefaultComboBoxModel(new String[] { "SOLES", "DÓLARES" });
 
-	public static DefaultTableModel AbonoModel = new DefaultTableModel(null, new String[] { "FECHA PAGO",
+	public static DefaultTableModel AbonoModel = new DefaultTableModel(null, new String[] { "ID","FECHA PAGO",
 			"CAPITAL ANTERIOR", "INTERES ANTERIOR", "IMPORTE ABONADO", "NUEVO CAPITAL", "NUEVO INTERES" }) {
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 			return false;
