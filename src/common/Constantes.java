@@ -35,7 +35,8 @@ public class Constantes {
 	public static BigDecimal SEGUNDA_MORA = new BigDecimal(0.50);
 	public static BigDecimal MORA_SOLES = new BigDecimal(150);
 	public static BigDecimal MORA_CERO = BigDecimal.ZERO;
-
+	public static int ACTIVO = 1;
+	public static int INACTIVO = 0;
 	public static final int RANGO_PRE = 5;
 	public static final int RANGO_POST = 15;
 
@@ -87,7 +88,7 @@ public class Constantes {
 			"BARRANCO", "BREÑA", "COMAS", "CHORRILLOS", "EL AGUSTINO", "JESUS MARIA", "LA MOLINA", "LA VICTORIA",
 			"LINCE", "MAGDALENA", "MIRAFLORES", "PUEBLO LIBRE", "PTE.PIEDRA", "RIMAC", "SAN ISIDRO", "INDEPENDENCIA",
 			"SJM", "SAN LUIS", "SMP", "SAN MIGUEL", "SURCO", "SURQUILLO", "VMT", "SJL", "SANTA ROSA", "LOS OLIVOS",
-			"SAN BORJA", "VES", "SANTA ANITA", "CALLAO" });
+			"SAN BORJA", "VES", "SANTA ANITA", "CALLAO", "LURIGANCHO", "OTRO" });
 
 	public static ComboBoxModel CategoriaModel = new DefaultComboBoxModel(
 			new String[] { "BUENO", "MOROSO", "PROBLEMATICO" });

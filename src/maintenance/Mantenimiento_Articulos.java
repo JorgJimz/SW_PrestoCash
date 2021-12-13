@@ -81,6 +81,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
 
 		txtDescripcion = new JIconTextField();
+		txtDescripcion.setName("txtDescripcion");
 		contenedor.add(txtDescripcion);
 		txtDescripcion.setBounds(14, 12, 286, 50);
 		txtDescripcion.setBorder(BorderFactory.createTitledBorder(null,
@@ -91,6 +92,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		txtDescripcion.setForeground(new java.awt.Color(0, 64, 128));
 
 		txtMarca = new JIconTextField();
+		txtMarca.setName("txtMarca");
 		contenedor.add(txtMarca);
 		txtMarca.setBounds(317, 12, 223, 50);
 		txtMarca.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -103,6 +105,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtModelo = new JIconTextField();
+		txtModelo.setName("txtModelo");
 		contenedor.add(txtModelo);
 		txtModelo.setBounds(552, 12, 261, 50);
 		txtModelo.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -115,6 +118,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtObs = new JIconTextField();
+		txtObs.setName("txtObs");
 		contenedor.add(txtObs);
 		txtObs.setBounds(12, 78, 483, 50);
 		txtObs.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -164,6 +168,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Utiles.Limpiar(contenedor);
 						Utiles.Mensaje("Artículo registrado.",
 								JOptionPane.INFORMATION_MESSAGE);
+						txtDescripcion.requestFocus();
 					} else {
 						Utiles.Mensaje("Complete el formulario.",
 								JOptionPane.WARNING_MESSAGE);
@@ -220,6 +225,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 								JOptionPane.INFORMATION_MESSAGE);
 						btnGrabar.setEnabled(true);
 						btnActualizar.setEnabled(false);
+						txtDescripcion.requestFocus();
 					} else {
 						Utiles.Mensaje("Complete el formulario.",
 								JOptionPane.WARNING_MESSAGE);
@@ -248,10 +254,17 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Articulo a = new Articulo();
-				a.setId(Integer.parseInt(txtId.getText()));
-				a.setEArticulo(new EArticulo(8));
+				Articulo a = new ArticuloController().ObtenerArticulo(Integer.parseInt(txtId.getText()));			
+				a.setEArticulo(new EArticulo(EArticulo.BAJA));
 				new ArticuloController().RegistrarArticulo(a);
+				ListarArticulos();
+				Utiles.Limpiar(contenedor);
+				Utiles.Mensaje("Artículo eliminado.",
+						JOptionPane.INFORMATION_MESSAGE);
+				btnGrabar.setEnabled(true);
+				btnActualizar.setEnabled(false);
+				btnEliminar.setEnabled(false);
+				txtDescripcion.requestFocus();
 			}
 		});
 
@@ -327,6 +340,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 
 		txtPrecioVenta = new JIconTextField();
 		contenedor.add(txtPrecioVenta);
+		txtPrecioVenta.setName("txtPrecioVenta");
 		txtPrecioVenta.setBounds(503, 78, 169, 50);
 		txtPrecioVenta.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPrecioVenta.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -338,6 +352,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtCapital = new JIconTextField();
+		txtCapital.setName("txtCapital");
 		contenedor.add(txtCapital);
 		txtCapital.setBounds(853, 78, 169, 50);
 		txtCapital.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -350,6 +365,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtContratoAsociado = new JIconTextField();
+		txtContratoAsociado.setName("txtContratoAsociado");
 		contenedor.add(txtContratoAsociado);
 		txtContratoAsociado.setBounds(1170, 12, 164, 50);
 		txtContratoAsociado.setBorder(BorderFactory.createMatteBorder(1, 1, 1,
@@ -362,6 +378,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtP = new JIconTextField();
+		txtP.setName("txtP");
 		contenedor.add(txtP);
 		txtP.setBounds(1100, 12, 64, 50);
 		txtP.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -374,6 +391,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtSerie = new JIconTextField();
+		txtSerie.setName("txtSerie");
 		contenedor.add(txtSerie);
 		txtSerie.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtSerie.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -386,6 +404,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
 		txtPrecioInterno = new JIconTextField();
+		txtPrecioInterno.setName("txtPrecioInterno");
 		contenedor.add(txtPrecioInterno);
 		txtPrecioInterno.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtPrecioInterno.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -397,7 +416,7 @@ public class Mantenimiento_Articulos extends JInternalFrame {
 				TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",
 						Font.BOLD, 12), new java.awt.Color(0, 128, 0)));
 
-		txtId = new JLabel();
+		txtId = new JLabel();		
 		contenedor.add(txtId);
 		txtId.setVisible(false);
 		txtId.setBounds(12, 5, 10, 10);

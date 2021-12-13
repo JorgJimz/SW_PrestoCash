@@ -150,6 +150,13 @@ public class Utiles {
 					((JTextField) o).setBackground(Color.WHITE);
 				}
 			}
+			if (o instanceof JIconTextField) {
+				if (Objects.nonNull(((JIconTextField) o).getName()) && !((JIconTextField) o).getName().endsWith("_HOLD")) {
+					((JIconTextField) o).setText("");
+					((JIconTextField) o).setForeground(new java.awt.Color(0, 64, 128));
+					((JIconTextField) o).setBackground(Color.WHITE);
+				}
+			}
 			if (o instanceof JScrollPane) {
 				if (((JScrollPane) o).getViewport().getView() instanceof JTextArea) {
 					JTextArea a = (JTextArea) ((JScrollPane) o).getViewport().getView();

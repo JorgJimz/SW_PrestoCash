@@ -49,6 +49,8 @@ public class Prestamo implements Serializable {
 	@Column(name = "USUARIO_MODIFICACION")
 	private String usuarioModificacion;
 
+	private int activo;
+
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "prestamo")
 	private List<Contrato> contratos;
@@ -56,13 +58,13 @@ public class Prestamo implements Serializable {
 	// bi-directional many-to-one association to Sede
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Sede sede;
-	
+
 	@Transient
 	private BigDecimal porcentaje;
 
 	public Prestamo() {
 	}
-	
+
 	@PostLoad
 	public void procesarCamposCalculados() {
 		porcentaje = interes.divide(new BigDecimal(100)).setScale(2, RoundingMode.HALF_UP);
@@ -185,7 +187,13 @@ public class Prestamo implements Serializable {
 	public void setPorcentaje(BigDecimal porcentaje) {
 		this.porcentaje = porcentaje;
 	}
-	
-	
+
+	public int getActivo() {
+		return activo;
+	}
+
+	public void setActivo(int activo) {
+		this.activo = activo;
+	}
 
 }

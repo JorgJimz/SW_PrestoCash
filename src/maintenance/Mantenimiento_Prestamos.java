@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,6 +45,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 	private JPanel contenedor;
 	private JComboBox cboSede;
 	private JComboBox cboTipoMora;
+	private JLabel lblId;
 
 	public Mantenimiento_Prestamos() {
 		this.setVisible(true);
@@ -60,9 +62,14 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		contenedor.setLayout(null);
 		contenedor.setBounds(0, 0, 1236, 374);
 		contenedor.setBackground(new java.awt.Color(255, 200, 147));
+		
+		lblId = new JLabel();
+		contenedor.add(lblId);
+		lblId.setVisible(true);
 
 		txtTipo = new JTextField();
 		contenedor.add(txtTipo);
+		txtTipo.setName("txtTipo");
 		txtTipo.setBounds(297, 12, 202, 64);
 		txtTipo.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtTipo.setOpaque(false);
@@ -72,6 +79,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 
 		txtDescripcion = new JTextField();
 		contenedor.add(txtDescripcion);
+		txtDescripcion.setName("txtDescripcion");
 		txtDescripcion.setBounds(12, 12, 279, 64);
 		txtDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtDescripcion.setOpaque(false);
@@ -81,6 +89,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 
 		txtInteres = new JTextField();
 		contenedor.add(txtInteres);
+		txtInteres.setName("txtInteres");
 		txtInteres.setBounds(505, 12, 145, 64);
 		txtInteres.setFont(new java.awt.Font("Segoe UI", 1, 16));
 		txtInteres.setOpaque(false);
@@ -122,6 +131,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 					prestamo.setMora(String.valueOf(mora));
 					prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
 					prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+					prestamo.setActivo(Constantes.ACTIVO);
 					new PrestamoController().RegistrarPrestamo(prestamo);
 					Utiles.Mensaje("Préstamo registrado.", JOptionPane.INFORMATION_MESSAGE);
 					Utiles.Limpiar(contenedor);
@@ -148,7 +158,7 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(Utiles.Validar(contenedor)) {
 					BigDecimal mora = (String.valueOf(cboTipoMora.getSelectedItem()).equals("%")) ? Constantes.MORA_CERO : Constantes.MORA_SOLES;
-					Prestamo prestamo = new Prestamo();
+					Prestamo prestamo = new PrestamoController().ObtenerPrestamo(Integer.parseInt(lblId.getText()));					
 					prestamo.setDescripcion(txtDescripcion.getText().toUpperCase());
 					prestamo.setInteres(new BigDecimal(txtInteres.getText()));
 					prestamo.setSede(((Sede) cboSede.getSelectedItem()));
@@ -157,8 +167,9 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 					prestamo.setMora(String.valueOf(mora));
 					prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
 					prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+					prestamo.setActivo(Constantes.ACTIVO);
 					new PrestamoController().ActualizarPrestamo(prestamo);
-					Utiles.Mensaje("Préstamo registrado.", JOptionPane.INFORMATION_MESSAGE);
+					Utiles.Mensaje("Préstamo actualizado.", JOptionPane.INFORMATION_MESSAGE);
 					Utiles.Limpiar(contenedor);
 					ListarPrestamos();
 				}else {
@@ -181,7 +192,14 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				Prestamo prestamo = new PrestamoController().ObtenerPrestamo(Integer.parseInt(lblId.getText()));
+				prestamo.setActivo(Constantes.INACTIVO);
+				prestamo.setFechaCreacion(String.valueOf(LocalDate.now()));
+				prestamo.setUsuarioCreacion(Principal.LOGGED.getLogin());
+				new PrestamoController().ActualizarPrestamo(prestamo);
+				Utiles.Mensaje("Préstamo eliminado.", JOptionPane.INFORMATION_MESSAGE);
+				Utiles.Limpiar(contenedor);
+				ListarPrestamos();
 			}
 		});
 		cboSede = new JComboBox();
@@ -211,8 +229,8 @@ public class Mantenimiento_Prestamos extends JInternalFrame {
 		tbPrestamos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					int fila = tbPrestamos.getSelectedRow();
-					
+					int fila = tbPrestamos.getSelectedRow();	
+					lblId.setText(tbPrestamos.getValueAt(fila,0).toString());
 					txtDescripcion.setText(tbPrestamos.getValueAt(fila, 1).toString());
 					txtInteres.setText(tbPrestamos.getValueAt(fila, 2).toString());
 					cboTipoMora.setSelectedItem(tbPrestamos.getValueAt(fila, 3).toString());
