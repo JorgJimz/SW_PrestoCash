@@ -24,3 +24,6 @@ hs_err_pid*
 SW_Prestocash.jar
 *.txt
 *.jasper
+.classpath
+.settings/org.eclipse.wst.common.project.facet.core.xml
+*.jasper
