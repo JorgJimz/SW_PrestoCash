@@ -93,7 +93,7 @@ public class ClienteController {
 		EntityManager em = emf.createEntityManager();
 		Cliente c = null;
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.documento = :d AND c.status = 1");
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.documento = :d AND c.status = 1 ORDER BY c.fechaCreacion DESC").setMaxResults(1);
 			q.setParameter("d", doc);
 			c = (Cliente) q.getSingleResult();
 		} catch (NoResultException e1) {
