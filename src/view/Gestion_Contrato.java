@@ -320,7 +320,7 @@ public class Gestion_Contrato extends JInternalFrame {
 		lblNumeroContrato = new JLabel(contrato.getFlag() + "-" + String.format("%04d", contrato.getNumero()));
 		contenedor.add(lblNumeroContrato);
 		lblNumeroContrato.setBounds(12, 11, 235, 70);
-		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 60));
+		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 50));
 		lblNumeroContrato.setOpaque(true);
 		lblNumeroContrato.setForeground(new java.awt.Color(0, 0, 255));
 		lblNumeroContrato.setHorizontalAlignment(SwingConstants.CENTER);

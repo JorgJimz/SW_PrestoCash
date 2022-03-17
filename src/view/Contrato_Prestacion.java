@@ -203,7 +203,7 @@ public class Contrato_Prestacion extends JInternalFrame {
 		lblNumeroContrato = new JLabel("#-####");
 		contenedor.add(lblNumeroContrato);
 		lblNumeroContrato.setBounds(200, 54, 170, 46);
-		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 48));
+		lblNumeroContrato.setFont(new java.awt.Font("Segoe UI", 1, 45));
 		lblNumeroContrato.setForeground(new java.awt.Color(0, 0, 255));
 
 		cboTipoPrestamo = new JComboBox();
